@@ -1,2 +1,2 @@
-# Eye-on-the-Fire
+# eyeonthefire
 Eye on the Fire site
