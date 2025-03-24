@@ -1,4 +1,3 @@
-// Fade-in animations on scroll
 document.addEventListener('DOMContentLoaded', () => {
   const items = document.querySelectorAll('.prevention-item');
   
@@ -7,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         setTimeout(() => {
           entry.target.classList.add('fade-in');
-        }, index * 200); // Staggered fade-in
+        }, index * 300); // Staggered fade-in
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.3 });
 
   items.forEach(item => observer.observe(item));
 });
