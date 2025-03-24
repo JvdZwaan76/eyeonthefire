@@ -85,13 +85,13 @@ p { font-size: 1.1rem; }
   align-items: center;
   text-align: center;
   position: relative;
-  overflow: hidden; /* Prevent image overflow */
+  overflow: hidden;
 }
 
 .hero {
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-  padding: 1rem; /* Add padding for mobile */
+  padding: 1rem;
 }
 
 /* Content Sections */
@@ -99,6 +99,11 @@ p { font-size: 1.1rem; }
   padding: 5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.content-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 /* Forms */
@@ -160,11 +165,11 @@ button:hover {
 
 .gallery-item img {
   width: 100%;
-  height: auto; /* Ensure images scale */
-  max-width: 100%; /* Prevent overflow */
+  height: auto;
+  max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  display: block; /* Remove inline spacing */
+  display: block;
 }
 
 /* Ad Slots */
@@ -197,6 +202,16 @@ footer {
   font-size: 0.9rem;
 }
 
+footer a {
+  color: #ffca28;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
 /* Animations */
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(50px); }
@@ -225,12 +240,13 @@ footer {
     padding: 1rem 2rem;
     flex-wrap: wrap;
     position: static; /* Static on mobile */
+    background: rgba(0, 0, 0, 0.8); /* Ensure background is solid */
   }
   .hamburger {
     display: block;
   }
   .nav-menu {
-    display: none;
+    display: none !important; /* Force hide by default */
     flex-direction: column;
     width: 100%;
     background: rgba(0, 0, 0, 0.9);
@@ -238,33 +254,54 @@ footer {
     padding: 1rem 0;
   }
   .nav-menu.active {
-    display: flex;
+    display: flex !important; /* Show when toggled */
   }
   .nav-menu li {
     margin: 1rem 0;
     text-align: center;
   }
   .hero h1 { font-size: 2rem; }
+  .hero p { font-size: 1.2rem; margin-bottom: 1.5rem; }
   .parallax { 
-    height: 60vh; /* Reduced height for mobile */
-    background-attachment: scroll; /* Fixed bg can glitch on mobile */
+    height: 80vh; /* Increased for better spacing */
+    background-attachment: scroll;
   }
-  .content-section { padding: 3rem 1rem; }
-  h2 { font-size: 2rem; }
+  .content-section { 
+    padding: 3rem 1rem; 
+  }
+  h2 { font-size: 2rem; margin-bottom: 1.5rem; }
   .location-form, .upload-form { 
     flex-direction: column; 
     align-items: center;
+    gap: 0.5rem;
+  }
+  input[type="text"], input[type="file"] { 
+    max-width: 100%; 
+    font-size: 0.9rem;
+  }
+  button { 
+    padding: 0.5rem 1.5rem; 
+    font-size: 0.9rem;
   }
   .prevention-grid {
-    grid-template-columns: 1fr; /* Single column on mobile */
+    grid-template-columns: 1fr;
+  }
+  .ad-slot {
+    padding: 1rem;
+    margin: 1rem auto;
   }
 }
 
 @media (max-width: 480px) {
   .hero h1 { font-size: 1.5rem; }
   .hero p { font-size: 1rem; }
-  .cta-button { padding: 0.75rem 1.5rem; }
-  .gallery { 
-    grid-template-columns: 1fr; /* Stack gallery items */
+  .cta-button { 
+    padding: 0.75rem 1.5rem; 
+    font-size: 0.9rem;
   }
+  .gallery { 
+    grid-template-columns: 1fr;
+  }
+  .content-section { padding: 2rem 0.5rem; }
+  h2 { font-size: 1.8rem; }
 }

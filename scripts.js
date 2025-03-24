@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         setTimeout(() => {
           entry.target.classList.add('fade-in');
-        }, index * 300); // Staggered fade-in
+        }, index * 300);
         observer.unobserve(entry.target);
       }
     });
@@ -16,9 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hamburger menu toggle for mobile
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
-  
-  hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
-  });
+
+  if (hamburger && navMenu) { // Ensure elements exist
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburger.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    });
+  } else {
+    console.error('Hamburger or nav menu not found');
+  }
 });
