@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
       console.log('Hamburger clicked');
       navMenu.classList.toggle('active');
-      hamburger.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+      hamburger.classList.toggle('active'); // Add active class for styling
     });
   } else {
     console.error('Hamburger or nav menu not found');
