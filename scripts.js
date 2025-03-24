@@ -17,8 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
 
-  if (hamburger && navMenu) { // Ensure elements exist
+  if (hamburger && navMenu) {
+    console.log('Hamburger menu initialized'); // Debug log
     hamburger.addEventListener('click', () => {
+      console.log('Hamburger clicked'); // Debug log
       navMenu.classList.toggle('active');
       hamburger.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
     });
