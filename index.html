@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eye on the Fire - Fire Safety & Information</title>
-  <meta name="description" content="Real-time fire updates, prevention tips, and community resources at Eye on the Fire.">
+  <title>Eye on the Fire - Real-Time Fire Updates & Safety Resources</title>
+  <meta name="description" content="Get real-time fire updates, prevention tips, and community-shared fire safety resources at Eye on the Fire. Stay informed and protected.">
+  <meta name="keywords" content="fire updates, fires near me, fire prevention, fire safety, community fire resources">
+  <meta name="author" content="Eye on the Fire Team">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://eyeonthefire.com/">
+  <meta property="og:title" content="Eye on the Fire - Fire Safety & Information">
+  <meta property="og:description" content="Your trusted source for real-time fire updates and prevention resources.">
+  <meta property="og:url" content="https://eyeonthefire.com/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1508615263227-c5fc070748d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +23,8 @@
   <header class="parallax" style="background-image: url('https://images.unsplash.com/photo-1508615263227-c5fc070748d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
     <nav class="navbar">
       <div class="logo">Eye on the Fire</div>
-      <ul>
+      <div class="hamburger">☰</div>
+      <ul class="nav-menu">
         <li><a href="#home">Home</a></li>
         <li><a href="#fires">Fires Near Me</a></li>
         <li><a href="#prevention">Prevention</a></li>
@@ -69,8 +80,8 @@
       <button onclick="alert('Upload functionality coming soon!')">Submit</button>
     </div>
     <div class="gallery">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Fire scene"></div>
-      <div class="gallery-item"><video src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" controls muted></video></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Community-shared fire scene"></div>
+      <div class="gallery-item"><video src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" controls muted alt="Community-shared fire video"></video></div>
     </div>
   </section>
 
@@ -78,6 +89,22 @@
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a></p>
   </footer>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Eye on the Fire",
+    "url": "https://eyeonthefire.com/",
+    "description": "Real-time fire updates, prevention tips, and community resources.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://eyeonthefire.com/#fires?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 
   <script src="scripts.js"></script>
 </body>

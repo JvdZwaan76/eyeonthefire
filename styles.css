@@ -43,16 +43,23 @@ p { font-size: 1.1rem; }
   letter-spacing: 1px;
 }
 
-.navbar ul {
+.hamburger {
+  display: none; /* Hidden on desktop */
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.nav-menu {
   display: flex;
   list-style: none;
 }
 
-.navbar ul li {
+.nav-menu li {
   margin-left: 2rem;
 }
 
-.navbar ul li a {
+.nav-menu li a {
   color: #fff;
   text-decoration: none;
   font-size: 1.1rem;
@@ -60,7 +67,7 @@ p { font-size: 1.1rem; }
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.navbar ul li a:hover {
+.nav-menu li a:hover {
   color: #ffca28; /* Fire yellow */
   transform: translateY(-2px);
 }
@@ -253,9 +260,30 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
-  .navbar { flex-direction: column; padding: 1rem; }
-  .navbar ul { margin-top: 1rem; }
-  .navbar ul li { margin: 0.5rem; }
+  .navbar {
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+  }
+  .hamburger {
+    display: block;
+  }
+  .nav-menu {
+    display: none; /* Hidden by default on mobile */
+    flex-direction: column;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 1rem 0;
+  }
+  .nav-menu.active {
+    display: flex; /* Shown when toggled */
+  }
+  .nav-menu li {
+    margin: 1rem 0;
+    text-align: center;
+  }
   .hero h1 { font-size: 2rem; }
   .parallax { height: 80vh; }
   .content-section { padding: 3rem 1rem; }
