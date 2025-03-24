@@ -85,37 +85,13 @@ p { font-size: 1.1rem; }
   align-items: center;
   text-align: center;
   position: relative;
+  overflow: hidden; /* Prevent image overflow */
 }
 
 .hero {
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.hero h1 {
-  margin-bottom: 1rem;
-  animation: slideIn 1s ease-out;
-}
-
-.hero p {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.cta-button {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: #d32f2f;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  border-radius: 50px;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.cta-button:hover {
-  background: #b71c1c;
-  transform: scale(1.05);
+  padding: 1rem; /* Add padding for mobile */
 }
 
 /* Content Sections */
@@ -123,11 +99,6 @@ p { font-size: 1.1rem; }
   padding: 5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.content-section h2 {
-  text-align: center;
-  margin-bottom: 2rem;
 }
 
 /* Forms */
@@ -179,18 +150,6 @@ button:hover {
   margin-top: 2rem;
 }
 
-.prevention-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  border-radius: 10px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.prevention-item:hover {
-  transform: translateY(-5px);
-}
-
 /* Gallery */
 .gallery {
   display: grid;
@@ -201,8 +160,11 @@ button:hover {
 
 .gallery-item img {
   width: 100%;
+  height: auto; /* Ensure images scale */
+  max-width: 100%; /* Prevent overflow */
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: block; /* Remove inline spacing */
 }
 
 /* Ad Slots */
@@ -223,6 +185,7 @@ button:hover {
   height: auto;
   border-radius: 5px;
   margin-bottom: 1rem;
+  display: block;
 }
 
 /* Footer */
@@ -232,16 +195,6 @@ footer {
   text-align: center;
   padding: 2rem;
   font-size: 0.9rem;
-}
-
-footer a {
-  color: #ffca28;
-  text-decoration: none;
-  margin: 0 0.5rem;
-}
-
-footer a:hover {
-  text-decoration: underline;
 }
 
 /* Animations */
@@ -292,15 +245,26 @@ footer a:hover {
     text-align: center;
   }
   .hero h1 { font-size: 2rem; }
-  .parallax { height: 80vh; }
+  .parallax { 
+    height: 60vh; /* Reduced height for mobile */
+    background-attachment: scroll; /* Fixed bg can glitch on mobile */
+  }
   .content-section { padding: 3rem 1rem; }
   h2 { font-size: 2rem; }
+  .location-form, .upload-form { 
+    flex-direction: column; 
+    align-items: center;
+  }
+  .prevention-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
 }
 
 @media (max-width: 480px) {
   .hero h1 { font-size: 1.5rem; }
   .hero p { font-size: 1rem; }
   .cta-button { padding: 0.75rem 1.5rem; }
-  .location-form, .upload-form { flex-direction: column; }
-  input[type="text"], input[type="file"] { max-width: 100%; }
+  .gallery { 
+    grid-template-columns: 1fr; /* Stack gallery items */
+  }
 }
