@@ -1,37 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Eye on the Fire</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<style>
-body,h1 {font-family: "Raleway", sans-serif}
-body, html {height: 100%}
-.bgimg {
-  background-image: url('/w3images/forestbridge.jpg');
-  min-height: 100%;
-  background-position: center;
-  background-size: cover;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eye on the Fire - Fire Information Resource</title>
+  <meta name="description" content="Free fire information, prevention resources, and community sharing at Eye on the Fire.">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Header with Parallax Background -->
+  <header class="parallax" style="background-image: url('https://images.unsplash.com/photo-1508615263227-c5fc070748d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+    <nav>
+      <div class="logo">Eye on the Fire</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#fires-near-me">Fires Near Me</a></li>
+        <li><a href="#prevention">Prevention</a></li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+    </nav>
+    <div class="hero">
+      <h1>Your Fire Information Hub</h1>
+      <p>Stay informed, stay safe, share your story.</p>
+      <a href="#fires-near-me" class="cta-button">Find Fires Near You</a>
+    </div>
+  </header>
 
-<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-  <div class="w3-display-topleft w3-padding-large w3-xlarge">
-    Eye on the Fire
-  </div>
-  <div class="w3-display-middle">
-    <h1 class="w3-jumbo w3-animate-top">EYE ON THE FIRE</br>COMING SOON</h1>
-    <hr class="w3-border-grey" style="margin:auto;width:40%">
-    <p class="w3-large w3-center">335 days left</p>
-  </div>
-  <div class="w3-display-bottomleft w3-padding-large">
-    Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a>
-  </div>
-</div>
+  <!-- Fires Near Me Section -->
+  <section id="fires-near-me" class="content-section">
+    <h2>Fires Near Me</h2>
+    <p>Enter your location to see real-time fire updates.</p>
+    <div class="location-form">
+      <input type="text" placeholder="Enter city or zip code" id="location-input">
+      <button onclick="alert('Location-based fire data coming soon!')">Search</button>
+    </div>
+    <div class="ad-slot">Ad: Fire Safety Gear - Protect Your Home Today!</div>
+  </section>
 
+  <!-- Fire Prevention Resources -->
+  <section id="prevention" class="parallax" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+    <div class="content-overlay">
+      <h2>Fire Prevention Resources</h2>
+      <div class="prevention-grid">
+        <div class="prevention-item fade-in">Create a defensible space around your home.</div>
+        <div class="prevention-item fade-in">Install smoke detectors on every floor.</div>
+        <div class="prevention-item fade-in">Have an evacuation plan ready.</div>
+      </div>
+      <div class="ad-slot">Ad: Fire Extinguishers - Be Prepared!</div>
+    </div>
+  </section>
+
+  <!-- Community Upload Section -->
+  <section id="community" class="content-section">
+    <h2>Community Sharing</h2>
+    <p>Upload your fire-related images and videos to share with others.</p>
+    <div class="upload-form">
+      <input type="file" accept="image/*,video/*" id="upload-input">
+      <button onclick="alert('Upload feature coming soon!')">Upload</button>
+    </div>
+    <div class="gallery">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Fire image"></div>
+      <div class="gallery-item"><video src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" controls></video></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Eye on the Fire. All rights reserved.</p>
+  </footer>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
