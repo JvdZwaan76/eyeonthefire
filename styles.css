@@ -286,7 +286,7 @@ footer a:hover {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0 2rem; /* No top/bottom padding */
+    padding: 0; /* No padding to ensure flush with top */
     flex-direction: column;
     align-items: center;
     position: static !important;
@@ -298,9 +298,15 @@ footer a:hover {
     order: -1;
     margin: 0; /* No margins */
     margin-bottom: 1rem;
+    position: fixed; /* Pin to top on mobile */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001; /* Above other elements */
   }
   .logo {
     order: 0;
+    margin-top: 3rem; /* Space below fixed hamburger */
     margin-bottom: 1rem;
   }
   .nav-menu {
@@ -320,7 +326,7 @@ footer a:hover {
     text-align: center;
   }
   .hero {
-    padding-top: 7rem; /* Increased for nav height */
+    padding-top: 8rem; /* Increased for fixed hamburger */
   }
   .hero h1 { font-size: 2rem; }
   .hero p { font-size: 1.2rem; margin-bottom: 1.5rem; }
@@ -356,7 +362,7 @@ footer a:hover {
 
 @media (max-width: 480px) {
   .hero {
-    padding-top: 6rem;
+    padding-top: 7rem;
   }
   .hero h1 { font-size: 1.5rem; }
   .hero p { font-size: 1rem; }
