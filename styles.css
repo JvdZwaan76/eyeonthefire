@@ -92,7 +92,7 @@ p { font-size: 1.1rem; }
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.5); /* Subtle overlay for contrast */
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
@@ -255,9 +255,11 @@ footer a:hover {
     display: block;
     order: -1; /* Move to top */
     margin-bottom: 1rem;
+    margin-top: 0; /* Ensure it's at the very top */
   }
   .logo {
     order: 0; /* Below hamburger */
+    margin-bottom: 1rem;
   }
   .nav-menu {
     display: none !important;
@@ -276,7 +278,7 @@ footer a:hover {
     text-align: center;
   }
   .hero {
-    padding-top: 6rem; /* Increased for nav height */
+    padding-top: 7rem; /* Increased for nav height */
   }
   .hero h1 { font-size: 2rem; }
   .hero p { font-size: 1.2rem; margin-bottom: 1.5rem; }
@@ -312,7 +314,7 @@ footer a:hover {
 
 @media (max-width: 480px) {
   .hero {
-    padding-top: 5rem;
+    padding-top: 6rem;
   }
   .hero h1 { font-size: 1.5rem; }
   .hero p { font-size: 1rem; }
