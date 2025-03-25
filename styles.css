@@ -50,13 +50,13 @@ p { font-size: 1.1rem; }
 }
 
 .logo img {
-  height: 70px; /* Increased size for better visibility */
+  height: 80px; /* Increased size for better visibility */
   width: auto; /* Maintain aspect ratio */
 }
 
 .logo-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 2rem; /* Slightly larger to match logo */
+  font-size: 2.2rem; /* Proportionally larger to match logo */
   font-weight: 500; /* Less bold */
   color: #ffca28; /* Fire yellow */
   -webkit-text-stroke: 0.5px #fff; /* White outline for sharper contrast */
@@ -362,14 +362,14 @@ footer a:hover {
   .navbar { padding: 0.5rem 2rem; }
   .cta-button { padding: 0.8rem 2rem; }
   .content-section { padding: 4rem 1.5rem; }
-  .logo img { height: 60px; }
-  .logo-text { font-size: 1.8rem; }
+  .logo img { height: 70px; }
+  .logo-text { font-size: 2rem; }
   .social-icons a { font-size: 1.4rem; }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.3rem 1.5rem; /* Further reduced padding */
+    padding: 0.2rem 1.5rem; /* Further reduced top/bottom padding */
     flex-direction: column;
     align-items: center;
     position: static !important;
@@ -382,20 +382,20 @@ footer a:hover {
     margin: 0;
     margin-bottom: 1rem;
     position: fixed; /* Pin to top on mobile */
-    top: 0;
+    top: 0.5rem; /* Added top padding */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001; /* Above other elements */
   }
   .logo {
     order: 0;
-    margin-top: 3rem; /* Space below fixed hamburger */
+    margin-top: 3.5rem; /* Adjusted for hamburger padding */
     margin-bottom: 1rem;
     flex-direction: row; /* Keep logo and text on the same line */
     gap: 0.5rem;
   }
-  .logo img { height: 55px; }
-  .logo-text { font-size: 1.6rem; }
+  .logo img { height: 65px; }
+  .logo-text { font-size: 1.8rem; }
   .nav-menu {
     display: none !important;
     flex-direction: column;
@@ -463,8 +463,8 @@ footer a:hover {
     flex-direction: row; /* Keep on the same line */
     gap: 0.3rem;
   }
-  .logo img { height: 50px; }
-  .logo-text { font-size: 1.4rem; }
+  .logo img { height: 60px; }
+  .logo-text { font-size: 1.6rem; }
   .gallery { 
     grid-template-columns: 1fr;
   }
