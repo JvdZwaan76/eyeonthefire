@@ -292,6 +292,34 @@ p { font-size: 1.1rem; }
   text-decoration: underline;
 }
 
+/* Contact Info Section */
+.contact-info {
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.contact-info p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.contact-info a {
+  color: #ffca28; /* Fire yellow */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+  color: #d32f2f; /* Fire red on hover */
+  text-decoration: underline;
+}
+
 /* Forms */
 .location-form, .upload-form {
   display: flex;
@@ -461,6 +489,7 @@ footer a:hover {
   .logo-text { font-size: 2rem; }
   .social-icons a { font-size: 1.4rem; }
   .certificate-info { padding: 1.5rem; }
+  .contact-info { padding: 1.5rem; }
 }
 
 @media (max-width: 768px) {
@@ -545,8 +574,10 @@ footer a:hover {
     margin: 1rem auto;
   }
   .social-icons a { font-size: 1.3rem; }
-  .certificate-info { padding: 1rem; }
+  .certificate-info { padding: 2rem; } /* Increased padding for mobile */
   .certificate-text, .certificate-info ul li { font-size: 1.1rem; }
+  .contact-info { padding: 2rem; } /* Increased padding for mobile */
+  .about-text { padding: 0 1rem; } /* Added padding for mobile */
 }
 
 @media (max-width: 480px) {
@@ -584,6 +615,8 @@ footer a:hover {
     font-size: 0.85rem;
   }
   .social-icons a { font-size: 1.2rem; }
-  .certificate-info { padding: 0.75rem; }
+  .certificate-info { padding: 1.5rem; } /* Adjusted padding for smaller screens */
   .certificate-text, .certificate-info ul li { font-size: 1rem; }
+  .contact-info { padding: 1.5rem; } /* Adjusted padding for smaller screens */
+  .about-text { padding: 0 0.75rem; } /* Adjusted padding for smaller screens */
 }
