@@ -56,10 +56,10 @@ p { font-size: 1.1rem; }
 
 .logo-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 2rem; /* Larger text */
+  font-size: 1.6rem;
   font-weight: 700;
-  color: #ffca28; /* Fire yellow (chosen for better contrast and theme match) */
-  text-shadow: 0 2px 4px rgba(211, 47, 47, 0.7); /* Stronger fire red shadow for pop */
+  color: #ffca28; /* Fire yellow */
+  text-shadow: 0 1px 3px rgba(211, 47, 47, 0.5); /* Fire red shadow for glow */
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -264,7 +264,7 @@ button:hover {
 
 .gallery-item img {
   width: 100%;
-  height:  auto;
+  height: auto;
   max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -344,7 +344,7 @@ footer a:hover {
   .cta-button { padding: 0.8rem 2rem; }
   .content-section { padding: 4rem 1.5rem; }
   .logo img { height: 40px; }
-  .logo-text { font-size: 1.8rem; }
+  .logo-text { font-size: 1.4rem; }
 }
 
 @media (max-width: 768px) {
@@ -374,8 +374,8 @@ footer a:hover {
     flex-direction: row; /* Keep logo and text on the same line */
     gap: 0.5rem;
   }
-  .logo img { height: 40px; } /* Slightly larger on mobile */
-  .logo-text { font-size: 1.4rem; }
+  .logo img { height: 35px; }
+  .logo-text { font-size: 1.2rem; }
   .nav-menu {
     display: none !important;
     flex-direction: column;
@@ -442,8 +442,8 @@ footer a:hover {
     flex-direction: column; /* Stack on very small screens */
     gap: 0.3rem;
   }
-  .logo img { height: 35px; } /* Slightly larger on smaller mobile */
-  .logo-text { font-size: 1.2rem; }
+  .logo img { height: 30px; }
+  .logo-text { font-size: 1rem; }
   .gallery { 
     grid-template-columns: 1fr;
   }
