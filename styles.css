@@ -550,7 +550,7 @@ footer a:hover {
     padding: 3rem 1rem; 
   }
   .about-section { 
-    padding: 3rem 1rem; 
+    padding: 3rem 1.5rem; /* Increased left/right padding for mobile */
   }
   h2 { font-size: 2rem; margin-bottom: 1.5rem; }
   .location-form, .upload-form { 
@@ -574,10 +574,18 @@ footer a:hover {
     margin: 1rem auto;
   }
   .social-icons a { font-size: 1.3rem; }
-  .certificate-info { padding: 2rem; } /* Increased padding for mobile */
-  .certificate-text, .certificate-info ul li { font-size: 1.1rem; }
-  .contact-info { padding: 2rem; } /* Increased padding for mobile */
-  .about-text { padding: 0 1rem; } /* Added padding for mobile */
+  .certificate-info { 
+    padding: 2rem 1.5rem; /* Increased left/right padding for mobile */
+  }
+  .certificate-text, .certificate-info ul li { 
+    font-size: 1.1rem; 
+  }
+  .contact-info { 
+    padding: 2rem 1.5rem; /* Increased left/right padding for mobile */
+  }
+  .about-text { 
+    padding: 0 1.5rem; /* Increased left/right padding for mobile */
+  }
 }
 
 @media (max-width: 480px) {
@@ -601,7 +609,7 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
   .content-section { padding: 2rem 0.5rem; }
-  .about-section { padding: 2rem 0.5rem; }
+  .about-section { padding: 2rem 1rem; /* Adjusted left/right padding for smaller screens */ }
   h2 { font-size: 1.8rem; }
   .location-form, .upload-form { 
     gap: 0.3rem;
@@ -615,8 +623,8 @@ footer a:hover {
     font-size: 0.85rem;
   }
   .social-icons a { font-size: 1.2rem; }
-  .certificate-info { padding: 1.5rem; } /* Adjusted padding for smaller screens */
+  .certificate-info { padding: 1.5rem 1rem; /* Adjusted left/right padding for smaller screens */ }
   .certificate-text, .certificate-info ul li { font-size: 1rem; }
-  .contact-info { padding: 1.5rem; } /* Adjusted padding for smaller screens */
-  .about-text { padding: 0 0.75rem; } /* Adjusted padding for smaller screens */
+  .contact-info { padding: 1.5rem 1rem; /* Adjusted left/right padding for smaller screens */ }
+  .about-text { padding: 0 1rem; /* Adjusted left/right padding for smaller screens */ }
 }
