@@ -339,13 +339,36 @@ p { font-size: 1.1rem; }
 
 .media-item {
   text-align: center;
+  position: relative;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 15px;
+  border: 2px solid #d32f2f; /* Fire red border */
+  box-shadow: 0 6px 20px rgba(211, 47, 47, 0.1); /* Fiery shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(211, 47, 47, 0.2); /* Enhanced fiery shadow on hover */
+}
+
+.media-item::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #ffca28; /* Yellow outer border */
+  border-radius: 15px;
+  z-index: -1;
 }
 
 .media-item img, .media-item video {
   max-width: 100%;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: block;
   margin: 0 auto;
 }
@@ -353,8 +376,9 @@ p { font-size: 1.1rem; }
 .media-caption {
   font-size: 1rem;
   color: #2d2d2d;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  font-style: italic;
 }
 
 /* Contact Info Section */
@@ -660,6 +684,13 @@ footer a:hover {
   .contact-info { 
     padding: 1.5rem 2rem; /* Increased padding for readability */
   }
+  .fire-media {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly smaller columns for better fit */
+    gap: 1.5rem;
+  }
+  .media-item {
+    padding: 0.75rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -693,9 +724,6 @@ footer a:hover {
     padding: 0.5rem;
     font-size: 0.85rem;
   }
-  .fire-media {
-    grid-template-columns: 1fr; /* Stack media items on small screens */
-  }
   button { 
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
@@ -717,5 +745,15 @@ footer a:hover {
   }
   .contact-info { 
     padding: 1rem 2.5rem; /* Further increased padding for readability */
+  }
+  .fire-media {
+    grid-template-columns: 1fr; /* Stack media items on small screens */
+    gap: 1rem;
+  }
+  .media-item {
+    padding: 0.5rem;
+  }
+  .media-caption {
+    font-size: 0.9rem;
   }
 }
