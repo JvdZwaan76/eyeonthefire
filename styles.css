@@ -381,6 +381,63 @@ p { font-size: 1.1rem; }
   font-style: italic;
 }
 
+/* Safety Tips List */
+.safety-tips {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  text-align: left;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.safety-tips li {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.safety-tips li::before {
+  content: '🔥';
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  color: #d32f2f;
+}
+
+.safety-tips li strong {
+  color: #d32f2f; /* Fire red for emphasis */
+}
+
+/* Social Share Buttons */
+.social-share {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-share p {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #2d2d2d;
+}
+
+.social-share a {
+  color: #ffca28; /* Fire yellow */
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-share a:hover {
+  color: #d32f2f; /* Fire red on hover */
+  transform: scale(1.2);
+}
+
 /* Contact Info Section */
 .contact-info {
   margin: 3rem auto;
@@ -580,6 +637,7 @@ footer a:hover {
   .social-icons a { font-size: 1.4rem; }
   .certificate-info { padding: 1.5rem; }
   .contact-info { padding: 1.5rem; }
+  .safety-tips li { font-size: 1.1rem; }
 }
 
 @media (max-width: 768px) {
@@ -684,6 +742,10 @@ footer a:hover {
   .contact-info { 
     padding: 1.5rem 2rem; /* Increased padding for readability */
   }
+  .safety-tips li { 
+    font-size: 1.1rem;
+    padding-left: 1.5rem;
+  }
   .fire-media {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly smaller columns for better fit */
     gap: 1.5rem;
@@ -745,6 +807,10 @@ footer a:hover {
   }
   .contact-info { 
     padding: 1rem 2.5rem; /* Further increased padding for readability */
+  }
+  .safety-tips li { 
+    font-size: 1rem;
+    padding-left: 1.5rem;
   }
   .fire-media {
     grid-template-columns: 1fr; /* Stack media items on small screens */
