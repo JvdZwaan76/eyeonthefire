@@ -143,6 +143,23 @@ p { font-size: 1.1rem; }
   margin-bottom: 1rem;
 }
 
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(45deg, #d32f2f, #ffca28); /* Fire-themed gradient */
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(255, 111, 97, 0.5); /* Subtle glow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 111, 97, 0.8); /* Enhanced glow on hover */
+}
+
 /* Content Sections */
 .content-section {
   padding: 5rem 2rem;
@@ -282,6 +299,7 @@ footer a:hover {
   .hero h1 { font-size: 2.5rem; }
   .hero p { font-size: 1.2rem; }
   .navbar { padding: 1rem 2rem; }
+  .cta-button { padding: 0.8rem 2rem; }
 }
 
 @media (max-width: 768px) {
