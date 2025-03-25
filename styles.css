@@ -296,7 +296,7 @@ footer a:hover {
   .hamburger {
     display: block;
     order: -1;
-    margin: 0; /* No margins */
+    margin: 0;
     margin-bottom: 1rem;
     position: fixed; /* Pin to top on mobile */
     top: 0;

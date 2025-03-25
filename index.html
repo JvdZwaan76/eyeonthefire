@@ -15,6 +15,14 @@
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T8RE6KDBEW');
+  </script>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
@@ -22,12 +30,12 @@
   <!-- Header with Parallax -->
   <header class="parallax" style="background-image: url('/images/hero-bg.jpg');">
     <nav class="navbar">
-      <div class="logo">Eye on the Fire</div>
       <div class="hamburger">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
       </div>
+      <div class="logo">Eye on the Fire</div>
       <ul class="nav-menu">
         <li><a href="#home">Home</a></li>
         <li><a href="#fires">Fires Near Me</a></li>
