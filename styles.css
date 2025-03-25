@@ -20,7 +20,7 @@ h1, h2, h3 {
 }
 
 h1 { font-size: 3rem; font-weight: 700; }
-h2 { font-size: 2.5rem; font-weight: 700; }
+h2 { font-size: 2.5rem; font-weight: 500; /* Lighter weight for elegance */ }
 h3 { font-size: 1.5rem; font-weight: 400; }
 p { font-size: 1.1rem; }
 
@@ -184,51 +184,112 @@ p { font-size: 1.1rem; }
   box-shadow: 0 0 20px rgba(255, 111, 97, 0.8); /* Keep hover glow */
 }
 
-/* Content Sections */
-.content-section {
-  padding: 5rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  background: linear-gradient(to bottom, rgba(255, 111, 97, 0.05), #f9f9f9); /* Subtle smoky gradient */
+/* About Section */
+.about-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Subtle fiery gradient */
 }
 
-.content-section h2 {
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
   text-align: center;
-  margin-bottom: 2rem;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
+}
+
+.about-content h2 {
+  font-weight: 500; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.about-content h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  color: #2d2d2d;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
 }
 
 /* Certificate Info Section */
 .certificate-info {
-  background: #fff;
-  border: 2px solid #d32f2f; /* Fire red border */
-  border-radius: 10px;
-  padding: 2rem;
-  margin: 2rem auto;
+  background: linear-gradient(145deg, #fffef0, #fff); /* Parchment-like background */
+  border: 3px solid #d32f2f; /* Fire red border */
+  border-radius: 15px;
+  padding: 3rem;
+  margin: 3rem auto;
   max-width: 800px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(211, 47, 47, 0.1); /* Fiery shadow */
+  position: relative;
 }
 
-.certificate-info p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+.certificate-info::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid #ffca28; /* Yellow outer border */
+  border-radius: 15px;
+  z-index: -1;
+}
+
+.certificate-text {
+  font-size: 1.2rem;
+  color: #2d2d2d;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .certificate-info ul {
   list-style: none;
   padding: 0;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
 }
 
 .certificate-info ul li {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.certificate-info ul li::before {
+  content: '🔥';
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  color: #d32f2f;
 }
 
 .certificate-info ul li strong {
   color: #d32f2f; /* Fire red for emphasis */
+}
+
+.certificate-link {
+  color: #ffca28; /* Fire yellow */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.certificate-link:hover {
+  color: #d32f2f; /* Fire red on hover */
+  text-decoration: underline;
 }
 
 /* Forms */
@@ -395,6 +456,7 @@ footer a:hover {
   .navbar { padding: 0.5rem 2rem; }
   .cta-button { padding: 0.8rem 2rem; }
   .content-section { padding: 4rem 1.5rem; }
+  .about-section { padding: 4rem 1.5rem; }
   .logo img { height: 70px; }
   .logo-text { font-size: 2rem; }
   .social-icons a { font-size: 1.4rem; }
@@ -458,6 +520,9 @@ footer a:hover {
   .content-section { 
     padding: 3rem 1rem; 
   }
+  .about-section { 
+    padding: 3rem 1rem; 
+  }
   h2 { font-size: 2rem; margin-bottom: 1.5rem; }
   .location-form, .upload-form { 
     flex-direction: column; 
@@ -481,6 +546,7 @@ footer a:hover {
   }
   .social-icons a { font-size: 1.3rem; }
   .certificate-info { padding: 1rem; }
+  .certificate-text, .certificate-info ul li { font-size: 1.1rem; }
 }
 
 @media (max-width: 480px) {
@@ -504,6 +570,7 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
   .content-section { padding: 2rem 0.5rem; }
+  .about-section { padding: 2rem 0.5rem; }
   h2 { font-size: 1.8rem; }
   .location-form, .upload-form { 
     gap: 0.3rem;
@@ -518,4 +585,5 @@ footer a:hover {
   }
   .social-icons a { font-size: 1.2rem; }
   .certificate-info { padding: 0.75rem; }
+  .certificate-text, .certificate-info ul li { font-size: 1rem; }
 }
