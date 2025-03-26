@@ -470,6 +470,9 @@ p { font-size: 1.1rem; }
 .content-section {
   padding: 6rem 2rem;
   background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)) !important; /* Match About Us fiery gradient */
+  max-width: 1000px; /* Constrain content width */
+  margin: 0 auto; /* Center the section */
+  text-align: center; /* Center text */
 }
 
 .content-section .content-wrapper {
