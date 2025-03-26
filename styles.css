@@ -156,7 +156,7 @@ p { font-size: 1.1rem; }
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.7); /* Darker overlay for better contrast */
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
@@ -466,6 +466,37 @@ p { font-size: 1.1rem; }
   text-decoration: underline;
 }
 
+/* Content Section (Fires Near Me, Community) */
+.content-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Match About Us fiery gradient */
+}
+
+.content-section h2 {
+  font-weight: 500; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.content-section h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
+.content-section p {
+  font-size: 1.2rem;
+  color: #2d2d2d;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
+}
+
 /* Forms */
 .location-form, .upload-form {
   display: flex;
@@ -507,37 +538,12 @@ button:hover {
 
 /* Prevention Section */
 .content-overlay {
-  background: rgba(0, 0, 0, 0.85); /* Darker overlay for better contrast */
+  background: rgba(0, 0, 0, 0.75);
   padding: 3rem;
   border-radius: 10px;
+  color: #fff;
   max-width: 1000px;
   margin: 0 auto;
-}
-
-.content-overlay h2 {
-  color: #fff; /* White for better contrast */
-  font-weight: 500; /* Lighter weight for elegance */
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.content-overlay h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
-  margin: 0.5rem auto;
-  border-radius: 2px;
-}
-
-.prevention-text {
-  font-size: 1.2rem;
-  color: #fff; /* White for better contrast */
-  margin-bottom: 3rem;
-  line-height: 1.8;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
 }
 
 .prevention-grid {
@@ -648,35 +654,6 @@ footer a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Homepage Sections */
-.home-section {
-  padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Subtle fiery gradient */
-}
-
-.home-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.home-content h2 {
-  font-weight: 500; /* Lighter weight for elegance */
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.home-content h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
-  margin: 0.5rem auto;
-  border-radius: 2px;
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
   .hero h1 { font-size: 2.5rem; }
@@ -686,7 +663,6 @@ footer a:hover {
   .content-section { padding: 4rem 1.5rem; }
   .about-section { padding: 4rem 1.5rem; }
   .recent-fires-section { padding: 4rem 1.5rem; }
-  .home-section { padding: 4rem 1.5rem; }
   .logo img { height: 70px; }
   .logo-text { font-size: 2rem; }
   .social-icons a { font-size: 1.4rem; }
@@ -758,9 +734,6 @@ footer a:hover {
   .recent-fires-section { 
     padding: 3rem 1rem; 
   }
-  .home-section { 
-    padding: 3rem 1rem; 
-  }
   h2 { font-size: 2rem; margin-bottom: 1.5rem; }
   .location-form, .upload-form { 
     flex-direction: column; 
@@ -790,9 +763,6 @@ footer a:hover {
   .fires-text { 
     padding: 0 1.5rem; /* Increased padding for readability */
     font-size: 1.1rem;
-  }
-  .prevention-text { 
-    font-size: 1.1rem; /* Match responsive adjustment */
   }
   .certificate-info { 
     padding: 1.5rem 2rem; /* Increased padding for readability */
@@ -839,7 +809,6 @@ footer a:hover {
   .content-section { padding: 2rem 0.5rem; }
   .about-section { padding: 2rem 0.5rem; }
   .recent-fires-section { padding: 2rem 0.5rem; }
-  .home-section { padding: 2rem 0.5rem; }
   h2 { font-size: 1.8rem; }
   .location-form, .upload-form { 
     gap: 0.3rem;
@@ -860,9 +829,6 @@ footer a:hover {
   .fires-text { 
     padding: 0 2rem; /* Further increased padding for readability */
     font-size: 1rem;
-  }
-  .prevention-text { 
-    font-size: 1rem; /* Match responsive adjustment */
   }
   .certificate-info { 
     padding: 1rem 2.5rem; /* Further increased padding for readability */
