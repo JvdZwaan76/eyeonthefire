@@ -187,7 +187,7 @@ p { font-size: 1.1rem; }
 /* About Section */
 .about-section {
   padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Subtle fiery gradient */
+  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)) !important; /* Subtle fiery gradient */
 }
 
 .about-content {
@@ -295,7 +295,7 @@ p { font-size: 1.1rem; }
 /* Recent Fires Section */
 .recent-fires-section {
   padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Subtle fiery gradient */
+  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)) !important; /* Subtle fiery gradient */
 }
 
 .recent-fires-content {
@@ -469,32 +469,38 @@ p { font-size: 1.1rem; }
 /* Content Section (Fires Near Me, Community) */
 .content-section {
   padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)); /* Match About Us fiery gradient */
+  background: linear-gradient(to bottom, #f9f9f9, rgba(255, 111, 97, 0.05)) !important; /* Match About Us fiery gradient */
+}
+
+.content-section .content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .content-section h2 {
-  font-weight: 500; /* Lighter weight for elegance */
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
-  position: relative;
+  font-weight: 500 !important; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  margin-bottom: 1.5rem !important;
+  position: relative !important;
 }
 
 .content-section h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
-  margin: 0.5rem auto;
-  border-radius: 2px;
+  content: '' !important;
+  display: block !important;
+  width: 60px !important;
+  height: 3px !important;
+  background: linear-gradient(90deg, #ffca28, #d32f2f) !important; /* Fiery gradient underline */
+  margin: 0.5rem auto !important;
+  border-radius: 2px !important;
 }
 
 .content-section p {
-  font-size: 1.2rem;
-  color: #2d2d2d;
-  margin-bottom: 3rem;
-  line-height: 1.8;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
+  font-size: 1.2rem !important;
+  color: #2d2d2d !important;
+  margin-bottom: 3rem !important;
+  line-height: 1.8 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important; /* Subtle depth */
 }
 
 /* Forms */
@@ -544,6 +550,31 @@ button:hover {
   color: #fff;
   max-width: 1000px;
   margin: 0 auto;
+  text-align: center; /* Match About Us text alignment */
+}
+
+.content-overlay h2 {
+  font-weight: 500; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.content-overlay h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
+.content-overlay p {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
 }
 
 .prevention-grid {
