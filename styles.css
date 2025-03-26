@@ -510,9 +510,34 @@ button:hover {
   background: rgba(0, 0, 0, 0.75);
   padding: 3rem;
   border-radius: 10px;
-  color: #fff;
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.content-overlay h2 {
+  color: #d32f2f; /* Match other pages */
+  font-weight: 500; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.content-overlay h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
+.prevention-text {
+  font-size: 1.2rem;
+  color: #2d2d2d; /* Match other pages */
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle depth */
 }
 
 .prevention-grid {
@@ -635,6 +660,23 @@ footer a:hover {
   text-align: center;
 }
 
+.home-content h2 {
+  font-weight: 500; /* Lighter weight for elegance */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.home-content h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffca28, #d32f2f); /* Fiery gradient underline */
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .hero h1 { font-size: 2.5rem; }
@@ -749,6 +791,9 @@ footer a:hover {
     padding: 0 1.5rem; /* Increased padding for readability */
     font-size: 1.1rem;
   }
+  .prevention-text { 
+    font-size: 1.1rem; /* Match responsive adjustment */
+  }
   .certificate-info { 
     padding: 1.5rem 2rem; /* Increased padding for readability */
   }
@@ -815,6 +860,9 @@ footer a:hover {
   .fires-text { 
     padding: 0 2rem; /* Further increased padding for readability */
     font-size: 1rem;
+  }
+  .prevention-text { 
+    font-size: 1rem; /* Match responsive adjustment */
   }
   .certificate-info { 
     padding: 1rem 2.5rem; /* Further increased padding for readability */
