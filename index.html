@@ -49,11 +49,50 @@
     }
     .navbar .logo img { height: 40px; }
     .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
-    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
-    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
-    .nav-menu li a:hover { text-decoration: underline; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger .line { width: 25px; height: 3px; background: #fff; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .hamburger .line { width: 25px; height: 3px; background: #fff; transition: all 0.3s ease; }
+    .hamburger.active .line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active .line:nth-child(2) { opacity: 0; }
+    .hamburger.active .line:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #333;
+      padding: 60px 20px 20px;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .sidebar.active { transform: translateX(250px); }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar li { margin: 20px 0; }
+    .sidebar li a {
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      padding: 15px;
+      display: block;
+      transition: background 0.3s ease;
+    }
+    .sidebar li a:hover, .sidebar li a.active { background: #b22222; border-radius: 4px; }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+    }
+    .overlay.active { opacity: 1; pointer-events: auto; }
     .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
     .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
     .hero p { font-size: 18px; margin: 0 0 20px; }
@@ -180,18 +219,19 @@
     footer { background: #333; color: #fff; padding: 20px; text-align: center; }
     footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
     @media (max-width: 768px) {
-      .navbar { flex-direction: column; padding: 10px; }
-      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
-      .nav-menu.active { display: flex; }
       .hamburger { display: flex; }
-      .hero h1 { font-size: 28px; }
-      .hero p { font-size: 16px; }
       .map-container { max-width: 100%; padding-bottom: 75%; }
       .map-header { font-size: 16px; padding: 10px 0; }
       .map-controls, .location-form { top: 50px; left: 5px; right: auto; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 16px; }
       .prevention-item, .gallery-item img { max-width: 100%; }
       .cta-button { padding: 12px 25px; font-size: 14px; }
       .cta-banner { font-size: 16px; padding: 10px; }
+    }
+    @media (min-width: 769px) {
+      .sidebar { display: none; }
+      .navbar .nav-menu { display: flex; }
     }
   </style>
 </head>
@@ -202,7 +242,7 @@
       <img src="/images/logo.png" alt="Eye on the Fire Logo">
       <span class="logo-text">Eye on the Fire</span>
     </div>
-    <div class="hamburger" onclick="toggleMenu()">
+    <div class="hamburger" onclick="toggleSidebar()">
       <span class="line"></span>
       <span class="line"></span>
       <span class="line"></span>
@@ -216,6 +256,17 @@
       <li><a href="status.html">Status</a></li>
     </ul>
   </nav>
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="#map-section" class="active">Fire Map</a></li>
+      <li><a href="recent-fires.html">Recent Fires</a></li>
+      <li><a href="#prevention">Prevention</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="status.html">Status</a></li>
+    </ul>
+  </div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
   <header class="hero">
     <h1>Your Premier Fire Monitoring Hub</h1>
     <p>Track active wildfires near you with our cutting-edge interactive map.</p>
@@ -456,8 +507,13 @@
       map.invalidateSize();
     }
 
-    function toggleMenu() {
-      document.querySelector('.nav-menu').classList.toggle('active');
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const hamburger = document.querySelector('.hamburger');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      hamburger.classList.toggle('active');
     }
   </script>
 
