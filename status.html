@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Status - Eye on the Fire | Live Wildfire Monitoring</title>
-  <meta name="description" content="Check the system status of Eye on the Fire’s interactive live wildfire monitoring services, ensuring real-time updates and safety resources are operational.">
-  <meta name="keywords" content="eye on the fire status, interactive wildfire map status, live fire updates, system status, fire safety">
+  <title>Status - Eye on the Fire | Premier Live Fire Monitoring</title>
+  <meta name="description" content="Check the status of Eye on the Fire’s premier interactive live wildfire map and services for real-time fire monitoring and updates.">
+  <meta name="keywords" content="eye on the fire status, interactive fire map status, live fire updates, fire monitoring status, fire safety">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/status">
-  <meta property="og:title" content="System Status - Eye on the Fire">
-  <meta property="og:description" content="View the status of Eye on the Fire’s interactive live wildfire monitoring services for real-time updates.">
+  <meta property="og:title" content="Status - Eye on the Fire">
+  <meta property="og:description" content="View the operational status of Eye on the Fire’s premier interactive live wildfire map and services.">
   <meta property="og:url" content="https://eyeonthefire.com/status">
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
@@ -26,149 +26,38 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
-    }
-    header {
-      background-color: #b22222;
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
-    }
-    header .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    header .logo img {
-      height: 40px;
-    }
-    header .logo-text {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-    }
-    nav {
-      background-color: #8b0000;
-      padding: 10px 0;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-    }
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
-    .status-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .status-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .status-header h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 32px;
-      font-weight: 700;
-      color: #b22222;
-    }
-    .status-header p {
-      font-size: 16px;
-      color: #666;
-    }
-    .status-list {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    .status-item {
+    body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #333; }
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #b22222;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
+      z-index: 1000;
     }
-    .status-item:last-child {
-      border-bottom: none;
-    }
-    .status-item h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 18px;
-      font-weight: 500;
-      margin: 0;
-    }
-    .status-indicator {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .status-indicator .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .status-indicator .dot.operational {
-      background-color: #28a745;
-    }
-    .status-indicator .dot.maintenance {
-      background-color: #ffc107;
-    }
-    .status-indicator .dot.downtime {
-      background-color: #dc3545;
-    }
-    .status-indicator span {
-      font-size: 14px;
-      color: #333;
-    }
-    .status-footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #666;
-    }
-    footer {
-      background-color: #333;
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
-    }
-    footer p {
-      margin: 0;
-      font-size: 14px;
-    }
-    footer a {
-      color: #fff;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-    footer .social-icons {
-      margin-top: 10px;
-    }
-    footer .social-icons a {
-      color: #fff;
-      margin: 0 10px;
-      font-size: 18px;
-    }
+    .navbar .logo img { height: 40px; }
+    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
+    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
+    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    .nav-menu li a:hover { text-decoration: underline; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger .line { width: 25px; height: 3px; background: #fff; }
+    .status-container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
+    .status-header h1 { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 700; color: #b22222; }
+    .status-header p { font-size: 16px; color: #666; }
+    .status-list { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; margin: 20px 0; }
+    .status-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+    .status-item:last-child { border-bottom: none; }
+    .status-item h3 { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; margin: 0; }
+    .status-indicator { display: flex; align-items: center; gap: 10px; }
+    .status-indicator .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .status-indicator .dot.operational { background-color: #28a745; }
+    .status-indicator .dot.maintenance { background-color: #ffc107; }
+    .status-indicator .dot.downtime { background-color: #dc3545; }
+    .status-indicator span { font-size: 14px; color: #333; }
+    .status-footer { font-size: 14px; color: #666; margin-top: 20px; }
     .cta-banner {
       background: #b22222;
       color: #fff;
@@ -180,50 +69,49 @@
       font-size: 18px;
       font-weight: 700;
     }
-    .cta-banner a {
-      color: #fff;
-      text-decoration: underline;
-    }
-    @media (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .status-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .cta-banner {
-        font-size: 14px;
-        padding: 10px;
-      }
+    .cta-banner a { color: #fff; text-decoration: underline; }
+    footer { background: #333; color: #fff; padding: 20px; text-align: center; }
+    footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; padding: 10px; }
+      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
+      .nav-menu.active { display: flex; }
+      .hamburger { display: flex; }
+      .status-header h1 { font-size: 24px; }
+      .status-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .cta-banner { font-size: 16px; padding: 10px; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <!-- Header -->
+  <nav class="navbar">
     <div class="logo">
       <img src="/images/logo.png" alt="Eye on the Fire Logo">
       <span class="logo-text">Eye on the Fire</span>
     </div>
-  </header>
-  <nav>
-    <ul>
-      <li><a href="/index.html">Home</a></li>
-      <li><a href="/about.html">About Us</a></li>
-      <li><a href="/recent-fires.html">Recent Fires</a></li>
-      <li><a href="/#fires">Fires Near Me</a></li>
-      <li><a href="/#prevention">Prevention</a></li>
-      <li><a href="/#community">Community</a></li>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="index.html#map-section">Fire Map</a></li>
+      <li><a href="recent-fires.html">Recent Fires</a></li>
+      <li><a href="index.html#prevention">Prevention</a></li>
+      <li><a href="index.html#community">Community</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="status.html">Status</a></li>
     </ul>
   </nav>
+
+  <!-- Status Section -->
   <div class="status-container">
     <div class="status-header">
       <h1>System Status</h1>
-      <p>Real-time updates on the operational status of our interactive wildfire monitoring services.</p>
+      <p>Ensuring our premier interactive fire map and services are always ready to keep you informed.</p>
     </div>
-    <div class="cta-banner">Monitor Fires Live! <a href="index.html#map-section">Check Our Interactive Map</a></div>
+    <div class="cta-banner">Monitor Fires Now! <a href="index.html#map-section">Check the Live Map</a></div>
     <div class="status-list">
       <div class="status-item">
         <h3>Website</h3>
@@ -233,63 +121,59 @@
         </div>
       </div>
       <div class="status-item">
-        <h3>Fire Updates API</h3>
+        <h3>Interactive Fire Map</h3>
         <div class="status-indicator">
           <div class="dot operational"></div>
           <span>Operational</span>
         </div>
       </div>
       <div class="status-item">
-        <h3>Fires Near Me Search</h3>
+        <h3>Live Updates API</h3>
+        <div class="status-indicator">
+          <div class="dot operational"></div>
+          <span>Operational</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <h3>Community Features</h3>
         <div class="status-indicator">
           <div class="dot maintenance"></div>
           <span>Under Maintenance</span>
         </div>
       </div>
-      <div class="status-item">
-        <h3>Community Uploads</h3>
-        <div class="status-indicator">
-          <div class="dot operational"></div>
-          <span>Operational</span>
-        </div>
-      </div>
-      <div class="status-item">
-        <h3>Prevention Resources</h3>
-        <div class="status-indicator">
-          <div class="dot operational"></div>
-          <span>Operational</span>
-        </div>
-      </div>
     </div>
     <div class="status-footer">
       <p>Last updated: April 11, 2025, 12:00 UTC</p>
-      <p>Experiencing issues? <a href="mailto:support@eyeonthefire.com">Contact Support</a></p>
+      <p>Issues? <a href="mailto:support@eyeonthefire.com">Contact Support</a></p>
     </div>
   </div>
+
+  <!-- Footer -->
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
-    <div class="cta-banner">Stay Safe! <a href="index.html#map-section">Use Our Live Fire Map</a></div>
+    <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
+
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "System Status - Eye on the Fire",
+    "name": "Status - Eye on the Fire",
     "url": "https://eyeonthefire.com/status",
-    "description": "Status updates for Eye on the Fire’s interactive live wildfire monitoring services, ensuring real-time fire and air quality data."
+    "description": "Status updates for Eye on the Fire’s premier interactive live wildfire map and services, ensuring real-time fire monitoring."
   }
+  </script>
+
+  <script>
+    function toggleMenu() {
+      document.querySelector('.nav-menu').classList.toggle('active');
+    }
   </script>
 </body>
 </html>
