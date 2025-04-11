@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recent Fires - Eye on the Fire | Interactive Wildfire Map & Updates</title>
-  <meta name="description" content="Track the LA and Pacific Palisades fires of January 2025 live with our interactive wildfire map. View photos, videos, and safety tips from Eye on the Fire LLC.">
-  <meta name="keywords" content="LA fires 2025, Pacific Palisades fire, Eaton fire, interactive wildfire map, live fire updates, fire safety, Eye on the Fire">
+  <title>Recent Fires - Eye on the Fire | Premier Live Fire Map</title>
+  <meta name="description" content="Explore recent wildfires like the LA and Pacific Palisades fires of 2025 with Eye on the Fire’s premier interactive live map. Access real-time updates, media, and safety tips.">
+  <meta name="keywords" content="recent wildfires, LA fires 2025, Pacific Palisades fire, interactive fire map, live fire updates, fire safety, Eye on the Fire">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:title" content="Recent Fires - Eye on the Fire">
-  <meta property="og:description" content="Monitor the LA and Pacific Palisades fires of 2025 live with our interactive map, plus photos, videos, and safety tips.">
+  <meta property="og:description" content="Track recent wildfires like the LA and Pacific Palisades fires of 2025 with our premier interactive live map, featuring updates and safety tips.">
   <meta property="og:url" content="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:image" content="/images/palisades-fire-highway-smoke.jpg">
   <meta property="og:type" content="website">
@@ -36,11 +36,33 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #b22222;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    .navbar .logo img { height: 40px; }
+    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
+    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
+    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    .nav-menu li a:hover { text-decoration: underline; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger .line { width: 25px; height: 3px; background: #fff; }
+    .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
+    .hero p { font-size: 18px; margin: 0 0 20px; }
+    .fires-section { padding: 20px; background: #f5f5f5; }
     .map-container {
       position: relative;
       width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
+      max-width: 1200px;
+      margin: 0 auto;
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
@@ -48,13 +70,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    #fire-map {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+    #fire-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     .map-header {
       position: absolute;
       top: 0;
@@ -63,15 +79,15 @@
       background: rgba(178, 34, 34, 0.9);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 20px;
+      font-weight: 700;
       text-align: center;
-      padding: 10px 0;
+      padding: 15px 0;
       z-index: 1000;
     }
     .map-controls {
       position: absolute;
-      top: 50px;
+      top: 60px;
       left: 10px;
       z-index: 1000;
       background: #fff;
@@ -80,9 +96,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .map-controls button, .location-form button {
-      display: inline-block;
+      display: block;
       margin: 5px 0;
-      padding: 8px 15px;
+      padding: 10px 15px;
       background: #b22222;
       color: #fff;
       border: none;
@@ -90,13 +106,12 @@
       cursor: pointer;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      font-size: 14px;
     }
-    .map-controls button:hover, .location-form button:hover {
-      background: #8b0000;
-    }
+    .map-controls button:hover, .location-form button:hover { background: #8b0000; }
     .location-form {
       position: absolute;
-      top: 50px;
+      top: 60px;
       right: 10px;
       z-index: 1000;
       background: #fff;
@@ -108,10 +123,11 @@
       gap: 5px;
     }
     .location-form input {
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
     }
     .location-form .disclosure {
       font-family: 'Open Sans', sans-serif;
@@ -120,16 +136,28 @@
       text-align: center;
       margin-top: 5px;
     }
-    .fullscreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9999;
-      padding-bottom: 0;
-      margin: 0;
+    .fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; padding-bottom: 0; margin: 0; }
+    .content-section { padding: 40px 20px; text-align: center; }
+    .content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #b22222; }
+    .fire-media { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
+    .media-item { width: 100%; max-width: 300px; }
+    .media-item img, .media-item video { width: 100%; border-radius: 8px; }
+    .media-caption { font-size: 14px; color: #666; margin: 5px 0; }
+    .safety-tips { list-style: none; padding: 0; text-align: left; max-width: 600px; margin: 20px auto; }
+    .safety-tips li { margin: 10px 0; }
+    .safety-tips li strong { color: #b22222; }
+    .cta-button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #b22222;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
     }
+    .cta-button:hover { background: #8b0000; }
     .cta-banner {
       background: #b22222;
       color: #fff;
@@ -141,64 +169,60 @@
       font-size: 18px;
       font-weight: 700;
     }
-    .cta-banner a {
-      color: #fff;
-      text-decoration: underline;
-    }
-    @media (max-width: 600px) {
-      .map-container {
-        padding-bottom: 75%;
-      }
-      .map-controls, .location-form {
-        top: 40px;
-        left: 5px;
-        right: auto;
-      }
-      .cta-banner {
-        font-size: 14px;
-        padding: 10px;
-      }
+    .cta-banner a { color: #fff; text-decoration: underline; }
+    footer { background: #333; color: #fff; padding: 20px; text-align: center; }
+    footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; padding: 10px; }
+      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
+      .nav-menu.active { display: flex; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 16px; }
+      .map-container { max-width: 100%; padding-bottom: 75%; }
+      .map-header { font-size: 16px; padding: 10px 0; }
+      .map-controls, .location-form { top: 50px; left: 5px; right: auto; }
+      .media-item { max-width: 100%; }
+      .safety-tips { text-align: center; }
+      .cta-button { padding: 12px 25px; font-size: 14px; }
+      .cta-banner { font-size: 16px; padding: 10px; }
     }
   </style>
 </head>
 <body>
   <!-- Header -->
-  <header class="parallax" style="background-image: url('/images/hero-bg.jpg');">
-    <nav class="navbar">
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-      <div class="logo">
-        <img src="/images/logo.png" alt="Eye on the Fire Logo">
-        <span class="logo-text">Eye on the Fire</span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="recent-fires.html">Recent Fires</a></li>
-        <li><a href="index.html#fires">Fires Near Me</a></li>
-        <li><a href="index.html#prevention">Prevention</a></li>
-        <li><a href="index.html#community">Community</a></li>
-      </ul>
-    </nav>
-    <div class="hero">
-      <h1>Recent Fires</h1>
-      <p>Track wildfires live with our interactive map.</p>
-      <a href="#fires-section" class="cta-button">Explore the Map Now</a>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="/images/logo.png" alt="Eye on the Fire Logo">
+      <span class="logo-text">Eye on the Fire</span>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="index.html#map-section">Fire Map</a></li>
+      <li><a href="recent-fires.html">Recent Fires</a></li>
+      <li><a href="index.html#prevention">Prevention</a></li>
+      <li><a href="index.html#community">Community</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="status.html">Status</a></li>
+    </ul>
+  </nav>
+  <header class="hero">
+    <h1>Recent Wildfires at Your Fingertips</h1>
+    <p>Monitor active fires with our premier interactive map.</p>
+    <a href="#fires-section" class="cta-button">Track Fires Now</a>
   </header>
 
   <!-- Recent Fires Section -->
-  <section class="recent-fires-section" id="fires-section">
-    <div class="content-wrapper recent-fires-content">
-      <h2>The LA and Pacific Palisades Fires of January 2025</h2>
-      <p class="fires-text">The Palisades and Eaton Fires, which ignited on January 7, 2025, caused unprecedented devastation across the Los Angeles area, including Pacific Palisades, Malibu, Altadena, and Pasadena. Fueled by dry conditions and strong winds, these fires destroyed over 12,000 structures, claimed at least 24 lives, and displaced thousands, according to Los Angeles County officials. Below, monitor real-time wildfire activity and air quality across the U.S.</p>
-
-      <!-- Custom Fire Map -->
+  <section class="fires-section" id="fires-section">
+    <div class="content-section">
+      <h2>Latest Fire Updates</h2>
+      <p>Eye on the Fire brings you the most recent wildfire activity, like the LA and Pacific Palisades fires of January 2025, with our cutting-edge live map.</p>
       <div class="map-container" id="map-container">
-        <div class="map-header">Real-Time Wildfire & Air Quality Map</div>
+        <div class="map-header">Interactive Live Fire Map</div>
         <div class="map-controls">
           <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
           <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
@@ -213,57 +237,35 @@
         </div>
         <div id="fire-map"></div>
       </div>
-
       <div class="fire-media">
         <div class="media-item">
           <img src="/images/palisades-fire-highway-smoke.jpg" alt="Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025">
-          <p class="media-caption">🔥 Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025.</p>
+          <p class="media-caption">🔥 Palisades Fire smoke plume, January 2025</p>
         </div>
         <div class="media-item">
           <img src="/images/eaton-fire-firefighters.jpg" alt="Firefighters battling the Eaton Fire in a residential area, January 2025">
-          <p class="media-caption">🔥 Firefighters battling the Eaton Fire in a residential area, January 2025.</p>
+          <p class="media-caption">🔥 Firefighters at Eaton Fire, January 2025</p>
         </div>
         <div class="media-item">
           <video controls poster="/images/palisades-fire-video-poster.jpg">
             <source src="/videos/palisades-fire-personal-video-1.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <p class="media-caption">🔥 Personal video capturing the Palisades Fire’s impact, January 2025.</p>
+          <p class="media-caption">🔥 Palisades Fire impact video, January 2025</p>
         </div>
       </div>
+      <div class="cta-banner">Track More Fires! <a href="index.html#map-section">Go to Main Map</a></div>
 
-      <div class="cta-banner">Explore More! <a href="index.html#map-section">Track Fires Near You</a></div>
+      <h2>LA & Pacific Palisades Fires: January 2025</h2>
+      <p>These fires ravaged over 12,000 structures and displaced thousands. Eye on the Fire keeps you updated with live data and critical insights.</p>
 
-      <h2>Fire Safety Tips for Urban Wildfires</h2>
-      <p class="fires-text">The LA and Pacific Palisades fires highlight the unique challenges of urban wildfires. Here are some fire safety tips to help you prepare:</p>
+      <h2>Safety Tips</h2>
       <ul class="safety-tips">
-        <li><strong>Create a Defensible Space:</strong> Clear flammable materials within 30 feet of your home. Learn more from <a href="https://www.fire.ca.gov/programs/wildfire-prevention/defensible-space/" target="_blank" rel="nofollow" class="certificate-link">Cal Fire</a>.</li>
-        <li><strong>Prepare an Evacuation Plan:</strong> Plan multiple escape routes. Visit <a href="https://www.ready.gov/evacuation" target="_blank" rel="nofollow" class="certificate-link">Ready.gov</a> for tips.</li>
-        <li><strong>Stay Informed:</strong> Monitor live updates above or on our <a href="index.html#fires" class="certificate-link">homepage</a>.</li>
-        <li><strong>Emergency Kit:</strong> Include water, food, masks, and documents. See <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/make-a-plan.html" target="_blank" rel="nofollow" class="certificate-link">Red Cross</a>.</li>
+        <li><strong>Defensible Space:</strong> Clear vegetation within 30 feet of your home.</li>
+        <li><strong>Evacuation Plan:</strong> Plan multiple escape routes.</li>
+        <li><strong>Stay Informed:</strong> Use our live map for real-time updates.</li>
       </ul>
-      <p class="fires-text">For official updates, check <a href="https://www.lacounty.gov/emergency/" target="_blank" rel="nofollow" class="certificate-link">LA County Emergency Services</a>.</p>
-
-      <div class="cta-banner">Stay Prepared! <a href="index.html#prevention">Learn Prevention Tips</a></div>
-
-      <h2>Share Your Experience</h2>
-      <p class="fires-text">Have photos or videos from the LA and Pacific Palisades fires? Share them with our community at our <a href="index.html#community" class="certificate-link">Community Hub</a>.</p>
-
-      <h2>Stay Informed and Prepared</h2>
-      <p class="fires-text">Stay ahead of wildfires with our live updates and community insights.</p>
-      <div class="social-share">
-        <p>Share this page:</p>
-        <a href="https://twitter.com/intent/tweet?url=https://eyeonthefire.com/recent-fires.html&text=Check out these photos and videos from the LA and Pacific Palisades fires of 2025 on Eye on the Fire!" target="_blank" rel="nofollow" aria-label="Share on Twitter">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://eyeonthefire.com/recent-fires.html" target="_blank" rel="nofollow" aria-label="Share on Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://www.instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Share on Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-      </div>
-      <a href="index.html" class="cta-button">Return to Homepage</a>
+      <a href="index.html#prevention" class="cta-button">More Safety Tips</a>
     </div>
   </section>
 
@@ -271,17 +273,11 @@
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
-    <div class="cta-banner">Stay Safe! <a href="index.html#map-section">Use Our Live Fire Map</a></div>
+    <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
 
   <!-- Structured Data for SEO -->
@@ -290,7 +286,7 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Recent Fires - Eye on the Fire",
-    "description": "Interactive live wildfire map and updates for the LA and Pacific Palisades fires of January 2025, with photos, videos, and safety tips from Eye on the Fire LLC.",
+    "description": "Premier interactive live wildfire map and updates for recent fires like the LA and Pacific Palisades fires of January 2025, with media and safety tips.",
     "url": "https://eyeonthefire.com/recent-fires.html",
     "datePublished": "2025-03-25",
     "dateModified": "2025-04-11",
@@ -334,17 +330,7 @@
         "thumbnailUrl": "https://eyeonthefire.com/images/palisades-fire-video-poster.jpg",
         "uploadDate": "2025-03-25"
       }
-    ],
-    "about": {
-      "@type": "Place",
-      "name": "Pacific Palisades",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Pacific Palisades",
-        "addressRegion": "CA",
-        "addressCountry": "US"
-      }
-    }
+    ]
   }
   </script>
 
@@ -389,7 +375,7 @@
       try {
         const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
         const firmsResponse = await fetch(firmsUrl);
-        if (!firmsResponse.okV6B 2W9firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
+        if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
         const firmsText = await firmsResponse.text();
         const firmsLines = firmsText.split('\n').slice(1);
         firmsLines.forEach(line => {
@@ -495,6 +481,10 @@
     function toggleFullscreen() {
       document.getElementById('map-container').classList.toggle('fullscreen');
       map.invalidateSize();
+    }
+
+    function toggleMenu() {
+      document.querySelector('.nav-menu').classList.toggle('active');
     }
   </script>
 </body>
