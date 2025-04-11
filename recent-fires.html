@@ -355,7 +355,7 @@
     let showFires = true, showAirQuality = false;
     const FIRMS_API_KEY = 'd152217c8391eb5b0fbd242290527ae8';
     const AIRNOW_API_KEY = '54044855-7B0C-4023-BEE4-8B3FCA172DED';
-    const OPENCAGE_API_KEY = 'YOUR_OPENCAGE_API_KEY'; // Replace with your OpenCage key
+    const OPENCAGE_API_KEY = 'a40b9e954e50458bbc09ca24e70201a1';
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !map) {
@@ -389,7 +389,7 @@
       try {
         const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
         const firmsResponse = await fetch(firmsUrl);
-        if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
+        if (!firmsResponse.okV6B 2W9firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
         const firmsText = await firmsResponse.text();
         const firmsLines = firmsText.split('\n').slice(1);
         firmsLines.forEach(line => {
