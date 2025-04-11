@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eye on the Fire - Interactive Live Wildfire Monitoring & Safety</title>
-  <meta name="description" content="Monitor wildfires and air quality near you in real time with Eye on the Fire’s interactive map. Get live updates, prevention tips, and community resources to stay safe.">
-  <meta name="keywords" content="interactive wildfire map, live fire updates, fires near me, real-time air quality, fire safety, wildfire monitoring, Eye on the Fire">
+  <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
+  <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
+  <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/">
-  <meta property="og:title" content="Eye on the Fire - Interactive Live Wildfire Monitoring">
-  <meta property="og:description" content="Track wildfires and air quality near you live with our interactive map. Stay informed with real-time updates and safety resources.">
+  <meta property="og:title" content="Eye on the Fire - Premier Interactive Fire Map">
+  <meta property="og:description" content="Monitor active wildfires near you with Eye on the Fire’s interactive live map. Stay updated with real-time fire data and safety resources.">
   <meta property="og:url" content="https://eyeonthefire.com/">
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
@@ -36,11 +36,33 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #b22222;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    .navbar .logo img { height: 40px; }
+    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
+    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
+    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    .nav-menu li a:hover { text-decoration: underline; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger .line { width: 25px; height: 3px; background: #fff; }
+    .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
+    .hero p { font-size: 18px; margin: 0 0 20px; }
+    .map-section { padding: 20px; background: #f5f5f5; }
     .map-container {
       position: relative;
       width: 100%;
-      max-width: 1000px;
-      margin: 20px auto;
+      max-width: 1200px;
+      margin: 0 auto;
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
@@ -48,13 +70,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    #fire-map {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+    #fire-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     .map-header {
       position: absolute;
       top: 0;
@@ -80,9 +96,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .map-controls button, .location-form button {
-      display: inline-block;
+      display: block;
       margin: 5px 0;
-      padding: 8px 15px;
+      padding: 10px 15px;
       background: #b22222;
       color: #fff;
       border: none;
@@ -90,10 +106,9 @@
       cursor: pointer;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      font-size: 14px;
     }
-    .map-controls button:hover, .location-form button:hover {
-      background: #8b0000;
-    }
+    .map-controls button:hover, .location-form button:hover { background: #8b0000; }
     .location-form {
       position: absolute;
       top: 60px;
@@ -108,10 +123,11 @@
       gap: 5px;
     }
     .location-form input {
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
     }
     .location-form .disclosure {
       font-family: 'Open Sans', sans-serif;
@@ -130,6 +146,25 @@
       padding-bottom: 0;
       margin: 0;
     }
+    .content-section { padding: 40px 20px; text-align: center; }
+    .content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #b22222; }
+    .prevention-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
+    .prevention-item { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; max-width: 300px; }
+    .prevention-item h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 500; color: #333; }
+    .gallery { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .gallery-item img { width: 100%; max-width: 300px; border-radius: 8px; }
+    .cta-button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #b22222;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .cta-button:hover { background: #8b0000; }
     .cta-banner {
       background: #b22222;
       color: #fff;
@@ -141,144 +176,119 @@
       font-size: 18px;
       font-weight: 700;
     }
-    .cta-banner a {
-      color: #fff;
-      text-decoration: underline;
-    }
-    @media (max-width: 600px) {
-      .map-container {
-        padding-bottom: 75%;
-      }
-      .map-controls, .location-form {
-        top: 50px;
-        left: 5px;
-        right: auto;
-      }
-      .map-header {
-        font-size: 16px;
-        padding: 10px 0;
-      }
-      .cta-banner {
-        font-size: 14px;
-        padding: 10px;
-      }
+    .cta-banner a { color: #fff; text-decoration: underline; }
+    footer { background: #333; color: #fff; padding: 20px; text-align: center; }
+    footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; padding: 10px; }
+      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
+      .nav-menu.active { display: flex; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 16px; }
+      .map-container { max-width: 100%; padding-bottom: 75%; }
+      .map-header { font-size: 16px; padding: 10px 0; }
+      .map-controls, .location-form { top: 50px; left: 5px; right: auto; }
+      .prevention-item, .gallery-item img { max-width: 100%; }
+      .cta-button { padding: 12px 25px; font-size: 14px; }
+      .cta-banner { font-size: 16px; padding: 10px; }
     }
   </style>
 </head>
 <body>
-  <!-- Header with Parallax -->
-  <header class="parallax" style="background-image: url('/images/hero-bg.jpg');">
-    <nav class="navbar">
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-      <div class="logo">
-        <img src="/images/logo.png" alt="Eye on the Fire Logo">
-        <span class="logo-text">Eye on the Fire</span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="recent-fires.html">Recent Fires</a></li>
-        <li><a href="#fires">Fires Near Me</a></li>
-        <li><a href="#prevention">Prevention</a></li>
-        <li><a href="#community">Community</a></li>
-      </ul>
-    </nav>
-    <div class="hero">
-      <h1>Stay Ahead of the Flames</h1>
-      <p>Track wildfires live with our interactive map.</p>
-      <a href="#map-section" class="cta-button">Explore the Map Now</a>
+  <!-- Header -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="/images/logo.png" alt="Eye on the Fire Logo">
+      <span class="logo-text">Eye on the Fire</span>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#map-section">Fire Map</a></li>
+      <li><a href="recent-fires.html">Recent Fires</a></li>
+      <li><a href="#prevention">Prevention</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="status.html">Status</a></li>
+    </ul>
+  </nav>
+  <header class="hero">
+    <h1>Your Premier Fire Monitoring Hub</h1>
+    <p>Track active wildfires near you with our cutting-edge interactive map.</p>
+    <a href="#map-section" class="cta-button">Start Monitoring Now</a>
   </header>
 
   <!-- Real-Time Fire Map Section -->
   <section class="map-section" id="map-section">
-    <div class="content-wrapper">
-      <div class="map-container" id="map-container">
-        <div class="map-header">Real-Time Wildfire & Air Quality Map</div>
-        <div class="map-controls">
-          <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
-          <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
-          <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
-          <button onclick="toggleAirQuality()" aria-label="Toggle air quality markers">Toggle Air Quality</button>
-          <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
-        </div>
-        <div class="location-form">
-          <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-          <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
-          <p class="disclosure">USA & Canada only</p>
-        </div>
-        <div id="fire-map"></div>
+    <div class="map-container" id="map-container">
+      <div class="map-header">Interactive Live Fire Map</div>
+      <div class="map-controls">
+        <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
+        <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
+        <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
+        <button onclick="toggleAirQuality()" aria-label="Toggle air quality markers">Toggle Air Quality</button>
+        <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
+      </div>
+      <div class="location-form">
+        <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
+        <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
+        <p class="disclosure">USA & Canada only</p>
+      </div>
+      <div id="fire-map"></div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="content-section">
+    <h2>Why Eye on the Fire?</h2>
+    <p>Eye on the Fire is the ultimate destination for real-time wildfire tracking. Our interactive map delivers live updates on active fires near you, empowering you with the information to stay safe and informed.</p>
+    <a href="#map-section" class="cta-button">Explore the Fire Map</a>
+  </section>
+
+  <!-- Prevention Tips -->
+  <section id="prevention" class="content-section">
+    <h2>Stay Safe with Expert Tips</h2>
+    <div class="prevention-grid">
+      <div class="prevention-item">
+        <h3>Defensible Space</h3>
+        <p>Clear vegetation within 30 feet of your home to reduce fire risk.</p>
+      </div>
+      <div class="prevention-item">
+        <h3>Smoke Alarms</h3>
+        <p>Test detectors monthly for early fire detection.</p>
+      </div>
+      <div class="prevention-item">
+        <h3>Evacuation Plan</h3>
+        <p>Plan and practice escape routes for emergencies.</p>
       </div>
     </div>
+    <div class="cta-banner">Monitor Fires Now! <a href="#map-section">Check the Live Map</a></div>
   </section>
 
-  <!-- Fires Near Me -->
-  <section id="fires" class="content-section">
-    <div class="content-wrapper">
-      <h2>Fires Near Me</h2>
-      <p>Use the map above or enter your zip code to track fires in your area.</p>
-      <div class="cta-banner">Stay Informed! <a href="#map-section">Monitor Live Fires Near You</a></div>
-    </div>
-  </section>
-
-  <!-- Prevention Resources -->
-  <section id="prevention" class="parallax" style="background-image: url('/images/prevention-bg.jpg');">
-    <div class="content-overlay">
-      <h2>Fire Prevention Tips</h2>
-      <div class="prevention-grid">
-        <div class="prevention-item fade-in">
-          <h3>Defensible Space</h3>
-          <p>Clear vegetation within 30 feet of your home.</p>
-        </div>
-        <div class="prevention-item fade-in">
-          <h3>Smoke Alarms</h3>
-          <p>Test detectors monthly for early warnings.</p>
-        </div>
-        <div class="prevention-item fade-in">
-          <h3>Evacuation Plan</h3>
-          <p>Practice a family escape route twice a year.</p>
-        </div>
-      </div>
-      <div class="cta-banner">See Fires in Real Time! <a href="#map-section">Check the Live Map</a></div>
-    </div>
-  </section>
-
-  <!-- Community Section -->
+  <!-- Community Hub -->
   <section id="community" class="content-section">
-    <div class="content-wrapper">
-      <h2>Community Hub</h2>
-      <p>Share your fire experiences with photos and videos.</p>
-      <div class="upload-form">
-        <input type="file" accept="image/*,video/*" id="upload-input">
-        <button onclick="alert('Upload functionality coming soon!')">Submit</button>
-      </div>
-      <div class="gallery">
-        <div class="gallery-item"><img src="/images/gallery-firefighter.jpg" alt="Firefighter battling blaze"></div>
-        <div class="gallery-item"><img src="/images/gallery-aftermath.jpg" alt="Community wildfire recovery"></div>
-      </div>
-      <div class="cta-banner">Join Our Community! <a href="recent-fires.html">Track Recent Fires Live</a></div>
+    <h2>Join Our Community</h2>
+    <p>Connect with others, share experiences, and stay updated on active fires through our interactive platform.</p>
+    <div class="gallery">
+      <div class="gallery-item"><img src="/images/gallery-firefighter.jpg" alt="Firefighter battling blaze"></div>
+      <div class="gallery-item"><img src="/images/gallery-aftermath.jpg" alt="Community wildfire recovery"></div>
     </div>
+    <a href="recent-fires.html" class="cta-button">See Recent Fires</a>
   </section>
 
   <!-- Footer -->
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
-    <div class="cta-banner">Stay Safe! <a href="#map-section">Use Our Live Fire Map</a></div>
+    <div class="cta-banner">Stay Ahead! <a href="#map-section">Track Fires Live</a></div>
   </footer>
 
   <!-- Structured Data for SEO -->
@@ -288,10 +298,10 @@
     "@type": "WebSite",
     "name": "Eye on the Fire",
     "url": "https://eyeonthefire.com/",
-    "description": "Interactive live wildfire monitoring, air quality updates, prevention tips, and community resources.",
+    "description": "The premier destination for interactive live wildfire monitoring, real-time updates, and fire safety resources.",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://eyeonthefire.com/#fires?q={search_term_string}",
+      "target": "https://eyeonthefire.com/#map-section?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -444,6 +454,10 @@
     function toggleFullscreen() {
       document.getElementById('map-container').classList.toggle('fullscreen');
       map.invalidateSize();
+    }
+
+    function toggleMenu() {
+      document.querySelector('.nav-menu').classList.toggle('active');
     }
   </script>
 
