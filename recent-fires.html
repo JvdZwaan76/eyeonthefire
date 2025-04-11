@@ -339,7 +339,7 @@
         firmsLines.forEach(line => {
           const [lat, lon, , , acqDate, acqTime] = line.split(',');
           if (lat && lon) {
-            L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785145.png', iconSize: [25, 25] }) })
+            L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
               .addTo(fireLayer)
               .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
           }
@@ -355,7 +355,7 @@
         nifcData.features.forEach(feature => {
           const { coordinates } = feature.geometry;
           const { IncidentName, Acres, PercentContained } = feature.properties;
-          L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785145.png', iconSize: [25, 25] }) })
+          L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
             .addTo(fireLayer)
             .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
         });
