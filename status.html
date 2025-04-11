@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eye on the Fire - System Status</title>
+  <meta name="description" content="Check the real-time status of Eye on the Fire's services, including fire updates, prevention resources, and community features.">
+  <meta name="keywords" content="eye on the fire status, website status, fire updates status, system status">
+  <meta name="author" content="Eye on the Fire Team">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://eyeonthefire.com/status">
+  <meta property="og:title" content="Eye on the Fire - System Status">
+  <meta property="og:description" content="Real-time status updates for Eye on the Fire's services.">
+  <meta property="og:url" content="https://eyeonthefire.com/status">
+  <meta property="og:image" content="/images/hero-bg.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Favicon Links -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=3" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+  <link rel="shortcut icon" href="/favicon.ico?v=3" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+  <meta name="apple-mobile-web-app-title" content="eyeonthefire" />
+  <link rel="manifest" href="/site.webmanifest?v=3" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background-color: #b22222;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    header .logo img {
+      height: 40px;
+    }
+    header .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    nav {
+      background-color: #8b0000;
+      padding: 10px 0;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    .status-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .status-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .status-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #b22222;
+    }
+    .status-header p {
+      font-size: 16px;
+      color: #666;
+    }
+    .status-list {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    .status-item h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .status-indicator .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .status-indicator .dot.operational {
+      background-color: #28a745;
+    }
+    .status-indicator .dot.maintenance {
+      background-color: #ffc107;
+    }
+    .status-indicator .dot.downtime {
+      background-color: #dc3545;
+    }
+    .status-indicator span {
+      font-size: 14px;
+      color: #333;
+    }
+    .status-footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #666;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    footer .social-icons {
+      margin-top: 10px;
+    }
+    footer .social-icons a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 18px;
+    }
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .status-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="/images/logo.png" alt="Eye on the Fire Logo">
+      <span class="logo-text">Eye on the Fire</span>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/about.html">About Us</a></li>
+      <li><a href="/recent-fires.html">Recent Fires</a></li>
+      <li><a href="/#fires">Fires Near Me</a></li>
+      <li><a href="/#prevention">Prevention</a></li>
+      <li><a href="/#community">Community</a></li>
+    </ul>
+  </nav>
+  <div class="status-container">
+    <div class="status-header">
+      <h1>System Status</h1>
+      <p>Real-time updates on the operational status of Eye on the Fire's services.</p>
+    </div>
+    <div class="status-list">
+      <div class="status-item">
+        <h3>Website</h3>
+        <div class="status-indicator">
+          <div class="dot operational"></div>
+          <span>Operational</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <h3>Fire Updates API</h3>
+        <div class="status-indicator">
+          <div class="dot operational"></div>
+          <span>Operational</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <h3>Fires Near Me Search</h3>
+        <div class="status-indicator">
+          <div class="dot maintenance"></div>
+          <span>Under Maintenance</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <h3>Community Uploads</h3>
+        <div class="status-indicator">
+          <div class="dot operational"></div>
+          <span>Operational</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <h3>Prevention Resources</h3>
+        <div class="status-indicator">
+          <div class="dot operational"></div>
+          <span>Operational</span>
+        </div>
+      </div>
+    </div>
+    <div class="status-footer">
+      <p>Last updated: April 11, 2025, 12:00 UTC</p>
+      <p>Experiencing issues? <a href="mailto:support@eyeonthefire.com">Contact Support</a></p>
+    </div>
+  </div>
+  <footer>
+    <p>© 2025 Eye on the Fire | <a href="/#privacy">Privacy</a> | <a href="/#terms">Terms</a></p>
+    <div class="social-icons">
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </footer>
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Eye on the Fire - System Status",
+    "url": "https://eyeonthefire.com/status",
+    "description": "Real-time status updates for Eye on the Fire's services, including fire updates, prevention resources, and community features."
+  }
+  </script>
+</body>
+</html>
