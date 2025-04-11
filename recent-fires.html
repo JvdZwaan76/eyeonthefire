@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recent Fires - Eye on the Fire | LA & Pacific Palisades Fires 2025</title>
-  <meta name="description" content="Monitor real-time wildfires and air quality across the U.S., including the LA and Pacific Palisades fires of January 2025. Explore photos, videos, and safety tips with Eye on the Fire LLC.">
-  <meta name="keywords" content="LA fires 2025, Pacific Palisades fire, Eaton fire, real-time wildfire map, air quality, fire safety, Eye on the Fire">
+  <title>Recent Fires - Eye on the Fire | Interactive Wildfire Map & Updates</title>
+  <meta name="description" content="Track the LA and Pacific Palisades fires of January 2025 live with our interactive wildfire map. View photos, videos, and safety tips from Eye on the Fire LLC.">
+  <meta name="keywords" content="LA fires 2025, Pacific Palisades fire, Eaton fire, interactive wildfire map, live fire updates, fire safety, Eye on the Fire">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:title" content="Recent Fires - Eye on the Fire">
-  <meta property="og:description" content="Monitor real-time wildfires and air quality, including the LA and Pacific Palisades fires of 2025, with photos, videos, and safety tips.">
+  <meta property="og:description" content="Monitor the LA and Pacific Palisades fires of 2025 live with our interactive map, plus photos, videos, and safety tips.">
   <meta property="og:url" content="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:image" content="/images/palisades-fire-highway-smoke.jpg">
   <meta property="og:type" content="website">
@@ -41,7 +41,7 @@
       width: 100%;
       max-width: 800px;
       margin: 20px auto;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
       border: 2px solid #b22222;
@@ -79,19 +79,38 @@
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .map-controls button {
-      display: block;
+    .map-controls button, .location-form button {
+      display: inline-block;
       margin: 5px 0;
-      padding: 5px 10px;
+      padding: 8px 15px;
       background: #b22222;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
     }
-    .map-controls button:hover {
+    .map-controls button:hover, .location-form button:hover {
       background: #8b0000;
+    }
+    .location-form {
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      z-index: 1000;
+      background: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 10px;
+    }
+    .location-form input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Open Sans', sans-serif;
     }
     .fullscreen {
       position: fixed;
@@ -103,13 +122,34 @@
       padding-bottom: 0;
       margin: 0;
     }
+    .cta-banner {
+      background: #b22222;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .cta-banner a {
+      color: #fff;
+      text-decoration: underline;
+    }
     @media (max-width: 600px) {
       .map-container {
-        padding-bottom: 75%; /* 4:3 for mobile */
+        padding-bottom: 75%;
       }
-      .map-controls {
+      .map-controls, .location-form {
         top: 40px;
         left: 5px;
+        right: auto;
+        flex-direction: column;
+      }
+      .cta-banner {
+        font-size: 14px;
+        padding: 10px;
       }
     }
   </style>
@@ -138,25 +178,30 @@
     </nav>
     <div class="hero">
       <h1>Recent Fires</h1>
-      <p>Media from the LA and Pacific Palisades Fires, January 2025</p>
+      <p>Track wildfires live with our interactive map.</p>
+      <a href="#fires-section" class="cta-button">Explore the Map Now</a>
     </div>
   </header>
 
   <!-- Recent Fires Section -->
-  <section class="recent-fires-section">
+  <section class="recent-fires-section" id="fires-section">
     <div class="content-wrapper recent-fires-content">
       <h2>The LA and Pacific Palisades Fires of January 2025</h2>
-      <p class="fires-text">The Palisades and Eaton Fires, which ignited on January 7, 2025, caused unprecedented devastation across the Los Angeles area, including Pacific Palisades, Malibu, Altadena, and Pasadena. Fueled by dry conditions and strong winds, these fires destroyed over 12,000 structures, claimed at least 24 lives, and displaced thousands, according to Los Angeles County officials. The Palisades Fire alone scorched beachfront properties along the Pacific Coast Highway, while the Eaton Fire ravaged hillside communities in Altadena. At <a href="index.html" class="certificate-link">Eye on the Fire LLC</a>, we are committed to raising awareness about the importance of fire safety and preparedness. Below, monitor real-time wildfire activity and air quality across the U.S., followed by personal photos and videos capturing the impact of these fires.</p>
+      <p class="fires-text">The Palisades and Eaton Fires, which ignited on January 7, 2025, caused unprecedented devastation across the Los Angeles area, including Pacific Palisades, Malibu, Altadena, and Pasadena. Fueled by dry conditions and strong winds, these fires destroyed over 12,000 structures, claimed at least 24 lives, and displaced thousands, according to Los Angeles County officials. Below, monitor real-time wildfire activity and air quality across the U.S.</p>
 
       <!-- Custom Fire Map -->
       <div class="map-container" id="map-container">
-        <div class="map-header">Eye on the Fire Live Wildfire Map</div>
+        <div class="map-header">Real-Time Wildfire & Air Quality Map</div>
         <div class="map-controls">
           <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
           <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
           <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
           <button onclick="toggleAirQuality()" aria-label="Toggle air quality markers">Toggle Air Quality</button>
           <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
+        </div>
+        <div class="location-form">
+          <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
+          <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
         </div>
         <div id="fire-map"></div>
       </div>
@@ -179,21 +224,25 @@
         </div>
       </div>
 
+      <div class="cta-banner">Explore More! <a href="index.html#map-section">Track Fires Near You</a></div>
+
       <h2>Fire Safety Tips for Urban Wildfires</h2>
-      <p class="fires-text">The LA and Pacific Palisades fires highlight the unique challenges of urban wildfires, where densely populated areas meet flammable vegetation. Here are some fire safety tips to help you prepare:</p>
+      <p class="fires-text">The LA and Pacific Palisades fires highlight the unique challenges of urban wildfires. Here are some fire safety tips to help you prepare:</p>
       <ul class="safety-tips">
-        <li><strong>Create a Defensible Space:</strong> Clear flammable materials like dry leaves and brush within 30 feet of your home, especially in areas like Pacific Palisades where homes border wildland. Learn more from <a href="https://www.fire.ca.gov/programs/wildfire-prevention/defensible-space/" target="_blank" rel="nofollow" class="certificate-link">Cal Fire’s Defensible Space Guide</a>.</li>
-        <li><strong>Prepare an Evacuation Plan:</strong> Have multiple escape routes planned, as roads like the Pacific Coast Highway can become congested during evacuations. Visit <a href="https://www.ready.gov/evacuation" target="_blank" rel="nofollow" class="certificate-link">Ready.gov</a> for evacuation planning tips.</li>
-        <li><strong>Stay Informed:</strong> Monitor <a href="index.html#fires" class="certificate-link">real-time fire updates</a> to stay ahead of rapidly spreading fires like the Eaton Fire in Altadena.</li>
-        <li><strong>Assemble an Emergency Kit:</strong> Include essentials like water, food, masks (for smoke inhalation), and important documents. The <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/make-a-plan.html" target="_blank" rel="nofollow" class="certificate-link">American Red Cross</a> provides a detailed checklist.</li>
+        <li><strong>Create a Defensible Space:</strong> Clear flammable materials within 30 feet of your home. Learn more from <a href="https://www.fire.ca.gov/programs/wildfire-prevention/defensible-space/" target="_blank" rel="nofollow" class="certificate-link">Cal Fire</a>.</li>
+        <li><strong>Prepare an Evacuation Plan:</strong> Plan multiple escape routes. Visit <a href="https://www.ready.gov/evacuation" target="_blank" rel="nofollow" class="certificate-link">Ready.gov</a> for tips.</li>
+        <li><strong>Stay Informed:</strong> Monitor live updates above or on our <a href="index.html#fires" class="certificate-link">homepage</a>.</li>
+        <li><strong>Emergency Kit:</strong> Include water, food, masks, and documents. See <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/make-a-plan.html" target="_blank" rel="nofollow" class="certificate-link">Red Cross</a>.</li>
       </ul>
-      <p class="fires-text">For official updates on LA wildfires, check the <a href="https://www.lacounty.gov/emergency/" target="_blank" rel="nofollow" class="certificate-link">LA County Emergency Services</a> or the <a href="https://www.caloes.ca.gov/" target="_blank" rel="nofollow" class="certificate-link">California Governor’s Office of Emergency Services</a>.</p>
+      <p class="fires-text">For official updates, check <a href="https://www.lacounty.gov/emergency/" target="_blank" rel="nofollow" class="certificate-link">LA County Emergency Services</a>.</p>
+
+      <div class="cta-banner">Stay Prepared! <a href="index.html#prevention">Learn Prevention Tips</a></div>
 
       <h2>Share Your Experience</h2>
-      <p class="fires-text">Have your own photos or videos from the LA and Pacific Palisades fires? Share them with our community to help raise awareness and support others. Visit our <a href="index.html#community" class="certificate-link">Community Hub</a> to contribute.</p>
+      <p class="fires-text">Have photos or videos from the LA and Pacific Palisades fires? Share them with our community at our <a href="index.html#community" class="certificate-link">Community Hub</a>.</p>
 
       <h2>Stay Informed and Prepared</h2>
-      <p class="fires-text">The LA and Pacific Palisades fires are a stark reminder of the importance of fire safety. Stay informed with <a href="index.html#fires" class="certificate-link">real-time fire updates</a> and join our <a href="index.html#community" class="certificate-link">community</a> to share and learn from others’ experiences.</p>
+      <p class="fires-text">Stay ahead of wildfires with our live updates and community insights.</p>
       <div class="social-share">
         <p>Share this page:</p>
         <a href="https://twitter.com/intent/tweet?url=https://eyeonthefire.com/recent-fires.html&text=Check out these photos and videos from the LA and Pacific Palisades fires of 2025 on Eye on the Fire!" target="_blank" rel="nofollow" aria-label="Share on Twitter">
@@ -224,6 +273,7 @@
         <i class="fab fa-instagram"></i>
       </a>
     </div>
+    <div class="cta-banner">Stay Safe! <a href="index.html#map-section">Use Our Live Fire Map</a></div>
   </footer>
 
   <!-- Structured Data for SEO -->
@@ -232,7 +282,7 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Recent Fires - Eye on the Fire",
-    "description": "Media from the LA and Pacific Palisades fires of January 2025, highlighting the importance of fire safety and preparedness with Eye on the Fire LLC.",
+    "description": "Interactive live wildfire map and updates for the LA and Pacific Palisades fires of January 2025, with photos, videos, and safety tips from Eye on the Fire LLC.",
     "url": "https://eyeonthefire.com/recent-fires.html",
     "datePublished": "2025-03-25",
     "dateModified": "2025-04-11",
@@ -297,27 +347,26 @@
     let showFires = true, showAirQuality = false;
     const FIRMS_API_KEY = 'd152217c8391eb5b0fbd242290527ae8';
     const AIRNOW_API_KEY = '54044855-7B0C-4023-BEE4-8B3FCA172DED';
+    const OPENCAGE_API_KEY = 'YOUR_OPENCAGE_API_KEY'; // Replace with your OpenCage key
 
-    // Lazy Load Map
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !map) {
         initMap();
         loadFireData();
         observer.unobserve(document.getElementById('map-container'));
-        setInterval(loadFireData, 900000); // Refresh every 15 minutes
+        setInterval(loadFireData, 900000);
       }
     });
     observer.observe(document.getElementById('map-container'));
 
     function initMap() {
-      map = L.map('fire-map').setView([34.0522, -118.2437], 10); // LA default
+      map = L.map('fire-map').setView([34.0522, -118.2437], 10);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS, NIFC, AirNow, NOAA'
       }).addTo(map);
       fireLayer = L.layerGroup().addTo(map);
       airQualityLayer = L.layerGroup();
 
-      // Optional: Center on user location
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           map.setView([pos.coords.latitude, pos.coords.longitude], 10);
@@ -325,12 +374,11 @@
       }
     }
 
-    async function loadFireData() {
+    async function loadFireData(lat = 34.0522, lon = -118.2437) {
       fireLayer.clearLayers();
       airQualityLayer.clearLayers();
 
       try {
-        // NASA FIRMS
         const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
         const firmsResponse = await fetch(firmsUrl);
         if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
@@ -347,7 +395,6 @@
       } catch (e) { console.error('FIRMS Error:', e); }
 
       try {
-        // NIFC Open Data
         const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
         const nifcResponse = await fetch(nifcUrl);
         if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
@@ -362,8 +409,7 @@
       } catch (e) { console.error('NIFC Error:', e); }
 
       try {
-        // AirNow
-        const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=34.0522&longitude=-118.2437&distance=100&API_KEY=${AIRNOW_API_KEY}`;
+        const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${lon}&distance=100&API_KEY=${AIRNOW_API_KEY}`;
         const airNowResponse = await fetch(airNowUrl);
         if (!airNowResponse.ok) throw new Error(`AirNow API failed: ${airNowResponse.status}`);
         const airNowData = await airNowResponse.json();
@@ -378,7 +424,6 @@
       } catch (e) { console.error('AirNow Error:', e); }
 
       try {
-        // NOAA/NWS Fire Weather
         const nwsUrl = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch';
         const nwsResponse = await fetch(nwsUrl, { headers: { 'User-Agent': 'EyeOnTheFire (info@eyeonthefire.com)' } });
         if (!nwsResponse.ok) throw new Error(`NOAA API failed: ${nwsResponse.status}`);
@@ -395,12 +440,34 @@
     }
 
     function aqiColor(aqi) {
-      if (aqi <= 50) return '#00e400'; // Good
-      if (aqi <= 100) return '#ffff00'; // Moderate
-      if (aqi <= 150) return '#ff7e00'; // Unhealthy for Sensitive Groups
-      if (aqi <= 200) return '#ff0000'; // Unhealthy
-      if (aqi <= 300) return '#8f3f97'; // Very Unhealthy
-      return '#7e0023'; // Hazardous
+      if (aqi <= 50) return '#00e400';
+      if (aqi <= 100) return '#ffff00';
+      if (aqi <= 150) return '#ff7e00';
+      if (aqi <= 200) return '#ff0000';
+      if (aqi <= 300) return '#8f3f97';
+      return '#7e0023';
+    }
+
+    async function checkFiresNow() {
+      const zip = document.getElementById('zip-input').value;
+      if (!zip) {
+        alert('Please enter a zip code.');
+        return;
+      }
+      try {
+        const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${zip}&key=${OPENCAGE_API_KEY}&countrycode=us`);
+        const data = await response.json();
+        if (data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry;
+          map.setView([lat, lng], 10);
+          loadFireData(lat, lng);
+        } else {
+          alert('Invalid zip code. Please try again.');
+        }
+      } catch (e) {
+        console.error('Geocoding Error:', e);
+        alert('Error finding location. Please try again.');
+      }
     }
 
     function zoomToCA() { map.setView([36.7783, -119.4179], 6); }
