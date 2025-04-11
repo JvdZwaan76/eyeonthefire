@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recent Fires - Eye on the Fire | LA & Pacific Palisades Fires 2025</title>
-  <meta name="description" content="Explore photos and videos from the LA and Pacific Palisades fires of January 2025, including the Palisades and Eaton Fires. Learn fire safety tips for urban wildfires and how to prepare with Eye on the Fire LLC.">
-  <meta name="keywords" content="LA fires 2025, Pacific Palisades fire, Eaton fire, fire safety awareness, LA wildfires 2025 safety tips, Pacific Palisades fire photos 2025, Eaton Fire impact Altadena, fire safety during LA fires, Eye on the Fire">
+  <meta name="description" content="Monitor real-time wildfires and air quality across the U.S., including the LA and Pacific Palisades fires of January 2025. Explore photos, videos, and safety tips with Eye on the Fire LLC.">
+  <meta name="keywords" content="LA fires 2025, Pacific Palisades fire, Eaton fire, real-time wildfire map, air quality, fire safety, Eye on the Fire">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:title" content="Recent Fires - Eye on the Fire">
-  <meta property="og:description" content="Explore photos and videos from the LA and Pacific Palisades fires of January 2025, including the Palisades and Eaton Fires. Learn fire safety tips for urban wildfires and how to prepare.">
+  <meta property="og:description" content="Monitor real-time wildfires and air quality, including the LA and Pacific Palisades fires of 2025, with photos, videos, and safety tips.">
   <meta property="og:url" content="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:image" content="/images/palisades-fire-highway-smoke.jpg">
   <meta property="og:type" content="website">
@@ -31,8 +31,88 @@
   </script>
   <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    .map-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border: 2px solid #b22222;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #fire-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .map-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(178, 34, 34, 0.9);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+    .map-controls {
+      position: absolute;
+      top: 50px;
+      left: 10px;
+      z-index: 1000;
+      background: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .map-controls button {
+      display: block;
+      margin: 5px 0;
+      padding: 5px 10px;
+      background: #b22222;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .map-controls button:hover {
+      background: #8b0000;
+    }
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      padding-bottom: 0;
+      margin: 0;
+    }
+    @media (max-width: 600px) {
+      .map-container {
+        padding-bottom: 75%; /* 4:3 for mobile */
+      }
+      .map-controls {
+        top: 40px;
+        left: 5px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -66,7 +146,21 @@
   <section class="recent-fires-section">
     <div class="content-wrapper recent-fires-content">
       <h2>The LA and Pacific Palisades Fires of January 2025</h2>
-      <p class="fires-text">The Palisades and Eaton Fires, which ignited on January 7, 2025, caused unprecedented devastation across the Los Angeles area, including Pacific Palisades, Malibu, Altadena, and Pasadena. Fueled by dry conditions and strong winds, these fires destroyed over 12,000 structures, claimed at least 24 lives, and displaced thousands, according to Los Angeles County officials. The Palisades Fire alone scorched beachfront properties along the Pacific Coast Highway, while the Eaton Fire ravaged hillside communities in Altadena. At <a href="index.html" class="certificate-link">Eye on the Fire LLC</a>, we are committed to raising awareness about the importance of fire safety and preparedness. Below are personal photos and videos capturing the impact of these fires, shared to highlight the need for vigilance and community support. Learn more about our mission on our <a href="about.html" class="certificate-link">About Us</a> page, or explore <a href="index.html#prevention" class="certificate-link">fire prevention tips</a> to stay safe.</p>
+      <p class="fires-text">The Palisades and Eaton Fires, which ignited on January 7, 2025, caused unprecedented devastation across the Los Angeles area, including Pacific Palisades, Malibu, Altadena, and Pasadena. Fueled by dry conditions and strong winds, these fires destroyed over 12,000 structures, claimed at least 24 lives, and displaced thousands, according to Los Angeles County officials. The Palisades Fire alone scorched beachfront properties along the Pacific Coast Highway, while the Eaton Fire ravaged hillside communities in Altadena. At <a href="index.html" class="certificate-link">Eye on the Fire LLC</a>, we are committed to raising awareness about the importance of fire safety and preparedness. Below, monitor real-time wildfire activity and air quality across the U.S., followed by personal photos and videos capturing the impact of these fires.</p>
+
+      <!-- Custom Fire Map -->
+      <div class="map-container" id="map-container">
+        <div class="map-header">Eye on the Fire Live Wildfire Map</div>
+        <div class="map-controls">
+          <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
+          <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
+          <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
+          <button onclick="toggleAirQuality()" aria-label="Toggle air quality markers">Toggle Air Quality</button>
+          <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
+        </div>
+        <div id="fire-map"></div>
+      </div>
+
       <div class="fire-media">
         <div class="media-item">
           <img src="/images/palisades-fire-highway-smoke.jpg" alt="Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025">
@@ -141,7 +235,7 @@
     "description": "Media from the LA and Pacific Palisades fires of January 2025, highlighting the importance of fire safety and preparedness with Eye on the Fire LLC.",
     "url": "https://eyeonthefire.com/recent-fires.html",
     "datePublished": "2025-03-25",
-    "dateModified": "2025-03-25",
+    "dateModified": "2025-04-11",
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -196,6 +290,133 @@
   }
   </script>
 
-  <script src="scripts.js"></script>
+  <!-- Leaflet JS and Map Logic -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    let map, fireLayer, airQualityLayer;
+    let showFires = true, showAirQuality = false;
+    const FIRMS_API_KEY = 'd152217c8391eb5b0fbd242290527ae8';
+    const AIRNOW_API_KEY = '54044855-7B0C-4023-BEE4-8B3FCA172DED';
+
+    // Lazy Load Map
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !map) {
+        initMap();
+        loadFireData();
+        observer.unobserve(document.getElementById('map-container'));
+        setInterval(loadFireData, 900000); // Refresh every 15 minutes
+      }
+    });
+    observer.observe(document.getElementById('map-container'));
+
+    function initMap() {
+      map = L.map('fire-map').setView([34.0522, -118.2437], 10); // LA default
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS, NIFC, AirNow, NOAA'
+      }).addTo(map);
+      fireLayer = L.layerGroup().addTo(map);
+      airQualityLayer = L.layerGroup();
+
+      // Optional: Center on user location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          map.setView([pos.coords.latitude, pos.coords.longitude], 10);
+        }, () => console.log('Geolocation denied'));
+      }
+    }
+
+    async function loadFireData() {
+      fireLayer.clearLayers();
+      airQualityLayer.clearLayers();
+
+      try {
+        // NASA FIRMS
+        const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
+        const firmsResponse = await fetch(firmsUrl);
+        if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
+        const firmsText = await firmsResponse.text();
+        const firmsLines = firmsText.split('\n').slice(1);
+        firmsLines.forEach(line => {
+          const [lat, lon, , , acqDate, acqTime] = line.split(',');
+          if (lat && lon) {
+            L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785145.png', iconSize: [25, 25] }) })
+              .addTo(fireLayer)
+              .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
+          }
+        });
+      } catch (e) { console.error('FIRMS Error:', e); }
+
+      try {
+        // NIFC Open Data
+        const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
+        const nifcResponse = await fetch(nifcUrl);
+        if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
+        const nifcData = await nifcResponse.json();
+        nifcData.features.forEach(feature => {
+          const { coordinates } = feature.geometry;
+          const { IncidentName, Acres, PercentContained } = feature.properties;
+          L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/785/785145.png', iconSize: [25, 25] }) })
+            .addTo(fireLayer)
+            .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+        });
+      } catch (e) { console.error('NIFC Error:', e); }
+
+      try {
+        // AirNow
+        const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=34.0522&longitude=-118.2437&distance=100&API_KEY=${AIRNOW_API_KEY}`;
+        const airNowResponse = await fetch(airNowUrl);
+        if (!airNowResponse.ok) throw new Error(`AirNow API failed: ${airNowResponse.status}`);
+        const airNowData = await airNowResponse.json();
+        airNowData.forEach(station => {
+          const { Latitude, Longitude, AQI, ParameterName, Category } = station;
+          if (ParameterName === 'PM2.5') {
+            L.circleMarker([Latitude, Longitude], { radius: 10, color: aqiColor(AQI), fillOpacity: 0.5 })
+              .addTo(airQualityLayer)
+              .bindPopup(`PM2.5 AQI: ${AQI}<br>Category: ${Category.Name}`);
+          }
+        });
+      } catch (e) { console.error('AirNow Error:', e); }
+
+      try {
+        // NOAA/NWS Fire Weather
+        const nwsUrl = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch';
+        const nwsResponse = await fetch(nwsUrl, { headers: { 'User-Agent': 'EyeOnTheFire (info@eyeonthefire.com)' } });
+        if (!nwsResponse.ok) throw new Error(`NOAA API failed: ${nwsResponse.status}`);
+        const nwsData = await nwsResponse.json();
+        nwsData.features.forEach(alert => {
+          const { coordinates } = alert.geometry;
+          if (coordinates && coordinates[0]) {
+            L.polygon(coordinates[0].map(coord => [coord[1], coord[0]]), { color: '#ff4500', fillOpacity: 0.3 })
+              .addTo(fireLayer)
+              .bindPopup(alert.properties.headline);
+          }
+        });
+      } catch (e) { console.error('NOAA Error:', e); }
+    }
+
+    function aqiColor(aqi) {
+      if (aqi <= 50) return '#00e400'; // Good
+      if (aqi <= 100) return '#ffff00'; // Moderate
+      if (aqi <= 150) return '#ff7e00'; // Unhealthy for Sensitive Groups
+      if (aqi <= 200) return '#ff0000'; // Unhealthy
+      if (aqi <= 300) return '#8f3f97'; // Very Unhealthy
+      return '#7e0023'; // Hazardous
+    }
+
+    function zoomToCA() { map.setView([36.7783, -119.4179], 6); }
+    function zoomToUS() { map.setView([37.0902, -95.7129], 4); }
+    function toggleFires() {
+      showFires = !showFires;
+      showFires ? fireLayer.addTo(map) : fireLayer.remove();
+    }
+    function toggleAirQuality() {
+      showAirQuality = !showAirQuality;
+      showAirQuality ? airQualityLayer.addTo(map) : airQualityLayer.remove();
+    }
+    function toggleFullscreen() {
+      document.getElementById('map-container').classList.toggle('fullscreen');
+      map.invalidateSize();
+    }
+  </script>
 </body>
 </html>
