@@ -54,7 +54,7 @@ body {
   .nav-menu { display: none; flex-direction: column; width: 100%; }
   .nav-menu.active { display: flex; }
   .hamburger { display: block; }
-  .hamburger.active .line:nth-child(2) { opacity: 0; }
+  .hamburger.active .line:nth-child(2) { opacity: 0; X}
   .hamburger.active .line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   .hamburger.active .line:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 }
