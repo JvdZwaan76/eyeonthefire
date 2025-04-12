@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recent Fires - Eye on the Fire</title>
-  <meta name="description" content="Explore recent wildfires like the LA and Pacific Palisades fires of 2025 with Eye on the Fire’s interactive live map.">
-  <meta name="keywords" content="recent wildfires, LA fires 2025, Pacific Palisades fire, interactive fire map, Eye on the Fire">
+  <title>Recent Fires - Eye on the Fire | Premier Live Fire Map</title>
+  <meta name="description" content="Explore recent wildfires like the LA and Pacific Palisades fires of 2025 with Eye on the Fire’s premier interactive live map. Access real-time updates, media, and safety tips.">
+  <meta name="keywords" content="recent wildfires, LA fires 2025, Pacific Palisades fire, interactive fire map, live fire updates, fire safety, Eye on the Fire">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:title" content="Recent Fires - Eye on the Fire">
-  <meta property="og:description" content="Track recent wildfires like the LA and Pacific Palisades fires of 2025 with our interactive live map.">
+  <meta property="og:description" content="Track recent wildfires like the LA and Pacific Palisades fires of 2025 with our premier interactive live map, featuring updates and safety tips.">
   <meta property="og:url" content="https://eyeonthefire.com/recent-fires.html">
   <meta property="og:image" content="/images/palisades-fire-highway-smoke.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+  <meta name="apple-mobile-web-app-title" content="eyeonthefire">
+  <link rel="manifest" href="/favicon/site.webmanifest">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -27,6 +27,10 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar">
@@ -41,72 +45,82 @@
     </div>
     <ul class="nav-menu">
       <li><a href="index.html#map-section">Fire Map</a></li>
-      <li><a href="recent-fires.html" class="active">Recent Fires</a></li>
+      <li><a href="recent-fires.html" style="color: #ffca28;">Recent Fires</a></li>
       <li><a href="index.html#prevention">Prevention</a></li>
       <li><a href="index.html#community">Community</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="status.html">Status</a></li>
     </ul>
   </nav>
-
   <header class="hero">
-    <h1>Recent Wildfires</h1>
-    <p>Monitor active fires with our interactive map.</p>
+    <h1>Recent Wildfires at Your Fingertips</h1>
+    <p>Monitor active fires with our premier interactive map.</p>
     <a href="#fires-section" class="cta-button">Track Fires Now</a>
   </header>
 
-  <section class="map-section" id="fires-section">
-    <div class="map-container" id="map-container">
-      <div class="map-header">Interactive Live Fire Map</div>
-      <div class="map-controls">
-        <button onclick="zoomToCA()">Zoom to CA</button>
-        <button onclick="zoomToUS()">View U.S.</button>
-        <button onclick="toggleFires()">Toggle Fires</button>
-        <button onclick="toggleAirQuality()">Toggle Air Quality</button>
-        <button onclick="toggleFullscreen()">Fullscreen</button>
+  <section class="fires-section" id="fires-section">
+    <div class="content-section">
+      <h2>Latest Fire Updates</h2>
+      <p>Eye on the Fire brings you the most recent wildfire activity, like the LA and Pacific Palisades fires of January 2025, with our cutting-edge live map.</p>
+      <div class="map-container" id="map-container">
+        <div class="map-header">Interactive Live Fire Map</div>
+        <div class="map-controls">
+          <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
+          <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
+          <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
+          <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
+        </div>
+        <div id="fire-map"></div>
       </div>
-      <div id="fire-map"></div>
+      <div class="fire-media">
+        <div class="media-item">
+          <img src="/images/palisades-fire-highway-smoke.jpg" alt="Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025">
+          <p class="media-caption">🔥 Palisades Fire smoke plume, January 2025</p>
+        </div>
+        <div class="media-item">
+          <img src="/images/eaton-fire-firefighters.jpg" alt="Firefighters battling the Eaton Fire in a residential area, January 2025">
+          <p class="media-caption">🔥 Firefighters at Eaton Fire, January 2025</p>
+        </div>
+        <div class="media-item">
+          <video controls poster="/images/palisades-fire-video-poster.jpg">
+            <source src="/videos/palisades-fire-personal-video-1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="media-caption">🔥 Palisades Fire impact video, January 2025</p>
+        </div>
+      </div>
+      <div class="cta-banner">Track More Fires! <a href="index.html#map-section">Go to Main Map</a></div>
+
+      <h2>LA & Pacific Palisades Fires: January 2025</h2>
+      <p>These fires ravaged over 12,000 structures and displaced thousands. Eye on the Fire keeps you updated with live data and critical insights.</p>
+
+      <h2>Safety Tips</h2>
+      <ul class="safety-tips">
+        <li><strong>Defensible Space:</strong> Clear vegetation within 30 feet of your home.</li>
+        <li><strong>Evacuation Plan:</strong> Plan multiple escape routes.</li>
+        <li><strong>Stay Informed:</strong> Use our live map for real-time updates.</li>
+      </ul>
+      <a href="index.html#prevention" class="cta-button">More Safety Tips</a>
     </div>
   </section>
 
   <div class="location-form-container">
     <form class="location-form">
       <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-      <button type="button" onclick="checkFiresNow()">Check Fires</button>
-      <p class="disclosure">USA & Canada zip codes only</p>
-      <button type="button" class="close-btn" aria-label="Close">&times;</button>
+      <button type="button" onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
+      <p class="disclosure">USA & Canada only</p>
+      <button type="button" class="close-btn" aria-label="Close">×</button>
     </form>
   </div>
 
-  <section class="content-section">
-    <h2>Latest Fire Updates</h2>
-    <p>Track recent wildfires like the LA and Pacific Palisades fires of January 2025.</p>
-    <div class="fire-media">
-      <div class="media-item">
-        <img src="/images/palisades-fire-highway-smoke.jpg" alt="Palisades Fire smoke plume, January 2025">
-        <p class="media-caption">Palisades Fire, January 2025</p>
-      </div>
-      <div class="media-item">
-        <img src="/images/eaton-fire-firefighters.jpg" alt="Firefighters at Eaton Fire, January 2025">
-        <p class="media-caption">Eaton Fire, January 2025</p>
-      </div>
-    </div>
-    <h2>Safety Tips</h2>
-    <ul class="safety-tips">
-      <li><strong>Defensible Space:</strong> Clear vegetation within 30 feet.</li>
-      <li><strong>Evacuation Plan:</strong> Plan multiple escape routes.</li>
-      <li><strong>Stay Informed:</strong> Use our live map.</li>
-    </ul>
-    <a href="index.html#prevention" class="cta-button">More Tips</a>
-  </section>
-
   <footer>
-    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="status.html">Status</a></p>
+    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
+    <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
 
   <script type="application/ld+json">
@@ -114,8 +128,51 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Recent Fires - Eye on the Fire",
-    "description": "Track recent wildfires with our interactive live map.",
-    "url": "https://eyeonthefire.com/recent-fires.html"
+    "description": "Premier interactive live wildfire map and updates for recent fires like the LA and Pacific Palisades fires of January 2025, with media and safety tips.",
+    "url": "https://eyeonthefire.com/recent-fires.html",
+    "datePublished": "2025-03-25",
+    "dateModified": "2025-04-11",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://eyeonthefire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Recent Fires",
+          "item": "https://eyeonthefire.com/recent-fires.html"
+        }
+      ]
+    },
+    "hasPart": [
+      {
+        "@type": "ImageObject",
+        "url": "https://eyeonthefire.com/images/palisades-fire-highway-smoke.jpg",
+        "caption": "Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025",
+        "width": 800,
+        "height": 600
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://eyeonthefire.com/images/eaton-fire-firefighters.jpg",
+        "caption": "Firefighters battling the Eaton Fire in a residential area, January 2025",
+        "width": 800,
+        "height": 600
+      },
+      {
+        "@type": "VideoObject",
+        "url": "https://eyeonthefire.com/videos/palisades-fire-personal-video-1.mp4",
+        "name": "Personal video capturing the Palisades Fire’s impact, January 2025",
+        "description": "A personal video showing the impact of the Palisades Fire in Pacific Palisades, January 2025.",
+        "thumbnailUrl": "https://eyeonthefire.com/images/palisades-fire-video-poster.jpg",
+        "uploadDate": "2025-03-25"
+      }
+    ]
   }
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
