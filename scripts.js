@@ -19,23 +19,24 @@ if (document.getElementById('map-container')) {
   observer.observe(document.getElementById('map-container'));
 }
 
-// Initialize map
+// Initialize map with a view of North America
 function initMap() {
-  map = L.map('fire-map').setView([37.0902, -95.7129], 4); // Center on U.S.
+  map = L.map('fire-map').setView([54, -105], 3); // Center on North America, zoom level 3
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS, NIFC'
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS'
   }).addTo(map);
   fireLayer = L.layerGroup().addTo(map);
   console.log('Map initialized');
 }
 
-// Load fire data
-async function loadFireData(lat = 37.0902, lon = -95.7129) {
+// Load all active fire data for North America
+async function loadFireData() {
   console.log('Loading fire data...');
   fireLayer.clearLayers();
 
   try {
-    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
+    // Fetch FIRMS data for North America (-168,7,-52,85) for the last 24 hours
+    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-168,7,-52,85/1`;
     const firmsResponse = await fetch(firmsUrl);
     if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
     const firmsText = await firmsResponse.text();
@@ -57,31 +58,6 @@ async function loadFireData(lat = 37.0902, lon = -95.7129) {
     if (markerCount > 0) map.fitBounds(fireLayer.getBounds());
   } catch (e) {
     console.error('FIRMS Error:', e);
-  }
-
-  try {
-    const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
-    const nifcResponse = await fetch(nifcUrl);
-    if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
-    const nifcData = await nifcResponse.json();
-    console.log('NIFC features:', nifcData.features.length);
-    let nifcMarkerCount = 0;
-    nifcData.features.forEach(feature => {
-      const { coordinates } = feature.geometry;
-      const { IncidentName, Acres, PercentContained } = feature.properties;
-      if (coordinates && coordinates.length >= 2 && !isNaN(coordinates[1]) && !isNaN(coordinates[0])) {
-        L.marker([coordinates[1], coordinates[0]], {
-          icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] })
-        })
-          .addTo(fireLayer)
-          .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
-        nifcMarkerCount++;
-      }
-    });
-    console.log('NIFC markers added:', nifcMarkerCount);
-    if (nifcMarkerCount > 0 && markerCount === 0) map.fitBounds(fireLayer.getBounds());
-  } catch (e) {
-    console.error('NIFC Error:', e);
   }
 }
 
