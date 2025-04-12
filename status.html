@@ -8,56 +8,56 @@
   <meta name="keywords" content="eye on the fire status, interactive fire map status, live fire updates, fire monitoring status, fire safety">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://eyeonthefire.com/status">
+  <link rel="canonical" href="https://eyeonthefire.com/status.html">
   <meta property="og:title" content="Status - Eye on the Fire">
   <meta property="og:description" content="View the operational status of Eye on the Fire’s premier interactive live wildfire map and services.">
-  <meta property="og:url" content="https://eyeonthefire.com/status">
+  <meta property="og:url" content="https://eyeonthefire.com/status.html">
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Favicon Links -->
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
   <meta name="apple-mobile-web-app-title" content="eyeonthefire">
   <link rel="manifest" href="/favicon/site.webmanifest">
-  <!-- Google Fonts -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T8RE6KDBEW');
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
   <style>
     body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #333; }
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: #b22222;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
-    .navbar .logo img { height: 40px; }
-    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
-    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
-    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
-    .nav-menu li a:hover { text-decoration: underline; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger .line { width: 25px; height: 3px; background: #fff; }
+    .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
+    .hero p { font-size: 18px; margin: 0 0 20px; }
     .status-container { max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center; }
-    .status-header h1 { font-family: 'Montserrat  font-size: 32px; font-weight: 700; color: #b22222; }
+    .status-header h1 { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 700; color: #b22222; }
     .status-header p { font-size: 16px; color: #666; }
-    .status-list { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; margin: 20px 0; }
-    .status-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-    .status-item:last-child { border-bottom: none; }
-    .status-item h3 { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; margin: 0; }
-    .status-indicator { display: flex; align-items: center; gap: 10px; }
-    .status-indicator .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .status-indicator .dot.operational { background-color: #28a745; }
-    .status-indicator .dot.maintenance { background-color: #ffc107; }
-    .status-indicator .dot.downtime { background-color: #dc3545; }
-    .status-indicator span { font-size: 14px; color: #333; }
-    .status-footer { font-size: 14px; color: #666; margin-top: 20px; }
+    .status-list { list-style: none; padding: 0; margin: 20px 0; }
+    .status-item { background: #fff; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center; }
+    .status-item span { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; }
+    .status-indicator { width: 20px; height: 20px; border-radius: 50%; }
+    .status-up { background: #00e400; }
+    .status-down { background: #ff0000; }
+    .status-warning { background: #ffca28; }
+    .cta-button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #b22222;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .cta-button:hover { background: #8b0000; transform: scale(1.05); }
     .cta-banner {
       background: #b22222;
       color: #fff;
@@ -71,25 +71,19 @@
     }
     .cta-banner a { color: #fff; text-decoration: underline; }
     footer { background: #333; color: #fff; padding: 20px; text-align: center; }
-    footer p { margin: 0 0 10px; font-size: 14px; }
-    footer a { color: #fff; text-decoration: none; margin: 0 5px; }
-    footer a:hover { text-decoration: underline; }
-    footer .social-icons { margin: 10px 0; }
     footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
-    footer .social-icons a:hover { color: #b22222; }
     @media (max-width: 768px) {
-      .navbar { flex-direction: column; padding: 10px; }
-      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
-      .nav-menu.active { display: flex; }
-      .hamburger { display: flex; }
+      .hero { padding-top: 8rem; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 16px; }
       .status-header h1 { font-size: 24px; }
-      .status-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .status-item span { font-size: 16px; }
+      .cta-button { padding: 12px 25px; font-size: 14px; }
       .cta-banner { font-size: 16px; padding: 10px; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <nav class="navbar">
     <div class="logo">
       <img src="/images/logo.png" alt="Eye on the Fire Logo">
@@ -106,54 +100,50 @@
       <li><a href="index.html#prevention">Prevention</a></li>
       <li><a href="index.html#community">Community</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="status.html">Status</a></li>
+      <li><a href="status.html" style="color: #ffca28;">Status</a></li>
     </ul>
   </nav>
+  <header class="hero">
+    <h1>Service Status</h1>
+    <p>Stay informed about the operational status of Eye on the Fire.</p>
+    <a href="index.html#map-section" class="cta-button">Back to Fire Map</a>
+  </header>
 
-  <!-- Status Section -->
-  <div class="status-container">
+  <section class="status-container">
     <div class="status-header">
-      <h1>System Status</h1>
-      <p>Ensuring our premier interactive fire map and services are always ready to keep you informed.</p>
+      <h1>Current Status</h1>
+      <p>Last updated: <span id="last-updated">October 15, 2025, 10:00 AM PST</span></p>
     </div>
-    <div class="cta-banner">Monitor Fires Now! <a href="index.html#map-section">Check the Live Map</a></div>
-    <div class="status-list">
-      <div class="status-item">
-        <h3>Website</h3>
-        <div class="status-indicator">
-          <div class="dot operational"></div>
-          <span>Operational</span>
-        </div>
-      </div>
-      <div class="status-item">
-        <h3>Interactive Fire Map</h3>
-        <div class="status-indicator">
-          <div class="dot operational"></div>
-          <span>Operational</span>
-        </div>
-      </div>
-      <div class="status-item">
-        <h3>Live Updates API</h3>
-        <div class="status-indicator">
-          <div class="dot operational"></div>
-          <span>Operational</span>
-        </div>
-      </div>
-      <div class="status-item">
-        <h3>Community Features</h3>
-        <div class="status-indicator">
-          <div class="dot maintenance"></div>
-          <span>Under Maintenance</span>
-        </div>
-      </div>
-    </div>
-    <div class="status-footer">
-      <p>Last updated: April 11, 2025, 12:00 UTC</p>
-      <p>Issues? <a href="mailto:support@eyeonthefire.com">Contact Support</a></p>
-    </div>
-  </div>
+    <ul class="status-list">
+      <li class="status-item">
+        <span>Interactive Fire Map</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>FIRMS API (Hotspots)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>NIFC API (Fire Perimeters)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>AirNow API (Air Quality)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>NOAA API (Weather Alerts)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>Website Availability</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+    </ul>
+    <div class="cta-banner">All Systems Operational! <a href="index.html#map-section">Track Fires Now</a></div>
+    <p>If you’re experiencing issues, please contact us at <a href="mailto:support@eyeonthefire.com">support@eyeonthefire.com</a>.</p>
+  </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
@@ -164,21 +154,40 @@
     <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
 
-  <!-- Structured Data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Status - Eye on the Fire",
-    "url": "https://eyeonthefire.com/status",
-    "description": "Status updates for Eye on the Fire’s premier interactive live wildfire map and services, ensuring real-time fire monitoring."
+    "description": "Check the operational status of Eye on the Fire’s premier interactive live wildfire map and services.",
+    "url": "https://eyeonthefire.com/status.html",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://eyeonthefire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Status",
+          "item": "https://eyeonthefire.com/status.html"
+        }
+      ]
+    }
   }
   </script>
 
   <script>
     function toggleMenu() {
       document.querySelector('.nav-menu').classList.toggle('active');
+      document.querySelector('.hamburger').classList.toggle('active');
     }
+
+    document.getElementById('last-updated').textContent = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
   </script>
 </body>
 </html>
