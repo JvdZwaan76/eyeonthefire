@@ -13,6 +13,14 @@ body {
   font-family: 'Open Sans', sans-serif;
   background: var(--background);
   color: var(--text-color);
+  text-align: center; /* Center-align text globally */
+}
+
+/* Center block elements */
+.container, .map-container, .content-section, .hero, footer {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 /* Navbar */
@@ -75,8 +83,6 @@ body {
 .map-container {
   position: relative;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
   height: 60vh;
   border: 2px solid var(--primary-color);
   border-radius: 8px;
@@ -120,6 +126,9 @@ body {
 
 @media (max-width: 768px) {
   .map-container { height: 80vh; }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 16px; }
+  .map-controls { flex-direction: column; }
 }
 
 /* Location Form */
@@ -152,7 +161,7 @@ body {
 }
 
 /* Content Sections */
-.content-section { padding: 40px 20px; text-align: center; }
+.content-section { padding: 40px 20px; }
 .content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: var(--primary-color); }
 .prevention-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .prevention-item { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 300px; }
@@ -167,6 +176,11 @@ body {
 .safety-tips li { margin: 10px 0; }
 .safety-tips li strong { color: var(--primary-color); }
 
+@media (max-width: 768px) {
+  .prevention-grid, .gallery, .fire-media { flex-direction: column; align-items: center; }
+  .safety-tips { text-align: center; }
+}
+
 /* Buttons and Banners */
 .cta-button {
   background: var(--primary-color);
@@ -177,18 +191,23 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   display: inline-block;
+  margin: 20px 0;
 }
 .cta-button:hover { background: #8b0000; }
 .cta-banner { background: var(--primary-color); color: #fff; padding: 15px; margin: 20px 0; }
 .cta-banner a { color: #fff; text-decoration: underline; }
 
+@media (max-width: 768px) {
+  .cta-button { padding: 12px 25px; font-size: 14px; }
+  .cta-banner { font-size: 16px; padding: 10px; }
+}
+
 /* Footer */
-footer { background: #333; color: #fff; padding: 20px; text-align: center; }
+footer { background: #333; color: #fff; padding: 20px; }
 footer a { color: #fff; margin: 0 5px; }
 .social-icons a { margin: 0 10px; font-size: 18px; }
 
-/* Status Page */
-.status-list { list-style: none; padding: 0; max-width: 600px; margin: 20px auto; }
-.status-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ccc; }
-.status-indicator { width: 20px; height: 20px; border-radius: 50%; }
-.status-up { background: #00e400; }
+@media (max-width: 768px) {
+  footer { padding: 15px; font-size: 14px; }
+  .social-icons a { font-size: 16px; }
+}
