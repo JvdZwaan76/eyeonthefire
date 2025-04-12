@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Status - Eye on the Fire</title>
-  <meta name="description" content="Check the status of Eye on the Fire’s interactive live wildfire map and services.">
-  <meta name="keywords" content="eye on the fire status, interactive fire map status, live fire updates">
+  <title>Status - Eye on the Fire | Premier Live Fire Monitoring</title>
+  <meta name="description" content="Check the status of Eye on the Fire’s premier interactive live wildfire map and services for real-time fire monitoring and updates.">
+  <meta name="keywords" content="eye on the fire status, interactive fire map status, live fire updates, fire monitoring status, fire safety">
   <meta name="author" content="Eye on the Fire Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://eyeonthefire.com/status.html">
   <meta property="og:title" content="Status - Eye on the Fire">
-  <meta property="og:description" content="View the operational status of Eye on the Fire’s live wildfire map and services.">
+  <meta property="og:description" content="View the operational status of Eye on the Fire’s premier interactive live wildfire map and services.">
   <meta property="og:url" content="https://eyeonthefire.com/status.html">
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+  <meta name="apple-mobile-web-app-title" content="eyeonthefire">
+  <link rel="manifest" href="/favicon/site.webmanifest">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -26,6 +27,9 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar">
@@ -44,46 +48,67 @@
       <li><a href="index.html#prevention">Prevention</a></li>
       <li><a href="index.html#community">Community</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="status.html" class="active">Status</a></li>
+      <li><a href="status.html" style="color: #ffca28;">Status</a></li>
     </ul>
   </nav>
-
   <header class="hero">
     <h1>Service Status</h1>
-    <p>Operational status of Eye on the Fire services.</p>
+    <p>Stay informed about the operational status of Eye on the Fire.</p>
     <a href="index.html#map-section" class="cta-button">Back to Fire Map</a>
   </header>
+
+  <section class="status-container">
+    <div class="status-header">
+      <h1>Current Status</h1>
+      <p>Last updated: <span id="last-updated">October 15, 2025, 10:00 AM PST</span></p>
+    </div>
+    <ul class="status-list">
+      <li class="status-item">
+        <span>Interactive Fire Map</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>FIRMS API (Hotspots)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>NIFC API (Fire Perimeters)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>AirNow API (Air Quality)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>NOAA API (Weather Alerts)</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+      <li class="status-item">
+        <span>Website Availability</span>
+        <div class="status-indicator status-up"></div>
+      </li>
+    </ul>
+    <div class="cta-banner">All Systems Operational! <a href="index.html#map-section">Track Fires Now</a></div>
+    <p>If you’re experiencing issues, please contact us at <a href="mailto:support@eyeonthefire.com">support@eyeonthefire.com</a>.</p>
+  </section>
 
   <div class="location-form-container">
     <form class="location-form">
       <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-      <button type="button" onclick="checkFiresNow()">Check Fires</button>
-      <p class="disclosure">USA & Canada zip codes only</p>
-      <button type="button" class="close-btn" aria-label="Close">&times;</button>
+      <button type="button" onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
+      <p class="disclosure">USA & Canada only</p>
+      <button type="button" class="close-btn" aria-label="Close">×</button>
     </form>
   </div>
 
-  <section class="status-container">
-    <h2>Current Status</h2>
-    <p>Last updated: October 15, 2025, 10:00 AM PST</p>
-    <ul class="status-list">
-      <li class="status-item"><span>Interactive Fire Map</span><div class="status-indicator status-up"></div></li>
-      <li class="status-item"><span>FIRMS API</span><div class="status-indicator status-up"></div></li>
-      <li class="status-item"><span>NIFC API</span><div class="status-indicator status-up"></div></li>
-      <li class="status-item"><span>AirNow API</span><div class="status-indicator status-up"></div></li>
-      <li class="status-item"><span>NOAA API</span><div class="status-indicator status-up"></div></li>
-      <li class="status-item"><span>Website Availability</span><div class="status-indicator status-up"></div></li>
-    </ul>
-    <p>Contact <a href="mailto:support@eyeonthefire.com">support@eyeonthefire.com</a> for issues.</p>
-  </section>
-
   <footer>
-    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="status.html">Status</a></p>
+    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
+    <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
 
   <script type="application/ld+json">
@@ -91,8 +116,25 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Status - Eye on the Fire",
-    "description": "Operational status of Eye on the Fire’s live wildfire map and services.",
-    "url": "https://eyeonthefire.com/status.html"
+    "description": "Check the operational status of Eye on the Fire’s premier interactive live wildfire map and services.",
+    "url": "https://eyeonthefire.com/status.html",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://eyeonthefire.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Status",
+          "item": "https://eyeonthefire.com/status.html"
+        }
+      ]
+    }
   }
   </script>
   <script src="scripts.js"></script>
