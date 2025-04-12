@@ -1,7 +1,7 @@
-/* Variables */
+/* Variables for consistent theming */
 :root {
-  --primary-color: #b22222; /* Dark red */
-  --accent-color: #ffca28; /* Yellow */
+  --primary-color: #b22222; /* Adjust to match your brand */
+  --accent-color: #ffca28;  /* Adjust to match your brand */
   --background: #f5f5f5;
   --text-color: #333;
 }
@@ -10,175 +10,56 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif; /* Replace with your preferred font */
   background: var(--background);
   color: var(--text-color);
   text-align: center; /* Center-align text globally */
 }
 
 /* Center block elements */
-.container, .map-container, .content-section, .hero, footer {
+.container,
+.status-container,
+footer {
   margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 20px;
+  max-width: 800px; /* Limits width for balance */
+  padding: 20px;
 }
 
-/* Navbar */
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 10px 20px;
+/* Status Page Specific Styles */
+.status-header {
+  margin-bottom: 20px;
+}
+
+.status-list {
+  list-style: none;
+  padding: 20px;
+  background-color: #f9f9f9; /* Subtle background for distinction */
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto; /* Centers the list */
+}
+
+.status-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1000;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img { height: 40px; margin-right: 10px; }
-.logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent-color); }
-
-.nav-menu {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-menu li { margin: 0 15px; }
-.nav-menu a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
-.nav-menu a:hover { color: var(--accent-color); }
-
-.hamburger { display: none; cursor: pointer; }
-.hamburger .line { width: 25px; height: 3px; background: #fff; margin: 4px 0; }
-
-@media (max-width: 768px) {
-  .nav-menu { display: none; flex-direction: column; width: 100%; }
-  .nav-menu.active { display: flex; }
-  .hamburger { display: block; }
-  .hamburger.active .line:nth-child(2) { opacity: 0; }
-  .hamburger.active .line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.active .line:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-}
-
-/* Hero */
-.hero {
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover;
-  color: #fff;
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; }
-.hero p { font-size: 18px; margin: 20px 0; }
-
-/* Map Section */
-.map-section { padding: 40px 20px; }
-.map-container {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  border: 2px solid var(--primary-color);
-  border-radius: 8px;
-}
-#fire-map { height: 100%; }
-
-.map-header {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 5px 15px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  color: var(--primary-color);
-  z-index: 1000;
-}
-
-.map-controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  gap: 5px;
-  z-index: 1000;
-}
-
-.map-controls button {
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-}
-.map-controls button:hover { background: #8b0000; }
-
-.fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; }
-
-@media (max-width: 768px) {
-  .map-container { height: 80vh; }
-  .hero h1 { font-size: 28px; }
-  .hero p { font-size: 16px; }
-  .map-controls { flex-direction: column; }
-}
-
-/* Location Form */
-.location-form-container {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1001;
-}
-
-.location-form {
-  background: #fff;
+  margin: 10px 0;
   padding: 10px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  border-bottom: 1px solid #ccc; /* Separates items */
 }
 
-.location-form input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-.location-form button { background: var(--primary-color); color: #fff; border: none; padding: 8px; border-radius: 4px; cursor: pointer; }
-.location-form button:hover { background: #8b0000; }
-.location-form .disclosure { font-size: 12px; color: #666; text-align: center; }
-.location-form .close-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; font-size: 20px; cursor: pointer; }
-
-@media (min-width: 769px) {
-  .location-form-container { position: absolute; top: 80px; right: 20px; left: auto; transform: none; }
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Circular indicators */
 }
 
-/* Content Sections */
-.content-section { padding: 40px 20px; }
-.content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: var(--primary-color); }
-.prevention-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-.prevention-item { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 300px; }
-.prevention-item h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; color: var(--primary-color); }
-.gallery { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-.gallery-item img { max-width: 300px; border-radius: 8px; }
-.fire-media { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
-.media-item { max-width: 300px; }
-.media-item img, .media-item video { width: 100%; border-radius: 8px; }
-.media-caption { font-size: 14px; color: #666; margin: 5px 0; }
-.safety-tips { list-style: none; padding: 0; text-align: left; max-width: 600px; margin: 20px auto; }
-.safety-tips li { margin: 10px 0; }
-.safety-tips li strong { color: var(--primary-color); }
+.status-up {
+  background-color: #00e400; /* Green for operational */
+}
 
-@media (max-width: 768px) {
-  .prevention-grid, .gallery, .fire-media { flex-direction: column; align-items: center; }
-  .safety-tips { text-align: center; }
+.status-down {
+  background-color: #ff0000; /* Red for issues */
 }
 
 /* Buttons and Banners */
@@ -188,26 +69,67 @@ body {
   padding: 15px 30px;
   text-decoration: none;
   border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif; /* Adjust font if needed */
   font-weight: 700;
   display: inline-block;
   margin: 20px 0;
 }
-.cta-button:hover { background: #8b0000; }
-.cta-banner { background: var(--primary-color); color: #fff; padding: 15px; margin: 20px 0; }
-.cta-banner a { color: #fff; text-decoration: underline; }
 
-@media (max-width: 768px) {
-  .cta-button { padding: 12px 25px; font-size: 14px; }
-  .cta-banner { font-size: 16px; padding: 10px; }
+.cta-button:hover {
+  background: #8b0000; /* Darker shade on hover */
+}
+
+.cta-banner {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.cta-banner a {
+  color: #fff;
+  text-decoration: underline;
 }
 
 /* Footer */
-footer { background: #333; color: #fff; padding: 20px; }
-footer a { color: #fff; margin: 0 5px; }
-.social-icons a { margin: 0 10px; font-size: 18px; }
+footer {
+  background: #333;
+  color: #fff;
+  padding: 20px;
+}
 
+footer a {
+  color: #fff;
+  margin: 0 5px;
+}
+
+.social-icons a {
+  margin: 0 10px;
+  font-size: 18px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  footer { padding: 15px; font-size: 14px; }
-  .social-icons a { font-size: 16px; }
+  .container,
+  .status-container {
+    padding: 10px; /* Reduced padding for smaller screens */
+  }
+  .status-list {
+    padding: 10px;
+  }
+  .cta-button {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+  .cta-banner {
+    font-size: 16px;
+    padding: 10px;
+  }
+  footer {
+    padding: 15px;
+    font-size: 14px;
+  }
+  .social-icons a {
+    font-size: 16px;
+  }
 }
