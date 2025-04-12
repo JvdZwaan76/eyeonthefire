@@ -26,6 +26,7 @@ function initMap() {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS, NIFC'
   }).addTo(map);
   fireLayer = L.layerGroup().addTo(map);
+  console.log('Map initialized');
 }
 
 // Load fire data
@@ -35,14 +36,17 @@ async function loadFireData(lat = 37.0902, lon = -95.7129) {
 
   // FIRMS API
   try {
-    const firmsResponse = await fetch(`https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`);
+    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
+    console.log('Fetching FIRMS data from:', firmsUrl);
+    const firmsResponse = await fetch(firmsUrl);
     if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
     const firmsText = await firmsResponse.text();
+    console.log('FIRMS response (first 100 chars):', firmsText.substring(0, 100) + '...');
     const firmsLines = firmsText.split('\n').slice(1); // Skip header
     console.log('FIRMS lines:', firmsLines.length);
     let markerCount = 0;
     firmsLines.forEach(line => {
-      const [latitude, longitude, , , acqDate, acqTime] = line.split(',');
+      const [latitude, longitude, , , , acqDate, acqTime] = line.split(',');
       if (latitude && longitude && !isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
         L.marker([parseFloat(latitude), parseFloat(longitude)], {
           icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] })
@@ -60,7 +64,9 @@ async function loadFireData(lat = 37.0902, lon = -95.7129) {
 
   // NIFC API
   try {
-    const nifcResponse = await fetch('https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson');
+    const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
+    console.log('Fetching NIFC data from:', nifcUrl);
+    const nifcResponse = await fetch(nifcUrl);
     if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
     const nifcData = await nifcResponse.json();
     console.log('NIFC features:', nifcData.features.length);
