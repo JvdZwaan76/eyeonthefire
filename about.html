@@ -15,13 +15,11 @@
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Favicon Links -->
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
   <meta name="apple-mobile-web-app-title" content="eyeonthefire">
   <link rel="manifest" href="/favicon/site.webmanifest">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -29,29 +27,11 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
-  <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
     body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
-    .navbar {
-      position: sticky;
-      top: 0;
-      background: #b22222;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
-    .navbar .logo img { height: 40px; }
-    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
-    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 15px; }
-    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; }
-    .nav-menu li a:hover { text-decoration: underline; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger .line { width: 25px; height: 3px; background: #fff; }
     .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
     .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
     .hero p { font-size: 18px; margin: 0 0 20px; }
@@ -70,8 +50,9 @@
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 16px;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
-    .cta-button:hover { background: #8b0000; }
+    .cta-button:hover { background: #8b0000; transform: scale(1.05); }
     .cta-banner {
       background: #b22222;
       color: #fff;
@@ -87,10 +68,7 @@
     footer { background: #333; color: #fff; padding: 20px; text-align: center; }
     footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
     @media (max-width: 768px) {
-      .navbar { flex-direction: column; padding: 10px; }
-      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; }
-      .nav-menu.active { display: flex; }
-      .hamburger { display: flex; }
+      .hero { padding-top: 8rem; }
       .hero h1 { font-size: 28px; }
       .hero p { font-size: 16px; }
       .cta-button { padding: 12px 25px; font-size: 14px; }
@@ -99,7 +77,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <nav class="navbar">
     <div class="logo">
       <img src="/images/logo.png" alt="Eye on the Fire Logo">
@@ -115,7 +92,7 @@
       <li><a href="recent-fires.html">Recent Fires</a></li>
       <li><a href="index.html#prevention">Prevention</a></li>
       <li><a href="index.html#community">Community</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="about.html" style="color: #ffca28;">About</a></li>
       <li><a href="status.html">Status</a></li>
     </ul>
   </nav>
@@ -125,7 +102,6 @@
     <a href="index.html#map-section" class="cta-button">Try Our Fire Map</a>
   </header>
 
-  <!-- About Us Section -->
   <section class="about-section">
     <h2>Who We Are</h2>
     <p>Eye on the Fire LLC is the premier destination for monitoring active wildfires near you. Founded in Montana in 2025, we deliver real-time updates through our state-of-the-art interactive fire map, ensuring you have the tools to stay safe and informed.</p>
@@ -143,7 +119,6 @@
     <a href="index.html" class="cta-button">Back to Fire Map</a>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
@@ -154,7 +129,6 @@
     <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
   </footer>
 
-  <!-- Structured Data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -193,10 +167,10 @@
   }
   </script>
 
-  <script src="scripts.js"></script>
   <script>
     function toggleMenu() {
       document.querySelector('.nav-menu').classList.toggle('active');
+      document.querySelector('.hamburger').classList.toggle('active');
     }
   </script>
 </body>
