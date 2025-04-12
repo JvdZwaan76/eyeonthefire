@@ -29,213 +29,8 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
-    .hero { text-align: center; padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 10px; }
-    .hero p { font-size: 18px; margin: 0 0 20px; }
-    .map-section { padding: 20px; background: #f5f5f5; }
-    .map-container {
-      position: relative;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border: 2px solid #b22222;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    #fire-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .map-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(178, 34, 34, 0.9);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      text-align: center;
-      padding: 15px 0;
-      z-index: 1000;
-    }
-    .map-controls {
-      position: absolute;
-      top: 60px;
-      left: 10px;
-      z-index: 1000;
-      background: #fff;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .map-controls button {
-      display: block;
-      margin: 5px 0;
-      padding: 10px 15px;
-      background: #b22222;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-    .map-controls button:hover { background: #8b0000; transform: scale(1.05); }
-    .location-form-container {
-      margin: 20px auto;
-      max-width: 1200px;
-      text-align: center;
-      z-index: 1000;
-    }
-    .location-form {
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .location-form:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-    }
-    .location-form input {
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 14px;
-      width: 180px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .location-form input:focus {
-      border-color: #ffca28;
-      box-shadow: 0 0 8px rgba(255, 202, 40, 0.5);
-      outline: none;
-    }
-    .location-form button {
-      padding: 10px 20px;
-      background: linear-gradient(45deg, #ffca28, #d32f2f);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-    .location-form button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
-    }
-    .location-form .disclosure {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 12px;
-      color: #666;
-      margin-top: 8px;
-      display: block;
-    }
-    .fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; padding-bottom: 0; margin: 0; }
-    .content-section { padding: 40px 20px; text-align: center; }
-    .content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #b22222; }
-    .prevention-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
-    .prevention-item { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; max-width: 300px; }
-    .prevention-item h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 500; color: #333; }
-    .gallery { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-    .gallery-item img { width: 100%; max-width: 300px; border-radius: 8px; }
-    .cta-button {
-      display: inline-block;
-      padding: 15px 30px;
-      background: #b22222;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-    .cta-button:hover { background: #8b0000; transform: scale(1.05); }
-    .cta-banner {
-      background: #b22222;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
-      margin: 20px 0;
-      border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .cta-banner a { color: #fff; text-decoration: underline; }
-    footer { background: #333; color: #fff; padding: 20px; text-align: center; }
-    footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; }
-    @media (max-width: 768px) {
-      .hero { padding-top: 8rem; }
-      .hero h1 { font-size: 28px; }
-      .hero p { font-size: 16px; }
-      .map-container { max-width: 100%; padding-bottom: 75%; margin-bottom: 80px; }
-      .map-header { font-size: 16px; padding: 10px 0; }
-      .map-controls { top: 50px; left: 5px; }
-      .location-form-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: 0;
-        padding: 10px;
-        background: linear-gradient(45deg, #ffca28, #d32f2f);
-        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 1000;
-        animation: slideIn 0.5s ease forwards;
-      }
-      .location-form {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        padding: 8px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      }
-      .location-form input {
-        width: 140px;
-        padding: 8px 12px;
-        font-size: 13px;
-        border-radius: 6px;
-      }
-      .location-form button {
-        padding: 8px 16px;
-        font-size: 13px;
-        border-radius: 6px;
-      }
-      .location-form .disclosure {
-        font-size: 11px;
-        margin-top: 6px;
-      }
-      .prevention-item, .gallery-item img { max-width: 100%; }
-      .cta-button { padding: 12px 25px; font-size: 14px; }
-      .cta-banner { font-size: 16px; padding: 10px; }
-      @keyframes slideIn {
-        from { transform: translateY(100%); }
-        to { transform: translateY(0); }
-      }
-    }
-  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -280,6 +75,7 @@
         <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
         <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
         <p class="disclosure">USA & Canada only</p>
+        <button class="close-form" onclick="hideZipForm()" aria-label="Close zip code form">×</button>
       </div>
     </div>
   </section>
@@ -382,6 +178,7 @@
       airQualityLayer.clearLayers();
       console.log('Loading fire data for lat:', lat, 'lon:', lon);
 
+      // FIRMS Hotspots
       try {
         const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
         const firmsResponse = await fetch(firmsUrl);
@@ -389,6 +186,7 @@
         const firmsText = await firmsResponse.text();
         const firmsLines = firmsText.split('\n').slice(1);
         console.log('FIRMS lines:', firmsLines.length);
+        let markerCount = 0;
         firmsLines.forEach(line => {
           const [latitude, longitude, , , acqDate, acqTime] = line.split(',');
           if (latitude && longitude && !isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
@@ -397,18 +195,22 @@
             })
               .addTo(fireLayer)
               .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
+            markerCount++;
           }
         });
+        console.log('FIRMS markers added:', markerCount);
       } catch (e) { 
         console.error('FIRMS Error:', e.message); 
       }
 
+      // NIFC Fire Perimeters
       try {
         const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
         const nifcResponse = await fetch(nifcUrl);
         if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
         const nifcData = await nifcResponse.json();
         console.log('NIFC features:', nifcData.features.length);
+        let markerCount = 0;
         nifcData.features.forEach(feature => {
           const { coordinates } = feature.geometry;
           const { IncidentName, Acres, PercentContained } = feature.properties;
@@ -418,18 +220,22 @@
             })
               .addTo(fireLayer)
               .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+            markerCount++;
           }
         });
+        console.log('NIFC markers added:', markerCount);
       } catch (e) { 
         console.error('NIFC Error:', e.message); 
       }
 
+      // AirNow Air Quality
       try {
         const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${lon}&distance=100&API_KEY=${AIRNOW_API_KEY}`;
         const airNowResponse = await fetch(airNowUrl);
         if (!airNowResponse.ok) throw new Error(`AirNow API failed: ${airNowResponse.status}`);
         const airNowData = await airNowResponse.json();
         console.log('AirNow stations:', airNowData.length);
+        let markerCount = 0;
         airNowData.forEach(station => {
           const { Latitude, Longitude, AQI, ParameterName, Category } = station;
           if (ParameterName === 'PM2.5' && Latitude && Longitude && !isNaN(Latitude) && !isNaN(Longitude)) {
@@ -440,18 +246,22 @@
             })
               .addTo(airQualityLayer)
               .bindPopup(`PM2.5 AQI: ${AQI}<br>Category: ${Category.Name}`);
+            markerCount++;
           }
         });
+        console.log('AirNow markers added:', markerCount);
       } catch (e) { 
         console.error('AirNow Error:', e.message); 
       }
 
+      // NOAA Fire Weather Alerts
       try {
         const nwsUrl = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch';
         const nwsResponse = await fetch(nwsUrl, { headers: { 'User-Agent': 'EyeOnTheFire (info@eyeonthefire.com)' } });
         if (!nwsResponse.ok) throw new Error(`NOAA API failed: ${nwsResponse.status}`);
         const nwsData = await nwsResponse.json();
         console.log('NOAA alerts:', nwsData.features.length);
+        let alertCount = 0;
         nwsData.features.forEach(alert => {
           const { coordinates } = alert.geometry;
           if (coordinates && coordinates[0]) {
@@ -461,8 +271,10 @@
             })
               .addTo(fireLayer)
               .bindPopup(alert.properties.headline);
+            alertCount++;
           }
         });
+        console.log('NOAA alerts added:', alertCount);
       } catch (e) { 
         console.error('NOAA Error:', e.message); 
       }
@@ -526,6 +338,10 @@
     function toggleMenu() {
       document.querySelector('.nav-menu').classList.toggle('active');
       document.querySelector('.hamburger').classList.toggle('active');
+    }
+
+    function hideZipForm() {
+      document.querySelector('.location-form-container').style.display = 'none';
     }
   </script>
 </body>
