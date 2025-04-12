@@ -28,25 +28,25 @@ function initMap() {
   }).addTo(map);
   fireLayer = L.layerGroup().addTo(map);
   airQualityLayer = L.layerGroup();
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      map.setView([pos.coords.latitude, pos.coords.longitude], 10);
-    }, () => console.log('Geolocation denied'));
-  }
+  console.log('Map initialized');
 }
 
 // Load fire data
 async function loadFireData(lat = 37.0902, lon = -95.7129) {
+  console.log('Loading fire data...');
   fireLayer.clearLayers();
   airQualityLayer.clearLayers();
 
+  let firmsMarkerCount = 0;
+  let nifcMarkerCount = 0;
+
+  // FIRMS API
   try {
     const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
     const firmsResponse = await fetch(firmsUrl);
     if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
     const firmsText = await firmsResponse.text();
-    const firmsLines = firmsText.split('\n').slice(1);
+    const firmsLines = firmsText.split('\n').slice(1); // Skip header
     console.log('FIRMS data lines:', firmsLines.length);
     firmsLines.forEach(line => {
       const [lat, lon, , , acqDate, acqTime] = line.split(',');
@@ -55,10 +55,15 @@ async function loadFireData(lat = 37.0902, lon = -95.7129) {
         L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
           .addTo(fireLayer)
           .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
+        firmsMarkerCount++;
       }
     });
-  } catch (e) { console.error('FIRMS Error:', e); }
+    console.log('Total FIRMS markers added:', firmsMarkerCount);
+  } catch (e) {
+    console.error('FIRMS Error:', e);
+  }
 
+  // NIFC API
   try {
     const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
     const nifcResponse = await fetch(nifcUrl);
@@ -68,14 +73,18 @@ async function loadFireData(lat = 37.0902, lon = -95.7129) {
     nifcData.features.forEach(feature => {
       const { coordinates } = feature.geometry;
       const { IncidentName, Acres, PercentContained } = feature.properties;
-      if (coordinates && coordinates.length >= 2) {
+      if (coordinates && coordinates.length >= 2 && !isNaN(coordinates[1]) && !isNaN(coordinates[0])) {
         console.log('Adding NIFC marker at:', coordinates[1], coordinates[0]);
         L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
           .addTo(fireLayer)
           .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+        nifcMarkerCount++;
       }
     });
-  } catch (e) { console.error('NIFC Error:', e); }
+    console.log('Total NIFC markers added:', nifcMarkerCount);
+  } catch (e) {
+    console.error('NIFC Error:', e);
+  }
 
   // Fit bounds to show all fire markers
   if (fireLayer.getLayers().length > 0) {
