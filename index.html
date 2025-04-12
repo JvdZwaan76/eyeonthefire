@@ -16,10 +16,10 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+  <meta name="apple-mobile-web-app-title" content="eyeonthefire">
+  <link rel="manifest" href="/favicon/site.webmanifest">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -27,6 +27,10 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar">
@@ -40,7 +44,7 @@
       <span class="line"></span>
     </div>
     <ul class="nav-menu">
-      <li><a href="#map-section" class="active">Fire Map</a></li>
+      <li><a href="#map-section" style="color: #ffca28;">Fire Map</a></li>
       <li><a href="recent-fires.html">Recent Fires</a></li>
       <li><a href="#prevention">Prevention</a></li>
       <li><a href="#community">Community</a></li>
@@ -48,7 +52,6 @@
       <li><a href="status.html">Status</a></li>
     </ul>
   </nav>
-
   <header class="hero">
     <h1>Your Premier Fire Monitoring Hub</h1>
     <p>Track active wildfires near you with our cutting-edge interactive map.</p>
@@ -59,11 +62,10 @@
     <div class="map-container" id="map-container">
       <div class="map-header">Interactive Live Fire Map</div>
       <div class="map-controls">
-        <button onclick="zoomToCA()">Zoom to CA</button>
-        <button onclick="zoomToUS()">View U.S.</button>
-        <button onclick="toggleFires()">Toggle Fires</button>
-        <button onclick="toggleAirQuality()">Toggle Air Quality</button>
-        <button onclick="toggleFullscreen()">Fullscreen</button>
+        <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
+        <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
+        <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
+        <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
       </div>
       <div id="fire-map"></div>
     </div>
@@ -72,15 +74,15 @@
   <div class="location-form-container">
     <form class="location-form">
       <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-      <button type="button" onclick="checkFiresNow()">Check Fires</button>
-      <p class="disclosure">USA & Canada zip codes only</p>
-      <button type="button" class="close-btn" aria-label="Close">&times;</button>
+      <button type="button" onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
+      <p class="disclosure">USA & Canada only</p>
+      <button type="button" class="close-btn" aria-label="Close">×</button>
     </form>
   </div>
 
   <section class="content-section">
     <h2>Why Eye on the Fire?</h2>
-    <p>Eye on the Fire delivers real-time wildfire tracking with our interactive map, empowering you to stay safe and informed.</p>
+    <p>Eye on the Fire is the ultimate destination for real-time wildfire tracking. Our interactive map delivers live updates on active fires near you, empowering you with the information to stay safe and informed.</p>
     <a href="#map-section" class="cta-button">Explore the Fire Map</a>
   </section>
 
@@ -89,22 +91,23 @@
     <div class="prevention-grid">
       <div class="prevention-item">
         <h3>Defensible Space</h3>
-        <p>Clear vegetation within 30 feet of your home.</p>
+        <p>Clear vegetation within 30 feet of your home to reduce fire risk.</p>
       </div>
       <div class="prevention-item">
         <h3>Smoke Alarms</h3>
-        <p>Test detectors monthly for early detection.</p>
+        <p>Test detectors monthly for early fire detection.</p>
       </div>
       <div class="prevention-item">
         <h3>Evacuation Plan</h3>
-        <p>Plan and practice escape routes.</p>
+        <p>Plan and practice escape routes for emergencies.</p>
       </div>
     </div>
+    <div class="cta-banner">Monitor Fires Now! <a href="#map-section">Check the Live Map</a></div>
   </section>
 
   <section id="community" class="content-section">
     <h2>Join Our Community</h2>
-    <p>Connect, share, and stay updated on active fires.</p>
+    <p>Connect with others, share experiences, and stay updated on active fires through our interactive platform.</p>
     <div class="gallery">
       <div class="gallery-item"><img src="/images/gallery-firefighter.jpg" alt="Firefighter battling blaze"></div>
       <div class="gallery-item"><img src="/images/gallery-aftermath.jpg" alt="Community wildfire recovery"></div>
@@ -113,12 +116,13 @@
   </section>
 
   <footer>
-    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="status.html">Status</a></p>
+    <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
-      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://twitter.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
+    <div class="cta-banner">Stay Ahead! <a href="#map-section">Track Fires Live</a></div>
   </footer>
 
   <script type="application/ld+json">
@@ -127,7 +131,12 @@
     "@type": "WebSite",
     "name": "Eye on the Fire",
     "url": "https://eyeonthefire.com/",
-    "description": "The premier destination for interactive live wildfire monitoring, real-time updates, and fire safety resources."
+    "description": "The premier destination for interactive live wildfire monitoring, real-time updates, and fire safety resources.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://eyeonthefire.com/#map-section?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
   }
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
