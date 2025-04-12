@@ -15,13 +15,11 @@
   <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Favicon Links -->
   <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
   <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
   <meta name="apple-mobile-web-app-title" content="eyeonthefire">
   <link rel="manifest" href="/favicon/site.webmanifest">
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -29,9 +27,7 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
-  <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
@@ -242,7 +238,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <nav class="navbar">
     <div class="logo">
       <img src="/images/logo.png" alt="Eye on the Fire Logo">
@@ -268,7 +263,6 @@
     <a href="#map-section" class="cta-button">Start Monitoring Now</a>
   </header>
 
-  <!-- Real-Time Fire Map Section -->
   <section class="map-section" id="map-section">
     <div class="map-container" id="map-container">
       <div class="map-header">Interactive Live Fire Map</div>
@@ -290,14 +284,12 @@
     </div>
   </section>
 
-  <!-- Why Choose Us -->
   <section class="content-section">
     <h2>Why Eye on the Fire?</h2>
     <p>Eye on the Fire is the ultimate destination for real-time wildfire tracking. Our interactive map delivers live updates on active fires near you, empowering you with the information to stay safe and informed.</p>
     <a href="#map-section" class="cta-button">Explore the Fire Map</a>
   </section>
 
-  <!-- Prevention Tips -->
   <section id="prevention" class="content-section">
     <h2>Stay Safe with Expert Tips</h2>
     <div class="prevention-grid">
@@ -317,7 +309,6 @@
     <div class="cta-banner">Monitor Fires Now! <a href="#map-section">Check the Live Map</a></div>
   </section>
 
-  <!-- Community Hub -->
   <section id="community" class="content-section">
     <h2>Join Our Community</h2>
     <p>Connect with others, share experiences, and stay updated on active fires through our interactive platform.</p>
@@ -328,7 +319,6 @@
     <a href="recent-fires.html" class="cta-button">See Recent Fires</a>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
@@ -339,7 +329,6 @@
     <div class="cta-banner">Stay Ahead! <a href="#map-section">Track Fires Live</a></div>
   </footer>
 
-  <!-- Structured Data for SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -355,7 +344,6 @@
   }
   </script>
 
-  <!-- Leaflet JS and Map Logic -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     let map, fireLayer, airQualityLayer;
@@ -392,6 +380,7 @@
     async function loadFireData(lat = 34.0522, lon = -118.2437) {
       fireLayer.clearLayers();
       airQualityLayer.clearLayers();
+      console.log('Loading fire data for lat:', lat, 'lon:', lon);
 
       try {
         const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
@@ -399,59 +388,89 @@
         if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
         const firmsText = await firmsResponse.text();
         const firmsLines = firmsText.split('\n').slice(1);
+        console.log('FIRMS lines:', firmsLines.length);
         firmsLines.forEach(line => {
-          const [lat, lon, , , acqDate, acqTime] = line.split(',');
-          if (lat && lon) {
-            L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
+          const [latitude, longitude, , , acqDate, acqTime] = line.split(',');
+          if (latitude && longitude && !isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+            L.marker([parseFloat(latitude), parseFloat(longitude)], { 
+              icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) 
+            })
               .addTo(fireLayer)
               .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
           }
         });
-      } catch (e) { console.error('FIRMS Error:', e); }
+      } catch (e) { 
+        console.error('FIRMS Error:', e.message); 
+      }
 
       try {
         const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
         const nifcResponse = await fetch(nifcUrl);
         if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
         const nifcData = await nifcResponse.json();
+        console.log('NIFC features:', nifcData.features.length);
         nifcData.features.forEach(feature => {
           const { coordinates } = feature.geometry;
           const { IncidentName, Acres, PercentContained } = feature.properties;
-          L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
-            .addTo(fireLayer)
-            .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+          if (coordinates && coordinates.length >= 2 && !isNaN(coordinates[1]) && !isNaN(coordinates[0])) {
+            L.marker([coordinates[1], coordinates[0]], { 
+              icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) 
+            })
+              .addTo(fireLayer)
+              .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+          }
         });
-      } catch (e) { console.error('NIFC Error:', e); }
+      } catch (e) { 
+        console.error('NIFC Error:', e.message); 
+      }
 
       try {
         const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${lon}&distance=100&API_KEY=${AIRNOW_API_KEY}`;
         const airNowResponse = await fetch(airNowUrl);
         if (!airNowResponse.ok) throw new Error(`AirNow API failed: ${airNowResponse.status}`);
         const airNowData = await airNowResponse.json();
+        console.log('AirNow stations:', airNowData.length);
         airNowData.forEach(station => {
           const { Latitude, Longitude, AQI, ParameterName, Category } = station;
-          if (ParameterName === 'PM2.5') {
-            L.circleMarker([Latitude, Longitude], { radius: 10, color: aqiColor(AQI), fillOpacity: 0.5 })
+          if (ParameterName === 'PM2.5' && Latitude && Longitude && !isNaN(Latitude) && !isNaN(Longitude)) {
+            L.circleMarker([Latitude, Longitude], { 
+              radius: 10, 
+              color: aqiColor(AQI), 
+              fillOpacity: 0.5 
+            })
               .addTo(airQualityLayer)
               .bindPopup(`PM2.5 AQI: ${AQI}<br>Category: ${Category.Name}`);
           }
         });
-      } catch (e) { console.error('AirNow Error:', e); }
+      } catch (e) { 
+        console.error('AirNow Error:', e.message); 
+      }
 
       try {
         const nwsUrl = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch';
         const nwsResponse = await fetch(nwsUrl, { headers: { 'User-Agent': 'EyeOnTheFire (info@eyeonthefire.com)' } });
         if (!nwsResponse.ok) throw new Error(`NOAA API failed: ${nwsResponse.status}`);
         const nwsData = await nwsResponse.json();
+        console.log('NOAA alerts:', nwsData.features.length);
         nwsData.features.forEach(alert => {
           const { coordinates } = alert.geometry;
           if (coordinates && coordinates[0]) {
-            L.polygon(coordinates[0].map(coord => [coord[1], coord[0]]), { color: '#ff4500', fillOpacity: 0.3 })
+            L.polygon(coordinates[0].map(coord => [coord[1], coord[0]]), { 
+              color: '#ff4500', 
+              fillOpacity: 0.3 
+            })
               .addTo(fireLayer)
               .bindPopup(alert.properties.headline);
           }
         });
-      } catch (e) { console.error('NOAA Error:', e); }
+      } catch (e) { 
+        console.error('NOAA Error:', e.message); 
+      }
+
+      if (!map.hasLayer(fireLayer)) {
+        fireLayer.addTo(map);
+        console.log('fireLayer added to map');
+      }
     }
 
     function aqiColor(aqi) {
@@ -509,6 +528,5 @@
       document.querySelector('.hamburger').classList.toggle('active');
     }
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92ee8ec73f73bfd1',t:'MTc0NDQxNzIyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
