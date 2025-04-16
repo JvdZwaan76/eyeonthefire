@@ -28,9 +28,157 @@
     gtag('config', 'G-T8RE6KDBEW');
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #333; }
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: #b22222;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .navbar .logo img { height: 40px; }
+    .navbar .logo-text { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
+    .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+    .nav-menu li a { color: #fff; text-decoration: none; font-family: 'Montserrat', sans-serif; font-weight: 500; transition: color 0.3s ease; }
+    .nav-menu li a:hover { color: #ffca28; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger .line { width: 25px; height: 3px; background: #fff; transition: all 0.3s ease; }
+    .hamburger.active .line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .line:nth-child(2) { opacity: 0; }
+    .hamburger.active .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .hero { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg') center/cover; color: #fff; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 15px; }
+    .hero p { font-size: 18px; margin: 0 0 25px; }
+    .map-section { padding: 40px 20px; background: #fff; }
+    .map-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border: 2px solid #b22222;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    #fire-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .map-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(178, 34, 34, 0.9);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      padding: 15px 0;
+      z-index: 1000;
+    }
+    .map-controls, .location-form {
+      position: absolute;
+      top: 60px;
+      z-index: 1000;
+      background: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .map-controls { left: 10px; }
+    .location-form { right: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .map-controls button, .location-form button {
+      padding: 10px 15px;
+      background: #b22222;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+    .map-controls button:hover, .location-form button:hover { background: #8b0000; }
+    .location-form input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+    }
+    .location-form .disclosure { font-size: 12px; color: #666; text-align: center; margin-top: 5px; }
+    .fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; padding-bottom: 0; margin: 0; }
+    .content-section { padding: 60px 20px; text-align: center; background: #f5f5f5; }
+    .content-section h2 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #b22222; margin-bottom: 20px; }
+    .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0; }
+    .prevention-item { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+    .prevention-item h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 500; color: #333; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .gallery-item img { width: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+    .cta-button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #b22222;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover { background: #8b0000; }
+    .cta-banner {
+      background: #b22222;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .cta-banner a { color: #fff; text-decoration: underline; }
+    footer { background: #333; color: #fff; padding: 20px; text-align: center; }
+    footer .social-icons a { color: #fff; margin: 0 10px; font-size: 18px; transition: color 0.3s ease; }
+    footer .social-icons a:hover { color: #ffca28; }
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; padding: 10px; }
+      .nav-menu { display: none; flex-direction: column; width: 100%; text-align: center; gap: 15px; padding: 10px 0; }
+      .nav-menu.active { display: flex; }
+      .hamburger { display: flex; }
+      .hero { padding: 40px 15px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 16px; }
+      .map-section { padding: 20px 10px; }
+      .map-container { padding-bottom: 75%; }
+      .map-header { font-size: 16px; padding: 10px 0; }
+      .map-controls, .location-form { top: 50px; left: 5px; right: auto; width: 120px; }
+      .location-form { top: 150px; }
+      .content-section { padding: 40px 15px; }
+      .prevention-grid, .gallery { grid-template-columns: 1fr; }
+      .cta-button { padding: 12px 25px; font-size: 14px; }
+      .cta-banner { font-size: 16px; padding: 10px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 24px; }
+      .hero p { font-size: 14px; }
+      .content-section h2 { font-size: 24px; }
+      .map-controls button, .location-form button { font-size: 12px; padding: 8px 10px; }
+      .location-form input { font-size: 12px; }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -44,7 +192,7 @@
       <span class="line"></span>
     </div>
     <ul class="nav-menu">
-      <li><a href="#map-section" style="color: #ffca28;">Fire Map</a></li>
+      <li><a href="#map-section">Fire Map</a></li>
       <li><a href="recent-fires.html">Recent Fires</a></li>
       <li><a href="#prevention">Prevention</a></li>
       <li><a href="#community">Community</a></li>
@@ -57,7 +205,6 @@
     <p>Track active wildfires near you with our cutting-edge interactive map.</p>
     <a href="#map-section" class="cta-button">Start Monitoring Now</a>
   </header>
-
   <section class="map-section" id="map-section">
     <div class="map-container" id="map-container">
       <div class="map-header">Interactive Live Fire Map</div>
@@ -65,27 +212,22 @@
         <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
         <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
         <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
+        <button onclick="toggleAirQuality()" aria-label="Toggle air quality markers">Toggle Air Quality</button>
         <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
+      </div>
+      <div class="location-form">
+        <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
+        <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
+        <p class="disclosure">USA & Canada only</p>
       </div>
       <div id="fire-map"></div>
     </div>
   </section>
-
-  <div class="location-form-container">
-    <form class="location-form">
-      <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-      <button type="button" onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
-      <p class="disclosure">USA & Canada only</p>
-      <button type="button" class="close-btn" aria-label="Close">×</button>
-    </form>
-  </div>
-
   <section class="content-section">
     <h2>Why Eye on the Fire?</h2>
     <p>Eye on the Fire is the ultimate destination for real-time wildfire tracking. Our interactive map delivers live updates on active fires near you, empowering you with the information to stay safe and informed.</p>
     <a href="#map-section" class="cta-button">Explore the Fire Map</a>
   </section>
-
   <section id="prevention" class="content-section">
     <h2>Stay Safe with Expert Tips</h2>
     <div class="prevention-grid">
@@ -104,7 +246,6 @@
     </div>
     <div class="cta-banner">Monitor Fires Now! <a href="#map-section">Check the Live Map</a></div>
   </section>
-
   <section id="community" class="content-section">
     <h2>Join Our Community</h2>
     <p>Connect with others, share experiences, and stay updated on active fires through our interactive platform.</p>
@@ -114,7 +255,6 @@
     </div>
     <a href="recent-fires.html" class="cta-button">See Recent Fires</a>
   </section>
-
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
     <div class="social-icons">
@@ -124,7 +264,6 @@
     </div>
     <div class="cta-banner">Stay Ahead! <a href="#map-section">Track Fires Live</a></div>
   </footer>
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -139,7 +278,170 @@
     }
   }
   </script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    let map, fireLayer, airQualityLayer;
+    let showFires = true, showAirQuality = false;
+    const FIRMS_API_KEY = 'd152217c8391eb5b0fbd242290527ae8';
+    const AIRNOW_API_KEY = '54044855-7B0C-4023-BEE4-8B3FCA172DED';
+    const OPENCAGE_API_KEY = 'a40b9e954e50458bbc09ca24e70201a1';
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !map) {
+        initMap();
+        loadFireData();
+        observer.unobserve(document.getElementById('map-container'));
+        setInterval(loadFireData, 900000);
+      }
+    });
+    observer.observe(document.getElementById('map-container'));
+
+    function initMap() {
+      map = L.map('fire-map').setView([37.0902, -95.7129], 4); // Default to U.S. center
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data: FIRMS, NIFC, AirNow, NOAA'
+      }).addTo(map);
+      fireLayer = L.layerGroup().addTo(map);
+      airQualityLayer = L.layerGroup();
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            map.setView([latitude, longitude], 10);
+            loadFireData(latitude, longitude);
+          },
+          () => {
+            console.log('Geolocation denied or unavailable');
+            loadFireData(); // Load default data
+          }
+        );
+      } else {
+        console.log('Geolocation not supported');
+        loadFireData(); // Load default data
+      }
+    }
+
+    async function loadFireData(lat = 37.0902, lon = -95.7129) {
+      fireLayer.clearLayers();
+      airQualityLayer.clearLayers();
+
+      try {
+        const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${FIRMS_API_KEY}/VIIRS_SNPP_NRT/-125,25,-65,50/1`;
+        const firmsResponse = await fetch(firmsUrl);
+        if (!firmsResponse.ok) throw new Error(`FIRMS API failed: ${firmsResponse.status}`);
+        const firmsText = await firmsResponse.text();
+        const firmsLines = firmsText.split('\n').slice(1);
+        firmsLines.forEach(line => {
+          const [lat, lon, , , acqDate, acqTime] = line.split(',');
+          if (lat && lon) {
+            L.marker([parseFloat(lat), parseFloat(lon)], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
+              .addTo(fireLayer)
+              .bindPopup(`FIRMS Hotspot<br>Detected: ${acqDate} ${acqTime}`);
+          }
+        });
+      } catch (e) { console.error('FIRMS Error:', e); }
+
+      try {
+        const nifcUrl = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Current_WildlandFires/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,Acres,PercentContained&returnGeometry=true&f=geojson';
+        const nifcResponse = await fetch(nifcUrl);
+        if (!nifcResponse.ok) throw new Error(`NIFC API failed: ${nifcResponse.status}`);
+        const nifcData = await nifcResponse.json();
+        nifcData.features.forEach(feature => {
+          const { coordinates } = feature.geometry;
+          const { IncidentName, Acres, PercentContained } = feature.properties;
+          L.marker([coordinates[1], coordinates[0]], { icon: L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [25, 25] }) })
+            .addTo(fireLayer)
+            .bindPopup(`<b>${IncidentName}</b><br>Acres: ${Acres}<br>Contained: ${PercentContained}%`);
+        });
+      } catch (e) { console.error('NIFC Error:', e); }
+
+      try {
+        const airNowUrl = `https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${lat}&longitude=${lon}&distance=100&API_KEY=${AIRNOW_API_KEY}`;
+        const airNowResponse = await fetch(airNowUrl);
+        if (!airNowResponse.ok) throw new Error(`AirNow API failed: ${airNowResponse.status}`);
+        const airNowData = await airNowResponse.json();
+        airNowData.forEach(station => {
+          const { Latitude, Longitude, AQI, ParameterName, Category } = station;
+          if (ParameterName === 'PM2.5') {
+            L.circleMarker([Latitude, Longitude], { radius: 10, color: aqiColor(AQI), fillOpacity: 0.5 })
+              .addTo(airQualityLayer)
+              .bindPopup(`PM2.5 AQI: ${AQI}<br>Category: ${Category.Name}`);
+          }
+        });
+      } catch (e) { console.error('AirNow Error:', e); }
+
+      try {
+        const nwsUrl = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch';
+        const nwsResponse = await fetch(nwsUrl, { headers: { 'User-Agent': 'EyeOnTheFire (info@eyeonthefire.com)' } });
+        if (!nwsResponse.ok) throw new Error(`NOAA API failed: ${nwsResponse.status}`);
+        const nwsData = await nwsResponse.json();
+        nwsData.features.forEach(alert => {
+          const { coordinates } = alert.geometry;
+          if (coordinates && coordinates[0]) {
+            L.polygon(coordinates[0].map(coord => [coord[1], coord[0]]), { color: '#ff4500', fillOpacity: 0.3 })
+              .addTo(fireLayer)
+              .bindPopup(alert.properties.headline);
+          }
+        });
+      } catch (e) { console.error('NOAA Error:', e); }
+    }
+
+    function aqiColor(aqi) {
+      if (aqi <= 50) return '#00e400';
+      if (aqi <= 100) return '#ffff00';
+      if (aqi <= 150) return '#ff7e00';
+      if (aqi <= 200) return '#ff0000';
+      if (aqi <= 300) return '#8f3f97';
+      return '#7e0023';
+    }
+
+    async function checkFiresNow() {
+      const zip = document.getElementById('zip-input').value.trim();
+      const usZipRegex = /^\d{5}$/;
+      const caZipRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+
+      if (!usZipRegex.test(zip) && !caZipRegex.test(zip)) {
+        alert('Please enter a valid USA (e.g., 90210) or Canadian (e.g., V6B 2W9) zip code.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${zip}&key=${OPENCAGE_API_KEY}&countrycode=us,ca&limit=1`);
+        const data = await response.json();
+        if (data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry;
+          map.setView([lat, lng], 10);
+          loadFireData(lat, lng);
+        } else {
+          alert('Zip code not found in USA or Canada. Please try again.');
+        }
+      } catch (e) {
+        console.error('Geocoding Error:', e);
+        alert('Error finding location. Please try again.');
+      }
+    }
+
+    function zoomToCA() { map.setView([36.7783, -119.4179], 6); }
+    function zoomToUS() { map.setView([37.0902, -95.7129], 4); }
+    function toggleFires() {
+      showFires = !showFires;
+      showFires ? fireLayer.addTo(map) : fireLayer.remove();
+    }
+    function toggleAirQuality() {
+      showAirQuality = !showAirQuality;
+      showAirQuality ? airQualityLayer.addTo(map) : airQualityLayer.remove();
+    }
+    function toggleFullscreen() {
+      document.getElementById('map-container').classList.toggle('fullscreen');
+      map.invalidateSize();
+    }
+
+    function toggleMenu() {
+      document.querySelector('.nav-menu').classList.toggle('active');
+      document.querySelector('.hamburger').classList.toggle('active');
+    }
+  </script>
   <script src="scripts.js"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93160e20099953e7',t:'MTc0NDgzMTM4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
