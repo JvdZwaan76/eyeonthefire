@@ -63,19 +63,8 @@
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border: 2px solid #b22222;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    #fire-map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     .map-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
       background: rgba(178, 34, 34, 0.9);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
@@ -84,10 +73,24 @@
       text-align: center;
       padding: 15px 0;
       z-index: 1000;
+      white-space: normal;
+      word-wrap: break-word;
+    }
+    .map-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+    #fire-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
     .map-controls, .location-form {
       position: absolute;
-      top: 60px;
       z-index: 1000;
       background: #fff;
       padding: 10px;
@@ -162,10 +165,9 @@
       .hero h1 { font-size: 28px; }
       .hero p { font-size: 16px; }
       .map-section { padding: 20px 10px; }
-      .map-container { padding-bottom: 75%; }
       .map-header { font-size: 16px; padding: 10px 0; }
-      .map-controls, .location-form { top: 50px; left: 5px; right: auto; width: 120px; }
-      .location-form { top: 150px; }
+      .map-wrapper { padding-bottom: 75%; }
+      .map-controls, .location-form { width: 120px; }
       .content-section { padding: 40px 15px; }
       .prevention-grid, .gallery { grid-template-columns: 1fr; }
       .cta-button { padding: 12px 25px; font-size: 14px; }
@@ -175,6 +177,7 @@
       .hero h1 { font-size: 24px; }
       .hero p { font-size: 14px; }
       .content-section h2 { font-size: 24px; }
+      .map-header { font-size: 14px; padding: 8px 0; }
       .map-controls button, .location-form button { font-size: 12px; padding: 8px 10px; }
       .location-form input { font-size: 12px; }
     }
@@ -208,6 +211,9 @@
   <section class="map-section" id="map-section">
     <div class="map-container" id="map-container">
       <div class="map-header">Interactive Live Fire Map</div>
+      <div class="map-wrapper">
+        <div id="fire-map"></div>
+      </div>
       <div class="map-controls">
         <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
         <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
@@ -220,7 +226,6 @@
         <button onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
         <p class="disclosure">USA & Canada only</p>
       </div>
-      <div id="fire-map"></div>
     </div>
   </section>
   <section class="content-section">
@@ -441,6 +446,20 @@
       document.querySelector('.nav-menu').classList.toggle('active');
       document.querySelector('.hamburger').classList.toggle('active');
     }
+
+    // Dynamically position map controls and form below the header
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector('.map-header');
+      const controls = document.querySelector('.map-controls');
+      const form = document.querySelector('.location-form');
+      const setPositions = () => {
+        const headerHeight = header.offsetHeight;
+        controls.style.top = `${headerHeight + 10}px`;
+        form.style.top = `${headerHeight + 10}px`;
+      };
+      setPositions();
+      window.addEventListener('resize', setPositions);
+    });
   </script>
   <script src="scripts.js"></script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93160e20099953e7',t:'MTc0NDgzMTM4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
