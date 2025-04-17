@@ -61,10 +61,10 @@
 
     // Map Variables - Declare only
     let map;
-    let fireLayer; // Initialize later
-    let airQualityLayer; // Initialize later
-    let nifcLayer; // Initialize later
-    let nwsLayer; // Initialize later
+    let fireLayer;
+    let airQualityLayer;
+    let nifcLayer;
+    let nwsLayer;
     let showFires = true;
     let showAirQuality = false;
     let showNIFC = true;
@@ -129,7 +129,7 @@
         }
       } catch (geoError) {
           console.error("[Init] Error accessing or using geolocation:", geoError);
-          // Fallback if accessing navigator.geolocation fails
+          // Fallback if even accessing navigator.geolocation fails
           const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
           geolocationErrorDiv.textContent = 'Could not access location services. Showing default US view.';
           geolocationErrorDiv.style.display = 'block';
@@ -140,10 +140,10 @@
     }
 
     function setupMap(centerCoords, zoomLevel) {
-      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
-      let mapDiv = document.getElementById('fire-map');
-      if (!mapDiv) { console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!"); displayMapError("Map container not found."); mapLoadingMessage.style.display = 'none'; return; }
-      console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
+        console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+        let mapDiv = document.getElementById('fire-map');
+        if (!mapDiv) { console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!"); displayMapError("Map container not found."); mapLoadingMessage.style.display = 'none'; return; }
+        console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
 
       try {
         if (map) { map.remove(); map = null; }
@@ -151,13 +151,12 @@
         map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true });
         console.log("[Setup] L.map object created:", map ? 'Success' : 'Failed');
 
-        // *** Initialize Layer Groups HERE ***
+        // Initialize Layer Groups HERE
         fireLayer = L.layerGroup();
         airQualityLayer = L.layerGroup();
         nifcLayer = L.layerGroup();
         nwsLayer = L.layerGroup();
         console.log("[Setup] Layer groups initialized.");
-        // *** End Initialize Layer Groups ***
 
         const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS' });
         tileLayer.on('load', () => console.log("[Tiles] Tile layer loaded successfully."));
@@ -177,7 +176,7 @@
         map.on('resize', () => { console.log("[Event] Map resize event. Invalidating size."); if(map) map.invalidateSize();});
 
         mapLoadingMessage.style.display = 'none';
-        // Add invalidateSize call at the END of setupMap, with delay
+        // *** invalidateSize call at the END of setupMap, with delay ***
         setTimeout(() => { if (map) { console.log("[Setup] Calling delayed map.invalidateSize()."); map.invalidateSize(); } }, 150);
         console.log("[Setup] Map setup complete.");
 
@@ -185,12 +184,12 @@
     }
 
     function loadInitialData(lat, lon) { /* ... same code ... */ }
-    async function loadFIRMSFires(lat, lon) { /* ... same code ... */ }
+    async function loadFIRMSFires(lat, lon) { /* ... same code with bounding box and regex split ... */ }
     async function loadNIFCFires() { /* ... same code ... */ }
     async function loadAirQuality(lat, lon) { /* ... same code ... */ }
     async function loadNWSWarnings() { /* ... same code ... */ }
-    function addMapControls() { /* ... same code ... */ }
-    function addMapLegend() { /* ... same code ... */ }
+    function addMapControls() { /* ... */ }
+    function addMapLegend() { /* ... */ }
     hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
     function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
     function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
