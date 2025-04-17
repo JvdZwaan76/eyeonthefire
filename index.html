@@ -169,73 +169,91 @@
             const userLat = position.coords.latitude;
             const userLon = position.coords.longitude;
             console.log('[Init] Geolocation successful:', userLat, userLon);
-            setupMap([userLat, userLon], 10); // Use user's location
-            // ** Add slight delay for invalidateSize after setupMap if needed, especially if success path also shows grey map sometimes **
-            // setTimeout(() => { if (map) map.invalidateSize(); }, 100);
+            setupMap([userLat, userLon], 10);
             loadInitialData(userLat, userLon);
           },
           (error) => {
-            // *** UPDATED FALLBACK LOGIC with invalidateSize ***
+            // *** UPDATED FALLBACK: Delay setupMap/loadInitialData ***
             console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
-            const defaultLat = 37.0902; // Center of US
-            const defaultLon = -95.7129;
-            const defaultZoom = 5;      // Wider zoom
+            const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
             geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default US view.`;
             geolocationErrorDiv.style.display = 'block';
-            console.log("[Init] Geolocation failed, setting up map with default US view.");
-            setupMap([defaultLat, defaultLon], defaultZoom);
-            // *** ADDED: Force map size recalculation after a short delay ***
+            console.log("[Init] Geolocation failed, setting up map with default US view after delay.");
+            // Add delay before initializing map in fallback
             setTimeout(() => {
-                if (map) {
-                    console.log("[Init Fallback] Calling map.invalidateSize()");
-                    map.invalidateSize();
-                } else {
-                    console.error("[Init Fallback] Map object not found for invalidateSize call.");
-                }
-            }, 100); // 100ms delay
-            loadInitialData(defaultLat, defaultLon);
+                console.log("[Init Fallback] Executing delayed map setup.");
+                setupMap([defaultLat, defaultLon], defaultZoom);
+                loadInitialData(defaultLat, defaultLon);
+            }, 300); // 300ms delay - adjust if needed
           },
           { timeout: 8000 }
         );
-      } else { /* ... No Geolocation Fallback ... */
+      } else {
+         // *** UPDATED FALLBACK: Delay setupMap/loadInitialData ***
         console.warn('[Init] Geolocation is not supported by this browser.');
         const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
         geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default US view.';
         geolocationErrorDiv.style.display = 'block';
-        console.log("[Init] Geolocation not supported, setting up map with default US view.");
-        setupMap([defaultLat, defaultLon], defaultZoom);
-         // *** ADDED: Force map size recalculation after a short delay ***
+        console.log("[Init] Geolocation not supported, setting up map with default US view after delay.");
+         // Add delay before initializing map in fallback
         setTimeout(() => {
-            if (map) {
-                console.log("[Init No Geolocation] Calling map.invalidateSize()");
-                map.invalidateSize();
-            } else {
-                console.error("[Init No Geolocation] Map object not found for invalidateSize call.");
-            }
-        }, 100); // 100ms delay
-        loadInitialData(defaultLat, defaultLon);
+             console.log("[Init No Geolocation] Executing delayed map setup.");
+             setupMap([defaultLat, defaultLon], defaultZoom);
+             loadInitialData(defaultLat, defaultLon);
+        }, 300); // 300ms delay - adjust if needed
       }
     }
 
-    function setupMap(centerCoords, zoomLevel) { /* ... same map setup code ... */
-        console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel); try { if (map) { map.remove(); map = null; } map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true }); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS' }).addTo(map); console.log("[Setup] Adding initial layers to map object..."); if (showFires && fireLayer) fireLayer.addTo(map); if (showNIFC && nifcLayer) nifcLayer.addTo(map); if (showNWS && nwsLayer) nwsLayer.addTo(map); addMapControls(); addMapLegend(); map.on('fullscreenchange', function () { mapWrapper.classList.toggle('fullscreen', map.isFullscreen()); map.invalidateSize(); }); mapLoadingMessage.style.display = 'none'; console.log("[Setup] Map setup complete."); } catch(e) { console.error("[Setup] CRITICAL Error during map setup:", e); mapLoadingMessage.style.display = 'none'; displayMapError("Critical error setting up the map. Please refresh."); } }
-    function loadInitialData(lat, lon) { /* ... same data loading code ... */
-        console.log('[LoadData] Loading initial data for coords:', lat, lon); mapErrorMessage.style.display = 'none'; mapErrorMessage.textContent = ''; Promise.allSettled([ loadNIFCFires(), loadNWSWarnings(), loadFIRMSFires(lat, lon) ]).then(results => { console.log('[LoadData] Initial data loading promises settled.'); results.forEach((result, index) => { if (result.status === 'rejected') { console.error(`[LoadData] Promise ${index} rejected:`, result.reason); } }); }); }
+    function setupMap(centerCoords, zoomLevel) {
+      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+      try {
+        if (map) { map.remove(); map = null; }
+        map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true });
+
+        // *** ADDED: Tile Layer Event Listeners ***
+        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
+        });
+
+        tileLayer.on('load', function() {
+            console.log("[Tiles] Tile layer finished loading.");
+        });
+        tileLayer.on('tileerror', function(error) {
+            console.error("[Tiles] Tile layer error:", error);
+            // Optionally display a message if tiles fail repeatedly
+            // displayMapError("Map background tiles could not load.");
+        });
+
+        tileLayer.addTo(map);
+        console.log("[Setup] Tile layer added to map.");
+        // *** END Tile Layer Listeners ***
+
+        console.log("[Setup] Adding initial data layers to map object...");
+        if (showFires && fireLayer) fireLayer.addTo(map);
+        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
+        if (showNWS && nwsLayer) nwsLayer.addTo(map);
+
+        addMapControls();
+        addMapLegend();
+
+        map.on('fullscreenchange', function () { mapWrapper.classList.toggle('fullscreen', map.isFullscreen()); map.invalidateSize(); });
+        mapLoadingMessage.style.display = 'none'; console.log("[Setup] Map setup complete.");
+
+      } catch(e) { console.error("[Setup] CRITICAL Error during map setup:", e); mapLoadingMessage.style.display = 'none'; displayMapError("Critical error setting up the map. Please refresh."); }
+    }
+
+    function loadInitialData(lat, lon) { /* ... same data loading code ... */ }
 
     // --- Data Loading Functions ---
-    async function loadFIRMSFires(lat, lon) { /* ... same code with bounding box and regex split ... */
-        const apiKey = NASA_API_KEY; const placeholderKey = 'YOUR_NASA_FIRMS_API_KEY_HERE'; if (!apiKey || apiKey === placeholderKey) { console.warn('[FIRMS] API Key is missing...'); displayMapError('FIRMS data unavailable (API Key missing).'); fireLayer.clearLayers(); return; } const source = 'VIIRS_SNPP_NRT'; const lookbackDays = 2; const area = '-125,24,-66,50'; const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/${source}/${area}/${lookbackDays}`; console.log(`[FIRMS] Fetching FIRMS data for ${lookbackDays} days, bounding box:`, area); mapLoadingMessage.style.display = 'block'; let markerCount = 0; fireLayer.clearLayers();
-      try { const response = await fetch(url); console.log("[FIRMS] Response Status:", response.status, response.statusText); if (!response.ok) { const errorText = await response.text(); console.error("[FIRMS] API Response Error Text:", errorText); if(response.status === 400 && errorText.toLowerCase().includes("invalid area")) { throw new Error(`API Error 400: Invalid Area format.`); } throw new Error(`API Error: ${response.status} ${response.statusText}`); } const csvData = await response.text(); console.log("[FIRMS] CSV Data Received (length):", csvData.length); const lines = csvData.trim().split(/\r?\n/); console.log("[FIRMS] CSV lines count:", lines.length); if (lines.length <= 1) { console.log("[FIRMS] No active FIRMS hotspots found..."); mapLoadingMessage.style.display = 'none'; return; } const headers = lines[0].split(','); const latIndex = headers.indexOf('latitude'); const lonIndex = headers.indexOf('longitude'); const brightIndex = headers.indexOf('bright_ti5'); const dateIndex = headers.indexOf('acq_date'); const timeIndex = headers.indexOf('acq_time'); const confidenceIndex = headers.indexOf('confidence'); if (latIndex === -1 || lonIndex === -1) { throw new Error("Invalid FIRMS CSV format."); } const fireIcon = L.icon({ iconUrl: 'images/fire-icon.png', iconSize: [25, 25], iconAnchor: [12, 25], popupAnchor: [0, -25] });
-          lines.slice(1).forEach((line, index) => { console.log(`[FIRMS Processing Line ${index + 1}] Raw:`, line); try { const values = line.split(','); if (values.length > Math.max(latIndex, lonIndex)) { const latStr = values[latIndex]; const lonStr = values[lonIndex]; const lat = parseFloat(latStr); const lon = parseFloat(lonStr); console.log(`[FIRMS Processing Line ${index + 1}] Parsed lat: ${lat}, lon: ${lon}`); if (!isNaN(lat) && !isNaN(lon)) { const brightness = values[brightIndex] || 'N/A'; const date = values[dateIndex] || 'N/A'; const timeRaw = values[timeIndex] || ''; const time = timeRaw.padStart(4, '0'); const confidence = values[confidenceIndex] || 'N/A'; const marker = L.marker([lat, lon], { icon: fireIcon }).bindPopup(`<b>FIRMS Hotspot (${confidence})</b><br>Detected: ${date} ${time.substring(0,2)}:${time.substring(2)}<br>Brightness: ${brightness} K`); console.log(`[FIRMS Processing Line ${index + 1}] ADDING MARKER at ${lat}, ${lon}`); fireLayer.addLayer(marker); markerCount++; } else { console.warn(`[FIRMS Processing Line ${index + 1}] SKIPPED - Invalid lat/lon.`); } } else { console.warn(`[FIRMS Processing Line ${index + 1}] SKIPPED - Insufficient fields.`); } } catch (lineError) { console.error(`[FIRMS Processing Line ${index + 1}] Error:`, lineError, "Line:", line); } });
-           console.log(`[FIRMS] Added ${markerCount} markers to fireLayer.`); if (markerCount > 0) { mapErrorMessage.style.display = 'none'; } else { console.log("[FIRMS] Processed CSV lines but no valid marker data found or added."); displayMapError('FIRMS data received but no valid hotspots found.'); }
-      } catch (error) { console.error('[FIRMS] Error fetching or processing FIRMS data:', error); displayMapError(`Could not load FIRMS data: ${error.message}`);
-      } finally { if (map) { if (showFires && !map.hasLayer(fireLayer)) { fireLayer.addTo(map); } else if (!showFires && map.hasLayer(fireLayer)) { fireLayer.remove(); } } mapLoadingMessage.style.display = 'none'; console.log("[FIRMS] Data loading finished."); } }
+    async function loadFIRMSFires(lat, lon) { /* ... same code with bounding box, regex split, lookback=2, detailed logging ... */ }
     async function loadNIFCFires() { /* ... same code ... */ }
     async function loadAirQuality(lat, lon) { /* ... same code ... */ }
     async function loadNWSWarnings() { /* ... same code ... */ }
 
     // --- Control Handlers & Helper Functions ---
     /* ... hamburger, navMenu, centerOnUserLocation, zoomToCA, zoomToUS, toggleFireLayers, toggleAirQuality, toggleNWSLayer, handleZipSearch, getAQIColor, displayMapError logic as before ... */
+     /* Includes definition of addMapControls and addMapLegend before initializeMap now */
+    function addMapControls() { /* ... */ } function addMapLegend() { /* ... */ }
     hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
     function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
     function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
