@@ -8,23 +8,23 @@
 body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
-  color: #333; /* Darker grey for better contrast */
+  color: #333;
   background-color: #f9f9f9;
-  margin: 0; /* Ensure no margin on body */
-  padding-top: 80px; /* Add padding to prevent content from hiding behind fixed navbar */
+  margin: 0;
+  padding-top: 80px;
 }
 
 /* Typography */
 h1, h2, h3 {
   font-family: 'Montserrat', sans-serif;
-  color: #b71c1c; /* Darker, more subdued fire red */
-  margin-bottom: 0.75em; /* Consistent spacing */
+  color: #b71c1c;
+  margin-bottom: 0.75em;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; } /* Responsive font size */
+h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
 h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
 h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; /* Slightly lighter text color */}
+p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
 a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
 a:hover { color: #b71c1c; text-decoration: underline; }
 
@@ -32,7 +32,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; /* Padding for smaller screens */
+  padding: 0 1rem;
 }
 
 /* Navbar */
@@ -40,8 +40,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 2rem; /* Adjusted padding */
-  background: rgba(45, 45, 45, 0.95); /* Darker background with slight transparency */
+  padding: 0.5rem 2rem;
+  background: rgba(45, 45, 45, 0.95);
   width: 100%;
   position: fixed;
   top: 0;
@@ -51,6 +51,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   transition: padding 0.3s ease;
 }
 
+.navbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -58,26 +65,26 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .logo img {
-  height: 50px; /* Slightly smaller logo */
+  height: 50px;
   width: auto;
 }
 
 .logo-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.8rem; /* Adjusted size */
-  font-weight: 600; /* Slightly bolder */
-  color: #ffcc80; /* Lighter orange/yellow */
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffcc80;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   transition: color 0.3s ease;
 }
 .logo-text:hover {
-  color: #ffa726; /* Brighter on hover */
+  color: #ffa726;
 }
 
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 1.5rem; /* Consistent gap */
+  gap: 1.5rem;
 }
 
 .nav-menu li a {
@@ -89,7 +96,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   transition: color 0.3s ease;
 }
 
-.nav-menu li a::after { /* Underline effect on hover */
+.nav-menu li a::after {
   content: '';
   position: absolute;
   width: 0;
@@ -115,7 +122,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   padding: 10px;
   background: none;
   border: none;
-  z-index: 1001; /* Above nav menu on mobile */
+  z-index: 1001;
 }
 
 .hamburger .line {
@@ -144,15 +151,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 60vh; /* Reduced height */
+  min-height: 60vh;
   padding: 3rem 1rem;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/hero-bg.jpg') center/cover no-repeat;
   color: #fff;
-  margin-top: -80px; /* Overlap navbar space since body has padding-top */
+  margin-top: -80px;
 }
 
 .hero h1 {
-  color: #fff; /* White for contrast */
+  color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   margin-bottom: 1rem;
 }
@@ -161,7 +168,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   font-size: clamp(1.1rem, 3vw, 1.3rem);
   max-width: 700px;
   margin-bottom: 2rem;
-  color: #eee; /* Light grey */
+  color: #eee;
 }
 
 /* Buttons */
@@ -188,29 +195,29 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .hero .cta-button {
-    background-color: #ffcc80; /* Match logo accent */
-    color: #333;
-    border: 1px solid #b71c1c;
+  background-color: #ffcc80;
+  color: #333;
+  border: 1px solid #b71c1c;
 }
 .hero .cta-button:hover {
-    background-color: #ffa726;
-    box-shadow: 0 4px 8px rgba(255, 167, 38, 0.4);
+  background-color: #ffa726;
+  box-shadow: 0 4px 8px rgba(255, 167, 38, 0.4);
 }
 
 /* Map Section */
 .map-section {
-  padding: 3rem 0; /* Vertical padding */
-  background: #f0f0f0; /* Slightly different background */
+  padding: 3rem 0;
+  background: #f0f0f0;
 }
 
 .map-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; /* Padding for spacing */
+  padding: 0 1rem;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Contain map elements */
+  overflow: hidden;
 }
 
 .map-header {
@@ -223,15 +230,50 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   padding: 0.8rem 1rem;
 }
 
-/* Use Leaflet's default control positioning */
-#fire-map {
-  width: 100%;
-  height: 600px; /* Default height */
+/* Map Container (for recent-fires.html) */
+.map-container {
   position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border: 2px solid #b71c1c;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#fire-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  display: block !important; /* Ensure visibility */
-  visibility: visible !important; /* Prevent hiding */
+}
+
+.map-controls {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  z-index: 1000;
+  background: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.map-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: 0;
+  margin: 0;
+  z-index: 9999;
 }
 
 /* Style Leaflet controls */
@@ -239,7 +281,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   box-shadow: 0 1px 5px rgba(0,0,0,0.4);
   border-radius: 5px;
   background: #fff;
-  padding: 5px; /* Add padding inside controls */
+  padding: 5px;
 }
 
 .leaflet-control-container .leaflet-bar a,
@@ -255,18 +297,18 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   text-decoration: none;
   color: #333;
   font-size: 1.1rem;
-  border-radius: 0; /* Reset default radius if needed */
+  border-radius: 0;
 }
 .leaflet-control-container .leaflet-bar a:first-child,
 .leaflet-control-container .leaflet-bar button:first-child {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 .leaflet-control-container .leaflet-bar a:last-child,
 .leaflet-control-container .leaflet-bar button:last-child {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom: none;
 }
 
 .leaflet-control-container .leaflet-bar a:hover,
@@ -284,10 +326,10 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .leaflet-control-custom button.map-button {
-  display: block; /* Stack buttons vertically */
+  display: block;
   width: 100%;
   margin-bottom: 5px;
-  padding: 8px 12px; /* Adjust button padding */
+  padding: 8px 12px;
   font-size: 0.9rem;
 }
 .leaflet-control-custom button.map-button:last-child {
@@ -296,8 +338,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .location-form {
   display: flex;
-  flex-direction: column; /* Stack vertically */
-  gap: 5px; /* Space between elements */
+  flex-direction: column;
+  gap: 5px;
   padding: 8px;
   background: #fff;
   border-radius: 5px;
@@ -310,7 +352,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   border-radius: 4px;
   font-family: 'Open Sans', sans-serif;
   font-size: 0.9rem;
-  width: 150px; /* Fixed width or adjust as needed */
+  width: 150px;
   transition: border-color 0.3s ease;
 }
 .location-form input[type="text"]:focus {
@@ -319,13 +361,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .location-form button {
-  padding: 8px 12px; /* Adjust padding */
+  padding: 8px 12px;
   font-size: 0.9rem;
 }
 
 .location-form .disclosure {
   font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem; /* Smaller font */
+  font-size: 0.75rem;
   color: #666;
   text-align: center;
   margin-top: 3px;
@@ -342,54 +384,54 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   padding: 0;
   margin: 0;
   border-radius: 0;
-  background: #fff; /* Ensure background */
+  background: #fff;
 }
 
 .map-wrapper.fullscreen #fire-map {
-  height: calc(100% - 40px); /* Adjust height considering potential header/controls */
+  height: calc(100% - 40px);
   border-radius: 0;
 }
 .map-wrapper.fullscreen .map-header {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 /* Map Legend */
 .legend {
-    line-height: 1.5;
-    color: #333;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 10px 15px;
-    border-radius: 5px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  line-height: 1.5;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 }
 .legend h4 {
-    font-family: 'Montserrat', sans-serif;
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: #b71c1c;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #b71c1c;
 }
 .legend i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-    border-radius: 50%; /* For AQI circles */
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+  border-radius: 50%;
 }
 .legend img {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
 }
-.legend .polygon { /* Style for polygon representation */
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    border: 1px solid #ff4500;
-    background-color: rgba(255, 69, 0, 0.3); /* OrangeRed */
+.legend .polygon {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  border: 1px solid #ff4500;
+  background-color: rgba(255, 69, 0, 0.3);
 }
 
 /* Content Sections */
@@ -398,17 +440,17 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   text-align: center;
 }
 
-.content-section:nth-of-type(odd) { /* Alternate background */
+.content-section:nth-of-type(odd) {
   background-color: #fff;
 }
 
 .content-section h2 {
   position: relative;
-  display: inline-block; /* Allow underline to fit content */
+  display: inline-block;
   margin-bottom: 2rem;
 }
 
-.content-section h2::after { /* Underline accent */
+.content-section h2::after {
   content: '';
   display: block;
   width: 60px;
@@ -420,7 +462,131 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .content-section p {
   max-width: 800px;
-  margin: 0 auto 2rem auto; /* Center paragraph text */
+  margin: 0 auto 2rem auto;
+}
+
+/* Status Section (status.html) */
+.status-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.status-list {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-indicator .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.status-indicator .dot.operational {
+  background-color: #28a745;
+}
+
+.status-indicator .dot.maintenance {
+  background-color: #ffc107;
+}
+
+.status-indicator .dot.downtime {
+  background-color: #dc3545;
+}
+
+.status-indicator span {
+  font-size: 14px;
+  color: #333;
+}
+
+.status-footer {
+  font-size: 14px;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* Fires Section (recent-fires.html) */
+.fires-section {
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.fire-media {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.media-item {
+  width: 100%;
+  max-width: 300px;
+}
+
+.media-item img, .media-item video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.media-caption {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.safety-tips {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.safety-tips li {
+  margin: 10px 0;
+}
+
+.safety-tips li strong {
+  color: #b71c1c;
+}
+
+/* About Section (about.html) */
+.certificate-info {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.certificate-info ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
 }
 
 /* Prevention Section Grid */
@@ -438,12 +604,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   border: 1px solid #eee;
-  text-align: left; /* Align text left for readability */
+  text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .prevention-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
 .prevention-item h3 {
@@ -486,10 +652,10 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 500;
-  max-width: 800px; /* Limit width */
+  max-width: 800px;
 }
 .cta-banner a {
-  color: #ffcc80; /* Accent color */
+  color: #ffcc80;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -499,26 +665,26 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Footer */
 footer {
-  background: #2d2d2d; /* Dark background */
-  color: #ccc; /* Lighter text */
+  background: #2d2d2d;
+  color: #ccc;
   text-align: center;
   padding: 2rem 1rem;
   font-size: 0.9rem;
-  border-top: 3px solid #b71c1c; /* Accent border */
+  border-top: 3px solid #b71c1c;
 }
 
 footer p {
-    color: #ccc;
-    margin-bottom: 1rem;
+  color: #ccc;
+  margin-bottom: 1rem;
 }
 
 footer a {
-  color: #ffcc80; /* Accent color */
+  color: #ffcc80;
   margin: 0 0.5rem;
 }
 
 footer a:hover {
-  color: #ffa726; /* Brighter hover */
+  color: #ffa726;
   text-decoration: underline;
 }
 
@@ -529,14 +695,14 @@ footer a:hover {
 
 .social-icons a {
   color: #ffcc80;
-  font-size: 1.5rem; /* Larger icons */
-  margin: 0 0.75rem; /* Increased spacing */
+  font-size: 1.5rem;
+  margin: 0 0.75rem;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-icons a:hover {
   color: #fff;
-  transform: scale(1.1); /* Slight scale effect */
+  transform: scale(1.1);
 }
 
 /* Responsive Adjustments */
@@ -544,95 +710,104 @@ footer a:hover {
 /* Tablet */
 @media (max-width: 768px) {
   body {
-    padding-top: 0; /* Remove padding as navbar becomes static/part of flow */
+    padding-top: 0;
   }
 
   .navbar {
-    position: static; /* Navbar scrolls with page */
+    position: static;
     flex-direction: column;
-    align-items: flex-start; /* Align items to start */
+    align-items: flex-start;
     padding: 0.5rem 1rem;
   }
 
-  .navbar-header { /* Group logo and hamburger */
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-  }
-
   .hamburger {
-    display: block; /* Show hamburger */
+    display: block;
   }
 
   .nav-menu {
-    display: none; /* Hide menu by default */
+    display: none;
     flex-direction: column;
     width: 100%;
-    background: rgba(45, 45, 45, 1); /* Solid background when open */
+    background: rgba(45, 45, 45, 1);
     padding: 1rem 0;
-    gap: 0; /* Remove gap for vertical stacking */
+    gap: 0;
   }
 
   .nav-menu.active {
-    display: flex; /* Show menu when active */
+    display: flex;
   }
 
   .nav-menu li {
     width: 100%;
     text-align: center;
-    margin: 0; /* Remove margin */
-    border-bottom: 1px solid #444; /* Separator */
+    margin: 0;
+    border-bottom: 1px solid #444;
   }
   .nav-menu li:last-child {
     border-bottom: none;
   }
 
   .nav-menu li a {
-    padding: 1rem; /* Larger touch target */
-    display: block; /* Make links full width */
+    padding: 1rem;
+    display: block;
     width: 100%;
   }
   .nav-menu li a::after {
-    display: none; /* Hide underline effect on mobile */
+    display: none;
   }
 
   .hero {
     min-height: 50vh;
-    margin-top: 0; /* No overlap needed */
-    background-attachment: scroll; /* Ensure background scrolls on mobile */
+    margin-top: 0;
+    background-attachment: scroll;
   }
 
   #fire-map {
     height: 500px;
-    position: relative;
-    min-height: 300px;
-    overflow: visible;
-  }
-
-  .map-wrapper {
-    overflow: visible;
-    position: relative;
-    padding: 0 0.5rem;
   }
 
   .content-section {
     padding: 3rem 1rem;
   }
 
+  .status-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .map-container {
+    max-width: 100%;
+    padding-bottom: 75%;
+  }
+
+  .map-controls, .location-form {
+    top: 50px;
+    left: 5px;
+    right: auto;
+  }
+
+  .media-item {
+    max-width: 100%;
+  }
+
+  .safety-tips {
+    text-align: center;
+  }
+
   .prevention-grid, .gallery {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust grid columns */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 
   .location-form input[type="text"] {
-      width: 120px; /* Adjust width */
+    width: 120px;
   }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
   .navbar {
-      padding: 0.5rem;
+    padding: 0.5rem;
   }
 
   .logo img {
@@ -649,54 +824,45 @@ footer a:hover {
 
   #fire-map {
     height: 400px;
-    position: relative;
-    min-height: 250px;
-    overflow: visible;
-  }
-
-  .map-wrapper {
-    overflow: visible;
-    position: relative;
-    padding: 0 0.5rem;
   }
 
   .map-header {
-      padding: 0.6rem 0.8rem;
+    padding: 0.6rem 0.8rem;
   }
 
   .leaflet-control-custom button.map-button,
   .location-form button {
-      padding: 6px 10px;
-      font-size: 0.8rem;
+    padding: 6px 10px;
+    font-size: 0.8rem;
   }
   .location-form input[type="text"] {
-      padding: 6px 8px;
-      font-size: 0.8rem;
-      width: 100px; /* Smaller width */
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    width: 100px;
   }
-   .location-form .disclosure {
-       font-size: 0.7rem;
-   }
+  .location-form .disclosure {
+    font-size: 0.7rem;
+  }
 
   .content-section {
     padding: 2rem 0.5rem;
   }
   .prevention-grid, .gallery {
-      grid-template-columns: 1fr; /* Stack items */
-      gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   .prevention-item {
-      padding: 1rem;
+    padding: 1rem;
   }
   .cta-banner {
-      padding: 0.8rem 1rem;
+    padding: 0.8rem 1rem;
   }
   footer {
-      padding: 1.5rem 0.5rem;
-      font-size: 0.8rem;
+    padding: 1.5rem 0.5rem;
+    font-size: 0.8rem;
   }
   .social-icons a {
-      font-size: 1.3rem;
-      margin: 0 0.5rem;
+    font-size: 1.3rem;
+    margin: 0 0.5rem;
   }
 }
