@@ -12,15 +12,15 @@
   <meta property="og:title" content="Eye on the Fire - Premier Interactive Fire Map">
   <meta property="og:description" content="Monitor active wildfires near you with Eye on the Fire’s interactive live map. Stay updated with real-time fire data and safety resources.">
   <meta property="og:url" content="https://eyeonthefire.com/">
-  <meta property="og:image" content="images/hero-bg.jpg">
+  <meta property="og:image" content="/images/hero-bg.jpg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
-  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" sizes="180x180">
+  <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
   <meta name="apple-mobile-web-app-title" content="eyeonthefire">
-  <link rel="manifest" href="favicon/site.webmanifest">
+  <link rel="manifest" href="/favicon/site.webmanifest">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.css" integrity="sha512-DRkMa+fn898M1uc6s9JZeztUoXN6viuHsXmh/pgz3jG6a77YWO3U3QYEjLoqbxOeclc2NunWfMTya4Y5twXAKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
 
 </head>
 <body>
@@ -44,7 +44,7 @@
   <nav class="navbar">
     <div class="navbar-header">
         <a href="#" class="logo">
-            <img src="images/fire-icon.png" alt="Eye on the Fire Logo">
+            <img src="/images/fire-icon.png" alt="Eye on the Fire Logo">
             <span class="logo-text">Eye on the Fire</span>
         </a>
         <button class="hamburger" id="hamburger-menu" aria-label="Toggle Menu">
@@ -101,16 +101,16 @@
           <p>Stay connected with local resources and see updates from affected areas.</p>
           <div class="cta-banner"><p>Find local emergency services and evacuation information: <a href="#" target="_blank" rel="noopener noreferrer">Local Authority Website</a></p></div>
           <div class="gallery">
-              <div class="gallery-item"><img src="images/community-1.jpg" alt="Community effort example"></div>
-              <div class="gallery-item"><img src="images/community-2.jpg" alt="Firefighters working"></div>
-              <div class="gallery-item"><img src="images/community-3.jpg" alt="Landscape after fire"></div>
+              <div class="gallery-item"><img src="/images/community-1.jpg" alt="Community effort example"></div>
+              <div class="gallery-item"><img src="/images/community-2.jpg" alt="Firefighters working"></div>
+              <div class="gallery-item"><img src="/images/community-3.jpg" alt="Landscape after fire"></div>
           </div>
       </div>
   </section>
 
   <footer>
     <div class="container">
-      <p>&copy; 2025 Eye on the Fire. All Rights Reserved.</p>
+      <p>© 2025 Eye on the Fire. All Rights Reserved.</p>
       <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a></p>
       <div class="social-icons">
         <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -189,11 +189,103 @@
     document.addEventListener('DOMContentLoaded', () => {
       console.log('[Init] DOMContentLoaded, delaying map initialization...');
       // Delay initialization to ensure DOM and CSS are fully rendered
-      setTimeout(initializeMap, 100);
+      setTimeout(initializeMap, 300);
     });
 
-    // --- Function Definitions ---
+    // --- Core Functions ---
+    function initializeMap(attempt = 1) {
+      console.log(`[Init] Initializing map (Attempt ${attempt})...`);
+      if (attempt > 3) {
+        console.error('[Init] Max initialization attempts reached');
+        displayMapError('Failed to initialize map. Please refresh.');
+        mapLoadingMessage.style.display = 'none';
+        return;
+      }
 
+      // Validate container size before initialization
+      if (!validateMapSize()) {
+        console.warn(`[Init] Map container size invalid, retrying after delay (Attempt ${attempt})...`);
+        setTimeout(() => initializeMap(attempt + 1), 300);
+        return;
+      }
+
+      mapLoadingMessage.style.display = 'block';
+      mapErrorMessage.style.display = 'none';
+      geolocationErrorDiv.style.display = 'none';
+
+      // Use default US view instead of geolocation
+      const defaultLat = 37.0902;
+      const defaultLon = -95.7129;
+      const defaultZoom = 5;
+      console.log("[Init] Setting up map with default US view.");
+      setupMap([defaultLat, defaultLon], defaultZoom);
+      loadInitialData(defaultLat, defaultLon);
+    }
+
+    function setupMap(centerCoords, zoomLevel) {
+      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+      try {
+        if (map) {
+          map.remove();
+          map = null;
+        }
+        map = L.map('fire-map', {
+          center: centerCoords,
+          zoom: zoomLevel,
+          fullscreenControl: true
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
+        }).addTo(map);
+        console.log("[Setup] Adding initial layers to map object...");
+        if (showFires && fireLayer) fireLayer.addTo(map);
+        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
+        if (showNWS && nwsLayer) nwsLayer.addTo(map);
+        addMapControls();
+        addMapLegend();
+        map.on('fullscreenchange', function () {
+          mapWrapper.classList.toggle('fullscreen', map.isFullscreen());
+          map.invalidateSize();
+          console.log('[Setup] Fullscreen toggled, invalidated map size');
+        });
+        // Debug tile loading
+        map.on('tileload', () => console.log('[Map] Tile loaded'));
+        map.on('tileerror', (e) => console.error('[Map] Tile error:', e));
+        // Force size recalculation after initialization
+        setTimeout(() => {
+          if (map) {
+            map.invalidateSize();
+            console.log('[Setup] Post-init invalidateSize called');
+            validateMapSize();
+          }
+        }, 100);
+        // Force size recalculation after layers are added
+        setTimeout(() => {
+          if (map) {
+            map.invalidateSize();
+            console.log('[Setup] Post-layer invalidateSize called');
+          }
+        }, 500);
+        mapLoadingMessage.style.display = 'none';
+        console.log("[Setup] Map setup complete.");
+      } catch (e) {
+        console.error("[Setup] CRITICAL Error during map setup:", e);
+        mapLoadingMessage.style.display = 'none';
+        displayMapError("Critical error setting up the map. Please refresh.");
+      }
+    }
+
+    // Debounced resize handler
+    const handleResize = debounce(() => {
+      if (map) {
+        map.invalidateSize();
+        console.log('[Resize] Map size invalidated on window resize');
+        validateMapSize();
+      }
+    }, 250);
+    window.addEventListener('resize', handleResize);
+
+    // --- Function Definitions ---
     function addMapControls() {
       if (!map) { console.error("[Controls] Map not initialized when trying to add controls."); return; }
       console.log("[Setup] Adding map controls...");
@@ -249,122 +341,12 @@
       const legend = L.control({ position: 'bottomright' });
       legend.onAdd = function (map) {
         const div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML = `<h4>Legend</h4><div><img src="images/fire-icon.png" alt="FIRMS Icon" style="width: 18px; height: 18px; vertical-align: middle;"> FIRMS Hotspot</div><div><img src="images/nifc-fire.png" alt="NIFC Icon" style="width: 18px; height: 18px; vertical-align: middle;"> NIFC Incident</div><div><span class="polygon" style="display: inline-block; vertical-align: middle;"></span> NWS Warning</div><hr style="margin: 5px 0;"><strong>AQI (PM2.5)</strong><br><div style="margin-top: 3px;"><i style="background: #00e400;"></i> Good (0-50)</div><div><i style="background: #ffff00;"></i> Moderate (51-100)</div><div><i style="background: #ff7e00;"></i> Unhealthy Sensitive (101-150)</div><div><i style="background: #ff0000;"></i> Unhealthy (151-200)</div><div><i style="background: #8f3f97;"></i> Very Unhealthy (201-300)</div><div><i style="background: #7e0023;"></i> Hazardous (301+)</div>`;
+        div.innerHTML = `<h4>Legend</h4><div><img src="/images/fire-icon.png" alt="FIRMS Icon" style="width: 18px; height: 18px; vertical-align: middle;"> FIRMS Hotspot</div><div><img src="/images/nifc-fire.png" alt="NIFC Icon" style="width: 18px; height: 18px; vertical-align: middle;"> NIFC Incident</div><div><span class="polygon" style="display: inline-block; vertical-align: middle;"></span> NWS Warning</div><hr style="margin: 5px 0;"><strong>AQI (PM2.5)</strong><br><div style="margin-top: 3px;"><i style="background: #00e400;"></i> Good (0-50)</div><div><i style="background: #ffff00;"></i> Moderate (51-100)</div><div><i style="background: #ff7e00;"></i> Unhealthy Sensitive (101-150)</div><div><i style="background: #ff0000;"></i> Unhealthy (151-200)</div><div><i style="background: #8f3f97;"></i> Very Unhealthy (201-300)</div><div><i style="background: #7e0023;"></i> Hazardous (301+)</div>`;
         return div;
       };
       legend.addTo(map);
       console.log("[Setup] Map legend added.");
     }
-
-    // --- Core Functions ---
-    function initializeMap() {
-      console.log("[Init] Initializing map...");
-      mapLoadingMessage.style.display = 'block';
-      mapErrorMessage.style.display = 'none';
-      geolocationErrorDiv.style.display = 'none';
-
-      // Validate container size before initialization
-      if (!validateMapSize()) {
-        console.warn('[Init] Map container size invalid, retrying after delay...');
-        setTimeout(initializeMap, 200);
-        return;
-      }
-
-      if (navigator.geolocation) {
-        console.log("[Init] Attempting geolocation...");
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const userLat = position.coords.latitude;
-            const userLon = position.coords.longitude;
-            console.log('[Init] Geolocation successful:', userLat, userLon);
-            setupMap([userLat, userLon], 10);
-            loadInitialData(userLat, userLon);
-          },
-          (error) => {
-            console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
-            const defaultLat = 37.0902;
-            const defaultLon = -95.7129;
-            const defaultZoom = 5;
-            geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default US view.`;
-            geolocationErrorDiv.style.display = 'block';
-            console.log("[Init] Geolocation failed, setting up map with default US view.");
-            setupMap([defaultLat, defaultLon], defaultZoom);
-            loadInitialData(defaultLat, defaultLon);
-          },
-          { timeout: 8000 }
-        );
-      } else {
-        console.warn('[Init] Geolocation is not supported by this browser.');
-        const defaultLat = 37.0902;
-        const defaultLon = -95.7129;
-        const defaultZoom = 5;
-        geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default US view.';
-        geolocationErrorDiv.style.display = 'block';
-        console.log("[Init] Geolocation not supported, setting up map with default US view.");
-        setupMap([defaultLat, defaultLon], defaultZoom);
-        loadInitialData(defaultLat, defaultLon);
-      }
-    }
-
-    function setupMap(centerCoords, zoomLevel) {
-      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
-      try {
-        if (map) {
-          map.remove();
-          map = null;
-        }
-        map = L.map('fire-map', {
-          center: centerCoords,
-          zoom: zoomLevel,
-          fullscreenControl: true
-        });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
-        }).addTo(map);
-        console.log("[Setup] Adding initial layers to map object...");
-        if (showFires && fireLayer) fireLayer.addTo(map);
-        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
-        if (showNWS && nwsLayer) nwsLayer.addTo(map);
-        addMapControls();
-        addMapLegend();
-        map.on('fullscreenchange', function () {
-          mapWrapper.classList.toggle('fullscreen', map.isFullscreen());
-          map.invalidateSize();
-          console.log('[Setup] Fullscreen toggled, invalidated map size');
-        });
-        // Force size recalculation after initialization
-        setTimeout(() => {
-          if (map) {
-            map.invalidateSize();
-            console.log('[Setup] Post-init invalidateSize called');
-            validateMapSize();
-          }
-        }, 100);
-        // Force size recalculation after layers are added
-        setTimeout(() => {
-          if (map) {
-            map.invalidateSize();
-            console.log('[Setup] Post-layer invalidateSize called');
-          }
-        }, 500);
-        mapLoadingMessage.style.display = 'none';
-        console.log("[Setup] Map setup complete.");
-      } catch (e) {
-        console.error("[Setup] CRITICAL Error during map setup:", e);
-        mapLoadingMessage.style.display = 'none';
-        displayMapError("Critical error setting up the map. Please refresh.");
-      }
-    }
-
-    // Debounced resize handler
-    const handleResize = debounce(() => {
-      if (map) {
-        map.invalidateSize();
-        console.log('[Resize] Map size invalidated on window resize');
-        validateMapSize();
-      }
-    }, 250);
-    window.addEventListener('resize', handleResize);
 
     function loadInitialData(lat, lon) {
       console.log('[LoadData] Loading initial data for coords:', lat, lon);
@@ -392,7 +374,6 @@
     }
 
     // --- Data Loading Functions ---
-
     async function loadFIRMSFires(lat, lon) {
       const apiKey = NASA_API_KEY;
       const placeholderKey = 'YOUR_NASA_FIRMS_API_KEY_HERE';
@@ -441,7 +422,7 @@
           throw new Error("Invalid FIRMS CSV format (missing lat/lon headers).");
         }
         const fireIcon = L.icon({
-          iconUrl: 'images/fire-icon.png',
+          iconUrl: '/images/fire-icon.png',
           iconSize: [25, 25],
           iconAnchor: [12, 25],
           popupAnchor: [0, -25]
@@ -515,7 +496,7 @@
         }
         const data = await response.json();
         const nifcIcon = L.icon({
-          iconUrl: 'images/nifc-fire.png',
+          iconUrl: '/images/nifc-fire.png',
           iconSize: [30, 30],
           iconAnchor: [15, 30],
           popupAnchor: [0, -30]
