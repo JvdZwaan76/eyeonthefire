@@ -49,7 +49,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.js" integrity="sha512-c6ydt5Rypa1ptlnH2U1u+JybARYppbD1qxgythCI4pJ9EOfNYEWlLBjxBX926O3tq5p4Aw5GTY68vT0FdKbG3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    console.log("[Script] Main script block started."); // Added initial log
+    console.log("[Script] Main script block started.");
 
     // ========================================================================
     // !!! CRITICAL SECURITY WARNING !!!
@@ -80,51 +80,58 @@
       mapErrorMessage.style.display = 'none';
       geolocationErrorDiv.style.display = 'none';
 
-      if (navigator.geolocation) {
-        console.log("[Init] Attempting geolocation...");
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            // *** Geolocation Success - Removed outer setTimeout ***
-            const userLat = position.coords.latitude;
-            const userLon = position.coords.longitude;
-            console.log('[Init] Geolocation successful:', userLat, userLon);
-            setupMap([userLat, userLon], 10); // Use user's location directly
-            loadInitialData(userLat, userLon);
-          },
-          (error) => {
-            // *** Geolocation Failure - Removed outer setTimeout ***
-            console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
-            const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
-            geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default US view.`;
-            geolocationErrorDiv.style.display = 'block';
-            console.log("[Init] Geolocation failed, setting up map with default US view.");
-            setupMap([defaultLat, defaultLon], defaultZoom);
-            loadInitialData(defaultLat, defaultLon);
-          },
-          { timeout: 8000 }
-        );
-      } else {
-         // *** No Geolocation - Removed outer setTimeout ***
-        console.warn('[Init] Geolocation is not supported by this browser.');
-        const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
-        geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default US view.';
-        geolocationErrorDiv.style.display = 'block';
-        console.log("[Init] Geolocation not supported, setting up map with default US view.");
-        setupMap([defaultLat, defaultLon], defaultZoom);
-        loadInitialData(defaultLat, defaultLon);
+      // *** ADDED: Check for geolocation object and wrap logic in try/catch ***
+      try {
+        console.log('[Init] Checking navigator.geolocation:', typeof navigator.geolocation);
+        if (navigator.geolocation) {
+          console.log("[Init] Attempting geolocation...");
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userLat = position.coords.latitude;
+              const userLon = position.coords.longitude;
+              console.log('[Init] Geolocation successful:', userLat, userLon);
+              setupMap([userLat, userLon], 10);
+              loadInitialData(userLat, userLon);
+            },
+            (error) => {
+              // Geolocation Failure Fallback
+              console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
+              const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
+              geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default US view.`;
+              geolocationErrorDiv.style.display = 'block';
+              console.log("[Init] Geolocation failed, setting up map with default US view.");
+              setupMap([defaultLat, defaultLon], defaultZoom);
+              loadInitialData(defaultLat, defaultLon);
+            },
+            { timeout: 8000 }
+          );
+        } else {
+          // No Geolocation Support Fallback
+          console.warn('[Init] Geolocation is not supported by this browser.');
+          const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
+          geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default US view.';
+          geolocationErrorDiv.style.display = 'block';
+          console.log("[Init] Geolocation not supported, setting up map with default US view.");
+          setupMap([defaultLat, defaultLon], defaultZoom);
+          loadInitialData(defaultLat, defaultLon);
+        }
+      } catch (geoError) {
+          console.error("[Init] Error accessing or using geolocation:", geoError);
+          // Fallback if even accessing navigator.geolocation fails
+          const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
+          geolocationErrorDiv.textContent = 'Could not access location services. Showing default US view.';
+          geolocationErrorDiv.style.display = 'block';
+          console.error("[Init] Falling back to default US view due to geolocation access error.");
+          setupMap([defaultLat, defaultLon], defaultZoom);
+          loadInitialData(defaultLat, defaultLon);
       }
     }
 
     function setupMap(centerCoords, zoomLevel) {
-      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
-      let mapDiv = document.getElementById('fire-map'); // Get the container div
-      if (!mapDiv) {
-          console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!");
-          displayMapError("Map container not found. Cannot initialize map.");
-          mapLoadingMessage.style.display = 'none';
-          return; // Stop if div doesn't exist
-      }
-      console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
+        console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+        let mapDiv = document.getElementById('fire-map');
+        if (!mapDiv) { console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!"); displayMapError("Map container not found. Cannot initialize map."); mapLoadingMessage.style.display = 'none'; return; }
+        console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
 
       try {
         if (map) { map.remove(); map = null; }
@@ -132,33 +139,23 @@
         map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true });
         console.log("[Setup] L.map object created:", map ? 'Success' : 'Failed');
 
-        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
-        });
-        tileLayer.on('load', () => console.log("[Tiles] Tile layer finished loading."));
+        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS' });
+        tileLayer.on('load', () => console.log("[Tiles] Tile layer loaded successfully."));
         tileLayer.on('tileerror', (error) => { console.error("[Tiles] Tile layer error:", error); displayMapError("Map tiles could not load."); });
         tileLayer.addTo(map);
         console.log("[Setup] Tile layer added to map.");
 
         console.log("[Setup] Adding initial data layers...");
-        if (showFires && fireLayer) fireLayer.addTo(map);
-        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
-        if (showNWS && nwsLayer) nwsLayer.addTo(map);
+        if (showFires && fireLayer) fireLayer.addTo(map); if (showNIFC && nifcLayer) nifcLayer.addTo(map); if (showNWS && nwsLayer) nwsLayer.addTo(map);
 
-        addMapControls();
-        addMapLegend();
+        addMapControls(); addMapLegend();
 
         map.on('fullscreenchange', function () { mapWrapper.classList.toggle('fullscreen', map.isFullscreen()); map.invalidateSize(); });
-        map.on('resize', () => { console.log("[Event] Map resize event. Invalidating size."); map.invalidateSize();}); // Added invalidate on resize
+        map.on('resize', () => { console.log("[Event] Map resize event. Invalidating size."); if(map) map.invalidateSize();});
 
         mapLoadingMessage.style.display = 'none';
-        // *** Re-added invalidateSize call at the END of setupMap, with delay ***
-        setTimeout(() => {
-            if (map) {
-                 console.log("[Setup] Calling delayed map.invalidateSize().");
-                 map.invalidateSize();
-            }
-        }, 150); // Slightly longer delay might help sometimes
+        // *** invalidateSize call at the END of setupMap, with delay ***
+        setTimeout(() => { if (map) { console.log("[Setup] Calling delayed map.invalidateSize()."); map.invalidateSize(); } }, 150);
         console.log("[Setup] Map setup complete.");
 
       } catch(e) { console.error("[Setup] CRITICAL Error during map setup:", e); mapLoadingMessage.style.display = 'none'; displayMapError("Critical error setting up the map. Please refresh."); }
