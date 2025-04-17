@@ -67,8 +67,8 @@
     <div class="map-wrapper" id="map-wrapper">
         <div class="map-header">Interactive Wildfire Map</div>
         <div id="fire-map">
-            <div id="map-loading-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555;">Loading map data...</div>
-            <div id="map-error-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px;"></div>
+            <div id="map-loading-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001;">Loading map data...</div>
+            <div id="map-error-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; z-index: 1001;"></div>
         </div>
     </div>
     <div id="geolocation-error" style="text-align: center; color: #b71c1c; margin-top: 10px; display: none;">Could not get your location. Showing default view.</div>
@@ -164,409 +164,316 @@
     const geolocationErrorDiv = document.getElementById('geolocation-error');
     const mapWrapper = document.getElementById('map-wrapper');
 
-    // Initial Map Load Function (called after Leaflet is ready)
-    function initializeMap() {
-      console.log("Initializing map...");
-      mapLoadingMessage.style.display = 'block'; // Show loading message
-      mapErrorMessage.style.display = 'none';   // Hide error message
-      geolocationErrorDiv.style.display = 'none'; // Hide geolocation error
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', initializeMap);
 
-      // Attempt Geolocation first
+    // --- Core Functions ---
+    function initializeMap() {
+      console.log("[Init] Initializing map...");
+      mapLoadingMessage.style.display = 'block';
+      mapErrorMessage.style.display = 'none';
+      geolocationErrorDiv.style.display = 'none';
+
       if (navigator.geolocation) {
-        console.log("Attempting geolocation...");
+        console.log("[Init] Attempting geolocation...");
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            // Geolocation successful
             const userLat = position.coords.latitude;
             const userLon = position.coords.longitude;
-            console.log('Geolocation successful:', userLat, userLon);
-            // Focus map near Moorpark, CA (user's current location context)
-            setupMap([34.2836, -118.8815], 10);
-            loadInitialData(userLat, userLon); // Load data for user's actual location for accuracy
+            console.log('[Init] Geolocation successful:', userLat, userLon);
+            setupMap([34.2836, -118.8815], 10); // Focus Moorpark
+            loadInitialData(userLat, userLon); // Load data for actual location
           },
           (error) => {
-            // Geolocation failed or denied
-            console.warn(`Geolocation error (${error.code}): ${error.message}`);
+            console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
             geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default view.`;
-            geolocationErrorDiv.style.display = 'block'; // Show error message
-            // Fallback to Moorpark, CA if geolocation fails
-            const defaultLat = 34.2836;
+            geolocationErrorDiv.style.display = 'block';
+            const defaultLat = 34.2836; // Moorpark fallback
             const defaultLon = -118.8815;
-            console.log("Geolocation failed, setting up map with default location (Moorpark, CA).");
-            setupMap([defaultLat, defaultLon], 9); // Slightly more zoomed out default
-            loadInitialData(defaultLat, defaultLon); // Load data for default location
+            console.log("[Init] Geolocation failed, setting up map with default location (Moorpark, CA).");
+            setupMap([defaultLat, defaultLon], 9);
+            loadInitialData(defaultLat, defaultLon);
           },
-          { timeout: 8000 } // Set a timeout for geolocation
+          { timeout: 8000 }
         );
       } else {
-        // Geolocation not supported by browser
-        console.warn('Geolocation is not supported by this browser.');
-        geolocationErrorDiv.textContent = 'Geolocation not supported by this browser. Showing default view.';
+        console.warn('[Init] Geolocation is not supported by this browser.');
+        geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default view.';
         geolocationErrorDiv.style.display = 'block';
-         // Fallback to Moorpark, CA
-        const defaultLat = 34.2836;
+        const defaultLat = 34.2836; // Moorpark fallback
         const defaultLon = -118.8815;
-        console.log("Geolocation not supported, setting up map with default location (Moorpark, CA).");
+        console.log("[Init] Geolocation not supported, setting up map with default location (Moorpark, CA).");
         setupMap([defaultLat, defaultLon], 9);
         loadInitialData(defaultLat, defaultLon);
       }
     }
 
-    // Setup Map Function
     function setupMap(centerCoords, zoomLevel) {
-        console.log("Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
-        try {
-            map = L.map('fire-map', {
-                center: centerCoords,
-                zoom: zoomLevel,
-                fullscreenControl: true, // Enable fullscreen control
-            });
-
-            // Tile Layer (OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
-            }).addTo(map);
-
-            // Add initial layers
-            console.log("Adding initial layers to map (fire, nifc, nws)...");
-            if (showFires) fireLayer.addTo(map);
-            if (showNIFC) nifcLayer.addTo(map);
-            if (showNWS) nwsLayer.addTo(map);
-            // airQualityLayer is added based on toggle
-
-            // Add Controls after map is initialized
-            addMapControls();
-            addMapLegend();
-
-            // Handle map resize after fullscreen toggle
-            map.on('fullscreenchange', function () {
-                console.log("Fullscreen toggled. Invalidating map size.");
-                mapWrapper.classList.toggle('fullscreen', map.isFullscreen());
-                map.invalidateSize(); // Important to resize map correctly
-            });
-
-             mapLoadingMessage.style.display = 'none'; // Hide loading message once map is set up
-             console.log("Map setup complete.");
-
-        } catch(e) {
-            console.error("Error during map setup:", e);
-            mapLoadingMessage.style.display = 'none';
-            displayMapError("Critical error setting up the map. Please refresh.");
+      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+      try {
+        // Defensive check: If map already exists, remove it first
+        if (map) {
+          console.warn("[Setup] Map already exists. Removing previous instance.");
+          map.remove();
+          map = null;
         }
+        map = L.map('fire-map', {
+            center: centerCoords,
+            zoom: zoomLevel,
+            fullscreenControl: true,
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
+        }).addTo(map);
+
+        console.log("[Setup] Adding initial layers to map...");
+        if (showFires && fireLayer) fireLayer.addTo(map);
+        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
+        if (showNWS && nwsLayer) nwsLayer.addTo(map);
+
+        addMapControls();
+        addMapLegend();
+
+        map.on('fullscreenchange', function () {
+            console.log("[Event] Fullscreen toggled. Invalidating map size.");
+            mapWrapper.classList.toggle('fullscreen', map.isFullscreen());
+            map.invalidateSize();
+        });
+
+         mapLoadingMessage.style.display = 'none';
+         console.log("[Setup] Map setup complete.");
+
+      } catch(e) {
+        console.error("[Setup] CRITICAL Error during map setup:", e);
+        mapLoadingMessage.style.display = 'none';
+        displayMapError("Critical error setting up the map. Please refresh.");
+      }
     }
 
-    // Function to load all initial data
     function loadInitialData(lat, lon) {
-        console.log('Loading initial data for coords:', lat, lon);
-        // Clear any previous errors
-        mapErrorMessage.style.display = 'none';
-        mapErrorMessage.textContent = '';
+      console.log('[LoadData] Loading initial data for coords:', lat, lon);
+      mapErrorMessage.style.display = 'none';
+      mapErrorMessage.textContent = '';
 
-        // Load data concurrently
-        Promise.allSettled([
-            loadNIFCFires(),
-            loadNWSWarnings(),
-            loadFIRMSFires(lat, lon)
-            // Optionally load AQI immediately if desired
-            // loadAirQuality(lat, lon)
-        ]).then(results => {
-            console.log('Initial data loading settled.');
-            results.forEach((result, index) => {
-                if (result.status === 'rejected') {
-                    console.error(`Data load failed for promise ${index}:`, result.reason);
-                }
-            });
-        });
-
-        // Set interval for periodic updates
-        // Consider staggering intervals if needed
-        // setInterval(loadFIRMSFires, 900000); // Refresh FIRMS every 15 mins
-        // setInterval(loadNIFCFires, 1800000); // Refresh NIFC every 30 mins
-        // setInterval(loadNWSWarnings, 3600000); // Refresh NWS every 60 mins
-        // AQI might be better loaded on demand or when location changes significantly
+      Promise.allSettled([
+          loadNIFCFires(),
+          loadNWSWarnings(),
+          loadFIRMSFires(lat, lon)
+          // loadAirQuality(lat, lon) // Optional: load initial AQI too
+      ]).then(results => {
+          console.log('[LoadData] Initial data loading promises settled.');
+          results.forEach((result, index) => {
+              if (result.status === 'rejected') {
+                  console.error(`[LoadData] Promise ${index} rejected:`, result.reason);
+              } else {
+                   console.log(`[LoadData] Promise ${index} fulfilled.`);
+              }
+          });
+      });
     }
-
-    // Add Custom Controls to the Map
-    function addMapControls() {
-        console.log("Adding map controls...");
-        // --- Zoom/Location Control ---
-        L.Control.Custom = L.Control.extend({
-            onAdd: function(map) {
-                const container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar');
-                container.innerHTML = `
-                    <button id="zoom-ca" class="map-button" title="Zoom to California">Zoom CA</button>
-                    <button id="zoom-us" class="map-button" title="Zoom to United States">Zoom US</button>
-                    <button id="locate-me" class="map-button" title="Use My Location"><i class="fas fa-location-crosshairs"></i> My Location</button>
-                `;
-                L.DomEvent.disableClickPropagation(container); // Prevent map click when clicking control
-                // Add event listeners
-                L.DomEvent.on(container.querySelector('#zoom-ca'), 'click', zoomToCA);
-                L.DomEvent.on(container.querySelector('#zoom-us'), 'click', zoomToUS);
-                L.DomEvent.on(container.querySelector('#locate-me'), 'click', centerOnUserLocation);
-                return container;
-            },
-            onRemove: function(map) {} // Cleanup if needed
-        });
-        new L.Control.Custom({ position: 'topleft' }).addTo(map);
-
-        // --- Layer Toggle Control ---
-         L.Control.LayerToggle = L.Control.extend({
-            onAdd: function(map) {
-                const container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar');
-                container.innerHTML = `
-                    <button id="toggle-fires" class="map-button ${showFires ? 'active' : ''}" title="Toggle FIRMS/NIFC Layers"><i class="fas fa-fire"></i> Fires</button>
-                    <button id="toggle-aqi" class="map-button ${showAirQuality ? 'active' : ''}" title="Toggle Air Quality Layer"><i class="fas fa-wind"></i> AQI</button>
-                    <button id="toggle-nws" class="map-button ${showNWS ? 'active' : ''}" title="Toggle NWS Alerts Layer"><i class="fas fa-cloud-sun-rain"></i> Weather</button>
-                `;
-                L.DomEvent.disableClickPropagation(container);
-                L.DomEvent.on(container.querySelector('#toggle-fires'), 'click', toggleFireLayers);
-                L.DomEvent.on(container.querySelector('#toggle-aqi'), 'click', toggleAirQuality);
-                 L.DomEvent.on(container.querySelector('#toggle-nws'), 'click', toggleNWSLayer);
-                return container;
-            },
-            onRemove: function(map) {}
-        });
-        new L.Control.LayerToggle({ position: 'topleft' }).addTo(map);
-
-        // --- Zip Code Search Control ---
-        L.Control.ZipSearch = L.Control.extend({
-            onAdd: function(map) {
-                const container = L.DomUtil.create('div', 'location-form leaflet-control'); // Use leaflet-control for default styling base
-                container.innerHTML = `
-                    <form id="location-form" style="display: flex; align-items: center; gap: 5px;">
-                      <input type="text" id="zip-code" placeholder="Zip Code (US/CA)" required pattern="^(\\d{5}(-\\d{4})?|[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d)$" title="Enter 5-digit US zip or Canadian postal code (e.g., A1A 1A1)">
-                      <button type="submit" title="Search by Zip Code"><i class="fas fa-search"></i></button>
-                    </form>
-                    <div class="disclosure">US/Canada Only</div>
-                `;
-                L.DomEvent.disableClickPropagation(container);
-                L.DomEvent.on(container.querySelector('#location-form'), 'submit', handleZipSearch);
-                return container;
-            },
-            onRemove: function(map) {}
-        });
-        new L.Control.ZipSearch({ position: 'topright' }).addTo(map);
-        console.log("Map controls added.");
-    }
-
-     // Add Map Legend
-    function addMapLegend() {
-         console.log("Adding map legend...");
-        const legend = L.control({ position: 'bottomright' });
-        legend.onAdd = function (map) {
-            const div = L.DomUtil.create('div', 'info legend');
-            div.innerHTML = `
-                <h4>Legend</h4>
-                 <div><img src="images/fire-icon.png" alt="FIRMS Icon" style="width: 18px; height: 18px; vertical-align: middle;"> FIRMS Hotspot</div>
-                <div><img src="images/nifc-fire.png" alt="NIFC Icon" style="width: 18px; height: 18px; vertical-align: middle;"> NIFC Incident</div>
-                <div><span class="polygon" style="display: inline-block; vertical-align: middle;"></span> NWS Warning</div>
-                <hr style="margin: 5px 0;">
-                <strong>AQI (PM2.5)</strong><br>
-                <div style="margin-top: 3px;"><i style="background: #00e400;"></i> Good (0-50)</div>
-                <div><i style="background: #ffff00;"></i> Moderate (51-100)</div>
-                <div><i style="background: #ff7e00;"></i> Unhealthy Sensitive (101-150)</div>
-                <div><i style="background: #ff0000;"></i> Unhealthy (151-200)</div>
-                <div><i style="background: #8f3f97;"></i> Very Unhealthy (201-300)</div>
-                <div><i style="background: #7e0023;"></i> Hazardous (301+)</div>
-            `;
-            // Ensure correct paths for legend images
-            return div;
-        };
-        legend.addTo(map);
-         console.log("Map legend added.");
-    }
-
 
     // --- Data Loading Functions ---
 
-    // Load NASA FIRMS Fire Data
     async function loadFIRMSFires(lat, lon) {
-        const apiKey = NASA_API_KEY; // Use the constant defined at the top
-         if (!apiKey || apiKey === 'YOUR_NASA_FIRMS_API_KEY_HERE') { // Check against placeholder too
-            console.warn('NASA FIRMS API Key is missing or is a placeholder. FIRMS data will not load.');
-            displayMapError('FIRMS data unavailable (API Key missing).');
-            return; // Stop execution if key is missing
-        }
-        // TODO: Consider fetching based on map bounds (map.getBounds()) instead of a fixed area
-        const source = 'VIIRS_SNPP_NRT';
-        const lookbackDays = 1;
-        const area = 'USA';
-        const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/${source}/${area}/${lookbackDays}`;
-        // !!! THIS URL CONSTRUCTION SHOULD HAPPEN SERVER-SIDE FOR PRODUCTION!!!
+      const apiKey = NASA_API_KEY;
+      const placeholderKey = 'YOUR_NASA_FIRMS_API_KEY_HERE'; // Define placeholder for check
+      if (!apiKey || apiKey === placeholderKey) {
+          console.warn('[FIRMS] API Key is missing or placeholder. FIRMS data will not load.');
+          displayMapError('FIRMS data unavailable (API Key missing).');
+          fireLayer.clearLayers(); // Ensure layer is clear if no key
+          return;
+      }
+      const source = 'VIIRS_SNPP_NRT';
+      const lookbackDays = 1;
+      const area = 'USA';
+      const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/${source}/${area}/${lookbackDays}`;
+      console.log("[FIRMS] Fetching FIRMS data from:", url.replace(apiKey, "REDACTED_KEY"));
+      mapLoadingMessage.style.display = 'block';
+      let markerCount = 0;
+      fireLayer.clearLayers(); // Clear previous points before fetching
 
-        console.log("Fetching FIRMS data from:", url.replace(apiKey, "REDACTED_KEY")); // Log URL safely
-        mapLoadingMessage.style.display = 'block';
+      try {
+          const response = await fetch(url);
+          console.log("[FIRMS] Response Status:", response.status, response.statusText);
+          if (!response.ok) {
+               const errorText = await response.text(); // Attempt to get error details from API
+               console.error("[FIRMS] API Response Error Text:", errorText);
+               throw new Error(`API Error: ${response.status} ${response.statusText}`);
+          }
+          const csvData = await response.text();
+          console.log("[FIRMS] CSV Data Received (length):", csvData.length);
 
-        let markerCount = 0;
-        try {
-            const response = await fetch(url);
-            console.log("FIRMS Response Status:", response.status);
+          const lines = csvData.trim().split('\n');
+          console.log("[FIRMS] CSV lines count:", lines.length);
+          if (lines.length <= 1) {
+              console.log("[FIRMS] No active FIRMS hotspots found in CSV data.");
+              return; // No data or only header
+          }
+          const headers = lines[0].split(',');
+          console.log("[FIRMS] CSV Headers:", headers);
 
-            if (!response.ok) {
-                 const errorText = await response.text();
-                throw new Error(`FIRMS API Error: ${response.status} ${response.statusText}. Response: ${errorText}`);
-            }
-            const csvData = await response.text();
-            fireLayer.clearLayers();
+          const latIndex = headers.indexOf('latitude');
+          const lonIndex = headers.indexOf('longitude');
+          const brightIndex = headers.indexOf('bright_ti5');
+          const dateIndex = headers.indexOf('acq_date');
+          const timeIndex = headers.indexOf('acq_time');
+          const confidenceIndex = headers.indexOf('confidence');
 
-            const lines = csvData.trim().split('\n');
-            console.log("FIRMS CSV lines count:", lines.length);
-            if (lines.length <= 1) {
-                console.log("No active FIRMS hotspots found in CSV data.");
-                 mapLoadingMessage.style.display = 'none';
-                return;
-            }
-            const headers = lines[0].split(',');
+           if (latIndex === -1 || lonIndex === -1) {
+              console.error("[FIRMS] Could not find latitude/longitude columns in CSV headers.");
+              throw new Error("Invalid FIRMS CSV format (missing lat/lon headers).");
+          }
 
-            const latIndex = headers.indexOf('latitude');
-            const lonIndex = headers.indexOf('longitude');
-            const brightIndex = headers.indexOf('bright_ti5');
-            const dateIndex = headers.indexOf('acq_date');
-            const timeIndex = headers.indexOf('acq_time');
-            const confidenceIndex = headers.indexOf('confidence');
+          const fireIcon = L.icon({
+               iconUrl: 'images/fire-icon.png', // Relative path
+              iconSize: [25, 25], iconAnchor: [12, 25], popupAnchor: [0, -25]
+          });
 
-             if (latIndex === -1 || lonIndex === -1) {
-                console.error("Could not find latitude/longitude columns in FIRMS CSV headers:", headers);
-                throw new Error("Invalid FIRMS CSV format (missing lat/lon headers).");
-            }
+          lines.slice(1).forEach((line, index) => {
+              try {
+                  const values = line.split(',');
+                  if (values.length > Math.max(latIndex, lonIndex)) { // Basic check
+                      const lat = parseFloat(values[latIndex]);
+                      const lon = parseFloat(values[lonIndex]);
 
-            const fireIcon = L.icon({
-                 iconUrl: 'images/fire-icon.png', // Relative path
-                iconSize: [25, 25],
-                iconAnchor: [12, 25],
-                popupAnchor: [0, -25]
-            });
+                      if (!isNaN(lat) && !isNaN(lon)) {
+                          const brightness = values[brightIndex] || 'N/A';
+                          const date = values[dateIndex] || 'N/A';
+                          const timeRaw = values[timeIndex] || '';
+                          const time = timeRaw.padStart(4, '0');
+                          const confidence = values[confidenceIndex] || 'N/A';
 
-            lines.slice(1).forEach((line, index) => {
-                try {
-                    const values = line.split(',');
-                    if (values.length > Math.max(latIndex, lonIndex, brightIndex, dateIndex, timeIndex, confidenceIndex)) {
-                        const lat = parseFloat(values[latIndex]);
-                        const lon = parseFloat(values[lonIndex]);
+                          const marker = L.marker([lat, lon], { icon: fireIcon })
+                              .bindPopup(`<b>FIRMS Hotspot (${confidence})</b><br>Detected: ${date} ${time.substring(0,2)}:${time.substring(2)}<br>Brightness: ${brightness} K`);
+                          fireLayer.addLayer(marker);
+                          markerCount++;
+                      } else {
+                          // console.warn(`[FIRMS] Skipping line ${index + 1}: Invalid lat/lon`, values);
+                      }
+                  } else {
+                       // console.warn(`[FIRMS] Skipping line ${index + 1}: Insufficient fields`, values);
+                  }
+              } catch (lineError) {
+                   console.error(`[FIRMS] Error processing line ${index + 1}:`, lineError, "Line:", line);
+              }
+          });
+           console.log(`[FIRMS] Added ${markerCount} markers to fireLayer.`);
 
-                        if (!isNaN(lat) && !isNaN(lon)) {
-                            const brightness = values[brightIndex] || 'N/A';
-                            const date = values[dateIndex] || 'N/A';
-                            const timeRaw = values[timeIndex] || '';
-                            const time = timeRaw.padStart(4, '0');
-                            const confidence = values[confidenceIndex] || 'N/A';
-
-                            const marker = L.marker([lat, lon], { icon: fireIcon })
-                                .bindPopup(`<b>FIRMS Hotspot (${confidence})</b><br>Detected: ${date} ${time.substring(0,2)}:${time.substring(2)}<br>Brightness: ${brightness} K`);
-                            fireLayer.addLayer(marker);
-                            markerCount++;
-                        }
-                    }
-                } catch (lineError) {
-                     console.error(`Error processing FIRMS line ${index + 1}:`, lineError, "Line:", line);
-                }
-            });
-             console.log(`Added ${markerCount} FIRMS markers to the layer.`);
-
-        } catch (error) {
-            console.error('Error fetching or processing FIRMS data:', error);
-            displayMapError(`Could not load FIRMS fire data: ${error.message}`);
-        } finally {
-            if (showFires && !map.hasLayer(fireLayer)) {
-                fireLayer.addTo(map);
-                 console.log("Ensured fireLayer is on the map.");
-            }
-            mapLoadingMessage.style.display = 'none';
-             console.log("FIRMS data loading finished.");
-        }
+      } catch (error) {
+          console.error('[FIRMS] Error fetching or processing FIRMS data:', error);
+          displayMapError(`Could not load FIRMS data: ${error.message}`);
+      } finally {
+          // Ensure layer visibility matches state
+          if (map) { // Check if map exists
+              if (showFires && !map.hasLayer(fireLayer)) {
+                  fireLayer.addTo(map);
+                  console.log("[FIRMS] Added fireLayer back to map.");
+              } else if (!showFires && map.hasLayer(fireLayer)) {
+                  fireLayer.remove();
+                  console.warn("[FIRMS] Removed fireLayer from map as showFires is false.");
+              }
+          }
+          mapLoadingMessage.style.display = 'none';
+          console.log("[FIRMS] Data loading finished.");
+      }
     }
 
-    // Load NIFC Fire Data
     async function loadNIFCFires() {
-        const url = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/CY_WildlandFire_Locations_ToDate/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,FireDiscoveryDateTime,InitialLatitude,InitialLongitude,PercentContained,CalculatedAcres,EstimatedCostToDate&outSR=4326&f=json';
-        // !!! CONSIDER MOVING THIS FETCH SERVER-SIDE for stability/rate-limiting !!!
+      const url = 'https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/CY_WildlandFire_Locations_ToDate/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,FireDiscoveryDateTime,InitialLatitude,InitialLongitude,PercentContained,CalculatedAcres,EstimatedCostToDate&outSR=4326&f=json';
+      console.log("[NIFC] Fetching NIFC data...");
+      mapLoadingMessage.style.display = 'block';
+      let markerCount = 0;
+      nifcLayer.clearLayers(); // Clear previous points
 
-        console.log("Fetching NIFC data...");
-        mapLoadingMessage.style.display = 'block';
-        let markerCount = 0;
+      try {
+          const response = await fetch(url);
+          console.log("[NIFC] Response Status:", response.status, response.statusText);
+          if (!response.ok) {
+               const errorText = await response.text();
+               console.error("[NIFC] API Response Error Text:", errorText);
+              throw new Error(`API Error: ${response.status} ${response.statusText}`);
+          }
+          const data = await response.json();
+          console.log("[NIFC] Data Received. Feature count:", data.features ? data.features.length : 0);
 
-        try {
-            const response = await fetch(url);
-            console.log("NIFC Response Status:", response.status);
-            if (!response.ok) {
-                 const errorText = await response.text();
-                throw new Error(`NIFC API Error: ${response.status} ${response.statusText}. Response: ${errorText}`);
-            }
-            const data = await response.json();
-            nifcLayer.clearLayers();
+          const nifcIcon = L.icon({
+               iconUrl: 'images/nifc-fire.png', // Relative path
+              iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30]
+          });
 
-            const nifcIcon = L.icon({
-                 iconUrl: 'images/nifc-fire.png', // Relative path
-                iconSize: [30, 30],
-                iconAnchor: [15, 30],
-                popupAnchor: [0, -30]
-            });
+          if (data.features && data.features.length > 0) {
+              data.features.forEach((feature, index) => {
+                   try {
+                      const props = feature.attributes;
+                      const geom = feature.geometry;
+                      if (geom && typeof geom.y === 'number' && typeof geom.x === 'number') {
+                          const discoveredDate = props.FireDiscoveryDateTime ? new Date(props.FireDiscoveryDateTime).toLocaleString() : 'N/A';
+                          const containment = props.PercentContained !== null ? `${props.PercentContained}%` : 'N/A';
+                          const acres = props.CalculatedAcres !== null ? Math.round(props.CalculatedAcres).toLocaleString() : 'N/A';
+                          const cost = props.EstimatedCostToDate !== null ? `$${Math.round(props.EstimatedCostToDate).toLocaleString()}` : 'N/A';
 
-            if (data.features && data.features.length > 0) {
-                 console.log("Processing NIFC features:", data.features.length);
-                data.features.forEach((feature, index) => {
-                     try {
-                        const props = feature.attributes;
-                        const geom = feature.geometry;
-                        if (geom && typeof geom.y === 'number' && typeof geom.x === 'number') {
-                            const discoveredDate = props.FireDiscoveryDateTime ? new Date(props.FireDiscoveryDateTime).toLocaleString() : 'N/A';
-                            const containment = props.PercentContained !== null ? `${props.PercentContained}%` : 'N/A';
-                            const acres = props.CalculatedAcres !== null ? Math.round(props.CalculatedAcres).toLocaleString() : 'N/A';
-                            const cost = props.EstimatedCostToDate !== null ? `$${Math.round(props.EstimatedCostToDate).toLocaleString()}` : 'N/A';
+                          const marker = L.marker([geom.y, geom.x], { icon: nifcIcon })
+                              .bindPopup(`<b>${props.IncidentName || 'NIFC Incident'}</b><br>Discovered: ${discoveredDate}<br>Acres: ${acres}<br>Containment: ${containment}<br>Est. Cost: ${cost}`);
+                          nifcLayer.addLayer(marker);
+                          markerCount++;
+                      } else {
+                           // console.warn(`[NIFC] Skipping feature ${index}: Invalid geometry`, feature);
+                      }
+                  } catch (featureError) {
+                      console.error(`[NIFC] Error processing feature ${index}:`, featureError, "Feature:", feature);
+                  }
+              });
+              console.log(`[NIFC] Added ${markerCount} markers to nifcLayer.`);
+          } else {
+               console.log("[NIFC] No active incidents found in data.");
+          }
 
-                            const marker = L.marker([geom.y, geom.x], { icon: nifcIcon })
-                                .bindPopup(`<b>${props.IncidentName || 'NIFC Incident'}</b><br>Discovered: ${discoveredDate}<br>Acres: ${acres}<br>Containment: ${containment}<br>Est. Cost: ${cost}`);
-                            nifcLayer.addLayer(marker);
-                            markerCount++;
-                        }
-                    } catch (featureError) {
-                        console.error(`Error processing NIFC feature ${index}:`, featureError, "Feature:", feature);
-                    }
-                });
-                console.log(`Added ${markerCount} NIFC markers to the layer.`);
-            } else {
-                 console.log("No active NIFC incidents found in data.");
-            }
-
-        } catch (error) {
-            console.error('Error fetching NIFC data:', error);
-             displayMapError(`Could not load NIFC fire data: ${error.message}`);
-        } finally {
-            if (showNIFC && !map.hasLayer(nifcLayer)) {
-                nifcLayer.addTo(map);
-                console.log("Ensured nifcLayer is on the map.");
-            }
-             mapLoadingMessage.style.display = 'none';
-              console.log("NIFC data loading finished.");
-        }
+      } catch (error) {
+          console.error('[NIFC] Error fetching NIFC data:', error);
+           displayMapError(`Could not load NIFC data: ${error.message}`);
+      } finally {
+           if (map) { // Check if map exists
+               if (showNIFC && !map.hasLayer(nifcLayer)) {
+                   nifcLayer.addTo(map);
+                    console.log("[NIFC] Added nifcLayer back to map.");
+               } else if (!showNIFC && map.hasLayer(nifcLayer)) {
+                    nifcLayer.remove();
+                    console.warn("[NIFC] Removed nifcLayer from map as showNIFC is false.");
+               }
+           }
+           mapLoadingMessage.style.display = 'none';
+            console.log("[NIFC] Data loading finished.");
+      }
     }
 
-    // Load Air Quality Data (Example for a specific point)
-    async function loadAirQuality(lat, lon) {
+     async function loadAirQuality(lat, lon) {
         const apiKey = AIRNOW_API_KEY;
-         if (!apiKey || apiKey === 'YOUR_AIRNOW_API_KEY_HERE') {
-            console.warn('AirNow API Key is missing or is a placeholder. AQI data will not load.');
+        const placeholderKey = 'YOUR_AIRNOW_API_KEY_HERE';
+        if (!apiKey || apiKey === placeholderKey) {
+            console.warn('[AirNow] API Key is missing or placeholder. AQI data will not load.');
             displayMapError('AQI data unavailable (API Key missing).');
+             airQualityLayer.clearLayers();
             return;
         }
         const date = new Date().toISOString().split('T')[0];
         const distance = 50;
         const url = `https://www.airnowapi.org/aq/forecast/latLong/?format=application/json&latitude=${lat}&longitude=${lon}&date=${date}&distance=${distance}&API_KEY=${apiKey}`;
-        // !!! THIS URL CONSTRUCTION SHOULD HAPPEN SERVER-SIDE FOR PRODUCTION!!!
-
-        console.log(`Fetching AQI data for ${lat}, ${lon} from ${url.replace(apiKey, "REDACTED_KEY")}`);
+        console.log(`[AirNow] Fetching AQI for ${lat}, ${lon} from ${url.replace(apiKey, "REDACTED_KEY")}`);
         mapLoadingMessage.style.display = 'block';
         let markerAdded = false;
+         airQualityLayer.clearLayers(); // Clear previous AQI
 
         try {
             const response = await fetch(url);
-             console.log("AirNow Response Status:", response.status);
+            console.log("[AirNow] Response Status:", response.status, response.statusText);
              if (!response.ok) {
-                  const errorText = await response.text();
-                 throw new Error(`AirNow API Error: ${response.status} ${response.statusText}. Response: ${errorText}`);
+                  const errorText = await response.text(); // Attempt to get error details
+                  console.error("[AirNow] API Response Error Text:", errorText);
+                 throw new Error(`API Error: ${response.status} ${response.statusText}`);
              }
             const data = await response.json();
-            airQualityLayer.clearLayers();
+            console.log("[AirNow] Data Received:", data);
 
             if (data && data.length > 0) {
                 const pm25Data = data.find(item => item.ParameterName === 'PM2.5');
@@ -584,113 +491,114 @@
                         const radius = 5 + (aqi / 10); // Approx miles
 
                         const circle = L.circle([circleLat, circleLon], {
-                            color: aqiColor,
-                            fillColor: aqiColor,
-                            fillOpacity: 0.5,
-                            radius: radius * 1609.34 // Convert miles to meters
+                            color: aqiColor, fillColor: aqiColor, fillOpacity: 0.5, radius: radius * 1609.34
                         }).bindPopup(`<b>AQI for ${reportingArea}, ${stateCode}</b><br>PM2.5: ${aqi} (${category})`);
                         airQualityLayer.addLayer(circle);
                          markerAdded = true;
-                        console.log(`Added AQI point: ${aqi} (${category}) at ${circleLat}, ${circleLon}`);
+                        console.log(`[AirNow] Added AQI point: ${aqi} (${category}) at ${circleLat}, ${circleLon}`);
                      } else {
-                         console.warn("Invalid coordinates received from AirNow API:", pm25Data);
+                         console.warn("[AirNow] Invalid coordinates received:", pm25Data);
                      }
                 } else {
-                    console.log("No PM2.5 AQI data found for this location/time.");
+                    console.log("[AirNow] No PM2.5 AQI data found for this location/time.");
                 }
 
             } else {
-                console.log("No AQI data returned from API.");
+                console.log("[AirNow] No AQI data returned from API.");
             }
             if (!markerAdded) {
                  const noDataMarker = L.marker([lat, lon]).bindPopup("No PM2.5 AQI data available.");
                  airQualityLayer.addLayer(noDataMarker);
-                 console.log("Added 'No AQI data' marker.");
+                 console.log("[AirNow] Added 'No AQI data' marker.");
             }
         } catch (error) {
-            console.error('Error fetching Air Quality data:', error);
-             displayMapError(`Could not load Air Quality data: ${error.message}`);
+            console.error('[AirNow] Error fetching Air Quality data:', error);
+             displayMapError(`Could not load AQI data: ${error.message}`);
              const errorMarker = L.marker([lat, lon]).bindPopup("Error loading AQI data.");
              airQualityLayer.addLayer(errorMarker);
 
         } finally {
-            if (showAirQuality && !map.hasLayer(airQualityLayer)) {
-                airQualityLayer.addTo(map);
-                 console.log("Ensured airQualityLayer is on the map.");
-            }
+             if (map) { // Check if map exists
+                 if (showAirQuality && !map.hasLayer(airQualityLayer)) {
+                     airQualityLayer.addTo(map);
+                      console.log("[AirNow] Added airQualityLayer back to map.");
+                 } else if (!showAirQuality && map.hasLayer(airQualityLayer)) {
+                     airQualityLayer.remove();
+                     console.warn("[AirNow] Removed airQualityLayer from map as showAirQuality is false.");
+                 }
+             }
             mapLoadingMessage.style.display = 'none';
-             console.log("AirQuality data loading finished.");
+             console.log("[AirNow] Data loading finished.");
         }
     }
 
-    // Load NWS Fire Weather Warnings
-    async function loadNWSWarnings() {
+     async function loadNWSWarnings() {
         const url = 'https://api.weather.gov/alerts/active?event=Fire%20Weather%20Watch,Red%20Flag%20Warning';
-
-        console.log("Fetching NWS warnings...");
+        console.log("[NWS] Fetching NWS warnings...");
         mapLoadingMessage.style.display = 'block';
         let featureCount = 0;
+        nwsLayer.clearLayers(); // Clear previous warnings
 
         try {
             const response = await fetch(url, { headers: { 'Accept': 'application/geo+json' } });
-            console.log("NWS Response Status:", response.status);
+            console.log("[NWS] Response Status:", response.status, response.statusText);
             if (!response.ok) {
                  const errorText = await response.text();
-                throw new Error(`NWS API Error: ${response.status} ${response.statusText}. Response: ${errorText}`);
+                 console.error("[NWS] API Response Error Text:", errorText);
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
             }
             const data = await response.json();
-            nwsLayer.clearLayers();
+             console.log("[NWS] Data Received. Feature count:", data.features ? data.features.length : 0);
 
             if (data.features && data.features.length > 0) {
-                 console.log("Processing NWS features:", data.features.length);
                 const nwsStyle = {
-                    color: "#ff4500", // OrangeRed
-                    weight: 2,
-                    opacity: 0.7,
-                    fillColor: "#ff4500",
-                    fillOpacity: 0.2
+                    color: "#ff4500", weight: 2, opacity: 0.7, fillColor: "#ff4500", fillOpacity: 0.2
                 };
 
                 L.geoJSON(data.features, {
                     style: nwsStyle,
                     onEachFeature: function (feature, layer) {
                          try {
-                            if (feature.properties) {
-                               layer.bindPopup(`<b>${feature.properties.event}</b><br>${feature.properties.headline}<br>Effective: ${new Date(feature.properties.effective).toLocaleString()}<br>Expires: ${new Date(feature.properties.expires).toLocaleString()}`);
+                            if (feature && feature.properties) {
+                               layer.bindPopup(`<b>${feature.properties.event || 'NWS Alert'}</b><br>${feature.properties.headline || '(No headline)'}<br>Effective: ${new Date(feature.properties.effective).toLocaleString()}<br>Expires: ${new Date(feature.properties.expires).toLocaleString()}`);
+                            } else {
+                                console.warn("[NWS] Feature missing properties:", feature);
                             }
                          } catch(featureError) {
-                             console.error("Error processing NWS feature popup:", featureError, "Feature:", feature);
+                             console.error("[NWS] Error processing feature popup:", featureError, "Feature:", feature);
                          }
                     }
                 }).addTo(nwsLayer);
                 featureCount = data.features.length;
-                console.log(`Added ${featureCount} NWS warning areas to the layer.`);
+                console.log(`[NWS] Added ${featureCount} NWS warning areas to nwsLayer.`);
             } else {
-                console.log("No active NWS fire weather warnings found.");
+                console.log("[NWS] No active NWS fire weather warnings found.");
             }
         } catch (error) {
-            console.error('Error fetching NWS warnings:', error);
-             displayMapError(`Could not load NWS weather warnings: ${error.message}`);
+            console.error('[NWS] Error fetching NWS warnings:', error);
+             displayMapError(`Could not load NWS warnings: ${error.message}`);
         } finally {
-            if (showNWS && !map.hasLayer(nwsLayer)) {
-                nwsLayer.addTo(map);
-                 console.log("Ensured nwsLayer is on the map.");
+            if (map) { // Check if map exists
+                if (showNWS && !map.hasLayer(nwsLayer)) {
+                    nwsLayer.addTo(map);
+                     console.log("[NWS] Added nwsLayer back to map.");
+                } else if (!showNWS && map.hasLayer(nwsLayer)) {
+                     nwsLayer.remove();
+                     console.warn("[NWS] Removed nwsLayer from map as showNWS is false.");
+                }
             }
              mapLoadingMessage.style.display = 'none';
-             console.log("NWS data loading finished.");
+             console.log("[NWS] Data loading finished.");
         }
     }
 
-
     // --- Control Handlers & Helper Functions ---
 
-    // Handle Hamburger Menu Toggle
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
 
-    // Close mobile menu when a link is clicked
     navMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             if (hamburger.classList.contains('active')) {
@@ -700,9 +608,8 @@
         });
     });
 
-    // Center map on user's current location
     function centerOnUserLocation() {
-      console.log("Centering map on user location...");
+      console.log("[Controls] Centering map on user location...");
       mapLoadingMessage.style.display = 'block';
       geolocationErrorDiv.style.display = 'none';
       if (navigator.geolocation) {
@@ -710,38 +617,38 @@
               (position) => {
                   const userLat = position.coords.latitude;
                   const userLon = position.coords.longitude;
-                  map.setView([userLat, userLon], 10);
-                  console.log('Recentered on user location:', userLat, userLon);
-                  loadAirQuality(userLat, userLon); // Reload AQI for new location
+                   if (map) {
+                      map.setView([userLat, userLon], 10);
+                      console.log('[Controls] Recentered on user location:', userLat, userLon);
+                      loadAirQuality(userLat, userLon);
+                   } else {
+                        console.error("[Controls] Map object not available for recentering.");
+                   }
                    mapLoadingMessage.style.display = 'none';
               },
               (error) => {
-                  console.warn(`Geolocation error for recentering (${error.code}): ${error.message}`);
+                  console.warn(`[Controls] Geolocation error for recentering (${error.code}): ${error.message}`);
                   geolocationErrorDiv.textContent = 'Could not get current location. Please enable location services.';
                   geolocationErrorDiv.style.display = 'block';
                    mapLoadingMessage.style.display = 'none';
-              },
-              { timeout: 8000 }
+              }, { timeout: 8000 }
           );
       } else {
-          console.warn("Geolocation not supported for recentering.");
+          console.warn("[Controls] Geolocation not supported for recentering.");
           geolocationErrorDiv.textContent = 'Geolocation is not supported by this browser.';
           geolocationErrorDiv.style.display = 'block';
            mapLoadingMessage.style.display = 'none';
       }
     }
 
-    // Zoom map to California
-    function zoomToCA() { map.setView([36.7783, -119.4179], 6); console.log("Zoomed to CA"); }
+    function zoomToCA() { if(map) map.setView([36.7783, -119.4179], 6); console.log("[Controls] Zoomed to CA"); }
+    function zoomToUS() { if(map) map.setView([37.0902, -95.7129], 5); console.log("[Controls] Zoomed to US"); }
 
-    // Zoom map to Contiguous US
-    function zoomToUS() { map.setView([37.0902, -95.7129], 5); console.log("Zoomed to US"); }
-
-    // Toggle combined Fire Layers (FIRMS + NIFC)
     function toggleFireLayers() {
+        if (!map) return; // Safety check
         const btn = document.getElementById('toggle-fires');
         showFires = !showFires;
-        console.log("Toggling Fire Layers. Show:", showFires);
+        console.log("[Controls] Toggling Fire Layers. Show:", showFires);
         if (showFires) {
             if (!map.hasLayer(fireLayer)) fireLayer.addTo(map);
             if (!map.hasLayer(nifcLayer)) nifcLayer.addTo(map);
@@ -755,17 +662,17 @@
         }
     }
 
-    // Toggle Air Quality Layer
     function toggleAirQuality() {
+         if (!map) return; // Safety check
         const btn = document.getElementById('toggle-aqi');
         showAirQuality = !showAirQuality;
-        console.log("Toggling AQI Layer. Show:", showAirQuality);
+        console.log("[Controls] Toggling AQI Layer. Show:", showAirQuality);
         if (showAirQuality) {
             if (!map.hasLayer(airQualityLayer)) airQualityLayer.addTo(map);
             btn.classList.add('active');
             btn.innerHTML = '<i class="fas fa-wind"></i> AQI';
             const center = map.getCenter();
-            loadAirQuality(center.lat, center.lng);
+            loadAirQuality(center.lat, center.lng); // Load AQI for current view
         } else {
            if (map.hasLayer(airQualityLayer)) airQualityLayer.remove();
             btn.classList.remove('active');
@@ -773,11 +680,11 @@
         }
     }
 
-    // Toggle NWS Layer
     function toggleNWSLayer() {
+         if (!map) return; // Safety check
         const btn = document.getElementById('toggle-nws');
         showNWS = !showNWS;
-        console.log("Toggling NWS Layer. Show:", showNWS);
+        console.log("[Controls] Toggling NWS Layer. Show:", showNWS);
         if (showNWS) {
             if (!map.hasLayer(nwsLayer)) nwsLayer.addTo(map);
             btn.classList.add('active');
@@ -789,84 +696,88 @@
         }
     }
 
-
-    // Handle Zip Code Search Form Submission
     async function handleZipSearch(event) {
         event.preventDefault();
         const zipInput = document.getElementById('zip-code');
+        if (!zipInput) {
+             console.error("[ZipSearch] Cannot find zip code input element!");
+             return;
+        }
         const zip = zipInput.value.trim();
-        const apiKey = OPENCAGE_API_KEY;
+        console.log("[ZipSearch] Zip code entered:", zip);
 
-        if (!apiKey || apiKey === 'YOUR_OPENCAGE_API_KEY_HERE') {
-             console.warn('OpenCage API Key is missing or is a placeholder. Geocoding will not work.');
-            alert('Zip code search unavailable (API Key missing).');
-            return;
+        const apiKey = OPENCAGE_API_KEY;
+        const placeholderKey = 'YOUR_OPENCAGE_API_KEY_HERE';
+        if (!apiKey || apiKey === placeholderKey) {
+             console.warn('[ZipSearch] OpenCage API Key is missing or placeholder.');
+             alert('Zip code search unavailable (API Key missing).');
+             return;
         }
 
         const zipRegex = /^(\d{5}(-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$/;
         if (!zipRegex.test(zip)) {
+            console.log("[ZipSearch] Invalid zip code format.");
             alert('Please enter a valid USA (e.g., 90210) or Canadian (e.g., V6B 2W9) zip/postal code.');
             return;
         }
 
-        console.log(`Geocoding zip code: ${zip} via ${url.replace(apiKey, "REDACTED_KEY")}`);
-        mapLoadingMessage.style.display = 'block';
-
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(zip)}&key=${apiKey}&countrycode=us,ca&limit=1`;
-        // !!! THIS URL CONSTRUCTION SHOULD HAPPEN SERVER-SIDE FOR PRODUCTION!!!
+        console.log(`[ZipSearch] Geocoding zip code: ${zip} via ${url.replace(apiKey, "REDACTED_KEY")}`);
+        mapLoadingMessage.style.display = 'block';
 
         try {
             const response = await fetch(url);
-            console.log("Geocoding Response Status:", response.status);
+            console.log("[ZipSearch] Geocoding Response Status:", response.status, response.statusText);
              if (!response.ok) {
                   const errorText = await response.text();
-                 throw new Error(`Geocoding API Error: ${response.status} ${response.statusText}. Response: ${errorText}`);
+                  console.error("[ZipSearch] Geocoding API Response Error Text:", errorText);
+                 throw new Error(`API Error: ${response.status} ${response.statusText}`);
              }
             const data = await response.json();
+            console.log("[ZipSearch] Geocoding Data Received:", data);
 
             if (data.results && data.results.length > 0 && data.results[0].geometry) {
                 const { lat, lng } = data.results[0].geometry;
                  if (typeof lat === 'number' && typeof lng === 'number') {
-                    map.setView([lat, lng], 10);
-                    console.log(`Zip code ${zip} found at:`, lat, lng);
-                    loadAirQuality(lat, lng);
-                    zipInput.value = '';
+                     if (map) {
+                         map.setView([lat, lng], 10);
+                         console.log(`[ZipSearch] Zip code ${zip} found at: ${lat}, ${lng}. Map view set.`);
+                         loadAirQuality(lat, lng); // Also load AQI for new location
+                         zipInput.value = ''; // Clear input on success
+                     } else {
+                          console.error("[ZipSearch] Map object not available to set view.");
+                     }
                  } else {
-                      console.warn("Invalid geometry received from geocoding API:", data.results[0].geometry);
-                     alert(`Geocoding result for "${zip}" has invalid coordinates. Please try again.`);
+                      console.warn("[ZipSearch] Invalid geometry received:", data.results[0].geometry);
+                     alert(`Geocoding result for "${zip}" has invalid coordinates.`);
                  }
             } else {
-                alert(`Zip code "${zip}" not found in USA or Canada. Please try again.`);
+                 console.log("[ZipSearch] Zip code not found in API results.");
+                alert(`Zip code "${zip}" not found in USA or Canada.`);
             }
         } catch (error) {
-            console.error('Geocoding Error:', error);
-            alert(`Error finding location for the entered zip code: ${error.message}`);
+            console.error('[ZipSearch] Geocoding Fetch/Processing Error:', error);
+            alert(`Error finding location for zip code: ${error.message}`);
         } finally {
             mapLoadingMessage.style.display = 'none';
-            console.log("Geocoding attempt finished.");
+            console.log("[ZipSearch] Geocoding attempt finished.");
         }
     }
 
-    // Get color based on AQI value
     function getAQIColor(aqi) {
-        if (aqi <= 50) return '#00e400'; // Good - Green
-        if (aqi <= 100) return '#ffff00'; // Moderate - Yellow
-        if (aqi <= 150) return '#ff7e00'; // Unhealthy for Sensitive Groups - Orange
-        if (aqi <= 200) return '#ff0000'; // Unhealthy - Red
-        if (aqi <= 300) return '#8f3f97'; // Very Unhealthy - Purple
-        return '#7e0023'; // Hazardous - Maroon
+        if (aqi <= 50) return '#00e400';   // Good
+        if (aqi <= 100) return '#ffff00';  // Moderate
+        if (aqi <= 150) return '#ff7e00';  // Unhealthy Sensitive
+        if (aqi <= 200) return '#ff0000';  // Unhealthy
+        if (aqi <= 300) return '#8f3f97';  // Very Unhealthy
+        return '#7e0023';                  // Hazardous
     }
 
-    // Display a persistent error message on the map
     function displayMapError(message) {
-         console.warn("Displaying map error:", message); // Log errors too
+         console.warn("[UI] Displaying map error:", message);
         mapErrorMessage.textContent = message;
         mapErrorMessage.style.display = 'block';
     }
-
-    // --- Initialization ---
-    // Use DOMContentLoaded to ensure the DOM is ready before trying to initialize the map
-    document.addEventListener('DOMContentLoaded', initializeMap);
 
   </script>
 
