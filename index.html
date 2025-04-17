@@ -59,12 +59,24 @@
     const AIRNOW_API_KEY = '54044855-7B0C-4023-BEE4-8B3FCA172DED';   // !!! MOVE SERVER-SIDE !!!
     const OPENCAGE_API_KEY = 'a40b9e954e50458bbc09ca24e70201a1'; // !!! MOVE SERVER-SIDE !!!
 
-    // Map Variables and DOM Elements...
-    let map; let fireLayer = L.layerGroup(); let airQualityLayer = L.layerGroup(); let nifcLayer = L.layerGroup(); let nwsLayer = L.layerGroup();
-    let showFires = true; let showAirQuality = false; let showNIFC = true; let showNWS = true;
-    const hamburger = document.getElementById('hamburger-menu'); const navMenu = document.getElementById('nav-menu');
-    const mapLoadingMessage = document.getElementById('map-loading-message'); const mapErrorMessage = document.getElementById('map-error-message');
-    const geolocationErrorDiv = document.getElementById('geolocation-error'); const mapWrapper = document.getElementById('map-wrapper');
+    // Map Variables - Declare only
+    let map;
+    let fireLayer; // Initialize later
+    let airQualityLayer; // Initialize later
+    let nifcLayer; // Initialize later
+    let nwsLayer; // Initialize later
+    let showFires = true;
+    let showAirQuality = false;
+    let showNIFC = true;
+    let showNWS = true;
+
+    // DOM Elements
+    const hamburger = document.getElementById('hamburger-menu');
+    const navMenu = document.getElementById('nav-menu');
+    const mapLoadingMessage = document.getElementById('map-loading-message');
+    const mapErrorMessage = document.getElementById('map-error-message');
+    const geolocationErrorDiv = document.getElementById('geolocation-error');
+    const mapWrapper = document.getElementById('map-wrapper');
 
     // --- Initialization ---
     document.addEventListener('DOMContentLoaded', initializeMap);
@@ -80,7 +92,7 @@
       mapErrorMessage.style.display = 'none';
       geolocationErrorDiv.style.display = 'none';
 
-      // *** ADDED: Check for geolocation object and wrap logic in try/catch ***
+      // Wrap geolocation check in try/catch
       try {
         console.log('[Init] Checking navigator.geolocation:', typeof navigator.geolocation);
         if (navigator.geolocation) {
@@ -117,7 +129,7 @@
         }
       } catch (geoError) {
           console.error("[Init] Error accessing or using geolocation:", geoError);
-          // Fallback if even accessing navigator.geolocation fails
+          // Fallback if accessing navigator.geolocation fails
           const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
           geolocationErrorDiv.textContent = 'Could not access location services. Showing default US view.';
           geolocationErrorDiv.style.display = 'block';
@@ -128,16 +140,24 @@
     }
 
     function setupMap(centerCoords, zoomLevel) {
-        console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
-        let mapDiv = document.getElementById('fire-map');
-        if (!mapDiv) { console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!"); displayMapError("Map container not found. Cannot initialize map."); mapLoadingMessage.style.display = 'none'; return; }
-        console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
+      console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
+      let mapDiv = document.getElementById('fire-map');
+      if (!mapDiv) { console.error("[Setup] CRITICAL: Map container div '#fire-map' not found!"); displayMapError("Map container not found."); mapLoadingMessage.style.display = 'none'; return; }
+      console.log("[Setup] Map container found. OffsetHeight:", mapDiv.offsetHeight, "OffsetWidth:", mapDiv.offsetWidth);
 
       try {
         if (map) { map.remove(); map = null; }
         console.log("[Setup] Creating L.map object...");
         map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true });
         console.log("[Setup] L.map object created:", map ? 'Success' : 'Failed');
+
+        // *** Initialize Layer Groups HERE ***
+        fireLayer = L.layerGroup();
+        airQualityLayer = L.layerGroup();
+        nifcLayer = L.layerGroup();
+        nwsLayer = L.layerGroup();
+        console.log("[Setup] Layer groups initialized.");
+        // *** End Initialize Layer Groups ***
 
         const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS' });
         tileLayer.on('load', () => console.log("[Tiles] Tile layer loaded successfully."));
@@ -146,37 +166,36 @@
         console.log("[Setup] Tile layer added to map.");
 
         console.log("[Setup] Adding initial data layers...");
-        if (showFires && fireLayer) fireLayer.addTo(map); if (showNIFC && nifcLayer) nifcLayer.addTo(map); if (showNWS && nwsLayer) nwsLayer.addTo(map);
+        if (showFires && fireLayer) fireLayer.addTo(map);
+        if (showNIFC && nifcLayer) nifcLayer.addTo(map);
+        if (showNWS && nwsLayer) nwsLayer.addTo(map);
 
-        addMapControls(); addMapLegend();
+        addMapControls();
+        addMapLegend();
 
         map.on('fullscreenchange', function () { mapWrapper.classList.toggle('fullscreen', map.isFullscreen()); map.invalidateSize(); });
         map.on('resize', () => { console.log("[Event] Map resize event. Invalidating size."); if(map) map.invalidateSize();});
 
         mapLoadingMessage.style.display = 'none';
-        // *** invalidateSize call at the END of setupMap, with delay ***
+        // Add invalidateSize call at the END of setupMap, with delay
         setTimeout(() => { if (map) { console.log("[Setup] Calling delayed map.invalidateSize()."); map.invalidateSize(); } }, 150);
         console.log("[Setup] Map setup complete.");
 
       } catch(e) { console.error("[Setup] CRITICAL Error during map setup:", e); mapLoadingMessage.style.display = 'none'; displayMapError("Critical error setting up the map. Please refresh."); }
     }
 
-    function loadInitialData(lat, lon) { /* ... same data loading code ... */ }
-
-    // --- Data Loading Functions ---
+    function loadInitialData(lat, lon) { /* ... same code ... */ }
     async function loadFIRMSFires(lat, lon) { /* ... same code ... */ }
     async function loadNIFCFires() { /* ... same code ... */ }
     async function loadAirQuality(lat, lon) { /* ... same code ... */ }
     async function loadNWSWarnings() { /* ... same code ... */ }
-
-    // --- Control Handlers & Helper Functions ---
-    /* ... same code ... */
-     function addMapControls() { /* ... */ } function addMapLegend() { /* ... */ }
-     hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
-     function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
-     function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
-     async function handleZipSearch(event) { /* ... */ }
-     function getAQIColor(aqi) { /* ... */ } function displayMapError(message) { /* ... */ }
+    function addMapControls() { /* ... same code ... */ }
+    function addMapLegend() { /* ... same code ... */ }
+    hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
+    function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
+    function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
+    async function handleZipSearch(event) { /* ... */ }
+    function getAQIColor(aqi) { /* ... */ } function displayMapError(message) { /* ... */ }
 
   </script>
 
