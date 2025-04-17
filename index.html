@@ -339,7 +339,7 @@
       Promise.allSettled([
           loadNIFCFires(),
           loadNWSWarnings(),
-          loadFIRMSFires(lat, lon)
+          loadFIRMSFires(lat, lon) // Pass lat/lon here
           // loadAirQuality(lat, lon)
       ]).then(results => {
           console.log('[LoadData] Initial data loading promises settled.');
@@ -353,7 +353,7 @@
 
     // --- Data Loading Functions ---
 
-    async function loadFIRMSFires(lat, lon) {
+    async function loadFIRMSFires(lat, lon) { // Added lat, lon parameters (though not used in URL currently)
       const apiKey = NASA_API_KEY;
       const placeholderKey = 'YOUR_NASA_FIRMS_API_KEY_HERE';
       if (!apiKey || apiKey === placeholderKey) {
@@ -364,9 +364,10 @@
       }
       const source = 'VIIRS_SNPP_NRT';
       const lookbackDays = 1;
-      const area = 'USA';
+      // *** FIX: Use bounding box instead of 'USA' based on user feedback ***
+      const area = '-125,24,-66,50'; // Bounding Box for contiguous USA approx.
       const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/${source}/${area}/${lookbackDays}`;
-      console.log("[FIRMS] Fetching FIRMS data from:", url.replace(apiKey, "REDACTED_KEY"));
+      console.log("[FIRMS] Fetching FIRMS data using bounding box:", area);
       mapLoadingMessage.style.display = 'block';
       let markerCount = 0;
       fireLayer.clearLayers();
@@ -377,6 +378,10 @@
           if (!response.ok) {
                const errorText = await response.text();
                console.error("[FIRMS] API Response Error Text:", errorText);
+               // Handle specific 400 Bad Request potentially related to area format again
+               if(response.status === 400 && errorText.toLowerCase().includes("invalid area")) {
+                   throw new Error(`API Error 400: Invalid Area format. Check bounding box: ${area}`);
+               }
                throw new Error(`API Error: ${response.status} ${response.statusText}`);
           }
           const csvData = await response.text();
@@ -385,7 +390,7 @@
           const lines = csvData.trim().split('\n');
           console.log("[FIRMS] CSV lines count:", lines.length);
           if (lines.length <= 1) {
-              console.log("[FIRMS] No active FIRMS hotspots found in CSV data.");
+              console.log("[FIRMS] No active FIRMS hotspots found in CSV data for the specified bounding box.");
               mapLoadingMessage.style.display = 'none';
               return;
           }
@@ -431,6 +436,10 @@
               }
           });
            console.log(`[FIRMS] Added ${markerCount} markers to fireLayer.`);
+           // If markers were added, clear any previous 'no data' errors
+           if (markerCount > 0) {
+                mapErrorMessage.style.display = 'none';
+           }
 
       } catch (error) {
           console.error('[FIRMS] Error fetching or processing FIRMS data:', error);
@@ -488,6 +497,7 @@
                   }
               });
               console.log(`[NIFC] Added ${markerCount} markers to nifcLayer.`);
+               if (markerCount > 0) { mapErrorMessage.style.display = 'none'; } // Clear error if data found
           } else {
                console.log("[NIFC] No active incidents found in data.");
           }
@@ -606,6 +616,7 @@
               }).addTo(nwsLayer);
               featureCount = data.features.length;
               console.log(`[NWS] Added ${featureCount} NWS warning areas to nwsLayer.`);
+              if (featureCount > 0) { mapErrorMessage.style.display = 'none'; } // Clear error if data found
           } else { console.log("[NWS] No active NWS fire weather warnings found."); }
       } catch (error) {
           console.error('[NWS] Error fetching NWS warnings:', error);
@@ -739,13 +750,7 @@
              return;
         }
 
-        // Simplified Regex Check (Optional - removed pattern attr from HTML)
-        // const zipRegex = /^(\d{5}(-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$/;
-        // if (!zipRegex.test(zip)) {
-        //     console.log("[ZipSearch] Invalid zip code format (JS Check).");
-        //     alert('Please enter a valid USA (e.g., 90210) or Canadian (e.g., V6B 2W9) zip/postal code.');
-        //     return;
-        // }
+        // Removed optional JS Regex check - relying on API validation
 
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(zip)}&key=${apiKey}&countrycode=us,ca&limit=1`;
         console.log(`[ZipSearch] Geocoding request URL: ${url.replace(apiKey, "REDACTED_KEY")}`);
