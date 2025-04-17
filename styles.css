@@ -230,6 +230,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   position: relative;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  display: block !important; /* Ensure visibility */
+  visibility: visible !important; /* Prevent hiding */
 }
 
 /* Style Leaflet controls */
