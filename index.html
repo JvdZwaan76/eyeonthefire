@@ -138,6 +138,10 @@
     let showAirQuality = false;
     let showNIFC = true;
     let showNWS = true;
+    // Marker Cluster Group (RECOMMENDED - Uncomment if using library)
+    // let firmsClusterGroup = L.markerClusterGroup();
+    // let nifcClusterGroup = L.markerClusterGroup();
+
 
     // DOM Elements
     const hamburger = document.getElementById('hamburger-menu');
@@ -169,38 +173,47 @@
             const userLat = position.coords.latitude;
             const userLon = position.coords.longitude;
             console.log('[Init] Geolocation successful:', userLat, userLon);
-            setupMap([userLat, userLon], 10);
+            setupMap([userLat, userLon], 10); // Use user's location
+            // *** ADDED: Force map size recalculation even on success path for mobile robustness ***
+            setTimeout(() => {
+                if (map) {
+                    console.log("[Init Success] Calling map.invalidateSize()");
+                    map.invalidateSize();
+                } else {
+                     console.error("[Init Success] Map object not found for invalidateSize call.");
+                }
+            }, 100); // Small delay
             loadInitialData(userLat, userLon);
           },
           (error) => {
-            // *** UPDATED FALLBACK: Delay setupMap/loadInitialData ***
+            // *** Fallback with Delay ***
             console.warn(`[Init] Geolocation error (${error.code}): ${error.message}`);
             const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
             geolocationErrorDiv.textContent = `Geolocation failed: ${error.message}. Showing default US view.`;
             geolocationErrorDiv.style.display = 'block';
             console.log("[Init] Geolocation failed, setting up map with default US view after delay.");
-            // Add delay before initializing map in fallback
             setTimeout(() => {
                 console.log("[Init Fallback] Executing delayed map setup.");
                 setupMap([defaultLat, defaultLon], defaultZoom);
                 loadInitialData(defaultLat, defaultLon);
-            }, 300); // 300ms delay - adjust if needed
+                // No extra invalidateSize needed here as setupMap handles it
+            }, 300);
           },
           { timeout: 8000 }
         );
       } else {
-         // *** UPDATED FALLBACK: Delay setupMap/loadInitialData ***
+         // *** No Geolocation Fallback with Delay ***
         console.warn('[Init] Geolocation is not supported by this browser.');
         const defaultLat = 37.0902; const defaultLon = -95.7129; const defaultZoom = 5;
         geolocationErrorDiv.textContent = 'Geolocation not supported. Showing default US view.';
         geolocationErrorDiv.style.display = 'block';
         console.log("[Init] Geolocation not supported, setting up map with default US view after delay.");
-         // Add delay before initializing map in fallback
         setTimeout(() => {
              console.log("[Init No Geolocation] Executing delayed map setup.");
              setupMap([defaultLat, defaultLon], defaultZoom);
              loadInitialData(defaultLat, defaultLon);
-        }, 300); // 300ms delay - adjust if needed
+             // No extra invalidateSize needed here as setupMap handles it
+        }, 300);
       }
     }
 
@@ -210,25 +223,24 @@
         if (map) { map.remove(); map = null; }
         map = L.map('fire-map', { center: centerCoords, zoom: zoomLevel, fullscreenControl: true });
 
-        // *** ADDED: Tile Layer Event Listeners ***
+        // Add Tile Layer with event logging
         const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
         });
-
-        tileLayer.on('load', function() {
-            console.log("[Tiles] Tile layer finished loading.");
+        tileLayer.on('load', () => console.log("[Tiles] Tile layer loaded successfully."));
+        tileLayer.on('tileerror', (error) => {
+            console.error("[Tiles] Tile layer error:", error.error, "Coords:", error.coords, "Tile:", error.tile);
+            displayMapError("Map background tiles could not load. Check connection.");
         });
-        tileLayer.on('tileerror', function(error) {
-            console.error("[Tiles] Tile layer error:", error);
-            // Optionally display a message if tiles fail repeatedly
-            // displayMapError("Map background tiles could not load.");
-        });
-
         tileLayer.addTo(map);
         console.log("[Setup] Tile layer added to map.");
-        // *** END Tile Layer Listeners ***
 
         console.log("[Setup] Adding initial data layers to map object...");
+        // Initialize or Add Cluster Groups if using MarkerCluster
+        // map.addLayer(firmsClusterGroup);
+        // map.addLayer(nifcClusterGroup);
+
+        // Add regular layers (or add them to cluster groups instead)
         if (showFires && fireLayer) fireLayer.addTo(map);
         if (showNIFC && nifcLayer) nifcLayer.addTo(map);
         if (showNWS && nwsLayer) nwsLayer.addTo(map);
@@ -237,28 +249,79 @@
         addMapLegend();
 
         map.on('fullscreenchange', function () { mapWrapper.classList.toggle('fullscreen', map.isFullscreen()); map.invalidateSize(); });
-        mapLoadingMessage.style.display = 'none'; console.log("[Setup] Map setup complete.");
+        map.on('resize', () => console.log("[Event] Map resize event detected.")); // Log resize events
+
+        mapLoadingMessage.style.display = 'none';
+        // Call invalidateSize one more time after everything is potentially rendered
+        setTimeout(() => { if(map) map.invalidateSize(); console.log("[Setup] Final invalidateSize called.")}, 50);
+        console.log("[Setup] Map setup complete.");
 
       } catch(e) { console.error("[Setup] CRITICAL Error during map setup:", e); mapLoadingMessage.style.display = 'none'; displayMapError("Critical error setting up the map. Please refresh."); }
     }
 
-    function loadInitialData(lat, lon) { /* ... same data loading code ... */ }
+    function loadInitialData(lat, lon) { /* ... same code ... */ }
 
     // --- Data Loading Functions ---
-    async function loadFIRMSFires(lat, lon) { /* ... same code with bounding box, regex split, lookback=2, detailed logging ... */ }
-    async function loadNIFCFires() { /* ... same code ... */ }
+
+    async function loadFIRMSFires(lat, lon) {
+      const apiKey = NASA_API_KEY; const placeholderKey = 'YOUR_NASA_FIRMS_API_KEY_HERE'; if (!apiKey || apiKey === placeholderKey) { /* ... */ } const source = 'VIIRS_SNPP_NRT'; const lookbackDays = 2; const area = '-125,24,-66,50'; const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/${source}/${area}/${lookbackDays}`; console.log(`[FIRMS] Fetching FIRMS data for ${lookbackDays} days, bounding box:`, area); mapLoadingMessage.style.display = 'block'; let markerCount = 0;
+      // Clear LayerGroup and/or MarkerClusterGroup
+      fireLayer.clearLayers();
+      // firmsClusterGroup.clearLayers(); // Uncomment if using MarkerCluster
+
+      try {
+          const response = await fetch(url); /* ... handle response ... */
+          if (!response.ok) { /* ... handle error ... */ }
+          const csvData = await response.text(); /* ... */ const lines = csvData.trim().split(/\r?\n/); /* ... handle no lines ... */
+          const headers = lines[0].split(','); /* ... get indices ... */ if (latIndex === -1 || lonIndex === -1) { /* ... handle bad headers ... */ }
+          const fireIcon = L.icon({ /* ... */ });
+
+          // Initialize cluster group for this load (RECOMMENDED)
+          // const currentFirmsCluster = L.markerClusterGroup();
+
+          lines.slice(1).forEach((line, index) => { /* ... processing loop ... */
+              console.log(`[FIRMS Processing Line ${index + 1}] Raw:`, line);
+              try {
+                  const values = line.split(',');
+                  if (values.length > Math.max(latIndex, lonIndex)) {
+                      const lat = parseFloat(values[latIndex]); const lon = parseFloat(values[lonIndex]);
+                      console.log(`[FIRMS Processing Line ${index + 1}] Parsed lat: ${lat}, lon: ${lon}`);
+                      if (!isNaN(lat) && !isNaN(lon)) {
+                          /* ... get other values ... */
+                          const marker = L.marker([lat, lon], { icon: fireIcon }).bindPopup(/* ... */);
+                          console.log(`[FIRMS Processing Line ${index + 1}] ADDING MARKER at ${lat}, ${lon}`);
+
+                          // Add to regular layer OR cluster group
+                          fireLayer.addLayer(marker);
+                          // currentFirmsCluster.addLayer(marker); // Uncomment if using MarkerCluster
+
+                          markerCount++;
+                      } else { /* ... log skip ... */ }
+                  } else { /* ... log skip ... */ }
+              } catch (lineError) { /* ... log error ... */ }
+          });
+
+          // Add the populated cluster group to the map (RECOMMENDED)
+          // map.addLayer(currentFirmsCluster);
+          // firmsClusterGroup = currentFirmsCluster; // Store reference if needed
+
+          console.log(`[FIRMS] Added ${markerCount} markers.`); if (markerCount > 0) { mapErrorMessage.style.display = 'none'; } else { /* ... */ displayMapError('FIRMS data received but no valid hotspots found.'); }
+      } catch (error) { /* ... error handling ... */
+      } finally { /* ... finally block, ensure correct layer is on map ... */ }
+    }
+
+    async function loadNIFCFires() { /* ... Consider adding Marker Cluster logic similar to FIRMS if needed ... */ }
     async function loadAirQuality(lat, lon) { /* ... same code ... */ }
     async function loadNWSWarnings() { /* ... same code ... */ }
 
     // --- Control Handlers & Helper Functions ---
-    /* ... hamburger, navMenu, centerOnUserLocation, zoomToCA, zoomToUS, toggleFireLayers, toggleAirQuality, toggleNWSLayer, handleZipSearch, getAQIColor, displayMapError logic as before ... */
-     /* Includes definition of addMapControls and addMapLegend before initializeMap now */
-    function addMapControls() { /* ... */ } function addMapLegend() { /* ... */ }
-    hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
-    function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
-    function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
-    async function handleZipSearch(event) { /* ... */ }
-    function getAQIColor(aqi) { /* ... */ } function displayMapError(message) { /* ... */ }
+    /* ... same code ... */
+     function addMapControls() { /* ... */ } function addMapLegend() { /* ... */ }
+     hamburger.addEventListener('click', () => { /* ... */ }); navMenu.querySelectorAll('a').forEach(link => { /* ... */ });
+     function centerOnUserLocation() { /* ... */ } function zoomToCA() { /* ... */ } function zoomToUS() { /* ... */ }
+     function toggleFireLayers() { /* ... */ } function toggleAirQuality() { /* ... */ } function toggleNWSLayer() { /* ... */ }
+     async function handleZipSearch(event) { /* ... */ }
+     function getAQIColor(aqi) { /* ... */ } function displayMapError(message) { /* ... */ }
 
   </script>
 
