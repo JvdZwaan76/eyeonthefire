@@ -39,14 +39,13 @@
 <body>
 
   <nav class="navbar">
-    <div class="navbar-header"> <a href="#" class="logo">
-             <img src="images/fire-icon.png" alt="Eye on the Fire Logo">
+    <div class="navbar-header">
+        <a href="#" class="logo">
+            <img src="images/fire-icon.png" alt="Eye on the Fire Logo">
             <span class="logo-text">Eye on the Fire</span>
         </a>
         <button class="hamburger" id="hamburger-menu" aria-label="Toggle Menu">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
+            <span class="line"></span><span class="line"></span><span class="line"></span>
         </button>
     </div>
     <ul class="nav-menu" id="nav-menu">
@@ -201,13 +200,12 @@
                 const container = L.DomUtil.create('div', 'location-form leaflet-control');
                 container.innerHTML = `
                     <form id="location-form" style="display: flex; align-items: center; gap: 5px;">
-                      <input type="text" id="zip-code" placeholder="Zip Code (US/CA)" required pattern="^(\\d{5}(-\\d{4})?|[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d)$" title="Enter 5-digit US zip or Canadian postal code (e.g., A1A 1A1)">
+                       <input type="text" id="zip-code" placeholder="Zip Code (US/CA)" required title="Enter 5-digit US zip or Canadian postal code (e.g., A1A 1A1)">
                       <button type="submit" title="Search by Zip Code"><i class="fas fa-search"></i></button>
                     </form>
                     <div class="disclosure">US/Canada Only</div>
                 `;
                 L.DomEvent.disableClickPropagation(container);
-                // Make sure the event listener is attached correctly
                 const form = container.querySelector('#location-form');
                 if(form) {
                     L.DomEvent.on(form, 'submit', handleZipSearch);
@@ -232,7 +230,7 @@
             const div = L.DomUtil.create('div', 'info legend');
             div.innerHTML = `
                 <h4>Legend</h4>
-                 <div><img src="images/fire-icon.png" alt="FIRMS Icon" style="width: 18px; height: 18px; vertical-align: middle;"> FIRMS Hotspot</div>
+                <div><img src="images/fire-icon.png" alt="FIRMS Icon" style="width: 18px; height: 18px; vertical-align: middle;"> FIRMS Hotspot</div>
                 <div><img src="images/nifc-fire.png" alt="NIFC Icon" style="width: 18px; height: 18px; vertical-align: middle;"> NIFC Incident</div>
                 <div><span class="polygon" style="display: inline-block; vertical-align: middle;"></span> NWS Warning</div>
                 <hr style="margin: 5px 0;">
@@ -294,7 +292,6 @@
     function setupMap(centerCoords, zoomLevel) {
       console.log("[Setup] Setting up Leaflet map centered at:", centerCoords, " Zoom:", zoomLevel);
       try {
-        // Defensive check: If map already exists, remove it first
         if (map) {
           console.warn("[Setup] Map already exists. Removing previous instance.");
           map.remove();
@@ -303,20 +300,18 @@
         map = L.map('fire-map', {
             center: centerCoords,
             zoom: zoomLevel,
-            fullscreenControl: true, // Make sure this is compatible with the loaded plugin version
+            fullscreenControl: true,
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Fire Data: NASA FIRMS, NIFC | AQI: AirNow | Weather: NWS'
         }).addTo(map);
 
-        // Add initial layers AFTER map is created
         console.log("[Setup] Adding initial layers to map object...");
         if (showFires && fireLayer) fireLayer.addTo(map);
         if (showNIFC && nifcLayer) nifcLayer.addTo(map);
         if (showNWS && nwsLayer) nwsLayer.addTo(map);
 
-        // Add Controls and Legend - Calls the functions defined earlier
         addMapControls();
         addMapLegend();
 
@@ -338,21 +333,19 @@
 
     function loadInitialData(lat, lon) {
       console.log('[LoadData] Loading initial data for coords:', lat, lon);
-      mapErrorMessage.style.display = 'none'; // Clear previous errors on new load
+      mapErrorMessage.style.display = 'none';
       mapErrorMessage.textContent = '';
 
       Promise.allSettled([
           loadNIFCFires(),
           loadNWSWarnings(),
           loadFIRMSFires(lat, lon)
-          // loadAirQuality(lat, lon) // Optional: load initial AQI too
+          // loadAirQuality(lat, lon)
       ]).then(results => {
           console.log('[LoadData] Initial data loading promises settled.');
           results.forEach((result, index) => {
               if (result.status === 'rejected') {
                   console.error(`[LoadData] Promise ${index} rejected:`, result.reason);
-              } else {
-                   // console.log(`[LoadData] Promise ${index} fulfilled.`); // Less noisy
               }
           });
       });
@@ -429,7 +422,6 @@
                           const confidence = values[confidenceIndex] || 'N/A';
                           const marker = L.marker([lat, lon], { icon: fireIcon })
                               .bindPopup(`<b>FIRMS Hotspot (${confidence})</b><br>Detected: ${date} ${time.substring(0,2)}:${time.substring(2)}<br>Brightness: ${brightness} K`);
-                          // console.log(`[FIRMS] Adding marker at ${lat}, ${lon}`); // Log marker addition
                           fireLayer.addLayer(marker);
                           markerCount++;
                       }
@@ -445,12 +437,8 @@
           displayMapError(`Could not load FIRMS data: ${error.message}`);
       } finally {
           if (map) {
-              if (showFires && !map.hasLayer(fireLayer)) {
-                  fireLayer.addTo(map);
-                  console.log("[FIRMS] Added fireLayer back to map.");
-              } else if (!showFires && map.hasLayer(fireLayer)) {
-                  fireLayer.remove();
-              }
+              if (showFires && !map.hasLayer(fireLayer)) { fireLayer.addTo(map); }
+              else if (!showFires && map.hasLayer(fireLayer)) { fireLayer.remove(); }
           }
           mapLoadingMessage.style.display = 'none';
           console.log("[FIRMS] Data loading finished.");
@@ -492,7 +480,6 @@
                           const cost = props.EstimatedCostToDate !== null ? `$${Math.round(props.EstimatedCostToDate).toLocaleString()}` : 'N/A';
                           const marker = L.marker([geom.y, geom.x], { icon: nifcIcon })
                               .bindPopup(`<b>${props.IncidentName || 'NIFC Incident'}</b><br>Discovered: ${discoveredDate}<br>Acres: ${acres}<br>Containment: ${containment}<br>Est. Cost: ${cost}`);
-                          // console.log(`[NIFC] Adding marker at ${geom.y}, ${geom.x}`); // Log marker addition
                           nifcLayer.addLayer(marker);
                           markerCount++;
                       }
@@ -510,12 +497,8 @@
            displayMapError(`Could not load NIFC data: ${error.message}`);
       } finally {
            if (map) {
-               if (showNIFC && !map.hasLayer(nifcLayer)) {
-                   nifcLayer.addTo(map);
-                   console.log("[NIFC] Added nifcLayer back to map.");
-               } else if (!showNIFC && map.hasLayer(nifcLayer)) {
-                    nifcLayer.remove();
-               }
+               if (showNIFC && !map.hasLayer(nifcLayer)) { nifcLayer.addTo(map); }
+               else if (!showNIFC && map.hasLayer(nifcLayer)) { nifcLayer.remove(); }
            }
            mapLoadingMessage.style.display = 'none';
             console.log("[NIFC] Data loading finished.");
@@ -583,12 +566,8 @@
            airQualityLayer.addLayer(errorMarker);
       } finally {
            if (map) {
-               if (showAirQuality && !map.hasLayer(airQualityLayer)) {
-                   airQualityLayer.addTo(map);
-                    console.log("[AirNow] Added airQualityLayer back to map.");
-               } else if (!showAirQuality && map.hasLayer(airQualityLayer)) {
-                   airQualityLayer.remove();
-               }
+               if (showAirQuality && !map.hasLayer(airQualityLayer)) { airQualityLayer.addTo(map); }
+               else if (!showAirQuality && map.hasLayer(airQualityLayer)) { airQualityLayer.remove(); }
            }
           mapLoadingMessage.style.display = 'none';
            console.log("[AirNow] Data loading finished.");
@@ -633,10 +612,8 @@
            displayMapError(`Could not load NWS warnings: ${error.message}`);
       } finally {
            if (map) {
-               if (showNWS && !map.hasLayer(nwsLayer)) {
-                   nwsLayer.addTo(map);
-                    console.log("[NWS] Added nwsLayer back to map.");
-               } else if (!showNWS && map.hasLayer(nwsLayer)) { nwsLayer.remove(); }
+               if (showNWS && !map.hasLayer(nwsLayer)) { nwsLayer.addTo(map); }
+               else if (!showNWS && map.hasLayer(nwsLayer)) { nwsLayer.remove(); }
            }
            mapLoadingMessage.style.display = 'none';
            console.log("[NWS] Data loading finished.");
@@ -746,7 +723,7 @@
     }
 
     async function handleZipSearch(event) {
-        event.preventDefault(); // ALWAYS prevent default form submission
+        event.preventDefault();
         console.log("[ZipSearch] Form submitted.");
 
         const zipInput = document.getElementById('zip-code');
@@ -762,12 +739,13 @@
              return;
         }
 
-        const zipRegex = /^(\d{5}(-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$/;
-        if (!zipRegex.test(zip)) {
-            console.log("[ZipSearch] Invalid zip code format.");
-            alert('Please enter a valid USA (e.g., 90210) or Canadian (e.g., V6B 2W9) zip/postal code.');
-            return;
-        }
+        // Simplified Regex Check (Optional - removed pattern attr from HTML)
+        // const zipRegex = /^(\d{5}(-\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$/;
+        // if (!zipRegex.test(zip)) {
+        //     console.log("[ZipSearch] Invalid zip code format (JS Check).");
+        //     alert('Please enter a valid USA (e.g., 90210) or Canadian (e.g., V6B 2W9) zip/postal code.');
+        //     return;
+        // }
 
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(zip)}&key=${apiKey}&countrycode=us,ca&limit=1`;
         console.log(`[ZipSearch] Geocoding request URL: ${url.replace(apiKey, "REDACTED_KEY")}`);
