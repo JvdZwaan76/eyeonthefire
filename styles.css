@@ -147,7 +147,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   text-align: center;
   min-height: 60vh; /* Reduced height */
   padding: 3rem 1rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/hero-bg.jpg') center/cover no-repeat;
+  /* Use relative path */
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero-bg.jpg') center/cover no-repeat;
   color: #fff;
   margin-top: -80px; /* Overlap navbar space since body has padding-top */
 }
@@ -601,6 +602,7 @@ footer a:hover {
   .hero {
     min-height: 50vh;
     margin-top: 0; /* No overlap needed */
+    background-attachment: scroll; /* Ensure background scrolls on mobile */
   }
 
   #fire-map {
