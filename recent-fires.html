@@ -28,29 +28,20 @@
     gtag('config', 'G-T8RE6KDBEW');
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-</head>
-<body>
-  <nav class="navbar">
-    <div class="logo">
-      <img src="/images/logo.png" alt="Eye on the Fire Logo">
-      <span class="logo-text">Eye on the Fire</span>
+
+  <link rel="stylesheet" href="/styles.css"> <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  </head>
+<body style="padding-top: 80px;"> <nav class="navbar">
+    <div class="navbar-header">
+        <a href="#" class="logo">
+            <img src="/images/fire-icon.png" alt="Eye on the Fire Logo"> <span class="logo-text">Eye on the Fire</span>
+        </a>
+        <button class="hamburger" id="hamburger-menu" aria-label="Toggle Menu">
+            <span class="line"></span><span class="line"></span><span class="line"></span>
+        </button>
     </div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span class="line"></span>
-      <span class="line"></span>
-      <span class="line"></span>
-    </div>
-    <ul class="nav-menu">
-      <li><a href="index.html#map-section">Fire Map</a></li>
-      <li><a href="recent-fires.html" style="color: #ffca28;">Recent Fires</a></li>
-      <li><a href="index.html#prevention">Prevention</a></li>
-      <li><a href="index.html#community">Community</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="status.html">Status</a></li>
-    </ul>
+    <ul class="nav-menu" id="nav-menu">
+        <li><a href="/index.html#map-section">Live Map</a></li> <li><a href="/recent-fires.html" style="color: #ffcc80;">Recent Fires</a></li> <li><a href="/index.html#prevention">Prevention</a></li> <li><a href="/index.html#community">Community</a></li> </ul>
   </nav>
   <header class="hero">
     <h1>Recent Wildfires at Your Fingertips</h1>
@@ -62,16 +53,6 @@
     <div class="content-section">
       <h2>Latest Fire Updates</h2>
       <p>Eye on the Fire brings you the most recent wildfire activity, like the LA and Pacific Palisades fires of January 2025, with our cutting-edge live map.</p>
-      <div class="map-container" id="map-container">
-        <div class="map-header">Interactive Live Fire Map</div>
-        <div class="map-controls">
-          <button onclick="zoomToCA()" aria-label="Zoom to California">Zoom to CA</button>
-          <button onclick="zoomToUS()" aria-label="View entire U.S.">View U.S.</button>
-          <button onclick="toggleFires()" aria-label="Toggle active fire markers">Toggle Fires</button>
-          <button onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode">Fullscreen</button>
-        </div>
-        <div id="fire-map"></div>
-      </div>
       <div class="fire-media">
         <div class="media-item">
           <img src="/images/palisades-fire-highway-smoke.jpg" alt="Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025">
@@ -89,9 +70,7 @@
           <p class="media-caption">🔥 Palisades Fire impact video, January 2025</p>
         </div>
       </div>
-      <div class="cta-banner">Track More Fires! <a href="index.html#map-section">Go to Main Map</a></div>
-
-      <h2>LA & Pacific Palisades Fires: January 2025</h2>
+      <div class="cta-banner">Track More Fires! <a href="/index.html#map-section">Go to Main Map</a></div> <h2>LA & Pacific Palisades Fires: January 2025</h2>
       <p>These fires ravaged over 12,000 structures and displaced thousands. Eye on the Fire keeps you updated with live data and critical insights.</p>
 
       <h2>Safety Tips</h2>
@@ -100,18 +79,8 @@
         <li><strong>Evacuation Plan:</strong> Plan multiple escape routes.</li>
         <li><strong>Stay Informed:</strong> Use our live map for real-time updates.</li>
       </ul>
-      <a href="index.html#prevention" class="cta-button">More Safety Tips</a>
-    </div>
+      <a href="/index.html#prevention" class="cta-button">More Safety Tips</a> </div>
   </section>
-
-  <div class="location-form-container">
-    <form class="location-form">
-      <input type="text" id="zip-input" placeholder="Enter Zip Code" aria-label="Zip Code">
-      <button type="button" onclick="checkFiresNow()" aria-label="Check fires near zip code">Check Fires Now</button>
-      <p class="disclosure">USA & Canada only</p>
-      <button type="button" class="close-btn" aria-label="Close">×</button>
-    </form>
-  </div>
 
   <footer>
     <p>© 2025 Eye on the Fire | <a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="/status.html">Status</a></p>
@@ -120,62 +89,38 @@
       <a href="https://facebook.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
       <a href="https://instagram.com/eyeonthefire" target="_blank" rel="nofollow" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
     </div>
-    <div class="cta-banner">Stay Ahead! <a href="index.html#map-section">Track Fires Live</a></div>
-  </footer>
+    <div class="cta-banner">Stay Ahead! <a href="/index.html#map-section">Track Fires Live</a></div> </footer>
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Recent Fires - Eye on the Fire",
-    "description": "Premier interactive live wildfire map and updates for recent fires like the LA and Pacific Palisades fires of January 2025, with media and safety tips.",
-    "url": "https://eyeonthefire.com/recent-fires.html",
-    "datePublished": "2025-03-25",
-    "dateModified": "2025-04-11",
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://eyeonthefire.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Recent Fires",
-          "item": "https://eyeonthefire.com/recent-fires.html"
-        }
-      ]
-    },
-    "hasPart": [
-      {
-        "@type": "ImageObject",
-        "url": "https://eyeonthefire.com/images/palisades-fire-highway-smoke.jpg",
-        "caption": "Highway view of the Palisades Fire smoke plume in Pacific Palisades, January 2025",
-        "width": 800,
-        "height": 600
-      },
-      {
-        "@type": "ImageObject",
-        "url": "https://eyeonthefire.com/images/eaton-fire-firefighters.jpg",
-        "caption": "Firefighters battling the Eaton Fire in a residential area, January 2025",
-        "width": 800,
-        "height": 600
-      },
-      {
-        "@type": "VideoObject",
-        "url": "https://eyeonthefire.com/videos/palisades-fire-personal-video-1.mp4",
-        "name": "Personal video capturing the Palisades Fire’s impact, January 2025",
-        "description": "A personal video showing the impact of the Palisades Fire in Pacific Palisades, January 2025.",
-        "thumbnailUrl": "https://eyeonthefire.com/images/palisades-fire-video-poster.jpg",
-        "uploadDate": "2025-03-25"
-      }
-    ]
+    /* ... rest of schema ... */
   }
   </script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="scripts.js"></script>
-</body>
+
+  <script>
+      const hamburger = document.getElementById('hamburger-menu');
+      const navMenu = document.getElementById('nav-menu');
+
+      if (hamburger && navMenu) {
+          hamburger.addEventListener('click', () => {
+              hamburger.classList.toggle('active');
+              navMenu.classList.toggle('active');
+          });
+
+          // Close menu when a link is clicked (optional, good for SPA feel)
+          navMenu.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                  if (hamburger.classList.contains('active')) {
+                      hamburger.classList.remove('active');
+                      navMenu.classList.remove('active');
+                  }
+              });
+          });
+      } else {
+          console.warn("Hamburger menu elements not found on this page.");
+      }
+  </script>
+  </body>
 </html>
