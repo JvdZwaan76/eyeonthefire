@@ -213,7 +213,7 @@
       mapErrorMessage.style.display = 'none';
       geolocationErrorDiv.style.display = 'none';
 
-      // Use default US view instead of geolocation
+      // Use default US view
       const defaultLat = 37.0902;
       const defaultLon = -95.7129;
       const defaultZoom = 5;
@@ -292,11 +292,17 @@
       L.Control.Custom = L.Control.extend({
         onAdd: function(map) {
           const container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar');
-          container.innerHTML = `<button id="zoom-ca" class="map-button" title="Zoom to California">Zoom CA</button><button id="zoom-us" class="map-button" title="Zoom to United States">Zoom US</button><button id="locate-me" class="map-button" title="Use My Location"><i class="fas fa-location-crosshairs"></i> My Location</button>`;
+          container.innerHTML = `
+            <button id="zoom-ca" class="map-button" title="Zoom to California">Zoom CA</button>
+            <button id="zoom-us" class="map-button" title="Zoom to United States">Zoom US</button>
+            <button id="locate-me" class="map-button" title="Use My Location"><i class="fas fa-location-crosshairs"></i> My Location</button>
+            <button id="refresh-map" class="map-button" title="Refresh Map">Refresh</button>
+          `;
           L.DomEvent.disableClickPropagation(container);
           L.DomEvent.on(container.querySelector('#zoom-ca'), 'click', zoomToCA);
           L.DomEvent.on(container.querySelector('#zoom-us'), 'click', zoomToUS);
           L.DomEvent.on(container.querySelector('#locate-me'), 'click', centerOnUserLocation);
+          L.DomEvent.on(container.querySelector('#refresh-map'), 'click', refreshMap);
           return container;
         },
         onRemove: function(map) {}
@@ -346,6 +352,11 @@
       };
       legend.addTo(map);
       console.log("[Setup] Map legend added.");
+    }
+
+    function refreshMap() {
+      console.log('[Refresh] Forcing map reinitialization...');
+      initializeMap();
     }
 
     function loadInitialData(lat, lon) {
