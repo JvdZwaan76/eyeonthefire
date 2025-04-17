@@ -316,7 +316,7 @@
         if (showNIFC && nifcLayer) nifcLayer.addTo(map);
         if (showNWS && nwsLayer) nwsLayer.addTo(map);
 
-        // Add Controls and Legend - THESE MUST BE DEFINED BEFORE THIS POINT
+        // Add Controls and Legend - Calls the functions defined earlier
         addMapControls();
         addMapLegend();
 
@@ -393,11 +393,10 @@
           console.log("[FIRMS] CSV lines count:", lines.length);
           if (lines.length <= 1) {
               console.log("[FIRMS] No active FIRMS hotspots found in CSV data.");
-              mapLoadingMessage.style.display = 'none'; // Hide loading earlier if no data
+              mapLoadingMessage.style.display = 'none';
               return;
           }
           const headers = lines[0].split(',');
-          // console.log("[FIRMS] CSV Headers:", headers); // Can be noisy
 
           const latIndex = headers.indexOf('latitude');
           const lonIndex = headers.indexOf('longitude');
@@ -430,6 +429,7 @@
                           const confidence = values[confidenceIndex] || 'N/A';
                           const marker = L.marker([lat, lon], { icon: fireIcon })
                               .bindPopup(`<b>FIRMS Hotspot (${confidence})</b><br>Detected: ${date} ${time.substring(0,2)}:${time.substring(2)}<br>Brightness: ${brightness} K`);
+                          // console.log(`[FIRMS] Adding marker at ${lat}, ${lon}`); // Log marker addition
                           fireLayer.addLayer(marker);
                           markerCount++;
                       }
@@ -473,7 +473,6 @@
               throw new Error(`API Error: ${response.status} ${response.statusText}`);
           }
           const data = await response.json();
-          // console.log("[NIFC] Data Received:", data); // Can be very large
 
           const nifcIcon = L.icon({
                iconUrl: 'images/nifc-fire.png',
@@ -493,6 +492,7 @@
                           const cost = props.EstimatedCostToDate !== null ? `$${Math.round(props.EstimatedCostToDate).toLocaleString()}` : 'N/A';
                           const marker = L.marker([geom.y, geom.x], { icon: nifcIcon })
                               .bindPopup(`<b>${props.IncidentName || 'NIFC Incident'}</b><br>Discovered: ${discoveredDate}<br>Acres: ${acres}<br>Containment: ${containment}<br>Est. Cost: ${cost}`);
+                          // console.log(`[NIFC] Adding marker at ${geom.y}, ${geom.x}`); // Log marker addition
                           nifcLayer.addLayer(marker);
                           markerCount++;
                       }
@@ -548,7 +548,6 @@
                throw new Error(`API Error: ${response.status} ${response.statusText}`);
            }
           const data = await response.json();
-          // console.log("[AirNow] Data Received:", data); // Can be large
 
           if (data && data.length > 0) {
               const pm25Data = data.find(item => item.ParameterName === 'PM2.5');
@@ -568,15 +567,10 @@
                       airQualityLayer.addLayer(circle);
                        markerAdded = true;
                       console.log(`[AirNow] Added AQI point: ${aqi} (${category}) at ${circleLat}, ${circleLon}`);
-                   } else {
-                       console.warn("[AirNow] Invalid coordinates received:", pm25Data);
-                   }
-              } else {
-                  console.log("[AirNow] No PM2.5 AQI data found for this location/time.");
-              }
-          } else {
-              console.log("[AirNow] No AQI data returned from API.");
-          }
+                   } else { console.warn("[AirNow] Invalid coordinates received:", pm25Data); }
+              } else { console.log("[AirNow] No PM2.5 AQI data found for this location/time."); }
+          } else { console.log("[AirNow] No AQI data returned from API."); }
+
           if (!markerAdded) {
                const noDataMarker = L.marker([lat, lon]).bindPopup("No PM2.5 AQI data available.");
                airQualityLayer.addLayer(noDataMarker);
@@ -617,13 +611,10 @@
               throw new Error(`API Error: ${response.status} ${response.statusText}`);
           }
           const data = await response.json();
-           // console.log("[NWS] Data Received:", data); // Can be large
 
           if (data.features && data.features.length > 0) {
                console.log("[NWS] Processing NWS features:", data.features.length);
-              const nwsStyle = {
-                  color: "#ff4500", weight: 2, opacity: 0.7, fillColor: "#ff4500", fillOpacity: 0.2
-              };
+              const nwsStyle = { color: "#ff4500", weight: 2, opacity: 0.7, fillColor: "#ff4500", fillOpacity: 0.2 };
               L.geoJSON(data.features, {
                   style: nwsStyle,
                   onEachFeature: function (feature, layer) {
@@ -636,9 +627,7 @@
               }).addTo(nwsLayer);
               featureCount = data.features.length;
               console.log(`[NWS] Added ${featureCount} NWS warning areas to nwsLayer.`);
-          } else {
-              console.log("[NWS] No active NWS fire weather warnings found.");
-          }
+          } else { console.log("[NWS] No active NWS fire weather warnings found."); }
       } catch (error) {
           console.error('[NWS] Error fetching NWS warnings:', error);
            displayMapError(`Could not load NWS warnings: ${error.message}`);
@@ -647,9 +636,7 @@
                if (showNWS && !map.hasLayer(nwsLayer)) {
                    nwsLayer.addTo(map);
                     console.log("[NWS] Added nwsLayer back to map.");
-               } else if (!showNWS && map.hasLayer(nwsLayer)) {
-                    nwsLayer.remove();
-               }
+               } else if (!showNWS && map.hasLayer(nwsLayer)) { nwsLayer.remove(); }
            }
            mapLoadingMessage.style.display = 'none';
            console.log("[NWS] Data loading finished.");
@@ -759,15 +746,11 @@
     }
 
     async function handleZipSearch(event) {
-        // Prevent default form submission behavior which reloads the page
-        event.preventDefault();
+        event.preventDefault(); // ALWAYS prevent default form submission
         console.log("[ZipSearch] Form submitted.");
 
         const zipInput = document.getElementById('zip-code');
-        if (!zipInput) {
-             console.error("[ZipSearch] Cannot find zip code input element!");
-             return;
-        }
+        if (!zipInput) { console.error("[ZipSearch] Cannot find zip code input element!"); return; }
         const zip = zipInput.value.trim();
         console.log("[ZipSearch] Zip code entered:", zip);
 
