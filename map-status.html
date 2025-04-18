@@ -22,6 +22,7 @@
             background-color: #f9f9f9;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative; /* For positioning the loading overlay */
         }
         .controls {
             display: flex;
@@ -55,6 +56,31 @@
             height: 80vh;
             width: 100%;
         }
+        /* Loading overlay styles */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it appears above the map */
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         @media (max-width: 768px) {
             .map-container {
                 padding: 10px;
@@ -82,6 +108,7 @@
             const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
+            const [isLoading, setIsLoading] = useState(true); // Track loading state
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
             const initialCenter = [37.7749, -122.4194];
@@ -107,10 +134,11 @@
 
             // Fetch active fire data
             useEffect(() => {
+                setIsLoading(true); // Show loading animation
                 fetch('https://eyeonthefire.com/api/nasa/')
                     .then(res => {
                         if (!res.ok) {
-                            throw new Error('Failed to fetch fire data');
+                            throw new Error(`Failed to fetch fire data: ${res.status} ${res.statusText}`);
                         }
                         return res.json();
                     })
@@ -124,8 +152,11 @@
                         setFires(fireList);
                     })
                     .catch(err => {
-                        console.error('Error fetching fires:', err);
-                        setErrorMessage('Failed to load fire data');
+                        console.error('Error fetching fires:', err.message);
+                        setErrorMessage('Failed to load fire data: ' + err.message);
+                    })
+                    .finally(() => {
+                        setIsLoading(false); // Hide loading animation
                     });
             }, []);
 
@@ -172,7 +203,7 @@
                 fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`)
                     .then(res => {
                         if (!res.ok) {
-                            throw new Error('Failed to fetch location data');
+                            throw new Error(`Failed to fetch location data: ${res.status} ${res.statusText}`);
                         }
                         return res.json();
                     })
@@ -187,8 +218,8 @@
                         }
                     })
                     .catch(err => {
-                        console.error('Error during search:', err);
-                        setErrorMessage('Failed to search zip code');
+                        console.error('Error during search:', err.message);
+                        setErrorMessage('Failed to search zip code: ' + err.message);
                     });
             };
 
@@ -201,6 +232,11 @@
 
             return (
                 <div className="map-container">
+                    {isLoading && (
+                        <div className="loading-overlay">
+                            <div className="spinner"></div>
+                        </div>
+                    )}
                     <div className="controls">
                         <input id="zip-input" type="text" placeholder="Enter zip code" />
                         <button onClick={handleSearch}>Search</button>
