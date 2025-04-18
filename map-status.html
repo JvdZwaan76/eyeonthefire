@@ -6,10 +6,12 @@
     <title>Wildfire Map</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- React and ReactDOM from CDN -->
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- React and ReactDOM -->
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
-    <!-- Babel for JSX transpilation -->
+    <!-- Babel for JSX -->
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <style>
         .search-container { margin: 1rem; }
@@ -18,22 +20,18 @@
     </style>
 </head>
 <body>
-    <!-- Root div for React to render into -->
     <div id="root"></div>
     <script type="text/babel">
-        // Destructure React hooks
         const { useState, useEffect, useRef } = React;
 
         const MapComponent = () => {
-            // State for wildfire data, zip code, and map center
             const [fires, setFires] = useState([]);
             const [zip, setZip] = useState('');
             const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
-            // Refs for map container and Leaflet map instance
             const mapContainerRef = useRef(null);
             const mapRef = useRef(null);
 
-            // Initialize Leaflet map when component mounts
+            // Initialize map
             useEffect(() => {
                 if (mapContainerRef.current && !mapRef.current) {
                     mapRef.current = L.map(mapContainerRef.current).setView(center, 5);
@@ -41,53 +39,53 @@
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(mapRef.current);
                 }
-            }, []); // Empty dependency array: runs once on mount
+            }, []);
 
-            // Update map when fires or center changes
+            // Update map with fires or center changes
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, 10);
-                    // Remove existing markers
                     mapRef.current.eachLayer(layer => {
                         if (layer instanceof L.Marker) mapRef.current.removeLayer(layer);
                     });
-                    // Add new markers for wildfires
                     fires.forEach(fire => {
                         L.marker([fire.geometry[0].coordinates[1], fire.geometry[0].coordinates[0]])
                             .addTo(mapRef.current)
                             .bindPopup(fire.title);
                     });
                 }
-            }, [fires, center]); // Dependencies: fires, center
+            }, [fires, center]);
 
-            // Fetch wildfire data on mount
+            // Fetch wildfire data
             useEffect(() => {
                 fetch('https://eyeonthefire.com/api/nasa/')
-                    .then(res => res.json())
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error(`HTTP error! status: ${res.status}`);
+                        }
+                        return res.json();
+                    })
                     .then(data => setFires(data.events || []))
                     .catch(err => console.error('Error fetching fires:', err));
-            }, []); // Empty dependency array: runs once on mount
+            }, []);
 
             // Handle zip code search
             const handleSearch = async () => {
                 try {
                     const geoResponse = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
+                    if (!geoResponse.ok) {
+                        throw new Error(`HTTP error! status: ${geoResponse.status}`);
+                    }
                     const geoData = await geoResponse.json();
                     if (geoData.results && geoData.results.length > 0) {
                         const { lat, lng } = geoData.results[0].geometry;
                         setCenter([lat, lng]);
-
-                        // Fetch air quality data
-                        const airResponse = await fetch(`https://eyeonthefire.com/api/airnow?zip=${zip}`);
-                        const airData = await airResponse.json();
-                        console.log('Air Quality:', airData);
                     }
                 } catch (err) {
                     console.error('Error during search:', err);
                 }
             };
 
-            // Render search bar and map container
             return (
                 <div>
                     <div className="search-container">
@@ -105,7 +103,6 @@
             );
         };
 
-        // Render the component into the root div
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 </body>
