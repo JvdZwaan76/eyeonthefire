@@ -14,9 +14,62 @@
     <!-- Babel for JSX -->
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <style>
-        .search-container { margin: 1rem; }
-        .search-input { padding: 0.5rem; margin-right: 0.5rem; }
-        .search-button { padding: 0.5rem; background-color: #ff4500; color: white; border: none; cursor: pointer; }
+        .map-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .controls input {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .controls button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #map {
+            height: 80vh;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .map-container {
+                padding: 10px;
+            }
+            .controls input {
+                width: 150px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            #map {
+                height: 70vh;
+            }
+        }
     </style>
 </head>
 <body>
@@ -26,79 +79,114 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [zip, setZip] = useState('');
             const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
-            const mapContainerRef = useRef(null);
+            const [zoom, setZoom] = useState(5);
+            const [errorMessage, setErrorMessage] = useState('');
             const mapRef = useRef(null);
+            const markerLayerRef = useRef(null);
+            const initialCenter = [37.7749, -122.4194];
+            const initialZoom = 5;
 
-            // Initialize map
+            // Initialize map and marker layer
             useEffect(() => {
-                if (mapContainerRef.current && !mapRef.current) {
-                    mapRef.current = L.map(mapContainerRef.current).setView(center, 5);
+                if (!mapRef.current) {
+                    mapRef.current = L.map('map').setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(mapRef.current);
+                    markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
                 }
             }, []);
 
-            // Update map with fires or center changes
+            // Update map view when center or zoom changes
             useEffect(() => {
                 if (mapRef.current) {
-                    mapRef.current.setView(center, 10);
-                    mapRef.current.eachLayer(layer => {
-                        if (layer instanceof L.Marker) mapRef.current.removeLayer(layer);
-                    });
-                    fires.forEach(fire => {
-                        L.marker([fire.geometry[0].coordinates[1], fire.geometry[0].coordinates[0]])
-                            .addTo(mapRef.current)
-                            .bindPopup(fire.title);
-                    });
+                    mapRef.current.setView(center, zoom);
                 }
-            }, [fires, center]);
+            }, [center, zoom]);
 
-            // Fetch wildfire data
+            // Fetch active fire data
             useEffect(() => {
                 fetch('https://eyeonthefire.com/api/nasa/')
                     .then(res => {
                         if (!res.ok) {
-                            throw new Error(`HTTP error! status: ${res.status}`);
+                            throw new Error('Failed to fetch fire data');
                         }
                         return res.json();
                     })
-                    .then(data => setFires(data.events || []))
-                    .catch(err => console.error('Error fetching fires:', err));
+                    .then(data => {
+                        console.log('Fire data:', data);
+                        const fireList = (data.events || []).map(event => ({
+                            lat: event.geometry[0].coordinates[1], // Adjust based on actual format
+                            lon: event.geometry[0].coordinates[0],
+                            title: event.title || 'Active Fire'
+                        }));
+                        setFires(fireList);
+                    })
+                    .catch(err => {
+                        console.error('Error fetching fires:', err);
+                        setErrorMessage('Failed to load fire data');
+                    });
             }, []);
 
-            // Handle zip code search
-            const handleSearch = async () => {
-                try {
-                    const geoResponse = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
-                    if (!geoResponse.ok) {
-                        throw new Error(`HTTP error! status: ${geoResponse.status}`);
-                    }
-                    const geoData = await geoResponse.json();
-                    if (geoData.results && geoData.results.length > 0) {
-                        const { lat, lng } = geoData.results[0].geometry;
-                        setCenter([lat, lng]);
-                    }
-                } catch (err) {
-                    console.error('Error during search:', err);
+            // Update fire markers
+            useEffect(() => {
+                if (markerLayerRef.current) {
+                    markerLayerRef.current.clearLayers();
+                    fires.forEach(fire => {
+                        L.marker([fire.lat, fire.lon])
+                            .addTo(markerLayerRef.current)
+                            .bindPopup(fire.title);
+                    });
                 }
+            }, [fires]);
+
+            // Handle zip code search
+            const handleSearch = () => {
+                const zip = document.getElementById('zip-input').value.trim();
+                if (!zip) {
+                    setErrorMessage('Please enter a zip code');
+                    return;
+                }
+                fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`)
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('Failed to fetch location data');
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (data.results && data.results.length > 0) {
+                            const { lat, lng } = data.results[0].geometry;
+                            setCenter([lat, lng]);
+                            setZoom(12);
+                            setErrorMessage('');
+                        } else {
+                            setErrorMessage('Zip code not found');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error during search:', err);
+                        setErrorMessage('Failed to search zip code');
+                    });
+            };
+
+            // Reset map to default view
+            const handleReset = () => {
+                setCenter(initialCenter);
+                setZoom(initialZoom);
+                setErrorMessage('');
             };
 
             return (
-                <div>
-                    <div className="search-container">
-                        <input
-                            type="text"
-                            value={zip}
-                            onChange={(e) => setZip(e.target.value)}
-                            placeholder="Enter zip code"
-                            className="search-input"
-                        />
-                        <button onClick={handleSearch} className="search-button">Search</button>
+                <div className="map-container">
+                    <div className="controls">
+                        <input id="zip-input" type="text" placeholder="Enter zip code" />
+                        <button onClick={handleSearch}>Search</button>
+                        <button onClick={handleReset}>Reset</button>
                     </div>
-                    <div ref={mapContainerRef} style={{ height: '500px', width: '100%' }}></div>
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                    <div id="map"></div>
                 </div>
             );
         };
