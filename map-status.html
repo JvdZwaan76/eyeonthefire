@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <!-- React and ReactDOM -->
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- React and ReactDOM (Production Builds) -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <!-- Babel for JSX -->
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <style>
@@ -22,7 +22,7 @@
             background-color: #f9f9f9;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative; /* For positioning the loading overlay */
+            position: relative;
         }
         .controls {
             display: flex;
@@ -67,7 +67,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* Ensure it appears above the map */
+            z-index: 1000;
         }
         .spinner {
             border: 4px solid #f3f3f3;
@@ -103,12 +103,29 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
+        // Retry fetch with a specified number of attempts
+        const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error; // Last attempt
+                    console.log(`Fetch attempt ${i + 1} failed, retrying in ${delay}ms...`, error.message);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        };
+
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
             const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
-            const [isLoading, setIsLoading] = useState(true); // Track loading state
+            const [isLoading, setIsLoading] = useState(true);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
             const initialCenter = [37.7749, -122.4194];
@@ -132,16 +149,10 @@
                 }
             }, [center, zoom]);
 
-            // Fetch active fire data
+            // Fetch active fire data with retry
             useEffect(() => {
-                setIsLoading(true); // Show loading animation
-                fetch('https://eyeonthefire.com/api/nasa/')
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error(`Failed to fetch fire data: ${res.status} ${res.statusText}`);
-                        }
-                        return res.json();
-                    })
+                setIsLoading(true);
+                fetchWithRetry('https://eyeonthefire.com/api/nasa/')
                     .then(data => {
                         console.log('Fire data:', data);
                         const fireList = (data.events || []).map(event => ({
@@ -156,7 +167,7 @@
                         setErrorMessage('Failed to load fire data: ' + err.message);
                     })
                     .finally(() => {
-                        setIsLoading(false); // Hide loading animation
+                        setIsLoading(false);
                     });
             }, []);
 
@@ -165,15 +176,13 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     
-                    // Define the custom fire marker icon
                     const fireIcon = L.icon({
                         iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
-                        iconSize: [32, 32], // Adjust based on your icon size
-                        iconAnchor: [16, 32], // Bottom center of the icon
-                        popupAnchor: [0, -32] // Popup above the icon
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 32],
+                        popupAnchor: [0, -32]
                     });
 
-                    // Add fire markers with the custom icon
                     fires.forEach(fire => {
                         L.marker([fire.lat, fire.lon], { icon: fireIcon })
                             .addTo(markerLayerRef.current)
@@ -183,16 +192,14 @@
             }, [fires]);
 
             // Handle zip code search
-            const handleSearch = () => {
+            const handleSearch = async () => {
                 const zip = document.getElementById('zip-input').value.trim();
                 if (!zip) {
                     setErrorMessage('Please enter a zip code');
                     return;
                 }
 
-                // US zip code: 5 digits
                 const usZipPattern = /^\d{5}$/;
-                // Canadian postal code: A1A 1A1
                 const caZipPattern = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
 
                 if (!usZipPattern.test(zip) && !caZipPattern.test(zip)) {
@@ -200,27 +207,25 @@
                     return;
                 }
 
-                fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`)
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error(`Failed to fetch location data: ${res.status} ${res.statusText}`);
-                        }
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data.results && data.results.length > 0) {
-                            const { lat, lng } = data.results[0].geometry;
-                            setCenter([lat, lng]);
-                            setZoom(12);
-                            setErrorMessage('');
-                        } else {
-                            setErrorMessage('Zip code not found in US or Canada');
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error during search:', err.message);
-                        setErrorMessage('Failed to search zip code: ' + err.message);
-                    });
+                try {
+                    const response = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
+                    if (!response.ok) {
+                        const errorData = await response.text();
+                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - ${errorData}`);
+                    }
+                    const data = await response.json();
+                    if (data.results && data.results.length > 0) {
+                        const { lat, lng } = data.results[0].geometry;
+                        setCenter([lat, lng]);
+                        setZoom(12);
+                        setErrorMessage('');
+                    } else {
+                        setErrorMessage('Zip code not found in US or Canada');
+                    }
+                } catch (err) {
+                    console.error('Error during search:', err.message);
+                    setErrorMessage('Failed to search zip code: ' + err.message);
+                }
             };
 
             // Reset map to default view
