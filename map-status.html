@@ -4,34 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wildfire Map</title>
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- React and ReactDOM from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Babel for JSX transpilation -->
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <style>
-        #map { height: 500px; width: 100%; }
         .search-container { margin: 1rem; }
         .search-input { padding: 0.5rem; margin-right: 0.5rem; }
         .search-button { padding: 0.5rem; background-color: #ff4500; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
+    <!-- Root div for React to render into -->
     <div id="root"></div>
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        // Destructure React hooks
+        const { useState, useEffect, useRef } = React;
 
         const MapComponent = () => {
+            // State for wildfire data, zip code, and map center
             const [fires, setFires] = useState([]);
             const [zip, setZip] = useState('');
             const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            // Refs for map container and Leaflet map instance
+            const mapContainerRef = useRef(null);
+            const mapRef = useRef(null);
 
-            // Fetch wildfire data from NASA Worker
+            // Initialize Leaflet map when component mounts
+            useEffect(() => {
+                if (mapContainerRef.current && !mapRef.current) {
+                    mapRef.current = L.map(mapContainerRef.current).setView(center, 5);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(mapRef.current);
+                }
+            }, []); // Empty dependency array: runs once on mount
+
+            // Update map when fires or center changes
+            useEffect(() => {
+                if (mapRef.current) {
+                    mapRef.current.setView(center, 10);
+                    // Remove existing markers
+                    mapRef.current.eachLayer(layer => {
+                        if (layer instanceof L.Marker) mapRef.current.removeLayer(layer);
+                    });
+                    // Add new markers for wildfires
+                    fires.forEach(fire => {
+                        L.marker([fire.geometry[0].coordinates[1], fire.geometry[0].coordinates[0]])
+                            .addTo(mapRef.current)
+                            .bindPopup(fire.title);
+                    });
+                }
+            }, [fires, center]); // Dependencies: fires, center
+
+            // Fetch wildfire data on mount
             useEffect(() => {
                 fetch('https://eyeonthefire.com/api/nasa/')
                     .then(res => res.json())
                     .then(data => setFires(data.events || []))
                     .catch(err => console.error('Error fetching fires:', err));
-            }, []);
+            }, []); // Empty dependency array: runs once on mount
 
             // Handle zip code search
             const handleSearch = async () => {
@@ -45,13 +80,14 @@
                         // Fetch air quality data
                         const airResponse = await fetch(`https://eyeonthefire.com/api/airnow?zip=${zip}`);
                         const airData = await airResponse.json();
-                        console.log('Air Quality:', airData); // Add to popup if desired
+                        console.log('Air Quality:', airData);
                     }
                 } catch (err) {
                     console.error('Error during search:', err);
                 }
             };
 
+            // Render search bar and map container
             return (
                 <div>
                     <div className="search-container">
@@ -64,49 +100,13 @@
                         />
                         <button onClick={handleSearch} className="search-button">Search</button>
                     </div>
-                    <div id="map"></div>
+                    <div ref={mapContainerRef} style={{ height: '500px', width: '100%' }}></div>
                 </div>
             );
         };
 
+        // Render the component into the root div
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
-
-        // Initialize Leaflet map
-        const map = L.map('map').setView([37.7749, -122.4194], 5);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Update map with fires
-        function updateMap(fires, center) {
-            map.eachLayer(layer => {
-                if (layer instanceof L.Marker) map.removeLayer(layer);
-            });
-            map.setView(center, 10);
-            fires.forEach(fire => {
-                L.marker([fire.geometry[0].coordinates[1], fire.geometry[0].coordinates[0]])
-                    .addTo(map)
-                    .bindPopup(fire.title);
-            });
-        }
-
-        // Observe changes in React state
-        const observer = new MutationObserver(() => {
-            const fires = JSON.parse(localStorage.getItem('fires') || '[]');
-            const center = JSON.parse(localStorage.getItem('center') || '[37.7749, -122.4194]');
-            updateMap(fires, center);
-        });
-        observer.observe(document.getElementById('root'), { childList: true, subtree: true });
-
-        // Store state in localStorage for observer
-        function updateLocalStorage() {
-            const fires = React.Component.prototype.fires || [];
-            const center = React.Component.prototype.center || [37.7749, -122.4194];
-            localStorage.setItem('fires', JSON.stringify(fires));
-            localStorage.setItem('center', JSON.stringify(center));
-        }
-
-        setInterval(updateLocalStorage, 100);
     </script>
 </body>
 </html>
