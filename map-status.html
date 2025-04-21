@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet.markercluster CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <!-- React and ReactDOM (Production Builds) -->
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
@@ -43,6 +47,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
+            min-width: 80px;
         }
         .controls button:hover {
             background-color: #0056b3;
@@ -51,6 +57,45 @@
             color: red;
             text-align: center;
             margin-bottom: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 5px;
+            border-radius: 4px;
+            position: relative;
+        }
+        .error-message button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 14px;
+        }
+        .legend.collapsed {
+            display: none;
+        }
+        .legend-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 5px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
         }
         #map {
             height: 80vh;
@@ -85,15 +130,30 @@
             .map-container {
                 padding: 10px;
             }
-            .controls input {
-                width: 150px;
-            }
             .controls {
                 flex-direction: column;
                 align-items: center;
             }
+            .controls input {
+                width: 100%;
+                max-width: 200px;
+            }
+            .controls button {
+                width: 100%;
+                max-width: 200px;
+                padding: 8px;
+                font-size: 14px;
+            }
             #map {
-                height: 70vh;
+                height: 60vh;
+            }
+            .legend {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
+            .legend-toggle {
+                padding: 3px;
+                font-size: 12px;
             }
         }
     </style>
@@ -113,7 +173,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    if (i === retries - 1) throw error; // Last attempt
+                    if (i === retries - 1) throw error;
                     console.log(`Fetch attempt ${i + 1} failed, retrying in ${delay}ms...`, error.message);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
@@ -126,6 +186,7 @@
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
+            const [isLegendOpen, setIsLegendOpen] = useState(false);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
             const initialCenter = [37.7749, -122.4194];
@@ -134,11 +195,13 @@
             // Initialize map and marker layer
             useEffect(() => {
                 if (!mapRef.current) {
-                    mapRef.current = L.map('map').setView(center, zoom);
+                    mapRef.current = L.map('map', {
+                        zoomControl: true // Enable zoom control for mobile
+                    }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(mapRef.current);
-                    markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                    markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
                 }
             }, []);
 
@@ -160,7 +223,8 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        setFires(fireList);
+                        // Limit to 100 markers for performance
+                        setFires(fireList.slice(0, 100));
                     })
                     .catch(err => {
                         console.error('Error fetching fires:', err.message);
@@ -171,7 +235,7 @@
                     });
             }, []);
 
-            // Update fire markers with custom icon
+            // Update fire markers with custom icon using clustering
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
@@ -185,8 +249,8 @@
 
                     fires.forEach(fire => {
                         L.marker([fire.lat, fire.lon], { icon: fireIcon })
-                            .addTo(markerLayerRef.current)
-                            .bindPopup(fire.title);
+                            .bindPopup(fire.title)
+                            .addTo(markerLayerRef.current);
                     });
                 }
             }, [fires]);
@@ -235,6 +299,36 @@
                 setErrorMessage('');
             };
 
+            // Center map on user's current location
+            const handleLocateMe = () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            const { latitude, longitude } = position.coords;
+                            setCenter([latitude, longitude]);
+                            setZoom(12);
+                            setErrorMessage('');
+                        },
+                        err => {
+                            console.error('Geolocation error:', err.message);
+                            setErrorMessage('Failed to get your location: ' + err.message);
+                        }
+                    );
+                } else {
+                    setErrorMessage('Geolocation is not supported by your browser');
+                }
+            };
+
+            // Toggle legend visibility
+            const toggleLegend = () => {
+                setIsLegendOpen(!isLegendOpen);
+            };
+
+            // Dismiss error message
+            const dismissError = () => {
+                setErrorMessage('');
+            };
+
             return (
                 <div className="map-container">
                     {isLoading && (
@@ -246,8 +340,20 @@
                         <input id="zip-input" type="text" placeholder="Enter zip code" />
                         <button onClick={handleSearch}>Search</button>
                         <button onClick={handleReset}>Reset</button>
+                        <button onClick={handleLocateMe}>Locate Me</button>
                     </div>
-                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                    {errorMessage && (
+                        <div className="error-message">
+                            {errorMessage}
+                            <button onClick={dismissError}>×</button>
+                        </div>
+                    )}
+                    <div className="legend-toggle" onClick={toggleLegend}>
+                        {isLegendOpen ? 'Hide Legend' : 'Show Legend'}
+                    </div>
+                    <div className={`legend ${isLegendOpen ? '' : 'collapsed'}`}>
+                        <p>🔥 Active Fire</p>
+                    </div>
                     <div id="map"></div>
                 </div>
             );
