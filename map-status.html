@@ -101,7 +101,6 @@
             height: 80vh;
             width: 100%;
         }
-        /* Loading overlay styles */
         .loading-overlay {
             position: absolute;
             top: 0;
@@ -223,7 +222,6 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        // Limit to 100 markers for performance
                         setFires(fireList.slice(0, 100));
                     })
                     .catch(err => {
@@ -274,8 +272,9 @@
                 try {
                     const response = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
                     if (!response.ok) {
+                        // Attempt to read the response body even if it's not JSON
                         const errorData = await response.text();
-                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - ${errorData}`);
+                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - Response: ${errorData}`);
                     }
                     const data = await response.json();
                     if (data.results && data.results.length > 0) {
