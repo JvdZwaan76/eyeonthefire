@@ -1,41 +1,234 @@
-@media (max-width: 768px) {
-  body {
-    padding-top: 0;
-    margin: 0;
-  }
+/* Reset and Base */
+/* ... (Keep existing base styles) ... */
 
-  .map-container {
-    width: 90%; /* Adjust width for equal padding */
-    max-width: 90%;
-    margin: 0 auto; /* Center horizontally */
-    padding: 10px; /* Optional: add internal padding */
+body {
+  font-family: 'Open Sans', sans-serif; /* Example from styles.css */
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  margin: 0;
+  /* padding-top removed or adjusted based on fixed header */
+}
+
+/* Typography */
+/* ... (Keep existing typography using clamp) ... */
+
+/* Layout */
+/* ... (Keep container styles) ... */
+
+/* Navbar / Header */
+header { /* Style from inline */
+    background: rgba(45, 45, 45, 0.95);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    /* Add position: fixed; width: 100%; top: 0; z-index: 1000; if needed */
+}
+.logo { /* Style from inline */
+    max-width: 150px; /* Or use styles.css version */
+    margin-bottom: 1rem; /* Or adjust based on layout */
+}
+nav ul { /* Style from inline */
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+nav a { /* Combined styles */
+    color: white;
+    text-decoration: none;
+    font-weight: bold; /* From inline */
+    /* Add transitions/hovers from styles.css if desired */
+}
+nav a:hover { /* Combined styles */
+    text-decoration: underline; /* From inline */
+    color: #ffcc80; /* From styles.css nav-menu */
+}
+
+/* Hamburger Menu (from styles.css) */
+/* ... */
+
+/* Main Content Area */
+main {
+    padding: 20px; /* From inline */
+    /* Add padding-top if header is fixed */
+}
+
+/* Map Specific Styles (Merged and Refined) */
+.map-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px; /* Keep base padding */
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     position: relative;
-  }
+}
 
-  #map {
-    height: 60vh;
-    width: 100%; /* Full width of container */
-  }
+#map {
+    height: 80vh; /* Default height using vh */
+    width: 100%;
+}
 
-  .controls {
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.controls button { /* Base button style */
+    padding: 5px 10px; /* Review/adjust for mobile */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px; /* Review/adjust for mobile */
+    min-width: 80px; /* Review/adjust for mobile */
+    transition: background-color 0.3s ease; /* Add transition */
+}
+
+.controls button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+    background: rgba(255, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.error-message button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.2em; /* Ensure close button is tappable */
+}
+
+.loading-overlay {
+    /* ... (Keep styles from inline/styles.css) ... */
+     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(255,69,0,0.2));
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 10px 0;
-  }
-
-  .controls button {
-    width: 100%;
-    max-width: 200px;
-    margin-bottom: 10px;
-  }
-
-  .loading-overlay {
     justify-content: center;
     align-items: center;
-  }
+    z-index: 1000; /* Ensure it's above the map */
+}
+/* ... (flame animation styles) ... */
+.loading-overlay p {
+   /* ... (Keep styles from inline/styles.css) ... */
+   margin-top: 15px;
+    font-size: 20px; /* Base size */
+    font-weight: bold;
+    color: #ff4500;
+    text-shadow: 0 0 8px #ff8c00, 0 0 12px rgba(255, 140, 0, 0.8);
+}
+
+
+/* Leaflet Control Styling (from styles.css) */
+/* ... */
+
+/* Other Sections (Hero, Content, Footer - keep from styles.css) */
+/* ... */
+.hero { /* Example */
+ /* ... */
+}
+.content-section { /* Example */
+ /* ... */
+}
+
+footer {
+    background: linear-gradient(to right, #ff4500, #ff8c00); /* Keep gradient */
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem; /* Base size */
+}
+footer nav a { /* Ensure footer links inherit correctly */
+    color: white;
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+footer nav a:hover {
+    text-decoration: underline;
+}
+footer p {
+  color: white;
+  margin-bottom: 0; /* Adjust as needed */
+  margin-top: 1rem; /* Example spacing */
+}
+/* ... (Keep social icons if used) ... */
+
+
+/* Responsive Adjustments (Merged and Refined) */
+
+/* Tablet */
+@media (max-width: 768px) {
+    /* Adjust header/nav layout (use styles.css hamburger approach) */
+    /* ... */
+    .nav-menu { /* Example from styles.css */
+        /* ... */
+    }
+     .hamburger {
+         display: block; /* Show hamburger */
+     }
+
+    .map-container {
+        padding: 15px; /* Adjust padding */
+    }
+    #map {
+        height: 70vh; /* Adjusted map height for tablets */
+    }
+    .loading-overlay p {
+        font-size: 18px; /* Adjust loading text size */
+    }
+    /* ... (Other tablet adjustments from styles.css) ... */
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    /* Further adjust header/nav layout */
+    /* ... */
+
+     .logo img { /* Example from styles.css */
+        height: 40px;
+    }
+
+    .map-container {
+        padding: 10px; /* Smaller padding */
+    }
+    #map {
+        height: 60vh; /* Adjusted map height for mobile */
+    }
+     .controls button {
+        padding: 8px 12px; /* Slightly larger tap area */
+        font-size: 1rem; /* Ensure readable font */
+    }
+     .loading-overlay p {
+        font-size: 16px; /* Smaller loading text */
+    }
+
+    footer {
+        font-size: 0.8rem; /* Adjust footer font size */
+    }
+
+    /* ... (Other mobile adjustments from styles.css) ... */
 }
