@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildfire Map</title>
+    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
+    <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
+    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW');
+    </script>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Leaflet.markercluster CSS -->
@@ -20,6 +30,10 @@
             color: white;
             padding: 1rem;
             text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 1rem;
         }
         nav ul {
             list-style: none;
@@ -91,31 +105,6 @@
             border: none;
             color: red;
             cursor: pointer;
-        }
-        .legend {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            font-size: 14px;
-        }
-        .legend.collapsed {
-            display: none;
-        }
-        .legend-toggle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 5px;
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
-            cursor: pointer;
-            z-index: 1000;
         }
         .loading-overlay {
             position: absolute;
@@ -210,6 +199,7 @@
 </head>
 <body>
     <header>
+        <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo">
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -226,7 +216,7 @@
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Use</a>
         </nav>
-        <p>© 2023 Wildfire Map</p>
+        <p>© 2023 Eye on the Fire</p>
     </footer>
 
     <!-- Scripts -->
@@ -261,7 +251,6 @@
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
-            const [isLegendOpen, setIsLegendOpen] = useState(false);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
             const initialCenter = [37.7749, -122.4194];
@@ -356,11 +345,6 @@
                 }
             };
 
-            // Toggle legend visibility
-            const toggleLegend = () => {
-                setIsLegendOpen(!isLegendOpen);
-            };
-
             // Dismiss error message
             const dismissError = () => {
                 setErrorMessage('');
@@ -388,12 +372,6 @@
                             <button onClick={dismissError}>×</button>
                         </div>
                     )}
-                    <div className="legend-toggle" onClick={toggleLegend}>
-                        {isLegendOpen ? 'Hide Legend' : 'Show Legend'}
-                    </div>
-                    <div className={`legend ${isLegendOpen ? '' : 'collapsed'}`}>
-                        <p>🔥 Active Fire</p>
-                    </div>
                     <div id="map"></div>
                 </div>
             );
