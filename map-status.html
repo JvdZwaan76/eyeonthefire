@@ -3,27 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildfire Map</title>
+    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
+    <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
+    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <!-- Leaflet.markercluster CSS and JS -->
+    <!-- Leaflet.markercluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <!-- React and ReactDOM (Production Builds) -->
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
-    <!-- Babel for JSX -->
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+    <!-- Google Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW');
+    </script>
     <style>
+        /* Fire-themed styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        header {
+            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            padding: 1rem;
+            text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 1rem;
+        }
+        nav {
+            background: #333;
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #ff8c00;
+            text-decoration: none;
+            margin: 0.5rem 1rem;
+            font-weight: bold;
+        }
         .map-container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #2a2a2a;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             position: relative;
@@ -34,15 +65,9 @@
             gap: 10px;
             margin-bottom: 10px;
         }
-        .controls input {
-            padding: 5px;
-            width: 200px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
         .controls button {
             padding: 5px 10px;
-            background-color: #007bff;
+            background-color: #ff4500;
             color: white;
             border: none;
             border-radius: 4px;
@@ -51,10 +76,10 @@
             min-width: 80px;
         }
         .controls button:hover {
-            background-color: #0056b3;
+            background-color: #cc3700;
         }
         .error-message {
-            color: red;
+            color: #ff4500;
             text-align: center;
             margin-bottom: 10px;
             background: rgba(255, 0, 0, 0.1);
@@ -69,19 +94,20 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: red;
+            color: #ff4500;
             cursor: pointer;
         }
         .legend {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: white;
+            background: #333;
             padding: 5px 10px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             z-index: 1000;
             font-size: 14px;
+            color: #fff;
         }
         .legend.collapsed {
             display: none;
@@ -90,16 +116,18 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: white;
+            background: #333;
             padding: 5px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             cursor: pointer;
             z-index: 1000;
+            color: #fff;
         }
         #map {
             height: 80vh;
             width: 100%;
+            background-color: #333;
         }
         .loading-overlay {
             position: absolute;
@@ -131,6 +159,17 @@
             font-size: 18px;
             color: #fff;
         }
+        footer {
+            background: #333;
+            padding: 1rem;
+            text-align: center;
+            color: #fff;
+        }
+        footer a {
+            color: #ff8c00;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
         @media (max-width: 768px) {
             .map-container {
                 padding: 10px;
@@ -138,10 +177,6 @@
             .controls {
                 flex-direction: column;
                 align-items: center;
-            }
-            .controls input {
-                width: 100%;
-                max-width: 200px;
             }
             .controls button {
                 width: 100%;
@@ -152,19 +187,38 @@
             #map {
                 height: 60vh;
             }
-            .legend {
-                font-size: 12px;
-                padding: 3px 6px;
+            nav {
+                flex-direction: column;
             }
-            .legend-toggle {
-                padding: 3px;
-                font-size: 12px;
+            .logo {
+                max-width: 100px;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo">
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Map</a>
+        <a href="#">Resources</a>
+        <a href="#">Blog</a>
+        <a href="#">FAQ</a>
+    </nav>
     <div id="root"></div>
+    <footer>
+        <a href="#">Home</a>
+        <a href="#">Map</a>
+        <a href="#">Resources</a>
+        <a href="#">Blog</a>
+        <a href="#">FAQ</a>
+        <p>© 2023 Eye on the Fire</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -259,45 +313,6 @@
                 }
             }, [fires]);
 
-            /*
-            // Handle zip code search
-            const handleSearch = async () => {
-                const zip = document.getElementById('zip-input').value.trim();
-                if (!zip) {
-                    setErrorMessage('Please enter a zip code');
-                    return;
-                }
-
-                const usZipPattern = /^\d{5}$/;
-                const caZipPattern = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
-
-                if (!usZipPattern.test(zip) && !caZipPattern.test(zip)) {
-                    setErrorMessage('Please enter a valid US (e.g., 90210) or Canadian (e.g., A1A 1A1) zip code');
-                    return;
-                }
-
-                try {
-                    const response = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
-                    if (!response.ok) {
-                        const errorData = await response.text();
-                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - Response: ${errorData}`);
-                    }
-                    const data = await response.json();
-                    if (data.results && data.results.length > 0) {
-                        const { lat, lng } = data.results[0].geometry;
-                        setCenter([lat, lng]);
-                        setZoom(12);
-                        setErrorMessage('');
-                    } else {
-                        setErrorMessage('Zip code not found in US or Canada');
-                    }
-                } catch (err) {
-                    console.error('Error during search:', err.message);
-                    setErrorMessage('Failed to search zip code: ' + err.message);
-                }
-            };
-            */
-
             // Reset map to default view
             const handleReset = () => {
                 setCenter(initialCenter);
@@ -344,8 +359,6 @@
                         </div>
                     )}
                     <div className="controls">
-                        {/* <input id="zip-input" type="text" placeholder="Enter zip code" /> */}
-                        {/* <button onClick={handleSearch}>Search</button> */}
                         <button onClick={handleReset}>Reset</button>
                         <button onClick={handleLocateMe}>Locate Me</button>
                     </div>
