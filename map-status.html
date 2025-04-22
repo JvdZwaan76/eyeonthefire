@@ -107,15 +107,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
+            border: 4px solid #ff8c00;
+            border-top: 4px solid #ff4500;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -124,6 +125,11 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        .loading-overlay p {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
         }
         @media (max-width: 768px) {
             .map-container {
@@ -253,6 +259,7 @@
                 }
             }, [fires]);
 
+            /*
             // Handle zip code search
             const handleSearch = async () => {
                 const zip = document.getElementById('zip-input').value.trim();
@@ -272,7 +279,6 @@
                 try {
                     const response = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
                     if (!response.ok) {
-                        // Attempt to read the response body even if it's not JSON
                         const errorData = await response.text();
                         throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - Response: ${errorData}`);
                     }
@@ -290,6 +296,7 @@
                     setErrorMessage('Failed to search zip code: ' + err.message);
                 }
             };
+            */
 
             // Reset map to default view
             const handleReset = () => {
@@ -333,11 +340,12 @@
                     {isLoading && (
                         <div className="loading-overlay">
                             <div className="spinner"></div>
+                            <p>Loading wildfires</p>
                         </div>
                     )}
                     <div className="controls">
-                        <input id="zip-input" type="text" placeholder="Enter zip code" />
-                        <button onClick={handleSearch}>Search</button>
+                        {/* <input id="zip-input" type="text" placeholder="Enter zip code" /> */}
+                        {/* <button onClick={handleSearch}>Search</button> */}
                         <button onClick={handleReset}>Reset</button>
                         <button onClick={handleLocateMe}>Locate Me</button>
                     </div>
