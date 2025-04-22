@@ -53,13 +53,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   text-align: center;
 }
 
-.navbar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
 .logo {
   display: flex;
   align-items: center;
@@ -132,11 +125,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   background: none;
   border: none;
   z-index: 1001;
-  transition: transform 0.3s ease;
-}
-
-.hamburger:hover {
-  transform: scale(1.1);
 }
 
 .hamburger .line {
@@ -704,7 +692,7 @@ footer a:hover {
   .navbar {
     position: static;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     padding: 0.5rem 1rem;
   }
 
@@ -723,18 +711,13 @@ footer a:hover {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: rgba(45, 45, 45, 0.98);
+    background: rgba(45, 45, 45, 1);
     padding: 1rem 0;
     gap: 0;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   .nav-menu.active {
     display: flex;
-    opacity: 1;
-    transform: translateY(0);
   }
 
   .nav-menu li {
@@ -751,7 +734,6 @@ footer a:hover {
     padding: 1rem;
     display: block;
     width: 100%;
-    font-size: 1.1rem;
   }
   .nav-menu li a::after {
     display: none;
@@ -808,17 +790,6 @@ footer a:hover {
   }
   .logo-text {
     font-size: 1.5rem;
-  }
-
-  .hamburger .line {
-    width: 20px;
-    height: 2px;
-    margin: 4px 0;
-  }
-
-  .nav-menu li a {
-    font-size: 1rem;
-    padding: 0.8rem;
   }
 
   .hero {
