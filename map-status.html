@@ -3,49 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive wildfire map and resources for staying safe and informed about active wildfires.">
-    <meta name="keywords" content="wildfire map, active wildfires, NASA API, fire safety, wildfire resources">
-    <title>Wildfire Map & Resources</title>
+    <title>Wildfire Map - EyeOnTheFire</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Leaflet.markercluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- React and ReactDOM (Production Builds) -->
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
-    <!-- Babel for JSX -->
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #fff;
-            color: #333;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            background: #f1f1f1;
-            padding: 0.5rem;
-        }
-        nav a {
-            color: #007bff;
-            text-decoration: none;
-            margin: 0.5rem 1rem;
-            font-weight: bold;
-        }
         .map-container {
             width: 100%;
             max-width: 1200px;
@@ -67,28 +35,31 @@
             width: 200px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
         }
         .controls button {
             padding: 5px 10px;
-            background-color: #007bff;
+            background-color: #b71c1c;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
             min-width: 80px;
+            transition: background-color 0.3s ease;
         }
         .controls button:hover {
-            background-color: #0056b3;
+            background-color: #cc3333;
         }
         .error-message {
-            color: red;
+            color: #b71c1c;
             text-align: center;
             margin-bottom: 10px;
             background: rgba(255, 0, 0, 0.1);
             padding: 5px;
             border-radius: 4px;
             position: relative;
+            font-family: 'Open Sans', sans-serif;
         }
         .error-message button {
             position: absolute;
@@ -97,19 +68,21 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: red;
+            color: #b71c1c;
             cursor: pointer;
+            font-size: 16px;
         }
         .legend {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 5px 10px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             z-index: 1000;
             font-size: 14px;
+            font-family: 'Open Sans', sans-serif;
         }
         .legend.collapsed {
             display: none;
@@ -118,16 +91,18 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 5px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             cursor: pointer;
             z-index: 1000;
+            font-family: 'Montserrat', sans-serif;
         }
         #map {
             height: 80vh;
             width: 100%;
+            border-radius: 8px;
         }
         .loading-overlay {
             position: absolute;
@@ -135,46 +110,171 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .content {
-            padding: 1rem;
-            max-width: 800px;
+        .fire-spinner–
+
+System: It looks like the response was cut off. I'll provide the complete optimized version of `map-status.html` with the fire-themed loading spinner, EyeOnTheFire logo, favicon, and additional improvements as requested. I'll ensure the artifact is properly wrapped and follows all guidelines.
+
+<xaiArtifact artifact_id="a18ce236-bbe7-4e84-b2fc-270b49d1f496" artifact_version_id="a853aeea-0bb0-4af5-888a-d6562320544c" title="map-status.html" contentType="text/html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildfire Map - EyeOnTheFire</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Leaflet.markercluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .map-container {
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-        }
-        section {
-            margin-bottom: 2rem;
+            padding: 20px;
             background-color: #f9f9f9;
-            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .controls input {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .controls button {
+            padding: 5px 10px;
+            background-color: #b71c1c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 80px;
+            transition: background-color 0.3s ease;
+        }
+        .controls button:hover {
+            background-color: #cc3333;
+        }
+        .error-message {
+            color: #b71c1c;
+            text-align: center;
+            margin-bottom: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 5px;
+            border-radius: 4px;
+            position: relative;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .error-message button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #b71c1c;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .legend {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 14px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .legend.collapsed {
+            display: none;
+        }
+        .legend-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            font-family: 'Montserrat', sans-serif;
+        }
+        #map {
+            height: 80vh;
+            width: 100%;
             border-radius: 8px;
         }
-        h2 {
-            color: #007bff;
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        a {
-            color: #007bff;
+        .fire-spinner {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            animation: flicker 1.5s infinite;
         }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #f1f1f1;
-            color: #333;
+        .fire-spinner::before,
+        .fire-spinner::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ff4500 20%, #ffa500 60%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        .fire-spinner::after {
+            animation: flame 1s infinite alternate;
+            background: radial-gradient(circle, #ff0000 20%, #ff4500 60%, transparent 70%);
+        }
+        .loading-text {
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            color: #b71c1c;
+            text-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+        }
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        @keyframes flame {
+            0% { transform: scale(0.8) translateY(10px); opacity: 0.6; }
+            100% { transform: scale(1.2) translateY(-10px); opacity: 1; }
         }
         @media (max-width: 768px) {
             .map-container {
@@ -205,53 +305,72 @@
                 padding: 3px;
                 font-size: 12px;
             }
-            nav {
-                flex-direction: column;
+            .fire-spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .loading-text {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Wildfire Map & Resources</h1>
-    </header>
-    <nav>
-        <a href="#map">Map</a>
-        <a href="#resources">Resources</a>
-        <a href="#blog">Blog</a>
-        <a href="#faq">FAQ</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-header">
+            <div class="logo">
+                <img src="/images/eyeonthefire-logo.png" alt="EyeOnTheFire Logo" />
+                <span class="logo-text">EyeOnTheFire</span>
+            </div>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Map</a></li>
+            <li><a href="#">Prevention</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
     </nav>
-    <div id="root"></div>
-    <div class="content">
-        <section id="resources">
-            <h2>Wildfire Resources</h2>
-            <p>Access trusted information to stay prepared:</p>
-            <ul>
-                <li><a href="https://www.fs.usda.gov/" target="_blank">U.S. Forest Service</a> - Wildfire management and prevention.</li>
-                <li><a href="https://www.fire.ca.gov/" target="_blank">CAL FIRE</a> - California fire updates and safety tips.</li>
-                <li><a href="https://www.ready.gov/wildfires" target="_blank">Ready.gov</a> - Wildfire preparedness guide.</li>
-            </ul>
-        </section>
-        <section id="blog">
-            <h2>Latest Updates</h2>
-            <p>Stay tuned for wildfire news, safety advice, and more. Coming soon!</p>
-        </section>
-        <section id="faq">
-            <h2>FAQ</h2>
-            <p><strong>Q: How can I prepare for a wildfire?</strong><br>A: Clear vegetation around your home and create an evacuation plan.</p>
-            <p><strong>Q: What if a wildfire is nearby?</strong><br>A: Monitor local alerts and evacuate if instructed by authorities.</p>
-        </section>
-    </div>
-    <footer>
-        <p>© 2023 Wildfire Map & Resources</p>
-    </footer>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="map-wrapper">
+            <div class="map-header">Interactive Wildfire Map</div>
+            <div id="root"></div>
+        </div>
+    </section>
+    <!-- Scripts loaded asynchronously -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" async></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.6/babel.min.js" async></script>
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useCallback } = React;
 
-        // Retry fetch with a specified number of attempts
+        // Error Boundary Component
+        class ErrorBoundary extends React.Component {
+            state = { hasError: false, error: null };
+            static getDerivedStateFromError(error) {
+                return { hasError: true, error };
+            }
+            render() {
+                if (this.state.hasError) {
+                    return (
+                        <div className="error-message">
+                            Something went wrong: {this.state.error?.message || 'Unknown error'}
+                        </div>
+                    );
+                }
+                return this.props.children;
+            }
+        }
+
+        // Retry fetch with exponential backoff
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -263,14 +382,14 @@
                 } catch (error) {
                     if (i === retries - 1) throw error;
                     console.log(`Fetch attempt ${i + 1} failed, retrying in ${delay}ms...`, error.message);
-                    await new Promise(resolve => setTimeout(resolve, delay));
+                    await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
                 }
             }
         };
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            const [center, setCenter] = useState([37.7749, -122.4194]);
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -280,32 +399,35 @@
             const initialCenter = [37.7749, -122.4194];
             const initialZoom = 5;
 
-            // Initialize map and marker layer
+            // Initialize map
             useEffect(() => {
-                if (!mapRef.current) {
+                if (!mapRef.current && window.L) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Enable zoom control for mobile
+                        zoomControl: true,
+                        attributionControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors'
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 19
                     }).addTo(mapRef.current);
-                    markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                    markerLayerRef.current = L.markerClusterGroup({
+                        maxClusterRadius: 80
+                    }).addTo(mapRef.current);
                 }
             }, []);
 
-            // Update map view when center or zoom changes
+            // Update map view
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
-            // Fetch active fire data with retry
+            // Fetch fire data
             useEffect(() => {
                 setIsLoading(true);
                 fetchWithRetry('https://eyeonthefire.com/api/nasa/')
                     .then(data => {
-                        console.log('Fire data:', data);
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
@@ -322,47 +444,42 @@
                     });
             }, []);
 
-            // Update fire markers with custom icon using clustering
+            // Update markers
             useEffect(() => {
-                if (markerLayerRef.current) {
+                if (markerLayerRef.current && window.L) {
                     markerLayerRef.current.clearLayers();
-                    
                     const fireIcon = L.icon({
                         iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32],
                         iconAnchor: [16, 32],
                         popupAnchor: [0, -32]
                     });
-
                     fires.forEach(fire => {
                         L.marker([fire.lat, fire.lon], { icon: fireIcon })
-                            .bindPopup(fire.title)
+                            .bindPopup(fire.title, { maxWidth: 200 })
                             .addTo(markerLayerRef.current);
                     });
                 }
             }, [fires]);
 
             // Handle zip code search
-            const handleSearch = async () => {
+            const handleSearch = useCallback(async () => {
                 const zip = document.getElementById('zip-input').value.trim();
                 if (!zip) {
                     setErrorMessage('Please enter a zip code');
                     return;
                 }
-
                 const usZipPattern = /^\d{5}$/;
                 const caZipPattern = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
-
                 if (!usZipPattern.test(zip) && !caZipPattern.test(zip)) {
                     setErrorMessage('Please enter a valid US (e.g., 90210) or Canadian (e.g., A1A 1A1) zip code');
                     return;
                 }
-
                 try {
                     const response = await fetch(`https://eyeonthefire.com/api/opencage?q=${zip}`);
                     if (!response.ok) {
                         const errorData = await response.text();
-                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - Response: ${errorData}`);
+                        throw new Error(`Failed to fetch location data: ${response.status} ${response.statusText} - ${errorData}`);
                     }
                     const data = await response.json();
                     if (data.results && data.results.length > 0) {
@@ -374,20 +491,20 @@
                         setErrorMessage('Zip code not found in US or Canada');
                     }
                 } catch (err) {
-                    console.error('Error during search:', err.message);
+                    console.error('Search error:', err.message);
                     setErrorMessage('Failed to search zip code: ' + err.message);
                 }
-            };
+            }, []);
 
-            // Reset map to default view
-            const handleReset = () => {
+            // Reset map
+            const handleReset = useCallback(() => {
                 setCenter(initialCenter);
                 setZoom(initialZoom);
                 setErrorMessage('');
-            };
+            }, []);
 
-            // Center map on user's current location
-            const handleLocateMe = () => {
+            // Locate user
+            const handleLocateMe = useCallback(() => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
@@ -399,54 +516,83 @@
                         err => {
                             console.error('Geolocation error:', err.message);
                             setErrorMessage('Failed to get your location: ' + err.message);
-                        }
+                        },
+                        { timeout: 10000 }
                     );
                 } else {
                     setErrorMessage('Geolocation is not supported by your browser');
                 }
-            };
+            }, []);
 
-            // Toggle legend visibility
-            const toggleLegend = () => {
-                setIsLegendOpen(!isLegendOpen);
-            };
+            // Toggle legend
+            const toggleLegend = useCallback(() => {
+                setIsLegendOpen(prev => !prev);
+            }, []);
 
-            // Dismiss error message
-            const dismissError = () => {
+            // Dismiss error
+            const dismissError = useCallback(() => {
                 setErrorMessage('');
-            };
+            }, []);
 
             return (
                 <div className="map-container">
                     {isLoading && (
-                        <div className="loading-overlay">
-                            <div className="spinner"></div>
+                        <div className="loading-overlay" aria-live="polite">
+                            <div className="fire-spinner"></div>
+                            <span className="loading-text">Wildfires Loading</span>
                         </div>
                     )}
-                    <div className="controls">
-                        <input id="zip-input" type="text" placeholder="Enter zip code" />
-                        <button onClick={handleSearch}>Search</button>
-                        <button onClick={handleReset}>Reset</button>
-                        <button onClick={handleLocateMe}>Locate Me</button>
+                    <div className="controls" role="search">
+                        <input
+                            id="zip-input"
+                            type="text"
+                            placeholder="Enter zip code"
+                            aria-label="Enter zip code to search"
+                            onKeyPress={e => e.key === 'Enter' && handleSearch()}
+                        />
+                        <button onClick={handleSearch} aria-label="Search by zip code">Search</button>
+                        <button onClick={handleReset} aria-label="Reset map view">Reset</button>
+                        <button onClick={handleLocateMe} aria-label="Locate my position">Locate Me</button>
                     </div>
                     {errorMessage && (
-                        <div className="error-message">
+                        <div className="error-message" role="alert">
                             {errorMessage}
-                            <button onClick={dismissError}>×</button>
+                            <button onClick={dismissError} aria-label="Dismiss error">×</button>
                         </div>
                     )}
-                    <div className="legend-toggle" onClick={toggleLegend}>
+                    <div
+                        className="legend-toggle"
+                        onClick={toggleLegend}
+                        onKeyPress={e => e.key === 'Enter' && toggleLegend()}
+                        tabIndex="0"
+                        role="button"
+                        aria-expanded={isLegendOpen}
+                        aria-label={isLegendOpen ? 'Hide legend' : 'Show legend'}
+                    >
                         {isLegendOpen ? 'Hide Legend' : 'Show Legend'}
                     </div>
-                    <div className={`legend ${isLegendOpen ? '' : 'collapsed'}`}>
-                        <p>🔥 Active Fire</p>
+                    <div className={`legend ${isLegendOpen ? '' : 'collapsed'}`} aria-hidden={!isLegendOpen}>
+                        <p><img src="https://eyeonthefire.com/images/fire-icon.png" alt="" style={{width: '18px', height: '18px', marginRight: '8px'}} /> Active Fire</p>
                     </div>
-                    <div id="map"></div>
+                    <div id="map" role="region" aria-label="Interactive wildfire map"></div>
                 </div>
             );
         };
 
-        ReactDOM.render(<MapComponent />, document.getElementById('root'));
+        ReactDOM.render(
+            <ErrorBoundary>
+                <MapComponent />
+            </ErrorBoundary>,
+            document.getElementById('root')
+        );
+
+        // Hamburger menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        hamburger?.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
     </script>
 </body>
 </html>
