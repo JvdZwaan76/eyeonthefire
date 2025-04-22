@@ -3,61 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
-    <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
-    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
+    <title>Wildfire Map</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Leaflet.markercluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- Google Tag Manager -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-T8RE6KDBEW');
-    </script>
     <style>
-        /* Fire-themed styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #fff;
+            background-color: #f9f9f9;
         }
         header {
-            background: linear-gradient(90deg, #ff4500, #ff8c00);
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+            color: white;
             padding: 1rem;
             text-align: center;
         }
-        .logo {
-            max-width: 150px;
-            margin-bottom: 1rem;
-        }
-        nav {
-            background: #333;
-            padding: 0.5rem;
+        nav ul {
+            list-style: none;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0;
+            margin: 0;
         }
         nav a {
-            color: #ff8c00;
+            color: white;
             text-decoration: none;
-            margin: 0.5rem 1rem;
             font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
         }
         .map-container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #2a2a2a;
+            background-color: #f9f9f9;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             position: relative;
+        }
+        #map {
+            height: 80vh;
+            width: 100%;
         }
         .controls {
             display: flex;
@@ -67,7 +62,7 @@
         }
         .controls button {
             padding: 5px 10px;
-            background-color: #ff4500;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
@@ -76,10 +71,10 @@
             min-width: 80px;
         }
         .controls button:hover {
-            background-color: #cc3700;
+            background-color: #0056b3;
         }
         .error-message {
-            color: #ff4500;
+            color: red;
             text-align: center;
             margin-bottom: 10px;
             background: rgba(255, 0, 0, 0.1);
@@ -94,20 +89,19 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: #ff4500;
+            color: red;
             cursor: pointer;
         }
         .legend {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #333;
+            background: white;
             padding: 5px 10px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             z-index: 1000;
             font-size: 14px;
-            color: #fff;
         }
         .legend.collapsed {
             display: none;
@@ -116,109 +110,68 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #333;
+            background: white;
             padding: 5px;
             border-radius: 4px;
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
             cursor: pointer;
             z-index: 1000;
-            color: #fff;
-        }
-        #map {
-            height: 80vh;
-            width: 100%;
-            background-color: #333;
-        }
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .spinner {
-            border: 4px solid #ff8c00;
-            border-top: 4px solid #ff4500;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .loading-overlay p {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #fff;
         }
         footer {
-            background: #333;
+            background: linear-gradient(to right, #ff4500, #ff8c00);
+            color: white;
             padding: 1rem;
             text-align: center;
-            color: #fff;
         }
         footer a {
-            color: #ff8c00;
+            color: white;
             text-decoration: none;
             margin: 0 0.5rem;
         }
+        footer a:hover {
+            text-decoration: underline;
+        }
         @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
             .map-container {
                 padding: 10px;
             }
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            .controls button {
-                width: 100%;
-                max-width: 200px;
-                padding: 8px;
-                font-size: 14px;
-            }
             #map {
                 height: 60vh;
-            }
-            nav {
-                flex-direction: column;
-            }
-            .logo {
-                max-width: 100px;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
     </header>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Map</a>
-        <a href="#">Resources</a>
-        <a href="#">Blog</a>
-        <a href="#">FAQ</a>
-    </nav>
-    <div id="root"></div>
+    <main>
+        <div id="root"></div>
+    </main>
     <footer>
-        <a href="#">Home</a>
-        <a href="#">Map</a>
-        <a href="#">Resources</a>
-        <a href="#">Blog</a>
-        <a href="#">FAQ</a>
-        <p>© 2023 Eye on the Fire</p>
+        <nav>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+        </nav>
+        <p>© 2023 Wildfire Map</p>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -355,7 +308,6 @@
                     {isLoading && (
                         <div className="loading-overlay">
                             <div className="spinner"></div>
-                            <p>Loading wildfires</p>
                         </div>
                     )}
                     <div className="controls">
