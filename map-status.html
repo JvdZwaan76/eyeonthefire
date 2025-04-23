@@ -37,26 +37,29 @@
         </button>
         <nav class="nav-menu">
             <ul>
-                <li class="dropdown">
-                    <a href="#">Home</a>
-                    <ul class="dropdown-content">
-                        <li><a href="#">Submenu Item 1</a></li>
-                        <li><a href="#">Submenu Item 2</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#">About</a>
-                    <ul class="dropdown-content">
-                        <li><a href="#">Submenu Item 1</a></li>
-                        <li><a href="#">Submenu Item 2</a></li>
-                    </ul>
-                </li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <div id="root"></div>
+        <!-- Placeholder Dropdown Menus -->
+        <div class="dropdown-container">
+            <select class="custom-select">
+                <option value="" disabled selected>Select Filter</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+            <select class="custom-select">
+                <option value="" disabled selected>Choose Layer</option>
+                <option value="layer1">Layer 1</option>
+                <option value="layer2">Layer 2</option>
+                <option value="layer3">Layer 3</option>
+            </select>
+        </div>
     </main>
     <footer>
         <nav>
@@ -240,18 +243,6 @@
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
-                });
-            });
-
-            // Dropdown functionality for mobile
-            const dropdowns = document.querySelectorAll('.dropdown');
-            dropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('a');
-                toggle.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        dropdown.classList.toggle('active');
-                    }
                 });
             });
         });
