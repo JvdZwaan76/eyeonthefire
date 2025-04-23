@@ -2,38 +2,39 @@
 .map-container {
     position: relative;
     margin-top: 60px; /* Offset for fixed navbar */
-    padding: 20px; /* Add padding for whitespace */
-    max-width: 1200px; /* Prevent map from stretching too wide */
+    padding: 20px; /* Internal padding */
+    max-width: 1200px; /* Limit width on large screens */
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 40px; /* Whitespace below */
 }
 
 /* Map Styling */
 #map {
-    height: 50vh; /* Reduced height for balanced look */
+    height: 50vh; /* 50% smaller height */
     width: 100%;
 }
 
-/* Media Queries for Responsiveness */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     #map {
-        height: 40vh; /* Further reduced for smaller screens */
+        height: 40vh; /* Smaller on mobile */
     }
 }
 
 @media (min-width: 1200px) {
     #map {
-        height: 60vh; /* Slightly larger for big screens */
+        height: 60vh; /* Slightly larger on big screens */
     }
 }
 
-/* Hamburger Menu Adjustments for Mobile */
+/* Hamburger Menu for Mobile */
 @media (max-width: 768px) {
     .hamburger {
         display: block;
         position: absolute;
         top: 15px;
-        right: 15px; /* Positioned in the top-right corner */
+        right: 15px; /* Top-right corner */
     }
 
     .nav-menu {
@@ -42,7 +43,6 @@
         width: 100%;
         background: #333;
         padding: 1rem 0;
-        gap: 0;
     }
 
     .nav-menu.active {
@@ -65,4 +65,18 @@
         display: block;
         width: 100%;
     }
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #333;
+    z-index: 1001; /* Overlays content */
+    display: none;
+}
+
+.has-dropdown:hover .dropdown {
+    display: block;
 }
