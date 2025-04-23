@@ -19,47 +19,261 @@
     <!-- Leaflet.markercluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- External Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Fire-themed Navigation Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a1a1a, #ff4500, #1a1a1a); /* Black to orange gradient */
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        }
+
+        .navbar-header {
+            display: flex;
+            justify-content: center; /* Center logo and text */
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease; /* Subtle animation */
+        }
+
+        .logo:hover img {
+            transform: scale(1.1);
+        }
+
+        .logo-text {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 4px #ff4500; /* Fire-like glow */
+        }
+
+        .hamburger {
+            display: none; /* Hidden on desktop */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger .line {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ff4500; /* Orange on hover */
+            background: rgba(255, 255, 255, 0.1); /* Subtle background */
+            border-radius: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            background: #1a1a1a; /* Dark background */
+            min-width: 150px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7); /* Elegant shadow */
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Smooth fade */
+        }
+
+        .dropdown:hover .dropdown-content {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 0s; /* Immediate visibility on hover */
+        }
+
+        .dropdown-content li {
+            display: block;
+        }
+
+        .dropdown-content a {
+            padding: 0.5rem 1rem;
+            display: block;
+            color: #fff;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: #ff4500; /* Orange on hover */
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1.5rem;
+            }
+
+            .hamburger.active .line:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active .line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .line:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .nav-menu {
+                display: none;
+                width: 100%;
+                margin-top: 0;
+            }
+
+            .nav-menu.active {
+                display: block;
+            }
+
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                background: #333; /* Slightly lighter for contrast */
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block; /* Toggle on click for mobile */
+            }
+        }
+
+        /* Accessibility */
+        .nav-menu a:focus {
+            outline: 2px solid #ff4500;
+            outline-offset: 2px;
+        }
+
+        /* Main and Footer styles unchanged for brevity */
+        #map {
+            height: 80vh;
+            width: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        footer a {
+            color: #ff4500;
+            margin: 0 1rem;
+        }
+    </style>
 </head>
 <body>
     <header class="navbar">
-        <a href="index.html" class="logo-link">
-            <div class="logo">
-                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
-                <span class="logo-text">Eye on the Fire</span>
-            </div>
-        </a>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </button>
+        <div class="navbar-header">
+            <a href="index.html" class="logo-link">
+                <div class="logo">
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
+                    <span class="logo-text">Eye on the Fire</span>
+                </div>
+            </a>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+        </div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li class="dropdown">
+                    <a href="#" aria-haspopup="true">Home</a>
+                    <ul class="dropdown-content" role="menu">
+                        <li><a href="#">Submenu Item 1</a></li>
+                        <li><a href="#">Submenu Item 2</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" aria-haspopup="true">About</a>
+                    <ul class="dropdown-content" role="menu">
+                        <li><a href="#">Submenu Item 1</a></li>
+                        <li><a href="#">Submenu Item 2</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <div id="root"></div>
-        <!-- Placeholder Dropdown Menus -->
-        <div class="dropdown-container">
-            <select class="custom-select">
-                <option value="" disabled selected>Select Filter</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-            <select class="custom-select">
-                <option value="" disabled selected>Choose Layer</option>
-                <option value="layer1">Layer 1</option>
-                <option value="layer2">Layer 2</option>
-                <option value="layer3">Layer 3</option>
-            </select>
-        </div>
     </main>
     <footer>
         <nav>
@@ -78,7 +292,6 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch with a specified number of attempts
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -88,7 +301,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    if (i === retries - 1) throw error;
+                    if (i === retry - 1) throw error;
                     console.log(`Fetch attempt ${i + 1} failed, retrying in ${delay}ms...`, error.message);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
@@ -97,7 +310,7 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            const [center, setCenter] = useState([37.7749, -122.4194]);
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -106,11 +319,10 @@
             const initialCenter = [37.7749, -122.4194];
             const initialZoom = 5;
 
-            // Initialize map and marker layer
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Enable zoom control for mobile
+                        zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
@@ -119,19 +331,16 @@
                 }
             }, []);
 
-            // Update map view when center or zoom changes
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
-            // Fetch active fire data with retry
             useEffect(() => {
                 setIsLoading(true);
                 fetchWithRetry('https://eyeonthefire.com/api/nasa/')
                     .then(data => {
-                        console.log('Fire data:', data);
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
@@ -148,11 +357,9 @@
                     });
             }, []);
 
-            // Update fire markers with custom icon using clustering
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
-                    
                     const fireIcon = L.icon({
                         iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32],
@@ -168,14 +375,12 @@
                 }
             }, [fires]);
 
-            // Reset map to default view
             const handleReset = () => {
                 setCenter(initialCenter);
                 setZoom(initialZoom);
                 setErrorMessage('');
             };
 
-            // Center map on user's current location
             const handleLocateMe = () => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
@@ -195,7 +400,6 @@
                 }
             };
 
-            // Dismiss error message
             const dismissError = () => {
                 setErrorMessage('');
             };
@@ -245,8 +449,18 @@
                     navMenu.classList.remove('active');
                 });
             });
+
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('a');
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            });
         });
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
