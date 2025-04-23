@@ -103,8 +103,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .nav-menu li a:hover {
   color: #ffcc80;
-  background: #1a1a1a; /* Updated darker hover background for better contrast */
-  border-radius: 5px;
+  background-color: #555; /* Darker hover background like readyforwildfire.org */
+  text-decoration: none;
 }
 
 /* Hamburger Menu */
@@ -289,8 +289,21 @@ main {
 }
 
 #map {
-  height: 80vh;
+  height: 50vh; /* Default height for balanced look */
   width: 100%;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  #map {
+    height: 40vh; /* Reduced height for smaller screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  #map {
+    height: 60vh; /* Slightly larger height for big screens */
+  }
 }
 
 .loading-overlay {
@@ -563,7 +576,7 @@ main {
   background: #fff;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0,ilogue08);
   border: 1px solid #eee;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -695,6 +708,9 @@ footer a:hover {
 
   .hamburger {
     display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px; /* Adjusted for better positioning */
   }
 
   .nav-menu {
@@ -742,11 +758,6 @@ footer a:hover {
     margin-right: auto;
     padding: 0;
     box-sizing: border-box;
-  }
-
-  #map {
-    height: 60vh;
-    width: 100%;
   }
 
   .loading-overlay p {
