@@ -103,42 +103,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .nav-menu li a:hover {
   color: #ffcc80;
-  background-color: #555; /* Darker hover background like readyforwildfire.org */
-  text-decoration: none;
-}
-
-/* Dropdown Menu */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1001; /* Ensure it appears above other elements */
-}
-
-.dropdown-content a {
-  color: #333;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dropdown-content a:hover {
-  background-color: #ffcc80; /* Light orange from fire theme */
-  color: #b71c1c; /* Dark red from fire theme */
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+  background: #1a1a1a; /* Updated darker hover background for better contrast */
+  border-radius: 5px;
 }
 
 /* Hamburger Menu */
