@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="styles.css"> <!-- External stylesheet -->
 </head>
 <body>
     <header class="navbar">
@@ -35,7 +35,7 @@
             <nav class="nav-menu">
                 <ul class="main-menu">
                     <li><a href="#">Home</a></li>
-                    <li class="has-dropdown">
+                    <li class="dropdown-container">
                         <a href="#">Services</a>
                         <ul class="dropdown">
                             <li><a href="#">Service 1</a></li>
@@ -72,7 +72,6 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch with a specified number of attempts
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -91,7 +90,7 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            const [center, setCenter] = useState([37.7749, -122.4194]);
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -100,11 +99,10 @@
             const initialCenter = [37.7749, -122.4194];
             const initialZoom = 5;
 
-            // Initialize map and marker layer
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Enable zoom control for mobile
+                        zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
@@ -113,14 +111,12 @@
                 }
             }, []);
 
-            // Update map view when center or zoom changes
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
-            // Fetch active fire data with retry
             useEffect(() => {
                 setIsLoading(true);
                 fetchWithRetry('https://eyeonthefire.com/api/nasa/')
@@ -142,7 +138,6 @@
                     });
             }, []);
 
-            // Update fire markers with custom icon using clustering
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
@@ -162,14 +157,12 @@
                 }
             }, [fires]);
 
-            // Reset map to default view
             const handleReset = () => {
                 setCenter(initialCenter);
                 setZoom(initialZoom);
                 setErrorMessage('');
             };
 
-            // Center map on user's current location
             const handleLocateMe = () => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
@@ -189,7 +182,6 @@
                 }
             };
 
-            // Dismiss error message
             const dismissError = () => {
                 setErrorMessage('');
             };
@@ -231,19 +223,15 @@
             hamburger.addEventListener('click', () => {
                 hamburger.classList.toggle('active');
                 navMenu.classList.toggle('active');
-                document.body.classList.toggle('menu-open');
             });
 
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
-                    document.body.classList.remove('menu-open');
                 });
             });
         });
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9350cafff959c027',t:'MTc0NTQ0NzI5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
