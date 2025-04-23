@@ -41,7 +41,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 2rem;
-  background: #333; /* Dark background like readyforwildfire.org */
+  background: #333;
   width: 100%;
   position: fixed;
   top: 0;
@@ -53,17 +53,25 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   text-align: center;
 }
 
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
 .logo-link {
   text-decoration: none;
 }
 
-.logo {
+.logo-container {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.logo img {
+.logo-container img {
   height: 50px;
   width: auto;
   max-width: 150px;
@@ -91,7 +99,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .nav-menu li a {
-  color: #fff; /* White text for navigation links */
+  color: #fff;
   font-size: 1rem;
   font-weight: 400;
   padding: 0.5rem 0;
@@ -103,7 +111,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .nav-menu li a:hover {
   color: #ffcc80;
-  background-color: #555; /* Darker hover background like readyforwildfire.org */
+  background-color: #555;
   text-decoration: none;
 }
 
@@ -187,13 +195,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .hero .cta-button {
-    background-color: #ffcc80;
-    color: #333;
-    border: 1px solid #b71c1c;
+  background-color: #ffcc80;
+  color: #333;
+  border: 1px solid #b71c1c;
 }
 .hero .cta-button:hover {
-    background-color: #ffa726;
-    box-shadow: 0 4px 8px rgba(255, 167, 38, 0.4);
+  background-color: #ffa726;
+  box-shadow: 0 4px 8px rgba(255, 167, 38, 0.4);
 }
 
 /* Map Section */
@@ -678,48 +686,29 @@ footer a:hover {
   transform: scale(1.1);
 }
 
-/* Responsive Adjustments */
-
-/* Tablet */
+/* Hamburger Menu Fix */
 @media (max-width: 768px) {
-  body {
-    padding-top: 0;
-    margin: 0;
-    padding: 0;
-  }
-
-  main {
-    padding: 10px;
-  }
-
-  .navbar {
-    position: static;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.5rem 1rem;
-  }
-
-  .navbar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
   .hamburger {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 15px;
-    right: 15px; /* Adjusted for better positioning */
+    right: 15px;
+    z-index: 1001;
   }
 
   .nav-menu {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #333;
     flex-direction: column;
-    width: 100%;
-    background: #333; /* Match navbar background */
-    padding: 1rem 0;
-    gap: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow-y: auto;
   }
 
   .nav-menu.active {
@@ -727,29 +716,21 @@ footer a:hover {
   }
 
   .nav-menu li {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    border-bottom: 1px solid #444;
-  }
-  .nav-menu li:last-child {
-    border-bottom: none;
+    margin: 1rem 0;
+    border-bottom: none; /* Remove border for cleaner look */
   }
 
   .nav-menu li a {
     padding: 1rem;
-    display: block;
-    width: 100%;
+    font-size: 1.2rem;
   }
 
-  .hero {
-    min-height: 50vh;
-    margin-top: 0;
-    background-attachment: scroll;
+  body {
+    padding-top: 0;
   }
 
-  #fire-map {
-    height: 500px;
+  main {
+    padding: 10px;
   }
 
   .map-container {
@@ -777,13 +758,31 @@ footer a:hover {
   }
 }
 
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    position: static;
+    width: auto;
+    height: auto;
+    background: none;
+  }
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .navbar {
     padding: 0.5rem;
   }
 
-  .logo img {
+  .logo-container img {
     height: 40px;
   }
   .logo-text {
