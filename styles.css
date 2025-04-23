@@ -11,55 +11,60 @@
 
 /* Map Styling */
 #map {
-    height: 50vh; /* 50% smaller height */
+    height: 50vh; /* Default height */
     width: 100%;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
+/* Desktop Viewports (min-width: 768px) */
+@media (min-width: 768px) {
+    .map-container {
+        width: 50%; /* Half the viewport width */
+        margin-left: auto;
+        margin-right: auto;
+    }
     #map {
-        height: 40vh; /* Smaller on mobile */
+        height: 50vh; /* Keep height balanced */
     }
 }
 
-@media (min-width: 1200px) {
-    #map {
-        height: 60vh; /* Slightly larger on big screens */
+/* Mobile Viewports (max-width: 767px) */
+@media (max-width: 767px) {
+    .map-container {
+        width: 100%; /* Full width on mobile */
     }
-}
-
-/* Hamburger Menu for Mobile */
-@media (max-width: 768px) {
+    #map {
+        height: 40vh; /* Reduced height for mobile */
+    }
     .hamburger {
         display: block;
         position: absolute;
         top: 15px;
-        right: 15px; /* Top-right corner */
+        right: 15px; /* Positioned in the top-right corner */
+        z-index: 1001;
     }
-
     .nav-menu {
         display: none;
         flex-direction: column;
         width: 100%;
         background: #333;
         padding: 1rem 0;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 1000;
     }
-
     .nav-menu.active {
         display: flex;
     }
-
     .nav-menu li {
         width: 100%;
         text-align: center;
         margin: 0;
         border-bottom: 1px solid #444;
     }
-
     .nav-menu li:last-child {
         border-bottom: none;
     }
-
     .nav-menu li a {
         padding: 1rem;
         display: block;
@@ -75,8 +80,123 @@
     background: #333;
     z-index: 1001; /* Overlays content */
     display: none;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .has-dropdown:hover .dropdown {
     display: block;
+}
+
+.dropdown li a {
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown li a:hover {
+    background: #555;
+}
+
+/* Hamburger Menu Styling */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    z-index: 1001;
+}
+
+.hamburger .line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger.active .line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Map Loading Styling */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(255,69,0,0.2));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.flame-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.flame {
+    position: absolute;
+    bottom: 0;
+    width: 12px;
+    height: 24px;
+    background: linear-gradient(to top, #ff4500, #ff8c00);
+    border-radius: 50% 50% 0 0;
+    animation: flame 1s infinite ease-in-out;
+}
+
+.flame:nth-child(1) {
+    left: 24px;
+    animation-delay: 0s;
+}
+
+.flame:nth-child(2) {
+    left: 36px;
+    animation-delay: 0.3s;
+}
+
+.flame:nth-child(3) {
+    left: 12px;
+    animation-delay: 0.6s;
+}
+
+@keyframes flame {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-15px) scale(1.1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(-30px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+.loading-overlay p {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff4500;
+    text-shadow: 0 0 8px #ff8c00, 0 0 12px rgba(255, 140, 0, 0.8);
 }
