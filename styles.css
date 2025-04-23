@@ -1,4 +1,4 @@
-/* Reset and Base */
+/* Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -10,100 +10,60 @@ body {
   line-height: 1.6;
   color: #333;
   background-color: #f9f9f9;
-  margin: 0;
-  padding-top: 80px;
+  padding-top: 70px; /* Space for fixed navbar */
 }
 
-/* Typography */
-h1, h2, h3 {
-  font-family: 'Montserrat', sans-serif;
-  color: #b71c1c;
-  margin-bottom: 0.75em;
-}
-
-h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
-h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
-a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
-a:hover { color: #b71c1c; text-decoration: underline; }
-
-/* Layout */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-/* Navbar */
+/* Navbar Styles */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  background: #333; /* Kept dark for compatibility with logo */
-  width: 100%;
+  background: #2b2b2b; /* Dark base for fire theme */
   position: fixed;
   top: 0;
-  left: 0;
+  width: 100%;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  transition: padding 0.3s ease;
-  color: white;
-  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   max-width: 1200px;
-  position: relative; /* For hamburger positioning */
-}
-
-.logo-link {
-  text-decoration: none;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .logo-container img {
-  height: 50px;
+  height: 40px;
   width: auto;
-  max-width: 150px;
 }
 
 .logo-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #ffcc80;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  transition: color 0.3s ease;
-}
-.logo-text:hover {
-  color: #ffa726;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff8c00; /* Fire orange */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+.logo-text:hover {
+  color: #ff4500; /* Brighter orange on hover */
+}
+
+/* Desktop Navigation */
 .nav-menu {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
+  display: block;
 }
 
 .main-menu {
   display: flex;
-  flex-direction: row; /* Horizontal layout for desktop */
+  flex-direction: row;
   list-style: none;
-  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
@@ -116,13 +76,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   color: #fff;
   text-decoration: none;
   padding: 0.5rem 1rem;
-  transition: background 0.3s ease;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .main-menu a:hover {
-  background: #FF4500; /* Fire-themed hover color */
-  border-radius: 5px;
+  background-color: #ff4500; /* Fire orange hover */
+  color: #fff;
+  border-radius: 4px;
 }
 
 .dropdown {
@@ -130,40 +92,35 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   position: absolute;
   top: 100%;
   left: 0;
-  background: #8B0000; /* Dark red for fire theme */
+  background: #8b0000; /* Deep red fire theme */
   list-style: none;
   padding: 0.5rem 0;
-  margin: 0;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-width: 150px;
 }
 
-.has-dropdown:hover .dropdown {
+.dropdown-container:hover .dropdown {
   display: block;
 }
 
 .dropdown li a {
   padding: 0.5rem 1rem;
   color: #fff;
-  font-family: 'Montserrat', sans-serif;
   display: block;
 }
 
 .dropdown li a:hover {
-  background: #FF4500; /* Fire-themed hover color */
+  background-color: #ff4500; /* Fire orange hover */
 }
 
 /* Hamburger Menu */
 .hamburger {
   display: none;
-  cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 1001;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 .line {
@@ -184,10 +141,10 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .hamburger.active .line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Mobile Menu Styles */
+/* Mobile Styles */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
@@ -196,74 +153,73 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   .nav-menu {
     position: fixed;
     top: 0;
-    right: -250px; /* Hidden off-screen initially */
-    width: 250px; /* Fixed width instead of full screen */
+    right: -300px; /* Hidden off-screen */
+    width: 300px;
     height: 100vh;
-    background: #8B0000; /* Fire-themed dark red */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: right 0.3s ease; /* Smooth slide-in */
-    z-index: 1000;
+    background: linear-gradient(135deg, #8b0000, #ff4500); /* Fire gradient */
+    transition: right 0.3s ease;
+    padding: 4rem 1rem 1rem;
   }
 
   .nav-menu.active {
-    right: 0; /* Slides in over the page */
+    right: 0; /* Slide in */
   }
 
   .main-menu {
     flex-direction: column;
-    width: 100%;
-    text-align: center;
+    align-items: center;
   }
 
   .main-menu li {
     width: 100%;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
   }
 
   .main-menu a {
-    color: #fff;
-    font-size: 1.2rem; /* Larger for readability */
+    font-size: 1.2rem;
     padding: 1rem;
     display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .main-menu a:hover {
-    background: #FF4500; /* Fire-themed hover */
+    background-color: rgba(255, 69, 0, 0.8);
   }
 
   .dropdown {
     position: static;
+    display: none; /* Hidden by default */
     background: none;
     box-shadow: none;
-    display: block; /* Visible in mobile, indented */
+    padding: 0;
+  }
+
+  .dropdown-container.active .dropdown {
+    display: block; /* Show when parent is active */
   }
 
   .dropdown li a {
-    padding-left: 2rem; /* Indent for hierarchy */
+    padding: 0.75rem 2rem;
     font-size: 1rem;
+    color: #ffd700; /* Gold for contrast */
+    border-bottom: none;
   }
 
-  body.menu-open {
-    overflow: hidden; /* Prevents scrolling behind menu */
+  .dropdown li a:hover {
+    background: none;
+    color: #fff;
   }
 }
 
-/* Desktop Menu Styles */
+/* Desktop-Specific Styles */
 @media (min-width: 769px) {
   .nav-menu {
-    display: flex;
     position: static;
     width: auto;
     height: auto;
     background: none;
-  }
-
-  .main-menu {
-    flex-direction: row; /* Ensures horizontal layout */
+    padding: 0;
   }
 }
 
-/* Rest of your styles remain unchanged */
+/* Rest of the styles remain unchanged from your original setup */
