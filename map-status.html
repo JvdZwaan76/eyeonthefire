@@ -19,319 +19,37 @@
     <!-- Leaflet.markercluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Body Font */
-        body {
-            font-family: 'Open Sans', sans-serif;
-            margin: 0;
-        }
-
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            background: #333;
-            color: #fff;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-container img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .logo-link {
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content: center;
-        }
-
-        .main-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-menu li {
-            position: relative;
-        }
-
-        .main-menu a {
-            color: #fff;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            transition: background 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .main-menu a:hover {
-            background: #ff4500;
-            border-radius: 5px;
-        }
-
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #333;
-            list-style: none;
-            padding: 0.5rem 0;
-            margin: 0;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .has-dropdown:hover .dropdown {
-            display: block;
-        }
-
-        .dropdown li a {
-            padding: 0.5rem 1rem;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .dropdown li a:hover {
-            background: #ff4500;
-        }
-
-        /* Hamburger Menu (for mobile) */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-        }
-
-        .line {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #fff;
-            margin: 5px 0;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active .line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active .line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active .line:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            .nav-menu {
-                display: none;
-            }
-            .nav-menu.active {
-                display: block;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                background: #333;
-            }
-            .main-menu {
-                flex-direction: column;
-                gap: 0;
-            }
-            .dropdown {
-                position: static;
-                box-shadow: none;
-            }
-        }
-
-        /* Map Container with Padding */
-        .map-container {
-            position: relative;
-            margin-top: 60px; /* Offset for fixed navbar */
-            padding: 20px;
-        }
-
-        #map {
-            height: 80vh;
-            width: 100%;
-        }
-
-        /* Controls */
-        .controls {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-        }
-
-        .controls button {
-            margin-right: 10px;
-            padding: 5px 10px;
-            background: #ff4500;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .controls button:hover {
-            background: #ff6347;
-        }
-
-        /* Enhanced Loading Spinner */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .flame-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .flame {
-            width: 20px;
-            height: 40px;
-            background: #ff4500;
-            border-radius: 50% 50% 0 0;
-            animation: flicker 0.5s infinite alternate;
-        }
-
-        @keyframes flicker {
-            0% { transform: scaleY(1); }
-            100% { transform: scaleY(1.2); }
-        }
-
-        .loading-overlay p {
-            color: #fff;
-            margin-top: 20px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* Error Message */
-        .error-message {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ff4500;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-        }
-
-        .error-message button {
-            margin-left: 10px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #333;
-            color: #fff;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        footer nav a {
-            color: #ff4500;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer nav a:hover {
-            color: #ff6347;
-        }
-    </style>
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="navbar">
-        <div class="navbar-container">
-            <a href="index.html" class="logo-link">
-                <div class="logo-container">
-                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
-                    <span class="logo-text">Eye on the Fire</span>
-                </div>
-            </a>
-            <nav class="nav-menu">
-                <ul class="main-menu">
-                    <li><a href="#">Home</a></li>
-                    <li class="has-dropdown">
-                        <a href="#">Services</a>
-                        <ul class="dropdown">
-                            <li><a href="#">Service 1</a></li>
-                            <li><a href="#">Service 2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <button class="hamburger" aria-label="Toggle navigation">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-            </button>
-        </div>
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
+                <span class="logo-text">Eye on the Fire</span>
+            </div>
+        </a>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Maps</a>
+                    <div class="dropdown">
+                        <a href="map-status.html">Fire Status Map</a>
+                        <a href="#">Historical Data</a>
+                        <a href="#">Risk Assessment</a>
+                    </div>
+                </li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
         <div id="root"></div>
@@ -522,6 +240,6 @@
             });
         });
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
