@@ -80,6 +80,7 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     height: 100%;
     display: flex;
     align-items: center;
+    flex-shrink: 0; /* Prevent logo from shrinking */
 }
 
 .logo-container {
@@ -95,21 +96,23 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     font-family: 'Montserrat', sans-serif;
     text-shadow: 1px 1px 3px var(--primary-color); /* Subtle fire glow */
     transition: color 0.3s ease;
+    white-space: nowrap;
 }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
 }
 
-/* --- Horizontal Dropdown Menu --- */
+/* --- Horizontal Dropdown Menu (Desktop) --- */
 .nav-menu {
     display: flex; /* Ensures nav menu is visible on desktop */
     align-items: center;
     height: 100%;
+    margin-left: auto; /* Pushes nav menu towards the right if space available */
 }
 
 .main-menu {
-    display: flex; /* THIS IS THE KEY: Makes li items horizontal by default */
-    /* flex-direction: row; is the default */
+    display: flex; /* KEY: Makes li items horizontal (side-by-side) by default */
+    flex-direction: row; /* Explicitly set for clarity */
     list-style: none;
     gap: 1rem; /* Spacing between main items */
     margin: 0;
@@ -212,6 +215,7 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     padding: 10px;
     z-index: 1002; /* Above nav menu */
     order: 3; /* Position hamburger to the right in flex container */
+    margin-left: 1rem; /* Add some space between nav and hamburger if needed */
 }
 
 .hamburger .line {
@@ -240,7 +244,6 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 /* --- Map Container & Loading --- */
 .map-container {
     position: relative;
-    /* Removed fixed margin-top, body padding handles it */
     background-color: #fff; /* White background for the map area */
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -251,15 +254,14 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 
 /* Leaflet Map */
 #map {
-    /* height is set inline in the HTML/React component */
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ddd;
     z-index: 1; /* Ensure map is below overlays/controls */
+    /* Height is controlled by inline style in React component */
 }
 
 /* Map Controls (Leaflet Default & Custom) */
-/* Style Leaflet controls slightly */
 .leaflet-control-container .leaflet-control {
   box-shadow: 0 1px 7px rgba(0,0,0,0.5);
   border-radius: 5px;
@@ -346,8 +348,8 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 
 /* Error Message */
 .error-message {
-    position: absolute; /* Changed from fixed to absolute relative to map-container */
-    top: 10px; /* Position near top of map container */
+    position: absolute;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--primary-color);
@@ -423,26 +425,32 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     line-height: 1.5;
 }
 
+/* Footer Links Section */
 .footer-section.links ul {
-    list-style: none;
+    list-style: none; /* Remove default bullets */
     padding: 0;
     margin: 0;
 }
 
 .footer-section.links li {
     margin-bottom: 0.6rem;
+    text-align: center; /* Center the list item container */
 }
 
 .footer-section.links a {
     color: #a9a9a9;
     text-decoration: none;
-    transition: color 0.3s ease, padding-left 0.3s ease;
+    transition: color 0.3s ease, letter-spacing 0.3s ease; /* Add letter-spacing transition */
     font-size: 0.95rem;
+    display: inline-block; /* Needed for text-align to work well */
+    padding: 0.2em 0; /* Add some padding */
 }
 
 .footer-section.links a:hover {
     color: var(--accent-color); /* Gold hover */
-    padding-left: 5px; /* Slight indent on hover */
+    /* padding-left: 0; Removed indent */
+    letter-spacing: 0.5px; /* Slightly increase spacing on hover */
+    text-decoration: underline; /* Add underline on hover */
 }
 
 /* Social Icons */
@@ -450,6 +458,7 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     display: flex;
     gap: 1rem;
     flex-wrap: wrap; /* Allow wrapping on small screens */
+    justify-content: center; /* Center icons if they wrap */
 }
 
 .social-icons a {
@@ -496,6 +505,9 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     .navbar-container {
         max-width: 900px;
     }
+    .nav-menu {
+        margin-left: 0; /* Reset margin */
+    }
     .main-menu {
         gap: 0.5rem; /* Reduce gap */
     }
@@ -529,10 +541,7 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
      .logo-link {
         height: auto; /* Adjust height */
      }
-    .hamburger {
-        display: block; /* Show hamburger */
-    }
-    .nav-menu {
+     .nav-menu {
         /* Hide main menu on mobile initially */
         display: none;
         /* When active, it becomes a block */
@@ -553,6 +562,9 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
         /* display: flex; Redundant due to flex-direction */
         display: block; /* Use block for simple stacking */
         max-height: calc(100vh - 60px); /* Limit height, adjust 60px if navbar height changes */
+    }
+    .hamburger {
+        display: block; /* Show hamburger */
     }
 
     .main-menu {
@@ -585,14 +597,14 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
         color: var(--light-text);
         border-bottom: none;
      }
-    .main-menu > li > a > i { /* Hide arrow on mobile if not used for toggle */
-        /* display: none; */
-        /* Or style for toggle if needed */
-        float: right;
+    .main-menu > li > a > i { /* Arrow */
+        float: right; /* Keep arrow on the right */
         transform: none; /* Reset rotation */
+        transition: transform 0.3s ease; /* Add transition back */
     }
-     .main-menu > li:hover > a > i {
-        transform: none; /* No rotation on hover */
+    /* Rotate arrow when dropdown is open (example using focus-within) */
+     .main-menu > li:focus-within > a > i {
+        transform: rotate(180deg);
      }
 
 
@@ -612,8 +624,8 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
         transition: none; /* No transition needed for static */
     }
     /* Simple toggle example: Show dropdown when parent li is focused/hovered */
-    .main-menu > li:focus-within > .dropdown,
-    .main-menu > li:hover > .dropdown {
+    /* Using focus-within is better for accessibility than hover alone */
+    .main-menu > li:focus-within > .dropdown {
        display: block;
     }
      .dropdown li a {
@@ -630,7 +642,7 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
         padding: 0.5rem;
     }
      #map {
-        height: calc(100vh - 100px); /* Adjust map height for mobile, considering potential url bar etc */
+        height: calc(100vh - 100px); /* Adjust map height for mobile */
      }
     .error-message {
         position: sticky; /* Stick to top inside map container */
@@ -641,12 +653,18 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
     }
     .footer-content {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
+        align-items: center; /* Center sections vertically */
+        text-align: center; /* Center text within sections */
     }
     .footer-section {
         min-width: 100%;
         max-width: 400px; /* Limit width on mobile */
+        display: flex; /* Use flexbox for centering content inside */
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-section.links ul {
+      width: 100%; /* Ensure ul takes width for text-align */
     }
     .social-icons {
         justify-content: center;
