@@ -346,7 +346,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow-x: hidden;
         transition: max-height 0.4s ease-out; /* Use max-height transition */
         z-index: 9999; /* High z-index */
-        /* transform: translateZ(0); Keep potential layering fix */
+        /* transform: translateZ(0); */ /* Removed potential fix */
         padding-top: 0;
         height: auto; /* Let content determine height up to max-height */
         margin-left: 0;
@@ -382,42 +382,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
-        /* border-top: 1px solid var(--border-color); Removed, added below */
+        /* border-top: 1px solid var(--border-color); Added when open */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
         max-height: 500px;
         padding: 0.5rem 0;
-        border-top: 1px solid var(--border-color); /* Add separator only when open */
-
-    }
-
-    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
-    .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
-
-    /* Map and Controls Layout */
-    .map-container { margin: 0.5rem; padding: 0.5rem; }
-    #map { height: calc(65vh); }
-    .controls { flex-wrap: wrap; }
-    .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
-
-    /* Footer Layout */
-    .footer-content { flex-direction: column; align-items: center; text-align: center; }
-    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
-    .footer-section.links ul { width: 100%; display: inline-block; text-align: center; }
-    .footer-section.links li { justify-content: center; display: inline-flex; width: auto; }
-    .social-icons { justify-content: center; }
-}
-
-/* Smaller Mobile (< 480px) */
-@media (max-width: 480px) {
-    .navbar { padding: 0 0.5rem; }
-    .logo-container span { font-size: 1.3rem; }
-    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
-    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
-    .footer-section h3 { font-size: 1rem; }
-    .footer-bottom { font-size: 0.8rem; }
-    .error-message { font-size: 0.85rem; padding: 8px 12px; }
-    .error-message button { font-size: 16px; margin-left: 10px; }
-    #map { height: calc(60vh); }
-}
