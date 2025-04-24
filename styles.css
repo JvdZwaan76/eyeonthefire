@@ -1,144 +1,148 @@
-/* --- MINIMAL TEST CSS --- */
+/* --- DIAGNOSTIC CSS - MINIMAL + AGGRESSIVE --- */
 
-/* Basic Body Reset (for testing) */
-body {
-  margin: 0;
-  padding-top: 70px; /* Simulate navbar height */
-  font-family: 'Open Sans', sans-serif;
-}
+/* Basic Reset */
+body { margin: 0; font-family: sans-serif; padding-top: 60px; }
+ul { margin: 0; padding: 0; list-style: none;}
+a { text-decoration: none; }
 
-/* --- Navbar Layout TEST --- */
+/* --- Navbar Diagnostics --- */
 .navbar {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    height: 70px;
-    background-color: #2c2c2c; /* Dark background for visibility */
-    color: white;
-    position: fixed; /* Keep basic positioning */
-    top: 0;
-    width: 100%;
-    padding: 0 1rem;
-    box-sizing: border-box; /* Include padding in width/height */
+    display: flex !important; /* Force flex */
+    justify-content: center !important;
+    align-items: stretch !important;
+    height: 60px !important;
+    background-color: #444 !important;
+    color: white !important;
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    padding: 0 1rem !important;
+    box-sizing: border-box !important;
+    border-bottom: 3px solid red !important;
 }
 
 .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1300px;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    border: 1px dashed cyan !important;
 }
 
 .logo-link {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    flex-shrink: 0; /* Prevent shrinking */
+    color: white !important;
+    font-weight: bold !important;
+    padding: 0 10px !important;
 }
 
-/* --- Key Styles for Horizontal Navigation --- */
 .nav-menu {
-    display: flex; /* Make nav menu container visible */
-    align-items: stretch; /* Stretch items vertically */
-    overflow: hidden; /* Hide overflow */
+    display: flex !important; /* Ensure container is flex */
+    align-items: stretch !important;
+    border: 1px dashed lime !important;
 }
 
+/* --- Key Diagnostic Styles for Horizontal Nav --- */
 .main-menu {
-    display: flex;        /* <<<<< ** SHOULD MAKE ITEMS HORIZONTAL ** */
-    flex-direction: row;  /* <<<<< ** Explicitly Row Direction ** */
-    flex-wrap: nowrap;    /* <<<<< ** Prevent Wrapping ** */
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    align-items: stretch; /* Stretch list items */
+    display: flex !important;         /* <<< FORCE FLEX */
+    flex-direction: row !important;   /* <<< FORCE ROW */
+    flex-wrap: nowrap !important;     /* <<< FORCE NO WRAP */
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: stretch !important;
+    background-color: rgba(255, 0, 0, 0.2) !important; /* Red background */
 }
 
 .main-menu li {
-    display: flex; /* Needed for align-items */
-    align-items: stretch; /* Stretch link within li */
+    display: flex !important; /* Make li flex container */
+    align-items: stretch !important;
+    margin: 0 5px !important; /* Add space between items */
 }
 
 .main-menu > li > a {
-    display: flex;
-    align-items: center; /* Center text vertically */
-    padding: 0 1rem;
-    color: white;
-    text-decoration: none;
-    border: 1px dashed orange; /* VISIBLE BORDER FOR TESTING */
-    white-space: nowrap;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+    color: white !important;
+    border: 2px solid red !important; /* <<< VISIBLE BORDER */
+    background-color: rgba(0, 0, 255, 0.2) !important; /* Blue background */
+    white-space: nowrap !important;
 }
-.main-menu > li > a:hover {
-    background-color: orange;
-}
-/* --- End Navbar Test --- */
 
-
-/* --- Footer List TEST --- */
+/* --- Footer Diagnostics --- */
 .site-footer {
-    background-color: #333; /* Dark background for visibility */
-    padding: 2rem 1rem;
-    color: #ccc;
-    margin-top: 50px; /* Add space above footer */
+    background-color: #222 !important;
+    padding: 1rem !important;
+    color: #ccc !important;
+    margin-top: 20px !important;
+    border-top: 3px solid green !important;
 }
-
+.footer-content {
+     border: 1px dashed white !important;
+     padding: 1rem;
+     max-width: 500px;
+     margin: 0 auto;
+}
 .footer-section.links {
-    border: 1px dashed lightblue; /* VISIBLE BORDER FOR TESTING */
-    max-width: 300px; /* Limit width for testing alignment */
-    margin: 0 auto; /* Center the section */
+    border: 1px solid orange !important;
+    padding: 1rem;
 }
-
+.footer-section.links h3 {
+    color: orange !important;
+    text-align: center;
+    margin-bottom: 1rem;
+}
 .footer-section.links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center; /* Center the whole list block */
 }
 
-/* --- Key Styles for Footer Bullet Alignment --- */
+/* --- Key Diagnostic Styles for Footer Bullets --- */
 .footer-section.links li {
-    display: flex;          /* <<<<< ** Use Flexbox for alignment ** */
-    align-items: center;    /* <<<<< ** Vertically align bullet & text ** */
-    justify-content: flex-start; /* <<<<< ** Align items to the start (left) ** */
-    margin-bottom: 0.5rem;
-    border: 1px dashed yellow; /* VISIBLE BORDER FOR TESTING */
-    padding-left: 10px; /* Add padding if needed */
+    display: flex !important;         /* <<< FORCE FLEX */
+    align-items: center !important;   /* <<< Align items vertically */
+    justify-content: center !important; /* <<< Center bullet & link */
+    margin-bottom: 0.5rem !important;
+    padding: 5px !important;
+    border: 1px dashed yellow !important; /* <<< VISIBLE BORDER */
+    background-color: rgba(0, 255, 0, 0.1) !important; /* Faint green */
 }
 
 .footer-section.links li::before {
-    content: '•';           /* <<<<< ** The Bullet ** */
-    color: orange;          /* Bullet color */
-    font-size: 1.2em;       /* Bullet size */
-    margin-right: 0.6em;    /* <<<<< ** Space between bullet and text ** */
-    display: inline-block;  /* Make it behave well */
-    flex-shrink: 0; /* Prevent bullet from shrinking */
+    content: '•' !important;          /* <<< BULLET */
+    color: lightgreen !important;     /* <<< BULLET COLOR */
+    font-size: 1.5em !important;      /* <<< BULLET SIZE */
+    margin-right: 0.5em !important;   /* <<< SPACE */
+    display: inline-block !important;
+    flex-shrink: 0 !important;
 }
 
 .footer-section.links a {
-    color: #ccc;
-    text-decoration: none;
-    display: inline-block;
-    flex-shrink: 0; /* Prevent link from shrinking */
+    color: #eee !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+    border: 1px dashed cyan !important;
 }
-.footer-section.links a:hover {
-    color: white;
-}
-/* --- End Footer Test --- */
-
-/* --- Hide Hamburger for Desktop Test --- */
-.hamburger {
-    display: none;
+.footer-bottom {
+    text-align: center;
+    color: #777;
+    margin-top: 1rem;
+    font-size: 0.8em;
 }
 
-/* --- Basic Mobile Styles (Minimal for Test) --- */
+/* --- Hide Hamburger --- */
+.hamburger { display: none !important; }
+
+/* --- Minimal Mobile (for completeness, shouldn't affect desktop) --- */
 @media (max-width: 768px) {
-    body { padding-top: 0; }
-    .navbar { position: relative; }
-    .nav-menu { display: none; /* Hide by default on mobile */ }
-    .hamburger { display: block; } /* Show hamburger */
-    /* Add .nav-menu.active { display: block; } if testing mobile toggle */
-
-    .footer-section.links li {
-       justify-content: center; /* Center items on mobile if desired */
+    body { padding-top: 0 !important; }
+    .navbar { position: relative !important; }
+    .main-menu {
+        /* These would apply on mobile if hamburger was used */
+        /* flex-direction: column !important; */
     }
+    .hamburger { display: block !important; }
 }
