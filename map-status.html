@@ -107,22 +107,41 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch with a specified number of attempts
+        // Retry fetch with better error handling
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
+                let response; // Define response outside try block
                 try {
-                    const response = await fetch(url);
+                    response = await fetch(url); // Assign inside try
+
+                    // Check if response is ok (status in the range 200-299)
                     if (!response.ok) {
-                        throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+                        // Try to get error message text, even if not JSON
+                        const errorText = await response.text();
+                        // Throw an error with more context
+                        throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
+
+                    // Attempt to parse as JSON (or CSV depending on actual API)
+                    // IMPORTANT: Adjust based on your actual API's expected response format
+                    // If the API is supposed to return CSV, you'll need a CSV parser here.
+                    // This example assumes JSON is expected on success.
                     return await response.json();
+
                 } catch (error) {
+                    // Log the error message clearly
+                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
+
+                    // If this was the last retry, re-throw the error to be caught by the component
                     if (i === retries - 1) throw error;
-                    console.log(`Workspace attempt ${i + 1} failed, retrying in ${delay}ms...`, error.message);
+
+                    // Wait before retrying
+                    console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
         };
+
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
@@ -139,7 +158,7 @@
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Enable zoom control for mobile
+                        zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
@@ -158,24 +177,38 @@
             // Fetch active fire data with retry
             useEffect(() => {
                 setIsLoading(true);
-                // NOTE: Using a placeholder URL as the original might have CORS issues or be specific.
-                // Replace 'YOUR_API_ENDPOINT_HERE' with the actual NASA FIRMS or other fire data API endpoint if needed.
-                fetchWithRetry('https://firms.modaps.eosdis.nasa.gov/api/area/csv/YOUR_API_KEY/VIIRS_SNPP_NRT/world/1') // Example endpoint structure
+                setErrorMessage(''); // Clear previous errors
+
+                // !! IMPORTANT !! Replace YOUR_API_KEY and potentially the URL structure
+                // based on the actual API you intend to use (e.g., NASA FIRMS).
+                // This example uses a placeholder URL known to require a key.
+                const fireApiUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/YOUR_API_KEY/VIIRS_SNPP_NRT/world/1';
+
+                fetchWithRetry(fireApiUrl)
                     .then(data => {
-                        console.log('Fire data:', data);
-                        // Adjust parsing based on the actual API response format (CSV, JSON, etc.)
-                        // This example assumes a JSON structure similar to the original code's expectation.
-                        // If the API returns CSV, you'll need a CSV parsing function.
-                        const fireList = (data.features || []).map(feature => ({ // Example for GeoJSON features
+                        console.log('Fire data received:', data);
+                        // Adjust parsing based on the actual API response format (CSV, JSON, GeoJSON etc.)
+                        // This example assumes a GeoJSON-like structure IF the API returned JSON successfully.
+                        // If your API returns CSV, you'll need a CSV parsing function here.
+                        const fireList = (data?.features || []).map(feature => ({
                             lat: feature.geometry.coordinates[1],
                             lon: feature.geometry.coordinates[0],
-                            title: feature.properties.title || `Active Fire (${feature.properties.acq_date})` // Example properties
+                            title: feature.properties.title || `Active Fire (${feature.properties.acq_date || 'N/A'})`
                         }));
-                        setFires(fireList); // Use all available data or apply slicing as needed
+
+                        if (fireList.length === 0 && !data) {
+                           // Handle cases where fetch might succeed but return no usable data
+                           console.warn("Received response, but no fire features found or data format issue.");
+                           // Optionally set a different kind of message
+                           // setErrorMessage('Could not parse fire data from the source.');
+                        }
+
+                        setFires(fireList);
                     })
                     .catch(err => {
-                        console.error('Error fetching fires:', err.message);
-                        setErrorMessage('Failed to load fire data. Please check the data source or try again later. ' + err.message);
+                        console.error('Final error fetching fires:', err.message);
+                        // Display a user-friendly error message, including the caught error text
+                        setErrorMessage(`Failed to load fire data: ${err.message}. Please check API key/endpoint.`);
                     })
                     .finally(() => {
                         setIsLoading(false);
@@ -183,16 +216,14 @@
             }, []);
 
 
-            // Update fire markers with custom icon using clustering
+            // Update fire markers
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
 
                     const fireIcon = L.icon({
-                        iconUrl: 'https://img.icons8.com/plasticine/100/000000/fire-element.png', // Simple fire icon example
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 32],
-                        popupAnchor: [0, -32]
+                        iconUrl: 'https://img.icons8.com/plasticine/100/000000/fire-element.png',
+                        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
                     fires.forEach(fire => {
@@ -203,42 +234,31 @@
                 }
             }, [fires]);
 
-            // Reset map to default view
-            const handleReset = () => {
-                setCenter(initialCenter);
-                setZoom(initialZoom);
-                setErrorMessage('');
-            };
+            // Reset map
+            const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
-            // Center map on user's current location
+            // Locate Me
             const handleLocateMe = () => {
-                setIsLoading(true); // Show loading indicator during geolocation
+                setIsLoading(true); setErrorMessage('');
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
-                            setCenter([latitude, longitude]);
-                            setZoom(12);
-                            setErrorMessage('');
-                            setIsLoading(false);
+                            setCenter([latitude, longitude]); setZoom(12); setIsLoading(false);
                         },
                         err => {
                             console.error('Geolocation error:', err.message);
-                            setErrorMessage('Failed to get your location: ' + err.message);
-                            setIsLoading(false);
+                            setErrorMessage('Failed to get your location: ' + err.message); setIsLoading(false);
                         },
-                        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 } // Geolocation options
+                        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
                 } else {
-                    setErrorMessage('Geolocation is not supported by your browser');
-                    setIsLoading(false);
+                    setErrorMessage('Geolocation is not supported by your browser'); setIsLoading(false);
                 }
             };
 
-            // Dismiss error message
-            const dismissError = () => {
-                setErrorMessage('');
-            };
+            // Dismiss error
+            const dismissError = () => setErrorMessage('');
 
             return (
                 <div className="map-container">
@@ -248,18 +268,15 @@
                             <p>Loading map data...</p>
                         </div>
                     )}
-                     {/* Controls are now part of Leaflet UI, remove from here if added via Leaflet */}
-                    {/* <div className="controls">
-                        <button onClick={handleReset}>Reset</button>
-                        <button onClick={handleLocateMe}>Locate Me</button>
-                    </div> */}
                     {errorMessage && (
                         <div className="error-message">
-                            {errorMessage}
+                            <span>{errorMessage}</span> {/* Wrap text in span for better styling control if needed */}
                             <button onClick={dismissError} aria-label="Dismiss error">×</button>
                         </div>
                     )}
-                    <div id="map" style={{ height: 'calc(100vh - 140px)', width: '100%' }}></div> {/* Adjusted height calculation */}
+                    {/* You might want to add Leaflet controls directly here or via Leaflet API */}
+                    {/* e.g. Reset button, Locate button */}
+                    <div id="map" style={{ height: 'calc(100vh - 140px)', width: '100%' }}></div>
                 </div>
             );
         };
@@ -273,16 +290,28 @@
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
 
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
+            if (hamburger && navMenu) { // Check if elements exist
+                 hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                 });
+            }
 
-            // Close menu when a link is clicked (optional, good for SPA behavior)
+            // Close menu when a link is clicked (optional)
             document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.addEventListener('click', () => {
+                link.addEventListener('click', (e) => {
                     // Only close if hamburger is active (mobile view)
-                    if (hamburger.classList.contains('active')) {
+                    // Check if the clicked link is part of a dropdown
+                    const parentLi = link.closest('li');
+                    const isDropdownLink = parentLi && parentLi.classList.contains('has-dropdown');
+
+                    // Don't close immediately if it's a main dropdown link on mobile,
+                    // allow focus to open submenu (handled by CSS :focus-within)
+                    // or let potential JS toggle logic handle it.
+                    // If it's a link *inside* a dropdown, or not a dropdown link, close menu.
+
+                    if (hamburger && navMenu && hamburger.classList.contains('active')) {
+                         // Simple version: close on any link click
                          hamburger.classList.remove('active');
                          navMenu.classList.remove('active');
                     }
@@ -290,7 +319,10 @@
             });
 
             // Set current year in footer
-            document.getElementById('year').textContent = new Date().getFullYear();
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) {
+                 yearSpan.textContent = new Date().getFullYear();
+            }
         });
     </script>
 </body>
