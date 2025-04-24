@@ -1,4 +1,17 @@
-/* Reset and Base Styles */
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-color: #ff4500; /* OrangeRed - Core fire color */
+    --secondary-color: #ff8c00; /* DarkOrange */
+    --accent-color: #ffd700; /* Gold - Flame tips */
+    --dark-bg: #2c2c2c; /* Dark grey for contrast */
+    --light-text: #f5f5f5; /* Off-white text */
+    --dark-text: #333;
+    --border-color: #444;
+    --navbar-height: 70px; /* Increased height for better spacing */
+    --footer-height: 200px; /* Approximate footer height */
+}
+
+/* Reset and Base */
 * {
   margin: 0;
   padding: 0;
@@ -8,218 +21,577 @@
 body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f9f9f9;
-  padding-top: 70px; /* Space for fixed navbar */
+  color: var(--dark-text);
+  background-color: #f0f0f0; /* Lighter grey background */
+  padding-top: var(--navbar-height); /* Space for fixed navbar */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Navbar Styles */
+main {
+    flex-grow: 1; /* Ensure main content pushes footer down */
+}
+
+/* --- Fire-themed Navbar --- */
 .navbar {
-  background: #2b2b2b; /* Dark base for fire theme */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem; /* Padding left/right */
+    background: linear-gradient(to right, var(--dark-bg), #1a1a1a); /* Dark gradient */
+    color: var(--light-text);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: var(--navbar-height);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid var(--primary-color);
 }
 
 .navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px; /* Slightly wider max-width */
+    height: 100%;
+}
+
+.logo-link {
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .logo-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-container img {
-  height: 40px;
-  width: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .logo-text {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ff8c00; /* Fire orange */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    font-size: 1.8rem; /* Larger logo text */
+    font-weight: 700; /* Bolder */
+    color: var(--light-text);
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 1px 1px 3px var(--primary-color); /* Subtle fire glow */
+    transition: color 0.3s ease;
+}
+.logo-link:hover .logo-text {
+    color: var(--secondary-color);
 }
 
-.logo-text:hover {
-  color: #ff4500; /* Brighter orange on hover */
-}
-
-/* Desktop Navigation */
+/* --- Horizontal Dropdown Menu --- */
 .nav-menu {
-  display: block;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .main-menu {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    list-style: none;
+    gap: 1rem; /* Spacing between main items */
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 .main-menu li {
-  position: relative;
+    position: relative;
+    display: flex;
+    align-items: center; /* Vertically center items */
+    height: 100%;
 }
 
-.main-menu a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.main-menu > li > a {
+    color: var(--light-text);
+    text-decoration: none;
+    padding: 0 1rem; /* Padding for clickable area */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-bottom: 3px solid transparent; /* For hover effect */
+}
+.main-menu > li > a > i {
+    margin-left: 0.3em; /* Space before dropdown arrow */
+    font-size: 0.8em;
 }
 
-.main-menu a:hover {
-  background-color: #ff4500; /* Fire orange hover */
-  color: #fff;
-  border-radius: 4px;
+.main-menu > li:hover > a {
+    color: var(--accent-color); /* Gold hover */
+    background-color: rgba(255, 69, 0, 0.1); /* Subtle orange background */
+    border-bottom: 3px solid var(--primary-color);
 }
 
+/* Dropdown Styles */
 .dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #8b0000; /* Deep red fire theme */
-  list-style: none;
-  padding: 0.5rem 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  min-width: 150px;
+    display: none;
+    position: absolute;
+    top: 100%; /* Position below parent */
+    left: 0;
+    background: var(--dark-bg); /* Match navbar background */
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    min-width: 180px; /* Minimum width */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 0 0 5px 5px;
+    opacity: 0; /* Start hidden */
+    visibility: hidden;
+    transform: translateY(10px); /* Start slightly lower */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.dropdown-container:hover .dropdown {
-  display: block;
+.has-dropdown:hover .dropdown {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .dropdown li a {
-  padding: 0.5rem 1rem;
-  color: #fff;
-  display: block;
+    padding: 0.8rem 1.2rem; /* Generous padding */
+    color: var(--light-text);
+    text-decoration: none;
+    display: block;
+    font-family: 'Open Sans', sans-serif; /* Use body font */
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap; /* Prevent wrapping */
 }
 
 .dropdown li a:hover {
-  background-color: #ff4500; /* Fire orange hover */
+    background: var(--primary-color); /* Fire orange background on hover */
+    color: var(--dark-bg); /* Dark text on hover */
 }
 
-/* Hamburger Menu */
+
+/* --- Hamburger Menu (Mobile) --- */
 .hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
-.line {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: #fff;
-  margin: 5px 0;
-  transition: all 0.3s ease;
-}
-
-.hamburger.active .line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active .line:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active .line:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
-}
-
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -300px; /* Hidden off-screen */
-    width: 300px;
-    height: 100vh;
-    background: linear-gradient(135deg, #8b0000, #ff4500); /* Fire gradient */
-    transition: right 0.3s ease;
-    padding: 4rem 1rem 1rem;
-  }
-
-  .nav-menu.active {
-    right: 0; /* Slide in */
-  }
-
-  .main-menu {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .main-menu li {
-    width: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .main-menu a {
-    font-size: 1.2rem;
-    padding: 1rem;
-    display: block;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .main-menu a:hover {
-    background-color: rgba(255, 69, 0, 0.8);
-  }
-
-  .dropdown {
-    position: static;
     display: none; /* Hidden by default */
+    cursor: pointer;
     background: none;
-    box-shadow: none;
-    padding: 0;
-  }
-
-  .dropdown-container.active .dropdown {
-    display: block; /* Show when parent is active */
-  }
-
-  .dropdown li a {
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    color: #ffd700; /* Gold for contrast */
-    border-bottom: none;
-  }
-
-  .dropdown li a:hover {
-    background: none;
-    color: #fff;
-  }
+    border: none;
+    padding: 10px;
+    z-index: 1002; /* Above nav menu */
 }
 
-/* Desktop-Specific Styles */
-@media (min-width: 769px) {
-  .nav-menu {
-    position: static;
-    width: auto;
-    height: auto;
-    background: none;
-    padding: 0;
-  }
+.hamburger .line {
+    display: block;
+    width: 28px; /* Slightly wider */
+    height: 3px;
+    background: var(--light-text); /* White lines */
+    margin: 6px 0; /* More spacing */
+    transition: all 0.4s ease-in-out;
+    border-radius: 2px;
 }
 
-/* Rest of the styles remain unchanged from your original setup */
+/* Hamburger animation */
+.hamburger.active .line1 {
+    transform: rotate(-45deg) translate(-7px, 7px);
+    background-color: var(--primary-color); /* Change color on active */
+}
+.hamburger.active .line2 {
+    opacity: 0;
+}
+.hamburger.active .line3 {
+    transform: rotate(45deg) translate(-6px, -7px);
+     background-color: var(--primary-color); /* Change color on active */
+}
+
+/* --- Map Container & Loading --- */
+.map-container {
+    position: relative;
+    /* Removed fixed margin-top, body padding handles it */
+    /* margin-top: var(--navbar-height);  */
+    /* padding: 10px; */ /* Add padding if needed around the map */
+    background-color: #fff; /* White background for the map area */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    /* Ensure map container takes available space if needed */
+    /* width: 100%; */
+    max-width: 1600px; /* Max width for map container */
+    margin: 1rem auto; /* Center map container with margin */
+    padding: 1rem; /* Padding inside container */
+}
+
+/* Leaflet Map */
+#map {
+    /* height is set inline in the HTML/React component */
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Map Controls (Leaflet Default & Custom) */
+/* Style Leaflet controls slightly */
+.leaflet-control-container .leaflet-control {
+  box-shadow: 0 1px 7px rgba(0,0,0,0.5);
+  border-radius: 5px;
+}
+.leaflet-bar a, .leaflet-bar a:hover {
+    color: var(--primary-color);
+    border-bottom: 1px solid #ccc;
+}
+.leaflet-control-locate a { /* Style leaflet-locate plugin if used */
+    font-size: 1.4em;
+}
+
+
+/* Loading Overlay with Fire Theme */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Above map, below navbar */
+    backdrop-filter: blur(3px);
+    border-radius: 5px; /* Match container */
+}
+
+/* Advanced Flame Loader */
+.flame-loader {
+    width: 50px;
+    height: 70px;
+    position: relative;
+    margin-bottom: 20px;
+}
+.flame-loader::before,
+.flame-loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    height: 50px;
+    background: var(--secondary-color);
+    border-radius: 50% 50% 20% 20%;
+    animation: flicker 1.5s infinite ease-in-out;
+    transform-origin: bottom center;
+}
+.flame-loader::before {
+    left: 5px;
+    background: var(--primary-color); /* Redder flame */
+    animation-delay: 0s;
+}
+.flame-loader::after {
+    right: 5px;
+    animation-delay: 0.5s; /* Stagger animation */
+}
+
+@keyframes flicker {
+    0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; }
+    50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; }
+}
+
+.loading-overlay p {
+    color: var(--light-text);
+    margin-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px var(--dark-bg);
+}
+
+/* Error Message */
+.error-message {
+    position: absolute;
+    top: calc(var(--navbar-height) + 10px); /* Below navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: var(--light-text);
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 1001; /* Above map */
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    max-width: 90%;
+    text-align: center;
+}
+
+.error-message button {
+    margin-left: 15px;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+
+/* --- Fire-themed Footer --- */
+.site-footer {
+    background: linear-gradient(to right, #3a200a, #1a1005); /* Dark brown/black gradient */
+    color: #a9a9a9; /* Light grey text */
+    padding: 2rem 1rem 1rem 1rem;
+    margin-top: auto; /* Push to bottom */
+    border-top: 4px solid var(--primary-color); /* Thick fire line */
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px; /* Prevent sections from becoming too narrow */
+    margin-bottom: 1.5rem;
+}
+
+.footer-section h3 {
+    color: var(--secondary-color); /* Dark orange titles */
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.footer-section.about .logo-text {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px var(--primary-color);
+    color: var(--light-text); /* Make logo text lighter */
+}
+.footer-section.about p {
+    font-size: 0.9rem;
+    color: #ccc; /* Lighter paragraph text */
+}
+
+.footer-section.links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section.links li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-section.links a {
+    color: #a9a9a9;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.footer-section.links a:hover {
+    color: var(--accent-color); /* Gold hover */
+    padding-left: 5px; /* Slight indent on hover */
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icons a {
+    color: #a9a9a9;
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color); /* Fire orange hover */
+    transform: scale(1.2); /* Grow slightly */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.footer-bottom a {
+    color: #a9a9a9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: var(--accent-color);
+}
+
+
+/* --- Responsive Design --- */
+
+/* Tablet (<= 992px) */
+@media (max-width: 992px) {
+    .navbar-container {
+        max-width: 900px;
+    }
+    .main-menu {
+        gap: 0.5rem; /* Reduce gap */
+    }
+     .main-menu > li > a {
+        padding: 0 0.7rem;
+     }
+    .footer-content {
+        gap: 1rem;
+    }
+}
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+    body {
+        padding-top: 0; /* Remove top padding as navbar might not be fixed */
+    }
+    .navbar {
+        position: relative; /* Make navbar static */
+        height: auto; /* Allow height to adjust */
+        padding: 0 1rem; /* Adjust padding */
+    }
+    .navbar-container {
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: space-between; /* Space between logo and hamburger */
+        width: 100%;
+        padding: 0.8rem 0;
+    }
+     .logo-container {
+         /* Ensure logo stays on left */
+    }
+    .hamburger {
+        display: block; /* Show hamburger */
+    }
+    .nav-menu {
+        display: none; /* Hide main menu */
+        flex-direction: column;
+        width: 100%;
+        position: absolute; /* Position for dropdown effect */
+        top: 100%; /* Below the navbar container */
+        left: 0;
+        background: var(--dark-bg); /* Same dark background */
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        border-top: 2px solid var(--primary-color);
+        max-height: 0; /* Start closed */
+        overflow: hidden;
+        transition: max-height 0.5s ease-out; /* Smooth transition */
+    }
+    .nav-menu.active {
+        display: flex; /* Show when active */
+        max-height: 80vh; /* Limit height */
+    }
+
+    .main-menu {
+        flex-direction: column;
+        width: 100%;
+        height: auto; /* Auto height */
+        gap: 0;
+    }
+    .main-menu li {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        height: auto;
+    }
+     .main-menu li:last-child {
+         border-bottom: none;
+     }
+    .main-menu > li > a {
+        padding: 1rem 1.5rem; /* Vertical padding */
+        justify-content: space-between; /* Push arrow to right */
+        width: 100%;
+        height: auto;
+        border-bottom: none; /* Remove bottom border */
+    }
+     .main-menu > li:hover > a {
+        background-color: var(--primary-color); /* Full background hover */
+        color: var(--light-text);
+        border-bottom: none;
+     }
+
+    /* Mobile Dropdowns */
+    .dropdown {
+        position: static; /* Static position within the flow */
+        box-shadow: none;
+        border-top: none;
+        border-radius: 0;
+        width: 100%;
+        padding: 0;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none; /* Initially hidden */
+        background: #444; /* Slightly lighter background for sub-menu */
+    }
+    .has-dropdown:hover .dropdown {
+         /* Keep hidden until toggled */
+         display: none;
+    }
+    /* Add JS toggle for mobile dropdowns if needed, or use focus-within */
+    .has-dropdown > a:focus + .dropdown, /* Show on focus */
+    .has-dropdown:focus-within > .dropdown { /* Show if child focused */
+       display: block;
+    }
+     .dropdown li a {
+        padding: 0.8rem 2rem; /* Indent submenu items */
+     }
+     .dropdown li a:hover {
+        background: var(--secondary-color);
+        color: var(--dark-bg);
+     }
+
+    .map-container {
+        margin: 0.5rem; /* Reduce margin */
+        padding: 0.5rem;
+    }
+     #map {
+        height: calc(100vh - 150px); /* Adjust map height for mobile */
+     }
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-section {
+        min-width: 100%;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+/* Smaller Mobile (< 480px) */
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.5rem;
+    }
+    .main-menu > li > a {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    .site-footer {
+        padding: 1.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    .footer-section h3 {
+        font-size: 1.1rem;
+    }
+    .footer-bottom {
+        font-size: 0.8rem;
+    }
+}
