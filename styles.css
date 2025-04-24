@@ -60,7 +60,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1000; /* Default z-index */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -92,13 +92,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Logo Text Placeholder Style */
 .logo-container span {
-    font-size: 1.8rem; /* More prominent size */
-    font-weight: 700; /* Bold */
+    font-size: 1.8rem; /* Prominent size */
+    font-weight: 700;  /* Bold */
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
     text-shadow: 1px 1px 3px var(--primary-color); /* Fire glow */
     white-space: nowrap;
-    transition: color 0.3s ease; /* Add transition */
+    transition: color 0.3s ease;
 }
 /* Hover effect for logo text */
 .logo-link:hover .logo-container span {
@@ -111,7 +111,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     display: flex;
     align-items: stretch;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Hide overflow if needed */
     margin-left: auto;
 }
 
@@ -146,7 +146,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
-    cursor: pointer; /* Indicate clickable */
+    cursor: pointer;
 }
 .main-menu > li > a > i {
     margin-left: 0.4em;
@@ -166,7 +166,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Dropdown Styles */
 .dropdown {
-    display: none; /* Hide by default */
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -182,20 +182,26 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    z-index: 1100;
+    z-index: 1100; /* Above navbar */
 }
 
 /* Show on DESKTOP hover/focus */
-.has-dropdown:hover .dropdown,
-.has-dropdown:focus-within .dropdown {
-    /* Add check to prevent this on mobile if JS is handling it */
-     @media (min-width: 769px) {
+/* Check prevents :hover from showing dropdown on mobile if JS fails */
+@media (hover: hover) and (min-width: 769px) {
+    .has-dropdown:hover > .dropdown {
         display: block;
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
-     }
+    }
+     .has-dropdown > a:focus + .dropdown { /* Show on focus as well */
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 }
+
 
 .dropdown li a {
     padding: 0.8rem 1.2rem;
@@ -223,7 +229,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     background: none;
     border: none;
     padding: 10px;
-    z-index: 1002;
+    z-index: 10001; /* Ensure hamburger is above mobile menu */
     order: 3;
     margin-left: 1rem;
 }
@@ -258,7 +264,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ddd;
-    z-index: 1;
+    z-index: 1; /* Keep map below overlays */
     /* Height is controlled by inline style in React component */
 }
 
@@ -269,7 +275,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
   gap: 10px;
   padding: 10px 0;
   position: static;
-  z-index: auto;
+  z-index: auto; /* Keep below overlays */
   width: 100%;
   margin-bottom: 10px;
 }
@@ -293,12 +299,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 
-/* Leaflet Controls */
+/* Leaflet Controls (Can have high z-index) */
 .leaflet-control-container .leaflet-control {
   box-shadow: 0 1px 7px rgba(0,0,0,0.5);
   border-radius: 5px;
   background-clip: padding-box;
-  z-index: 800;
+  z-index: 800; /* Default Leaflet z-index */
 }
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
 .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
@@ -311,7 +317,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.7);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 1000; backdrop-filter: blur(3px); border-radius: 5px;
+    z-index: 9000; /* High z-index */
+    backdrop-filter: blur(3px); border-radius: 5px;
 }
 
 /* Flame Loader */
@@ -440,7 +447,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 @media (max-width: 768px) {
     body { padding-top: 0; }
     .navbar {
-        position: relative;
+        position: relative; /* Changed back to relative */
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
@@ -449,33 +456,35 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 0.5rem 0;
-        min-height: 60px;
+        min-height: 60px; /* Adjust as needed */
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container span { font-size: 1.5rem; } /* Adjust placeholder */
+    .logo-container span { font-size: 1.5rem; }
 
 
     .hamburger { display: block; }
     .nav-menu {
-        display: none;
+        display: none; /* Hide by default */
         flex-direction: column;
-        width: 100%;
+        width: 100%; /* Ensure full width */
         position: absolute;
-        top: 100%;
-        left: 0;
+        top: 100%; /* Position below the relative navbar */
+        left: 0; /* Align to left */
+        right: 0; /* Align to right */
         background: var(--dark-bg);
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
         max-height: 0;
-        overflow-y: auto;
+        overflow-y: auto; /* Allow scroll if content exceeds height */
+        overflow-x: hidden; /* Prevent horizontal scroll */
         transition: max-height 0.5s ease-out;
-        z-index: 1001;
+        z-index: 9999; /* <<< Increased Z-Index >>> */
         margin-left: 0;
         align-items: stretch;
     }
     .nav-menu.active {
-        display: flex;
-        max-height: calc(100vh - 60px);
+        display: flex; /* Use flex to enable column layout */
+        max-height: calc(100vh - 60px); /* Limit height */
     }
 
     .main-menu {
@@ -492,18 +501,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .dropdown {
         position: static; box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
-        display: none; /* Hide by default */
+        display: block; /* Keep block for layout */
         background: #444; transition: none;
         max-height: 0; /* Start closed */
         overflow: hidden;
-        transition: max-height 0.4s ease-out; /* Add transition */
+        transition: max-height 0.4s ease-out;
     }
     .main-menu > li.has-dropdown.open > a > i { /* Rotate arrow when open */
          transform: rotate(180deg);
     }
     .main-menu > li.has-dropdown.open > .dropdown {
-        display: block; /* Show on .open */
+        /* display: block; Already block */
         max-height: 500px; /* Allow height for content */
+        border-top: 1px solid var(--border-color); /* Add separator */
     }
 
     .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
@@ -524,7 +534,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-    .logo-container span { font-size: 1.3rem; } /* Adjust placeholder */
+    .logo-container span { font-size: 1.3rem; }
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
