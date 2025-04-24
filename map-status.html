@@ -263,17 +263,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
 
             // Hamburger Menu Toggle
             if (hamburger && navMenu) {
-                 console.log("Hamburger and NavMenu found. Adding listener.");
                  hamburger.addEventListener('click', () => {
-                    console.log("Hamburger clicked!");
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    // Close any open dropdowns when hamburger is toggled OFF
-                    if (!hamburger.classList.contains('active')) {
+                    // Close any open dropdowns when hamburger menu is closed
+                    if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                             openDropdown.classList.remove('open');
                         });
@@ -285,54 +282,49 @@
 
              // Dropdown Toggle Logic (Mobile Only)
              if (navMenu) {
-                 const dropdownLinks = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+                 const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
 
-                 dropdownLinks.forEach(link => {
-                     link.addEventListener('click', (e) => {
-                         // Check if we are in mobile view (hamburger is visible)
+                 dropdownToggles.forEach(toggleLink => {
+                     toggleLink.addEventListener('click', (e) => {
+                         // Check if hamburger is visible (i.e., mobile view)
                          if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                             e.preventDefault(); // Prevent link navigation on mobile tap
-                             const parentLi = link.closest('.has-dropdown');
+                             e.preventDefault(); // Prevent default link behavior ONLY on mobile toggle
+                             const parentLi = toggleLink.closest('.has-dropdown');
                              if (parentLi) {
                                  // Toggle the clicked dropdown
                                  parentLi.classList.toggle('open');
                                  // Close other open dropdowns
-                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                                     if (openDropdown !== parentLi) {
-                                         openDropdown.classList.remove('open');
+                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
+                                     if (otherLi !== parentLi) {
+                                         otherLi.classList.remove('open');
                                      }
                                  });
                              }
                          }
-                         // On desktop, allow default link behavior or rely on CSS :hover
+                         // On desktop, the click navigates (or does nothing if href="#")
                      });
                  });
 
-                 // Close mobile menu when a link *inside* a dropdown is clicked
-                 const subLinks = navMenu.querySelectorAll('.dropdown a');
-                 subLinks.forEach(subLink => {
-                    subLink.addEventListener('click', () => {
-                        if (hamburger && hamburger.classList.contains('active')) {
-                            hamburger.classList.remove('active');
-                            navMenu.classList.remove('active');
-                             // Also close the parent dropdown
-                             const parentLi = subLink.closest('.has-dropdown');
-                             if(parentLi && parentLi.classList.contains('open')) {
-                                 parentLi.classList.remove('open');
-                             }
-                        }
-                    });
-                 });
+                 // Close full mobile menu only when clicking a *final* navigation link
+                 // (i.e., links NOT inside .has-dropdown > a, or links inside .dropdown)
+                 const allNavLinks = navMenu.querySelectorAll('a');
+                 allNavLinks.forEach(link => {
+                    // Check if the link is NOT a dropdown toggle itself
+                    const isToggle = link.parentElement.classList.contains('has-dropdown') && link.matches('.has-dropdown > a');
 
-                 // Close mobile menu for non-dropdown links as well
-                 const nonDropdownLinks = navMenu.querySelectorAll('.main-menu > li:not(.has-dropdown) > a');
-                 nonDropdownLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                         if (hamburger && hamburger.classList.contains('active')) {
-                            hamburger.classList.remove('active');
-                            navMenu.classList.remove('active');
-                         }
-                    });
+                    if (!isToggle) {
+                         link.addEventListener('click', () => {
+                              // If mobile menu is active, close it
+                             if (hamburger && hamburger.classList.contains('active')) {
+                                hamburger.classList.remove('active');
+                                navMenu.classList.remove('active');
+                                // Also close any open dropdowns just in case
+                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                                    openDropdown.classList.remove('open');
+                                });
+                             }
+                         });
+                     }
                  });
              }
 
@@ -343,3 +335,6 @@
             }
         });
     </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
