@@ -28,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* overflow-x: hidden; Might not be needed now */
+  /* overflow-x: hidden; Prevent potential horizontal scroll */
 }
 
 main {
@@ -113,10 +113,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: stretch;
     height: 100%;
     margin-left: auto; /* Push right on desktop */
-    /* Reset potential slide-out styles */
-    position: static;
+    position: static; /* Default static position */
     width: auto;
-    max-width: none;
     background: none;
     z-index: auto;
     padding-top: 0;
@@ -197,7 +195,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Keep transitions */
-    z-index: 1100;
+    z-index: 1100; /* Above navbar */
     max-height: none; /* Remove height limit */
 }
 
@@ -310,11 +308,20 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* --- Responsive Design --- */
 
-/* Mobile (<= 768px) */
+/* Styles only ABOVE mobile breakpoint (Tablet View Adjustments) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .navbar { padding: 0 1rem; }
+    .main-menu { gap: 0.3rem; }
+    .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
+    .logo-container span { font-size: 1.6rem; }
+    .footer-content { gap: 1.5rem; }
+}
+
+/* Styles ONLY FOR mobile breakpoint and below */
 @media (max-width: 768px) {
-    body { padding-top: 0; } /* Remove padding as navbar is static */
+    body { padding-top: 0; } /* Remove padding as navbar is relative */
     .navbar {
-        position: relative; /* Make navbar static again for dropdown */
+        position: relative; /* Make navbar static for dropdown */
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
@@ -323,61 +330,63 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 0.5rem 0;
-        min-height: 60px; /* Adjust as needed */
+        min-height: 60px; /* Use min-height */
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
     .logo-container span { font-size: 1.5rem; }
 
     .hamburger { display: block; } /* Show hamburger */
 
-    /* Revert to Dropdown-from-top Mobile Menu */
+    /* Mobile Menu - Dropdown from Top */
     .nav-menu {
-        display: none; /* Hide by default */
-        flex-direction: column; /* Stack items */
+        display: none; /* Hidden by default */
+        flex-direction: column;
         width: 100%;
-        position: absolute; /* Position below navbar */
-        top: 100%; /* Position below the relative navbar */
+        position: absolute;
+        top: 100%; /* Position below relative navbar */
         left: 0;
         right: 0;
-        background: var(--dark-bg); /* Opaque background */
+        background: var(--dark-bg);
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
         max-height: 0; /* Start closed */
-        overflow-y: auto; /* Allow scroll */
+        overflow-y: auto;
         overflow-x: hidden;
-        transition: max-height 0.5s ease-out; /* Transition height */
+        /* Use transition on max-height */
+        transition: max-height 0.4s ease-out;
         z-index: 9999; /* High z-index */
-        transform: translateZ(0); /* Potential layering fix */
-        padding-top: 0; /* Remove padding */
-        height: auto; /* Auto height */
-        margin-left: 0;
+        /* transform: translateZ(0); Keep this potential fix */
         align-items: stretch;
+        margin-left: 0; /* Reset margin */
+        padding-top: 0; /* Reset padding */
+        height: auto; /* Let content determine height up to max-height */
     }
     .nav-menu.active {
         display: flex; /* Use flex when active */
-        max-height: calc(100vh - 60px); /* Limit height */
-        transform: none; /* Reset transform */
+        max-height: calc(100vh - 60px); /* Allow it to fill height */
+        /* No transform needed for this approach */
     }
 
+    /* Mobile Menu Item Structure */
     .main-menu {
-        flex-direction: column; /* Stack items */
+        flex-direction: column; /* Stack */
         width: 100%; height: auto; gap: 0; align-items: stretch;
-        padding: 0; /* Remove padding */
+        padding: 0; /* No padding on ul itself */
     }
     .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
     .main-menu li:last-child { border-bottom: none; }
     .main-menu > li > a { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; border-bottom: none; }
-    .main-menu > li:hover > a { background-color: transparent; border-bottom-color: transparent; } /* Remove desktop hover */
-    .main-menu > li > a:hover { background-color: var(--primary-color); color: var(--light-text); } /* Add mobile hover */
-    .main-menu > li > a > i { /* float: right; Use flex alignment */ transition: transform 0.3s ease; transform: none; }
+    .main-menu > li:hover > a { background-color: transparent; border-bottom-color: transparent; }
+    .main-menu > li > a:hover { background-color: var(--primary-color); color: var(--light-text); }
+    .main-menu > li > a > i { transition: transform 0.3s ease; transform: none; }
 
     /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        position: relative; /* Change back to relative */
+        position: relative; /* Keep relative */
         box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
         display: block;
-        background: #555;
+        background: #555; /* Submenu background */
         transition: none;
         max-height: 0; /* Start closed */
         overflow: hidden;
@@ -387,7 +396,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
-        max-height: 500px;
+        max-height: 500px; /* Allow height */
         padding: 0.5rem 0;
     }
 
