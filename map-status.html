@@ -35,21 +35,29 @@
                     <li><a href="#">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
-                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li> {/* Icon Added */}
                              <li><a href="#" class="sub-item">Hardening Your Home</a></li>
                              <li><a href="#" class="sub-item">Defensible Space</a></li>
                              <li><a href="#" class="sub-item">Defensible Space & Drought</a></li>
                              <li><a href="#" class="sub-item">Fire-Smart Landscaping</a></li>
-                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li> {/* Icon Added */}
                              <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
                              <li><a href="#" class="sub-item">Prepare Your Family</a></li>
                              <li><a href="#" class="sub-item">Create Your Go Bag</a></li>
                              <li><a href="#" class="sub-item">Insurance Preparedness</a></li>
-                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li> {/* Icon Added */}
                              <li><a href="#" class="sub-item">Go! Evacuation Guide</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Prevent</a></li>
+                    <li class="has-dropdown">  <a href="#">Prevent <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#" class="sub-item">Equipment & Vehicle Use</a></li>
+                            <li><a href="#" class="sub-item">Campfire Safety</a></li>
+                            <li><a href="#" class="sub-item">Fireworks Safety</a></li>
+                            <li><a href="#" class="sub-item">Target Shooting Safety</a></li>
+                            <li><a href="#" class="sub-item">Landowner Assistance</a></li>
+                        </ul>
+                    </li>
                     <li class="has-dropdown">
                         <a href="#">Map Tools <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -280,15 +288,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const bodyEl = document.body; // Get body element
 
             // Hamburger Menu Toggle
             if (hamburger && navMenu) {
                  hamburger.addEventListener('click', () => {
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    bodyEl.classList.toggle('menu-open'); // <<<< Toggle body class
-
                     // Close any open dropdowns when hamburger menu is closed
                     if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
@@ -334,8 +339,6 @@
                              if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                bodyEl.classList.remove('menu-open'); // <<<< Remove body class
-                                // Also close any open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
