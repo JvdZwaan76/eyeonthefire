@@ -1,333 +1,99 @@
 /* --- EYE ON THE FIRE - FINAL STYLES --- */
 
-/* ... (Existing CSS - Keep all other styles) ... */
+/* ... (Keep all existing styles) ... */
 
-/* Desktop Dropdown Styles */
+/* Desktop Dropdown Styles (Slight tweak for consistency) */
 .dropdown {
     /* ... (Existing styles) ... */
-    z-index: 1100; /* Above navbar */
-    /* Add subtle animation */
-    animation: subtle-fire-bg 5s infinite alternate;
+    z-index: 1100; /* Ensure high z-index on desktop too */
 }
 
-@keyframes subtle-fire-bg {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 0 20px;
-    }
-    /* Small shift */
-}
+/* ... (Keyframes - Keep as is) ... */
 
-/* Show on DESKTOP hover/focus */
-@media (hover: hover) and (min-width: 769px) {
-    .has-dropdown:hover > .dropdown {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .has-dropdown > a:focus + .dropdown {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-}
+/* ... (Desktop hover/focus - Keep as is) ... */
 
 .dropdown li a {
-    /* ... (Existing styles) ... */
+    padding: 0.8rem 1.2rem; /* Adjusted base padding */
+    color: var(--light-text);
+    text-decoration: none;
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+    background: none;
 }
 
-/* Styling for Sub-items and Headers in Dropdown */
-.dropdown li strong,
-.dropdown li strong.sub-header {
-    /* ... (Existing styles) ... */
-}
-
-.dropdown li strong.sub-header {
-    /* ... (Existing styles) ... */
-}
-
-.dropdown li:first-child > strong {
-    /* ... (Existing styles) ... */
-}
-
-/* Style for fire icon in headers */
-.dropdown li strong i.fa-fire {
-    /* ... (Existing styles) ... */
-}
+/* ... (Sub-header styles - Keep as is) ... */
 
 .dropdown li a.sub-item {
-    padding-left: 3.5rem;
-    /* Increased indentation */
+    padding-left: 3.5rem; /* Increased and IMPORTANT: Keep this! */
     font-size: 0.9rem;
     color: #eee;
-    /* Slightly lighter */
 }
 
-.dropdown li a:hover,
-.dropdown li a:focus {
-    /* ... (Existing styles) ... */
-}
+/* ... (Hover/focus styles - Keep as is, but ensure specificity is not an issue) ... */
 
-.dropdown li a.sub-item:hover,
-.dropdown li a.sub-item:focus {
-    /* ... (Existing styles) ... */
-}
-
-/* --- Hamburger Menu Button --- */
-.hamburger {
-    /* ... (Existing styles) ... */
-    z-index: 10001;
-    /* Ensure hamburger is above active mobile menu AND navbar */
-}
-
-/* ... (Existing hamburger styles) ... */
-
-/* --- Map Container & Loading --- */
-.map-container {
-    /* ... (Existing styles) ... */
-}
-
-/* ... (Existing map container styles) ... */
-
-#map {
-    /* ... (Existing styles) ... */
-}
-
-.controls {
-    /* ... (Existing styles) ... */
-}
-
-.controls button {
-    /* ... (Existing styles) ... */
-}
-
-.controls button:hover {
-    /* ... (Existing styles) ... */
-}
-
-.leaflet-control-container .leaflet-control {
-    /* ... (Existing styles) ... */
-}
-
-.leaflet-bar a,
-.leaflet-bar a:hover {
-    /* ... (Existing styles) ... */
-}
-
-.leaflet-bar a:first-child {
-    /* ... (Existing styles) ... */
-}
-
-.leaflet-bar a:last-child {
-    /* ... (Existing styles) ... */
-}
-
-.leaflet-control-locate a {
-    /* ... (Existing styles) ... */
-}
-
-/* Loading Overlay with Fire Theme */
-.loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    /* Slightly darker */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998;
-    /* <<< Below mobile menu but above map container */
-    backdrop-filter: blur(4px);
-    /* Slightly stronger blur */
-    border-radius: 5px;
-    /* Add transition for smoother fade */
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s linear 0s;
-}
-
-/* Add a class to hide it */
-.loading-overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-}
-
-/* ... (Existing flame-loader and other styles) ... */
-
-/* --- Responsive Design --- */
-
-/* Mobile (<= 768px) */
+/* --- Mobile Styles --- */
 @media (max-width: 768px) {
-    body {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Existing mobile base styles - Keep) ... */
 
-    .navbar {
-        /* ... (Existing styles) ... */
-        z-index: 10000;
-        /* High z-index */
-    }
-
-    .navbar-container {
-        /* ... (Existing styles) ... */
-    }
-
-    .logo-link {
-        /* ... (Existing styles) ... */
-    }
-
-    .logo-container span {
-        /* ... (Existing styles) ... */
-    }
-
-    .hamburger {
-        /* ... (Existing styles) ... */
-    }
-
-    /* Mobile Menu - Dropdown from Top */
     .nav-menu {
-        display: none;
-        /* Hidden by default */
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 100%;
-        /* Position below relative navbar */
-        left: 0;
-        right: 0;
-        background: var(--dark-bg);
-        /* Opaque background */
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-        border-top: 2px solid var(--primary-color);
-        max-height: 0;
-        /* Start closed */
-        overflow-y: auto;
-        /* Allow scroll */
-        overflow-x: hidden;
-        transition: max-height 0.4s ease-out;
-        /* Use max-height transition */
-        z-index: 9999;
-        /* High z-index (below navbar) */
-        padding-top: 0;
-        height: auto;
-        margin-left: 0;
-        align-items: stretch;
+        /* ... (Existing mobile menu styles) ... */
+        z-index: 10002; /* CRITICAL: HIGHER than loading-overlay and hamburger */
     }
 
     .nav-menu.active {
-        display: flex;
-        max-height: calc(100vh - 70px);
-        /* Fill available height */
+        /* ... (Existing active menu styles) ... */
     }
 
-    /* Mobile Menu Item Structure */
-    .main-menu {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Mobile menu item structure - Keep) ... */
 
-    .main-menu li {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu li:last-child {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu > li > a {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu > li:hover > a {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu > li > a:hover {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu > li > a > i {
-        /* ... (Existing styles) ... */
-    }
-
-    /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        /* ... (Existing styles) ... */
+        /* ... (Existing mobile dropdown styles) ... */
     }
 
-    .main-menu > li.has-dropdown.open > a > i {
-        /* ... (Existing styles) ... */
-    }
-
-    .main-menu > li.has-dropdown.open > .dropdown {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Mobile dropdown toggle - Keep) ... */
 
     .dropdown li a {
-        /* ... (Existing styles) ... */
+        /* General mobile link style - Important to be less specific */
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        background: #555;
     }
 
-    /* Adjust padding for non-sub-item links */
+    /* Adjust padding for non-sub-item links (Mobile) */
     .dropdown li > a:not(.sub-item) {
-        /* ... (Existing styles) ... */
+        padding-left: 1.5rem; /* Ensure consistent left padding */
     }
 
-    .dropdown li a:hover {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Mobile hover - Keep) ... */
 
-    /* Styling for Sub-items and Headers */
+    /* Styling for Sub-items and Headers (Mobile) */
     .dropdown li strong.sub-header {
-        /* ... (Existing styles) ... */
+        /* ... (Existing sub-header styles) ... */
     }
 
-    .dropdown li:first-child > strong.sub-header {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (First header - Keep) ... */
 
-    /* Style for fire icon in headers */
-    .dropdown li strong i.fa-fire {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Fire icon - Keep) ... */
 
     .dropdown li a.sub-item {
-        padding-left: 3.5rem;
-        /* INCREASED Indentation */
+        padding-left: 3.0rem; /* Adjusted indentation (3.0rem) */
         font-size: 0.9rem;
     }
 
-    .dropdown li a.sub-item:hover {
-        /* ... (Existing styles) ... */
-    }
+    /* ... (Sub-item hover - Keep) ... */
 
-    /* Map and Controls Layout */
+    /* Map and Controls Layout (Mobile) */
     .map-container {
-        /* ... (Existing styles) ... */
+        /* ... (Existing map container styles) ... */
+        z-index: 1; /* Ensure map is behind other elements */
     }
 
-    #map {
-        /* ... (Existing styles) ...
-    }
+    /* ... (Other mobile map/control styles - Keep) ... */
 
-    .controls {
-        /* ... (Existing styles) ...
-    }
-
-    .error-message {
-        /* ... (Existing styles) ...
-    }
+    /* ... (Mobile footer - Keep) ... */
 }
 
-/* Smaller Mobile (< 480px) */
-@media (max-width: 480px) {
-    /* ... (Existing styles) ... */
-}
+/* ... (Smaller mobile - Keep) ... */
