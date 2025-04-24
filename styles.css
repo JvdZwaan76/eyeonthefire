@@ -382,11 +382,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
-        /* border-top: 1px solid var(--border-color); Removed, border is on li */
+        /* border-top: 1px solid var(--border-color); Removed, added below */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
-        max-height: 500px; /* Allow height */
+        max-height: 500px;
         padding: 0.5rem 0;
         border-top: 1px solid var(--border-color); /* Add separator only when open */
 
