@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Final Version</title> {/* Updated Title */}
-    <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
+    <title>Eye on the Fire - Final Version</title> <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
     <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
@@ -120,7 +119,6 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    // Use different error message than the one causing confusion
                     console.error(`Data fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying fetch in ${delay}ms...`);
@@ -164,12 +162,11 @@
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
-                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Endpoint from your file
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
                         console.log('Fire data received:', data);
-                        // Parsing based on your file's structure
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
@@ -179,7 +176,7 @@
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
-                        setErrorMessage(`Failed to load fire data. Please check API or network.`); // More generic error
+                        setErrorMessage(`Failed to load fire data. Please check API or network.`);
                     })
                     .finally(() => {
                         setIsLoading(false);
@@ -192,7 +189,7 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png', // Icon from your file
+                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -303,23 +300,19 @@
                                  });
                              }
                          }
-                         // On desktop, the click navigates (or does nothing if href="#")
                      });
                  });
 
                  // Close full mobile menu only when clicking a *final* navigation link
                  const allNavLinks = navMenu.querySelectorAll('a');
                  allNavLinks.forEach(link => {
-                    // Check if the link is NOT a dropdown toggle itself
                     const isToggle = link.matches('.has-dropdown > a');
 
                     if (!isToggle) {
                          link.addEventListener('click', () => {
-                              // If mobile menu is active, close it
                              if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                // Also close any open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
