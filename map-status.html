@@ -120,7 +120,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
+                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -261,36 +261,79 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Hamburger Menu Toggle
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
+            const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Check screen size
 
-            // >>>>> Check if elements exist before adding listener <<<<<
+            // Hamburger Menu Toggle
             if (hamburger && navMenu) {
-                 console.log("Hamburger and NavMenu found. Adding listener."); // Optional: for debugging
                  hamburger.addEventListener('click', () => {
-                    console.log("Hamburger clicked!"); // Optional: for debugging
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
+                    // Close any open dropdowns when hamburger is toggled
+                    if (!hamburger.classList.contains('active')) {
+                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                            openDropdown.classList.remove('open');
+                        });
+                    }
                  });
             } else {
-                console.error("Hamburger button or NavMenu element not found!"); // Error if elements missing
+                console.error("Hamburger button or NavMenu element not found!");
             }
 
-            // Close menu when a link is clicked (Check elements exist)
+             // Dropdown Toggle Logic (Mobile Only)
              if (navMenu) {
-                document.querySelectorAll('.nav-menu a').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        // Only close if hamburger is active (mobile view)
+                 const dropdownLinks = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+
+                 dropdownLinks.forEach(link => {
+                     link.addEventListener('click', (e) => {
+                         // Check if we are in mobile view (hamburger is visible)
+                         if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                             e.preventDefault(); // Prevent link navigation on mobile tap
+                             const parentLi = link.closest('.has-dropdown');
+                             if (parentLi) {
+                                 parentLi.classList.toggle('open');
+                                 // Optional: Close other open dropdowns
+                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                                     if (openDropdown !== parentLi) {
+                                         openDropdown.classList.remove('open');
+                                     }
+                                 });
+                             }
+                         }
+                         // On desktop, allow default link behavior or rely on CSS :hover
+                     });
+                 });
+
+                 // Close mobile menu when a link *inside* a dropdown is clicked
+                 const subLinks = navMenu.querySelectorAll('.dropdown a');
+                 subLinks.forEach(subLink => {
+                    subLink.addEventListener('click', () => {
                         if (hamburger && hamburger.classList.contains('active')) {
-                            console.log("Nav link clicked, closing menu."); // Optional: for debugging
                             hamburger.classList.remove('active');
                             navMenu.classList.remove('active');
+                             // Also close the parent dropdown if desired
+                             const parentLi = subLink.closest('.has-dropdown');
+                             if(parentLi && parentLi.classList.contains('open')) {
+                                 parentLi.classList.remove('open');
+                             }
                         }
                     });
-                });
-            }
+                 });
 
+                 // Close mobile menu for non-dropdown links as well
+                 const nonDropdownLinks = navMenu.querySelectorAll('.main-menu > li:not(.has-dropdown) > a');
+                 nonDropdownLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                         if (hamburger && hamburger.classList.contains('active')) {
+                            hamburger.classList.remove('active');
+                            navMenu.classList.remove('active');
+                         }
+                    });
+                 });
+
+
+             }
 
             // Footer year
             const yearSpan = document.getElementById('year');
