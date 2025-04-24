@@ -90,9 +90,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .logo-image {
-    height: 50px; /* Adjust height as needed */
-    width: auto;
-    transition: transform 0.3s ease;
+    height: 50px; /* Base height for desktop */
+    width: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Prevent overflow on smaller screens */
+    object-fit: contain; /* Ensure proper scaling */
+    transition: height 0.3s ease; /* Smooth resizing */
 }
 
 .logo-container span {
@@ -262,6 +264,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     margin: 1rem auto;
     padding: 1rem;
     overflow: hidden;
+    z-index: 1; /* Ensure map stays below navigation */
 }
 
 #map {
@@ -477,7 +480,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow-y: auto; /* Allow scroll if content exceeds height */
         overflow-x: hidden; /* Prevent horizontal scroll */
         transition: max-height 0.5s ease-out;
-        z-index: 9999; /* High z-index */
+        z-index: 9999; /* High z-index to stay above map */
         transform: translateZ(0); /* Force rendering layer */
         margin-left: 0;
         align-items: stretch;
