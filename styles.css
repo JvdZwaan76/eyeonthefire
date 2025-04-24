@@ -146,7 +146,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
-    cursor: pointer;
+    cursor: pointer; /* Indicate clickable */
 }
 .main-menu > li > a > i {
     margin-left: 0.4em;
@@ -166,7 +166,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Dropdown Styles */
 .dropdown {
-    display: none;
+    display: none; /* Hide by default */
     position: absolute;
     top: 100%;
     left: 0;
@@ -465,7 +465,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .hamburger { display: block; }
     .nav-menu {
         display: none; /* Hide by default */
-        flex-direction: column;
+        flex-direction: column; /* Stack items */
         width: 100%; /* Ensure full width */
         position: absolute;
         top: 100%; /* Position below the relative navbar */
