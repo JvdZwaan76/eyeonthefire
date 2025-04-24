@@ -109,7 +109,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch
+        // Retry fetch with better error handling
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -119,6 +119,7 @@
                         const errorText = await response.text();
                         throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
+                    // Using original API endpoint from uploaded file
                     return await response.json();
                 } catch (error) {
                     console.error(`Fetch attempt ${i + 1} failed:`, error.message);
@@ -131,7 +132,7 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]);
+            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -144,7 +145,7 @@
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true
+                        zoomControl: true // Keep Leaflet zoom
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
@@ -164,7 +165,7 @@
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
-                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Using endpoint from original file
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
@@ -174,7 +175,7 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        setFires(fireList.slice(0, 100));
+                        setFires(fireList.slice(0, 100)); // Limit to 100 fires
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
@@ -191,7 +192,7 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
+                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png', // Check path
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -233,13 +234,11 @@
                 <div className="map-container">
                     {isLoading && (
                         <div className="loading-overlay">
-                            <div className="flame-container"> {/* Using flame-loader instead */}
-                                <div className="flame-loader"></div>
-                            </div>
-                            <p>Loading wild fires...</p> {/* Adjusted text */}
+                            <div className="flame-loader"></div> {/* Using CSS loader */}
+                            <p>Loading wild fires...</p>
                         </div>
                     )}
-                    {/* Controls moved above map */}
+                    {/* Buttons above map */}
                     <div className="controls">
                         <button onClick={handleReset}>Reset</button>
                         <button onClick={handleLocateMe}>Locate Me</button>
@@ -250,7 +249,7 @@
                             <button onClick={dismissError} aria-label="Dismiss error">×</button>
                         </div>
                     )}
-                    {/* >>>>> Adjusted Map Height <<<<< */}
+                    {/* Adjusted Map Height */}
                     <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                 </div>
             );
