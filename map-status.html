@@ -27,7 +27,7 @@
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                  <div class="logo-container">
-                    <span>Eye on the Fire</span> {/* Placeholder text */}
+                    <span>Eye on the Fire</span>
                  </div>
             </a>
             <nav class="nav-menu">
@@ -120,7 +120,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
+                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -229,29 +229,31 @@
             const dismissError = () => setErrorMessage('');
 
             // Render component UI
-            // Make sure controls are INSIDE the return and map-container
             return (
-                <div className="map-container">
-                     {isLoading && (
-                         <div className="loading-overlay">
-                             <div className="flame-loader"></div>
-                             <p>Loading wild fires...</p>
-                         </div>
-                     )}
-                     {/* Controls rendered by React */}
-                     <div className="controls">
-                         <button onClick={handleReset}>Reset</button>
-                         <button onClick={handleLocateMe}>Locate Me</button>
-                     </div>
-                     {errorMessage && (
-                         <div className="error-message">
-                             <span>{errorMessage}</span>
-                             <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                         </div>
-                     )}
-                     {/* Map div */}
-                     <div id="map" style={{ height: '70vh', width: '100%' }}></div>
-                 </div>
+                <>
+                    {/* Map container div */}
+                    <div className="map-container">
+                        {isLoading && (
+                            <div className="loading-overlay">
+                                <div className="flame-loader"></div>
+                                <p>Loading wild fires...</p>
+                            </div>
+                        )}
+                        {/* Controls div rendered INSIDE React component */}
+                        <div className="controls">
+                            <button onClick={handleReset}>Reset</button>
+                            <button onClick={handleLocateMe}>Locate Me</button>
+                        </div>
+                        {errorMessage && (
+                            <div className="error-message">
+                                <span>{errorMessage}</span>
+                                <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                            </div>
+                        )}
+                        {/* Map div */}
+                        <div id="map" style={{ height: '70vh', width: '100%' }}></div>
+                    </div>
+                </>
             );
         };
 
@@ -263,22 +265,32 @@
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
 
+            // >>>>> Check if elements exist before adding listener <<<<<
             if (hamburger && navMenu) {
+                 console.log("Hamburger and NavMenu found. Adding listener."); // Optional: for debugging
                  hamburger.addEventListener('click', () => {
+                    console.log("Hamburger clicked!"); // Optional: for debugging
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
                  });
+            } else {
+                console.error("Hamburger button or NavMenu element not found!"); // Error if elements missing
             }
 
-            // Close menu when a link is clicked
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    if (hamburger && navMenu && hamburger.classList.contains('active')) {
-                        hamburger.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    }
+            // Close menu when a link is clicked (Check elements exist)
+             if (navMenu) {
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        // Only close if hamburger is active (mobile view)
+                        if (hamburger && hamburger.classList.contains('active')) {
+                            console.log("Nav link clicked, closing menu."); // Optional: for debugging
+                            hamburger.classList.remove('active');
+                            navMenu.classList.remove('active');
+                        }
+                    });
                 });
-            });
+            }
+
 
             // Footer year
             const yearSpan = document.getElementById('year');
