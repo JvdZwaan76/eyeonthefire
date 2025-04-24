@@ -92,25 +92,20 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     /* height: 100%; REMOVED */
 }
 
-/* Style for the Logo Image - Forceful & Simplified */
+/* Style for the Logo Image - Forceful & Simplified Test */
 .logo-container img {
     height: 35px !important; /* Force height */
-    max-width: 100px !important; /* Force max-width */
-    width: auto !important; /* Allow browser to calc width based on forced height */
-    display: block !important; /* Ensure block display */
-    object-fit: contain !important; /* Ensure scaling */
+    width: auto !important;  /* Force auto width */
+    display: block !important;
+    object-fit: contain !important;
+    max-width: 100px !important; /* Force max width */
     flex-shrink: 0 !important;
 }
 
-/* Logo Text - Hide for testing logo image sizing */
+/* Logo Text - REMOVED for testing logo image sizing */
 /*
-.logo-text {
-    display: none;
-}
-*/
-/* Restore logo text styles if needed later */
  .logo-text {
-    font-size: 1.1rem; /* Smaller text */
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
@@ -122,6 +117,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
 }
+*/
 
 
 /* --- Horizontal Dropdown Menu (Desktop) --- */
@@ -385,11 +381,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     flex-shrink: 0;
 }
 /* Footer Logo Text */
-.footer-section.about .logo-text-footer { /* Use different class or more specific selector if needed */
+.footer-section.about .logo-text-footer {
     font-size: 1.5rem; display: block; margin-bottom: 0.5rem;
     text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text);
     font-weight: 700;
-    font-family: 'Montserrat', sans-serif; /* Ensure font */
+    font-family: 'Montserrat', sans-serif;
     color: var(--light-text) !important; /* Override general H3 if necessary */
     border-bottom: none; /* Remove general h3 border */
     margin-bottom: 0.75rem;
@@ -445,8 +441,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-text { font-size: 1.3rem; } /* Adjusted */
-    .logo-container img { max-height: 30px !important; height: 30px !important; max-width: 100px !important; } /* Adjust logo size */
+    /* .logo-text { font-size: 1.3rem; } */ /* Text removed */
+    .logo-container img { max-height: 30px !important; height: 30px !important; max-width: 100px !important; }
     .footer-content { gap: 1.5rem; }
 }
 
@@ -466,8 +462,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 28px !important; height: 28px !important; max-width: 90px !important; } /* Adjust mobile logo */
-    .logo-text { font-size: 1.1rem; margin-left: 0.3rem;}
+    .logo-container img { max-height: 28px !important; height: 28px !important; max-width: 90px !important; }
+    /* .logo-text { font-size: 1.1rem; margin-left: 0.3rem;} */ /* Text removed */
 
 
     .hamburger { display: block; }
@@ -524,7 +520,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-    .logo-text { font-size: 1.0rem; }
+    /* .logo-text { font-size: 1.0rem; } */ /* Text removed */
     .logo-container img { max-height: 25px !important; height: 25px !important; max-width: 70px !important; } /* Smaller logo */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
