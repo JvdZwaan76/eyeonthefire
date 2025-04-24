@@ -240,6 +240,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 .dropdown li strong.sub-header {
     margin-top: 0.5em; /* Add space above sub-headers */
+    padding-left: 1.2rem; /* <<<< Ensure consistent padding */
 }
 .dropdown li:first-child > strong { /* Remove top margin for first header */
      margin-top: 0;
@@ -252,7 +253,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .dropdown li a.sub-item {
-    padding-left: 2.5rem; /* Indent sub-items MORE */
+    padding-left: 2.5rem; /* <<<< Indent sub-items MORE */
     font-size: 0.9rem;
     color: var(--light-text);
 }
@@ -425,6 +426,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
+        /* border-top: 1px solid var(--border-color); Added when open */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
@@ -445,7 +447,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .dropdown li strong.sub-header { /* Target specific class */
         display: flex; /* Use flex for icon */
         align-items: center;
-        padding: 0.7rem 1.5rem 0.2rem;
+        padding: 0.7rem 1.5rem 0.2rem; /* Consistent padding */
         color: var(--accent-color);
         font-weight: 700;
         font-size: 0.9rem;
@@ -459,7 +461,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
      }
      /* Style for fire icon in headers */
     .dropdown li strong i.fa-fire {
-        color: var(--primary-color);
+        color: var(--primary-color); /* Fire color */
         margin-right: 0.5em;
         font-size: 0.9em;
     }
@@ -488,7 +490,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
-    .navbar { padding: 0 0.5rem; }
+    /* Keep navbar relative */
     .logo-container span { font-size: 1.3rem; }
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
