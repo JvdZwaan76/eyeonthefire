@@ -1,439 +1,144 @@
-/* --- Global Styles & Variables --- */
-:root {
-    --primary-color: #ff4500; /* OrangeRed - Core fire color */
-    --secondary-color: #ff8c00; /* DarkOrange */
-    --accent-color: #ffd700; /* Gold - Flame tips */
-    --dark-bg: #2c2c2c; /* Dark grey for contrast */
-    --light-text: #f5f5f5; /* Off-white text */
-    --dark-text: #333;
-    --border-color: #444;
-    --navbar-height: 70px; /* Increased height for better spacing */
-    --footer-height: 200px; /* Approximate footer height */
-}
+/* --- MINIMAL TEST CSS --- */
 
-/* Reset and Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Basic Body Reset (for testing) */
 body {
+  margin: 0;
+  padding-top: 70px; /* Simulate navbar height */
   font-family: 'Open Sans', sans-serif;
-  line-height: 1.6;
-  color: var(--dark-text);
-  background-color: #f0f0f0; /* Lighter grey background */
-  padding-top: var(--navbar-height); /* Space for fixed navbar */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
-main {
-    flex-grow: 1; /* Ensure main content pushes footer down */
-}
-
-/* Typography */
-h1, h2, h3 {
-  font-family: 'Montserrat', sans-serif;
-  color: #b71c1c;
-  margin-bottom: 0.75em;
-}
-
-h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
-h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
-a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
-a:hover { color: #b71c1c; text-decoration: underline; }
-
-
-/* --- Fire-themed Navbar --- */
+/* --- Navbar Layout TEST --- */
 .navbar {
     display: flex;
-    justify-content: center; /* Center the container */
-    align-items: stretch; /* Stretch items to fill height */
-    padding: 0 1rem; /* Consistent padding */
-    background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
-    color: var(--light-text);
-    position: fixed;
-    width: 100%;
+    justify-content: center;
+    align-items: stretch;
+    height: 70px;
+    background-color: #2c2c2c; /* Dark background for visibility */
+    color: white;
+    position: fixed; /* Keep basic positioning */
     top: 0;
-    left: 0;
-    z-index: 1000;
-    height: var(--navbar-height);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-    border-bottom: 2px solid var(--primary-color);
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box; /* Include padding in width/height */
 }
 
 .navbar-container {
     display: flex;
-    justify-content: space-between; /* Space logo, nav, hamburger */
-    align-items: center; /* Vertically center items */
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     max-width: 1300px;
-    height: 100%; /* Ensure container uses full navbar height */
 }
 
 .logo-link {
+    color: white;
     text-decoration: none;
-    display: flex;
-    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
     flex-shrink: 0; /* Prevent shrinking */
-    padding: 0 0.5rem; /* Add padding around logo */
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo-text {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--light-text);
-    font-family: 'Montserrat', sans-serif;
-    text-shadow: 1px 1px 3px var(--primary-color);
-    transition: color 0.3s ease;
-    white-space: nowrap;
-}
-.logo-link:hover .logo-text {
-    color: var(--secondary-color);
-}
-
-/* --- Horizontal Dropdown Menu (Desktop) --- */
-/* Ensure .nav-menu is visible and uses flex on desktop */
+/* --- Key Styles for Horizontal Navigation --- */
 .nav-menu {
-    display: flex; /* Use flexbox */
-    align-items: stretch; /* Stretch to fill height */
-    height: 100%; /* Take full navbar height */
-    overflow: hidden; /* Hide potential overflow on desktop */
+    display: flex; /* Make nav menu container visible */
+    align-items: stretch; /* Stretch items vertically */
+    overflow: hidden; /* Hide overflow */
 }
 
-/* Styles for the main menu list itself */
 .main-menu {
-    display: flex; /* KEY: Use flexbox for horizontal layout */
-    flex-direction: row; /* KEY: Explicitly set row direction */
-    flex-wrap: nowrap; /* KEY: Prevent wrapping on desktop */
+    display: flex;        /* <<<<< ** SHOULD MAKE ITEMS HORIZONTAL ** */
+    flex-direction: row;  /* <<<<< ** Explicitly Row Direction ** */
+    flex-wrap: nowrap;    /* <<<<< ** Prevent Wrapping ** */
     list-style: none;
-    gap: 0.5rem; /* Adjust spacing as needed */
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure full height */
-    align-items: stretch; /* Stretch li elements */
+    align-items: stretch; /* Stretch list items */
 }
 
-/* Styles for each list item */
 .main-menu li {
-    position: relative;
-    display: flex; /* Use flex for alignment within li */
-    align-items: stretch; /* Stretch link to fill height */
+    display: flex; /* Needed for align-items */
+    align-items: stretch; /* Stretch link within li */
 }
 
-/* Styles for the links within list items */
 .main-menu > li > a {
-    color: var(--light-text);
-    text-decoration: none;
-    padding: 0 1rem; /* Padding left/right */
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    display: flex; /* Use flex to center text vertically */
+    display: flex;
     align-items: center; /* Center text vertically */
-    position: relative;
-    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-    border-bottom: 3px solid transparent; /* For hover effect */
-    white-space: nowrap; /* Prevent wrapping */
-}
-.main-menu > li > a > i { /* Dropdown arrow */
-    margin-left: 0.4em;
-    font-size: 0.8em;
-    transition: transform 0.3s ease;
-}
-
-.main-menu > li:hover > a {
-    color: var(--accent-color);
-    background-color: rgba(255, 69, 0, 0.1);
-    border-bottom-color: var(--primary-color);
-}
-.main-menu > li:hover > a > i {
-    transform: rotate(180deg);
-}
-
-
-/* Dropdown Styles */
-.dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--dark-bg);
-    list-style: none;
-    padding: 0.5rem 0;
-    margin: 0;
-    min-width: 180px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    border-top: 2px solid var(--primary-color);
-    border-radius: 0 0 5px 5px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    z-index: 1100;
-}
-
-.has-dropdown:hover .dropdown,
-.has-dropdown:focus-within .dropdown {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown li a {
-    padding: 0.8rem 1.2rem;
-    color: var(--light-text);
+    padding: 0 1rem;
+    color: white;
     text-decoration: none;
-    display: block;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.95rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px dashed orange; /* VISIBLE BORDER FOR TESTING */
     white-space: nowrap;
 }
-
-.dropdown li a:hover,
-.dropdown li a:focus {
-    background: var(--primary-color);
-    color: var(--dark-bg);
-    outline: none;
+.main-menu > li > a:hover {
+    background-color: orange;
 }
+/* --- End Navbar Test --- */
 
 
-/* --- Hamburger Menu (Mobile) --- */
-.hamburger {
-    display: none; /* Hidden on desktop */
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 10px;
-    z-index: 1002;
-    order: 3; /* Keep hamburger on the right */
-    margin-left: auto; /* Push hamburger to the far right */
-}
-
-.hamburger .line {
-    display: block;
-    width: 28px;
-    height: 3px;
-    background: var(--light-text);
-    margin: 6px 0;
-    transition: all 0.4s ease-in-out;
-    border-radius: 2px;
-}
-
-.hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
-.hamburger.active .line2 { opacity: 0; }
-.hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
-
-/* --- Map Container & Loading --- */
-.map-container {
-    position: relative;
-    background-color: #fff;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    max-width: 1600px;
-    margin: 1rem auto;
-    padding: 1rem;
-}
-
-#map {
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    z-index: 1;
-    /* Height is controlled by inline style in React component */
-}
-
-.leaflet-control-container .leaflet-control {
-  box-shadow: 0 1px 7px rgba(0,0,0,0.5);
-  border-radius: 5px;
-  background-clip: padding-box;
-  z-index: 800;
-}
-.leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
-.leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
-.leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
-.leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
-
-.loading-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 1000; backdrop-filter: blur(3px); border-radius: 5px;
-}
-.flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
-.flame-loader::before, .flame-loader::after {
-    content: ''; position: absolute; bottom: 0; width: 20px; height: 50px;
-    background: var(--secondary-color); border-radius: 50% 50% 20% 20%;
-    animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center;
-}
-.flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
-.flame-loader::after { right: 5px; animation-delay: 0.5s; }
-@keyframes flicker { 0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; } 50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; } }
-.loading-overlay p { color: var(--light-text); margin-top: 10px; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; text-shadow: 1px 1px 2px var(--dark-bg); }
-
-.error-message {
-    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-    background: var(--primary-color); color: var(--light-text); padding: 10px 15px;
-    border-radius: 5px; z-index: 900; display: flex; align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3); max-width: 90%; text-align: center;
-}
-.error-message button { margin-left: 15px; background: none; border: none; color: var(--light-text); font-size: 18px; font-weight: bold; cursor: pointer; line-height: 1; }
-
-
-/* --- Fire-themed Footer --- */
+/* --- Footer List TEST --- */
 .site-footer {
-    background: linear-gradient(to right, #3a200a, #1a1005);
-    color: #a9a9a9; padding: 2.5rem 1rem 1rem 1rem;
-    margin-top: auto; border-top: 4px solid var(--primary-color);
-    flex-shrink: 0;
+    background-color: #333; /* Dark background for visibility */
+    padding: 2rem 1rem;
+    color: #ccc;
+    margin-top: 50px; /* Add space above footer */
 }
-.footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem; }
-.footer-section { flex: 1; min-width: 200px; margin-bottom: 1.5rem; }
-.footer-section h3 { color: var(--secondary-color); font-family: 'Montserrat', sans-serif; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-weight: 500; }
-.footer-section.about .logo-text { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text); font-weight: 700; }
-.footer-section.about p { font-size: 0.9rem; color: #ccc; line-height: 1.5; }
 
-/* Footer Links Section - Centered Bullet Styling */
+.footer-section.links {
+    border: 1px dashed lightblue; /* VISIBLE BORDER FOR TESTING */
+    max-width: 300px; /* Limit width for testing alignment */
+    margin: 0 auto; /* Center the section */
+}
+
 .footer-section.links ul {
-    list-style: none; /* Remove default bullets */
+    list-style: none;
     padding: 0;
     margin: 0;
-    /* Optional: Center the whole list block if desired */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
 }
 
+/* --- Key Styles for Footer Bullet Alignment --- */
 .footer-section.links li {
-    display: flex; /* Use flex to align bullet and link */
-    align-items: center; /* Vertically center bullet and link */
-    justify-content: center; /* Center the content (bullet + link) within the li */
-    margin-bottom: 0.8rem; /* Increased spacing */
-    text-align: left; /* Reset text-align from previous attempts if any */
+    display: flex;          /* <<<<< ** Use Flexbox for alignment ** */
+    align-items: center;    /* <<<<< ** Vertically align bullet & text ** */
+    justify-content: flex-start; /* <<<<< ** Align items to the start (left) ** */
+    margin-bottom: 0.5rem;
+    border: 1px dashed yellow; /* VISIBLE BORDER FOR TESTING */
+    padding-left: 10px; /* Add padding if needed */
 }
 
 .footer-section.links li::before {
-    content: '🔥'; /* Fire emoji as bullet */
-    /* content: '•'; */ /* Or use a standard bullet */
-    color: var(--secondary-color); /* Bullet color */
-    font-size: 0.9em; /* Adjust bullet size */
-    margin-right: 0.7em; /* Space between bullet and link */
-    display: inline-block; /* Needed for proper alignment */
+    content: '•';           /* <<<<< ** The Bullet ** */
+    color: orange;          /* Bullet color */
+    font-size: 1.2em;       /* Bullet size */
+    margin-right: 0.6em;    /* <<<<< ** Space between bullet and text ** */
+    display: inline-block;  /* Make it behave well */
+    flex-shrink: 0; /* Prevent bullet from shrinking */
 }
 
 .footer-section.links a {
-    color: #a9a9a9;
+    color: #ccc;
     text-decoration: none;
-    transition: color 0.3s ease, letter-spacing 0.3s ease;
-    font-size: 0.95rem;
-    display: inline-block; /* Make link inline-block */
-    padding: 0.2em 0;
-    flex-shrink: 0; /* Prevent link text from shrinking weirdly */
+    display: inline-block;
+    flex-shrink: 0; /* Prevent link from shrinking */
 }
-
 .footer-section.links a:hover {
-    color: var(--accent-color);
-    letter-spacing: 0.5px;
-    text-decoration: underline;
+    color: white;
+}
+/* --- End Footer Test --- */
+
+/* --- Hide Hamburger for Desktop Test --- */
+.hamburger {
+    display: none;
 }
 
-/* Social Icons */
-.social-icons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-.social-icons a { color: #a9a9a9; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
-.social-icons a:hover { color: var(--primary-color); transform: scale(1.2) rotate(5deg); }
-
-.footer-bottom { text-align: center; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: #888; }
-.footer-bottom a { color: #a9a9a9; text-decoration: none; transition: color 0.3s ease; margin: 0 0.3em; }
-.footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
-
-
-/* --- Responsive Design --- */
-
-/* Tablet (<= 992px) */
-@media (max-width: 992px) {
-    .navbar { padding: 0 1rem; }
-    .main-menu { gap: 0.3rem; } /* Further reduce gap */
-    .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; } /* Adjust padding/font */
-    .logo-text { font-size: 1.6rem; }
-}
-
-/* Mobile (<= 768px) */
+/* --- Basic Mobile Styles (Minimal for Test) --- */
 @media (max-width: 768px) {
     body { padding-top: 0; }
-    .navbar { position: relative; height: auto; padding: 0 1rem; border-bottom-width: 3px; }
-    .navbar-container { flex-wrap: wrap; justify-content: space-between; padding: 0.5rem 0; min-height: 60px; }
-    .logo-link { height: auto; padding: 0.3rem 0; }
+    .navbar { position: relative; }
+    .nav-menu { display: none; /* Hide by default on mobile */ }
+    .hamburger { display: block; } /* Show hamburger */
+    /* Add .nav-menu.active { display: block; } if testing mobile toggle */
 
-    /* Show hamburger, hide desktop menu */
-    .hamburger { display: block; }
-    .nav-menu {
-        display: none; /* Initially hidden */
-        flex-direction: column; /* Stack items */
-        width: 100%;
-        position: absolute;
-        top: 100%; /* Below navbar */
-        left: 0;
-        background: var(--dark-bg);
-        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-        border-top: 2px solid var(--primary-color);
-        max-height: 0; /* Start closed */
-        overflow-y: auto;
-        transition: max-height 0.5s ease-out;
-        z-index: 1001;
+    .footer-section.links li {
+       justify-content: center; /* Center items on mobile if desired */
     }
-    .nav-menu.active {
-        display: block; /* Show when active */
-        max-height: calc(100vh - 60px);
-    }
-
-    /* Stack main menu items */
-    .main-menu {
-        flex-direction: column; /* Stack items */
-        width: 100%; height: auto; gap: 0; align-items: stretch;
-    }
-    .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
-    .main-menu li:last-child { border-bottom: none; }
-    .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
-    .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
-    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; }
-    .main-menu > li:focus-within > a > i { transform: rotate(180deg); } /* Rotate arrow on open */
-
-    /* Mobile Dropdowns */
-    .dropdown { position: static; box-shadow: none; border-top: none; border-radius: 0; width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none; display: none; background: #444; transition: none; }
-    .main-menu > li:focus-within > .dropdown { display: block; } /* Show on focus */
-    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
-    .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
-
-    .map-container { margin: 0.5rem; padding: 0.5rem; }
-    #map { height: calc(100vh - 100px); }
-    .error-message { position: sticky; top: 5px; width: auto; max-width: calc(100% - 20px); font-size: 0.9rem; }
-    .footer-content { flex-direction: column; align-items: center; text-align: center; }
-    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
-    .footer-section.links ul { width: 100%; }
-    .footer-section.links li { justify-content: center; } /* Ensure items center */
-    .social-icons { justify-content: center; }
-}
-
-/* Smaller Mobile (< 480px) */
-@media (max-width: 480px) {
-    .navbar { padding: 0 0.5rem; }
-    .logo-text { font-size: 1.3rem; } /* Slightly smaller */
-    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
-    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
-    .footer-section h3 { font-size: 1rem; }
-    .footer-bottom { font-size: 0.8rem; }
-    .error-message { font-size: 0.85rem; padding: 8px 12px; }
-    .error-message button { font-size: 16px; margin-left: 10px; }
 }
