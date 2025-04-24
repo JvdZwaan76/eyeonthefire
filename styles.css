@@ -235,10 +235,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background: none; /* Ensure no background from mobile */
+    background: none;
 }
 .dropdown li strong.sub-header {
     margin-top: 0.5em; /* Add space above sub-headers */
+}
+.dropdown li:first-child > strong { /* Remove top margin for first header */
+     margin-top: 0;
 }
 
 .dropdown li a.sub-item {
@@ -288,8 +291,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* --- Map Container & Loading --- */
 .map-container {
-    position: relative; /* Needed for z-index stacking */
-    z-index: 1; /* Make sure map container is low in stacking order */
+    position: relative; /* Needed for z-index */
+    z-index: 1; /* Ensure map container is below nav */
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -298,11 +301,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding: 1rem;
     overflow: hidden;
 }
-#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
+#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; } /* Map itself also needs low z-index */
 .controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
 .controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
+.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; } /* Leaflet controls default z-index */
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
 .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
 .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
@@ -350,7 +353,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
-        z-index: 10000; /* <<<< INCREASED Navbar z-index */
+        z-index: 10000; /* <<< INCREASED Navbar z-index */
     }
     .navbar-container {
         flex-wrap: wrap;
@@ -367,4 +370,118 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu {
         display: none; /* Hidden by default */
         flex-direction: column;
-        width:
+        width: 100%;
+        position: absolute;
+        top: 100%; /* Position below relative navbar */
+        left: 0;
+        right: 0;
+        background: var(--dark-bg); /* Opaque background */
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        border-top: 2px solid var(--primary-color);
+        max-height: 0; /* Start closed */
+        overflow-y: auto; /* Allow scroll */
+        overflow-x: hidden;
+        transition: max-height 0.4s ease-out; /* Use max-height transition */
+        z-index: 9999; /* High z-index (BELOW navbar) */
+        padding-top: 0;
+        height: auto;
+        margin-left: 0;
+        align-items: stretch;
+    }
+    .nav-menu.active {
+        display: flex;
+        max-height: calc(100vh - 70px); /* Fill available height */
+    }
+
+    /* Mobile Menu Item Structure */
+    .main-menu {
+        flex-direction: column; /* Stack */
+        width: 100%; height: auto; gap: 0; align-items: stretch;
+        padding: 0;
+    }
+    .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
+    .main-menu li:last-child { border-bottom: none; }
+    .main-menu > li > a { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; border-bottom: none; }
+    .main-menu > li:hover > a { background-color: transparent; border-bottom-color: transparent; }
+    .main-menu > li > a:hover { background-color: var(--primary-color); color: var(--light-text); }
+    .main-menu > li > a > i { transition: transform 0.3s ease; transform: none; }
+
+    /* Mobile Dropdown - Show when parent has .open class */
+    .dropdown {
+        position: relative; /* Relative to parent li */
+        box-shadow: none; border-top: none; border-radius: 0;
+        width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
+        display: block;
+        background: #555; /* Submenu background */
+        transition: none;
+        max-height: 0; /* Start closed */
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        box-sizing: border-box;
+        /* border-top: 1px solid var(--border-color); Added when open */
+    }
+    .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
+    .main-menu > li.has-dropdown.open > .dropdown {
+        max-height: 500px; /* Allow height */
+        padding: 0.5rem 0;
+        border-top: 1px solid var(--border-color); /* Add separator only when open */
+
+    }
+
+    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
+    /* Adjust padding for non-sub-item links */
+    .dropdown li > a:not(.sub-item) {
+        padding: 0.8rem 1.5rem;
+    }
+     .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
+
+    /* Styling for Sub-items and Headers */
+    .dropdown li strong.sub-header { /* Target specific class */
+        display: block;
+        padding: 0.7rem 1.5rem 0.2rem;
+        color: var(--accent-color);
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: #555; /* Match dropdown background */
+        margin-top: 0.5em; /* Add space above */
+    }
+     .dropdown li:first-child > strong.sub-header {
+         margin-top: 0; /* Remove top margin for first header */
+     }
+
+    .dropdown li a.sub-item {
+        padding-left: 2.5rem; /* Keep indentation */
+        font-size: 0.9rem;
+    }
+    .dropdown li a.sub-item:hover {
+        background: var(--secondary-color); /* Different hover */
+    }
+
+    /* Map and Controls Layout */
+    .map-container { margin: 0.5rem; padding: 0.5rem; z-index: 1; /* Ensure map container is lower */ }
+    #map { height: calc(65vh); }
+    .controls { flex-wrap: wrap; }
+    .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
+
+    /* Footer Layout */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+    .footer-section.links ul { width: 100%; display: inline-block; text-align: center; }
+    .footer-section.links li { justify-content: center; display: inline-flex; width: auto; }
+    .social-icons { justify-content: center; }
+}
+
+/* Smaller Mobile (< 480px) */
+@media (max-width: 480px) {
+    .navbar { padding: 0 0.5rem; }
+    .logo-container span { font-size: 1.3rem; }
+    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
+    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
+    .footer-section h3 { font-size: 1rem; }
+    .footer-bottom { font-size: 0.8rem; }
+    .error-message { font-size: 0.85rem; padding: 8px 12px; }
+    .error-message button { font-size: 16px; margin-left: 10px; }
+    #map { height: calc(60vh); }
+}
