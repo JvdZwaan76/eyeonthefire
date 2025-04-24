@@ -120,7 +120,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
+                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -306,19 +306,18 @@
                  });
 
                  // Close full mobile menu only when clicking a *final* navigation link
-                 // (i.e., links NOT inside .has-dropdown > a, or links inside .dropdown)
                  const allNavLinks = navMenu.querySelectorAll('a');
                  allNavLinks.forEach(link => {
                     // Check if the link is NOT a dropdown toggle itself
-                    const isToggle = link.parentElement.classList.contains('has-dropdown') && link.matches('.has-dropdown > a');
+                    const isToggle = link.matches('.has-dropdown > a'); // Simpler check
 
                     if (!isToggle) {
                          link.addEventListener('click', () => {
                               // If mobile menu is active, close it
-                             if (hamburger && hamburger.classList.contains('active')) {
+                             if (hamburger && navMenu.classList.contains('active')) { // Check navMenu class
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                // Also close any open dropdowns just in case
+                                // Also close any open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
