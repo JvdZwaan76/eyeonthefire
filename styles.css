@@ -28,7 +28,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* overflow-x: hidden; Prevent potential horizontal scroll */
 }
 
 main {
@@ -48,7 +47,6 @@ p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; /* Original p color */ }
 a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
 a:hover { color: #b71c1c; text-decoration: underline; }
 
-
 /* --- Fire-themed Navbar --- */
 .navbar {
     display: flex;
@@ -57,11 +55,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding: 0 1rem;
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
-    position: fixed; /* Navbar fixed */
+    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Default z-index for navbar */
+    z-index: 1000; /* Default z-index */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -91,7 +89,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     gap: 0.75rem;
 }
 
-/* Logo Text Placeholder Style */
+.logo-image {
+    height: 50px; /* Adjust height as needed */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
 .logo-container span {
     font-size: 1.8rem; /* Prominent size */
     font-weight: 700;  /* Bold */
@@ -101,29 +104,23 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     white-space: nowrap;
     transition: color 0.3s ease;
 }
-/* Hover effect for logo text */
+
+/* Hover effect for logo text and image */
 .logo-link:hover .logo-container span {
     color: var(--secondary-color); /* Change color on hover */
 }
 
+.logo-link:hover .logo-image {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
 
-/* --- Navigation Menu (Base & Desktop) --- */
+/* --- Horizontal Dropdown Menu (Desktop) --- */
 .nav-menu {
-    display: flex; /* Display as flex on desktop */
+    display: flex;
     align-items: stretch;
     height: 100%;
-    margin-left: auto; /* Push right on desktop */
-    position: static; /* Default static position */
-    width: auto;
-    background: none;
-    z-index: auto;
-    padding-top: 0;
-    overflow: visible; /* Allow dropdowns */
-    transform: none;
-    transition: none;
-    flex-direction: row; /* Ensure horizontal */
-    box-shadow: none;
-    border-right: none;
+    overflow: hidden; /* Hide overflow if needed */
+    margin-left: auto;
 }
 
 .main-menu {
@@ -142,7 +139,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     position: relative;
     display: flex;
     align-items: stretch;
-    border-bottom: none; /* Ensure no mobile border */
 }
 
 .main-menu > li > a {
@@ -154,12 +150,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-weight: 500;
     display: flex;
     align-items: center;
-    height: 100%; /* Fill height */
     position: relative;
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
-    cursor: pointer;
+    cursor: pointer; /* Indicate clickable */
 }
 .main-menu > li > a > i {
     margin-left: 0.4em;
@@ -176,8 +171,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transform: rotate(180deg);
 }
 
-
-/* Desktop Dropdown Styles */
+/* Dropdown Styles */
 .dropdown {
     display: none; /* Hide by default */
     position: absolute;
@@ -194,9 +188,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Keep transitions */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     z-index: 1100; /* Above navbar */
-    max-height: none; /* Remove height limit */
 }
 
 /* Show on DESKTOP hover/focus */
@@ -207,7 +200,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         visibility: visible;
         transform: translateY(0);
     }
-     .has-dropdown > a:focus + .dropdown {
+    .has-dropdown > a:focus + .dropdown { /* Show on focus as well */
         display: block;
         opacity: 1;
         visibility: visible;
@@ -224,7 +217,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-size: 0.95rem;
     transition: background-color 0.3s ease, color 0.3s ease;
     white-space: nowrap;
-    background: none; /* Remove mobile background */
 }
 
 .dropdown li a:hover,
@@ -234,15 +226,14 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     outline: none;
 }
 
-
-/* --- Hamburger Menu Button --- */
+/* --- Hamburger Menu (Mobile) --- */
 .hamburger {
-    display: none; /* Hidden on desktop */
+    display: none;
     cursor: pointer;
     background: none;
     border: none;
     padding: 10px;
-    z-index: 10001; /* Ensure hamburger is above active mobile menu */
+    z-index: 10001; /* Ensure hamburger is above mobile menu */
     order: 3;
     margin-left: 1rem;
 }
@@ -257,71 +248,205 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     border-radius: 2px;
 }
 
-/* Animation when menu is open */
 .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
 .hamburger.active .line2 { opacity: 0; }
 .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-/* --- Map Container & Loading (Keep as is) --- */
-.map-container { position: relative; background-color: #fff; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 5px; max-width: 1600px; margin: 1rem auto; padding: 1rem; overflow: hidden; }
-#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
-.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
-.controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
+/* --- Map Container & Loading --- */
+.map-container {
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    max-width: 1600px;
+    margin: 1rem auto;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    z-index: 1; /* Keep map below overlays */
+    /* Height is controlled by inline style in React component */
+}
+
+/* Controls outside map (Rendered by React now) */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  position: static;
+  z-index: auto; /* Keep below overlays */
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin-right: 0;
+  padding: 8px 15px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.controls button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-1px);
+}
+
+/* Leaflet Controls (Can have high z-index) */
+.leaflet-control-container .leaflet-control {
+  box-shadow: 0 1px 7px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  background-clip: padding-box;
+  z-index: 800; /* Default Leaflet z-index */
+}
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
 .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
 .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
 .leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
-.loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9000; backdrop-filter: blur(3px); border-radius: 5px; }
+
+/* Loading Overlay with Fire Theme */
+.loading-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 9000; /* High z-index */
+    backdrop-filter: blur(3px); border-radius: 5px;
+}
+
+/* Flame Loader */
 .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
-.flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
+.flame-loader::before, .flame-loader::after {
+    content: ''; position: absolute; bottom: 0; width: 20px; height: 50px;
+    background: var(--secondary-color); border-radius: 50% 50% 20% 20%;
+    animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center;
+}
 .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
 .flame-loader::after { right: 5px; animation-delay: 0.5s; }
 @keyframes flicker { 0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; } 50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; } }
 .loading-overlay p { color: var(--light-text); margin-top: 10px; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; text-shadow: 1px 1px 2px var(--dark-bg); }
-.error-message { background: var(--primary-color); color: var(--light-text); padding: 10px 15px; border-radius: 5px; z-index: auto; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.3); max-width: 90%; text-align: left; margin: 0 auto 10px auto; position: static; transform: none; left: auto; }
-.error-message span { margin-right: 15px; }
-.error-message button { margin-left: 0; background: none; border: none; color: var(--light-text); font-size: 18px; font-weight: bold; cursor: pointer; line-height: 1; padding: 0; flex-shrink: 0; }
 
+/* Error Message Styling */
+.error-message {
+    background: var(--primary-color);
+    color: var(--light-text);
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    max-width: 90%;
+    text-align: left;
+    margin: 0 auto 10px auto;
+    position: static;
+    transform: none;
+    left: auto;
+}
 
-/* --- Fire-themed Footer (Keep as is) --- */
-.site-footer { background: linear-gradient(to right, #3a200a, #1a1005); color: #a9a9a9; padding: 2.5rem 1rem 1rem 1rem; margin-top: auto; border-top: 4px solid var(--primary-color); flex-shrink: 0; }
-.footer-section.about .logo-text-footer { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text); font-weight: 700; font-family: 'Montserrat', sans-serif; color: var(--light-text) !important; border-bottom: none; margin-bottom: 0.75rem; }
+.error-message span {
+    margin-right: 15px;
+}
+
+.error-message button {
+    margin-left: 0;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+/* --- Fire-themed Footer --- */
+.site-footer {
+    background: linear-gradient(to right, #3a200a, #1a1005);
+    color: #a9a9a9; padding: 2.5rem 1rem 1rem 1rem;
+    margin-top: auto; border-top: 4px solid var(--primary-color);
+    flex-shrink: 0;
+}
+/* Footer Logo Text */
+.footer-section.about .logo-text-footer {
+    font-size: 1.5rem; display: block; margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text);
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--light-text) !important;
+    border-bottom: none;
+    margin-bottom: 0.75rem;
+}
+
 .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem; }
 .footer-section { flex: 1; min-width: 200px; margin-bottom: 1.5rem; }
 .footer-section h3 { color: var(--secondary-color); font-family: 'Montserrat', sans-serif; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-weight: 500; }
+/* Ensure footer H3 style doesn't override logo text */
 .footer-section.about h3.logo-text-footer { color: var(--light-text); border-bottom: none; }
 .footer-section.about p { font-size: 0.9rem; color: #ccc; line-height: 1.5; }
+
+/* Footer Links Section - Centered Bullet Styling */
 .footer-section.links ul { list-style: none; padding: 0; margin: 0; }
-.footer-section.links li { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 0.8rem; text-align: left; }
-.footer-section.links li::before { content: '•'; color: var(--secondary-color); font-size: 1.2em; line-height: 1; margin-right: 0.7em; display: inline-block; flex-shrink: 0; }
-.footer-section.links a { color: #a9a9a9; text-decoration: none; transition: color 0.3s ease, letter-spacing 0.3s ease; font-size: 0.95rem; display: inline-block; padding: 0.2em 0; flex-shrink: 0; }
+.footer-section.links li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0.8rem;
+    text-align: left;
+}
+.footer-section.links li::before {
+    content: '•';
+    color: var(--secondary-color);
+    font-size: 1.2em;
+    line-height: 1;
+    margin-right: 0.7em;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.footer-section.links a {
+    color: #a9a9a9; text-decoration: none; transition: color 0.3s ease, letter-spacing 0.3s ease;
+    font-size: 0.95rem; display: inline-block; padding: 0.2em 0; flex-shrink: 0;
+}
 .footer-section.links a:hover { color: var(--accent-color); letter-spacing: 0.5px; text-decoration: underline; }
+
+/* Social Icons */
 .social-icons { display: flex; gap: 1rem; flex-wrap: wrap; }
 .social-icons a { color: #a9a9a9; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
 .social-icons a:hover { color: var(--primary-color); transform: scale(1.2) rotate(5deg); }
+
 .footer-bottom { text-align: center; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: #888; }
 .footer-bottom a { color: #a9a9a9; text-decoration: none; transition: color 0.3s ease; margin: 0 0.3em; }
 .footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
 
-
 /* --- Responsive Design --- */
 
-/* Styles only ABOVE mobile breakpoint (Tablet View Adjustments) */
-@media (min-width: 769px) and (max-width: 992px) {
+/* Tablet (<= 992px) */
+@media (max-width: 992px) {
     .navbar { padding: 0 1rem; }
+    .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-container span { font-size: 1.6rem; }
+    .logo-container span { font-size: 1.6rem; } /* Adjust placeholder */
+    .logo-image { height: 45px; } /* Slightly smaller logo */
     .footer-content { gap: 1.5rem; }
 }
 
-/* Styles ONLY FOR mobile breakpoint and below */
+/* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    body { padding-top: 0; } /* Remove padding as navbar is relative */
+    body { padding-top: 0; }
     .navbar {
-        position: relative; /* Make navbar static for dropdown */
+        position: relative; /* Changed back to relative */
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
@@ -330,86 +455,78 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 0.5rem 0;
-        min-height: 60px; /* Use min-height */
+        min-height: 60px; /* Adjust as needed */
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
     .logo-container span { font-size: 1.5rem; }
+    .logo-image { height: 40px; } /* Smaller logo for mobile */
 
-    .hamburger { display: block; } /* Show hamburger */
-
-    /* Mobile Menu - Dropdown from Top */
+    .hamburger { display: block; }
     .nav-menu {
-        display: none; /* Hidden by default */
-        flex-direction: column;
-        width: 100%;
+        display: none; /* Hide by default */
+        flex-direction: column; /* Stack items */
+        width: 100%; /* Ensure full width */
         position: absolute;
-        top: 100%; /* Position below relative navbar */
-        left: 0;
-        right: 0;
-        background: var(--dark-bg);
+        top: 100%; /* Position below the relative navbar */
+        left: 0; /* Align to left */
+        right: 0; /* Align to right */
+        background: var(--dark-bg); /* Ensure opaque background */
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
-        max-height: 0; /* Start closed */
-        overflow-y: auto;
-        overflow-x: hidden;
-        /* Use transition on max-height */
-        transition: max-height 0.4s ease-out;
+        max-height: 0;
+        overflow-y: auto; /* Allow scroll if content exceeds height */
+        overflow-x: hidden; /* Prevent horizontal scroll */
+        transition: max-height 0.5s ease-out;
         z-index: 9999; /* High z-index */
-        /* transform: translateZ(0); Keep this potential fix */
+        transform: translateZ(0); /* Force rendering layer */
+        margin-left: 0;
         align-items: stretch;
-        margin-left: 0; /* Reset margin */
-        padding-top: 0; /* Reset padding */
-        height: auto; /* Let content determine height up to max-height */
     }
     .nav-menu.active {
-        display: flex; /* Use flex when active */
-        max-height: calc(100vh - 60px); /* Allow it to fill height */
-        /* No transform needed for this approach */
+        display: flex; /* Use flex to enable column layout */
+        max-height: calc(100vh - 60px); /* Limit height */
     }
 
-    /* Mobile Menu Item Structure */
     .main-menu {
-        flex-direction: column; /* Stack */
+        flex-direction: column;
         width: 100%; height: auto; gap: 0; align-items: stretch;
-        padding: 0; /* No padding on ul itself */
     }
     .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
     .main-menu li:last-child { border-bottom: none; }
-    .main-menu > li > a { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; border-bottom: none; }
-    .main-menu > li:hover > a { background-color: transparent; border-bottom-color: transparent; }
-    .main-menu > li > a:hover { background-color: var(--primary-color); color: var(--light-text); }
-    .main-menu > li > a > i { transition: transform 0.3s ease; transform: none; }
+    .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
+    .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
+    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; transform: none; }
 
     /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        position: relative; /* Keep relative */
+        position: relative; /* Changed from static for better control */
         box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
-        display: block;
-        background: #555; /* Submenu background */
+        display: block; /* Keep block for layout */
+        background: #555; /* Slightly different background */
         transition: none;
         max-height: 0; /* Start closed */
         overflow: hidden;
-        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
         box-sizing: border-box;
-        border-top: 1px solid var(--border-color);
     }
-    .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
+    .main-menu > li.has-dropdown.open > a > i { /* Rotate arrow when open */
+        transform: rotate(180deg);
+    }
     .main-menu > li.has-dropdown.open > .dropdown {
-        max-height: 500px; /* Allow height */
-        padding: 0.5rem 0;
+        max-height: 500px; /* Allow height for content */
+        border-top: 1px solid var(--border-color); /* Add separator */
+        padding: 0.5rem 0; /* Add padding back when open */
     }
 
-    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
+    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; } /* Match dropdown bg */
     .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
 
-    /* Map and Controls Layout */
     .map-container { margin: 0.5rem; padding: 0.5rem; }
     #map { height: calc(65vh); }
     .controls { flex-wrap: wrap; }
     .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
 
-    /* Footer Layout */
     .footer-content { flex-direction: column; align-items: center; text-align: center; }
     .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
     .footer-section.links ul { width: 100%; display: inline-block; text-align: center; }
@@ -419,8 +536,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
-    .navbar { padding: 0 0.5rem; }
+    .navbar { padding: 0.5rem; }
     .logo-container span { font-size: 1.3rem; }
+    .logo-image { height: 35px; } /* Even smaller for very small screens */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
