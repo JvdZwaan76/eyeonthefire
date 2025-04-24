@@ -280,12 +280,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
+            const bodyEl = document.body; // Get body element
 
             // Hamburger Menu Toggle
             if (hamburger && navMenu) {
                  hamburger.addEventListener('click', () => {
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
+                    bodyEl.classList.toggle('menu-open'); // <<<< Toggle body class
+
                     // Close any open dropdowns when hamburger menu is closed
                     if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
@@ -331,6 +334,8 @@
                              if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
+                                bodyEl.classList.remove('menu-open'); // <<<< Remove body class
+                                // Also close any open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
