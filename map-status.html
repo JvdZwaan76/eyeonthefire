@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
+    <title>Eye on the Fire - Layout Test</title>
     <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
     <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -68,7 +68,6 @@
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                 {/* Using H3 for consistency, text set via CSS */}
                 <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
                     Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay safe.
@@ -121,7 +120,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
+                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -231,7 +230,7 @@
 
             // Render component UI
             return (
-                // Use React Fragments <>...</> to avoid unnecessary outer div
+                // Use React Fragments <>...</>
                 <>
                     {/* Map container div */}
                     <div className="map-container">
