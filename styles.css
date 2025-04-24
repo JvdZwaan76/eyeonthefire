@@ -225,12 +225,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     background: none; /* Remove mobile background */
 }
 
-/* Styling for Sub-items and Headers */
+/* Styling for Sub-items and Headers in Dropdown */
 .dropdown li strong,
 .dropdown li strong.sub-header { /* Target both */
-    display: flex; /* Use flex for icon alignment */
+    display: flex;
     align-items: center;
-    padding: 0.7rem 1.2rem 0.2rem;
+    padding: 0.7rem 1.5rem 0.2rem; /* <<<< ADDED Left Padding */
     color: var(--accent-color);
     font-weight: 700;
     font-size: 0.9rem;
@@ -240,20 +240,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 .dropdown li strong.sub-header {
     margin-top: 0.5em; /* Add space above sub-headers */
-    padding-left: 1.2rem; /* <<<< Ensure consistent padding */
 }
 .dropdown li:first-child > strong { /* Remove top margin for first header */
      margin-top: 0;
 }
 /* Style for fire icon in headers */
 .dropdown li strong i.fa-fire {
-    color: var(--primary-color); /* Fire color */
-    margin-right: 0.5em;
-    font-size: 0.9em; /* Slightly smaller than text */
+    color: var(--secondary-color); /* <<<< Fire/Orange Color */
+    margin-right: 0.6em; /* <<<< Adjusted Space */
+    font-size: 0.9em;
 }
 
 .dropdown li a.sub-item {
-    padding-left: 2.5rem; /* <<<< Indent sub-items MORE */
+    padding-left: 2.5rem; /* Indent sub-items MORE */
     font-size: 0.9rem;
     color: var(--light-text);
 }
@@ -461,8 +460,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
      }
      /* Style for fire icon in headers */
     .dropdown li strong i.fa-fire {
-        color: var(--primary-color); /* Fire color */
-        margin-right: 0.5em;
+        color: var(--secondary-color); /* <<<< UPDATED Color */
+        margin-right: 0.6em;
         font-size: 0.9em;
     }
 
@@ -489,14 +488,4 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 /* Smaller Mobile (< 480px) */
-@media (max-width: 480px) {
-    /* Keep navbar relative */
-    .logo-container span { font-size: 1.3rem; }
-    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
-    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
-    .footer-section h3 { font-size: 1rem; }
-    .footer-bottom { font-size: 0.8rem; }
-    .error-message { font-size: 0.85rem; padding: 8px 12px; }
-    .error-message button { font-size: 16px; margin-left: 10px; }
-    #map { height: calc(60vh); }
-}
+@media (max-width: 4
