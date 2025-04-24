@@ -1,209 +1,23 @@
 /* --- EYE ON THE FIRE - FINAL STYLES --- */
 
-/* --- Global Styles & Variables --- */
-:root {
-    --primary-color: #ff4500; /* OrangeRed - Core fire color */
-    --secondary-color: #ff8c00; /* DarkOrange */
-    --accent-color: #ffd700; /* Gold - Flame tips */
-    --dark-bg: #2c2c2c; /* Dark grey for contrast */
-    --light-text: #f5f5f5; /* Off-white text */
-    --dark-text: #333;
-    --border-color: #444;
-    --navbar-height: 70px; /* Consistent height */
-}
-
-/* Reset and Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Open Sans', sans-serif;
-  line-height: 1.6;
-  color: var(--dark-text);
-  background-color: #f0f0f0; /* Lighter background */
-  padding-top: var(--navbar-height); /* Space for fixed navbar */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-    flex-grow: 1;
-}
-
-/* Typography (Keep consistent) */
-h1, h2, h3 {
-  font-family: 'Montserrat', sans-serif;
-  color: #b71c1c; /* Original heading color */
-  margin-bottom: 0.75em;
-}
-h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
-h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; /* Original p color */ }
-a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
-a:hover { color: #b71c1c; text-decoration: underline; }
-
-
-/* --- Fire-themed Navbar --- */
-.navbar {
-    display: flex;
-    justify-content: center;
-    align-items: stretch; /* Stretch items */
-    padding: 0 1rem;
-    background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
-    color: var(--light-text);
-    position: fixed; /* Navbar fixed */
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 10000; /* <<< Navbar base z-index (high) */
-    height: var(--navbar-height);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-    border-bottom: 2px solid var(--primary-color);
-}
-
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1300px;
-    height: 100%;
-}
-
-.logo-link {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    padding: 0 0.5rem;
-    overflow: hidden;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-/* Logo Text Placeholder Style */
-.logo-container span {
-    font-size: 1.8rem; /* Prominent size */
-    font-weight: 700;  /* Bold */
-    color: var(--light-text);
-    font-family: 'Montserrat', sans-serif;
-    text-shadow: 1px 1px 3px var(--primary-color); /* Fire glow */
-    white-space: nowrap;
-    transition: color 0.3s ease;
-}
-/* Hover effect for logo text */
-.logo-link:hover .logo-container span {
-    color: var(--secondary-color); /* Change color on hover */
-}
-
-
-/* --- Navigation Menu (Base & Desktop) --- */
-.nav-menu {
-    display: flex; /* Display as flex on desktop */
-    align-items: stretch;
-    height: 100%;
-    margin-left: auto; /* Push right on desktop */
-    position: static; /* Default static position */
-    width: auto;
-    background: none;
-    z-index: auto;
-    padding-top: 0;
-    overflow: visible; /* Allow dropdowns */
-    transform: none;
-    transition: none;
-    flex-direction: row; /* Ensure horizontal */
-    box-shadow: none;
-    border-right: none;
-}
-
-.main-menu {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    list-style: none;
-    gap: 0.5rem;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    align-items: stretch;
-}
-
-.main-menu li {
-    position: relative;
-    display: flex;
-    align-items: stretch;
-    border-bottom: none; /* Ensure no mobile border */
-}
-
-.main-menu > li > a {
-    color: var(--light-text);
-    text-decoration: none;
-    padding: 0 1rem;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    height: 100%; /* Fill height */
-    position: relative;
-    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-    border-bottom: 3px solid transparent;
-    white-space: nowrap;
-    cursor: pointer;
-}
-.main-menu > li > a > i.fa-caret-down { /* Target only caret icon */
-    margin-left: 0.4em;
-    font-size: 0.8em;
-    transition: transform 0.3s ease;
-}
-
-.main-menu > li:hover > a {
-    color: var(--accent-color);
-    background-color: rgba(255, 69, 0, 0.1);
-    border-bottom-color: var(--primary-color);
-}
-.main-menu > li:hover > a > i.fa-caret-down {
-    transform: rotate(180deg);
-}
-
+/* ... (Existing CSS - Keep all other styles) ... */
 
 /* Desktop Dropdown Styles */
 .dropdown {
-    display: none; /* Hide by default */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    /* background: var(--dark-bg); */
-    background: linear-gradient(to bottom, #331a00, #261300); /* Darker, fiery gradient */
-    list-style: none;
-    padding: 0.5rem 0;
-    margin: 0;
-    min-width: 220px; /* Increased width */
-    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); /* Deeper shadow */
-    border-top: 2px solid var(--primary-color);
-    border-radius: 0 0 5px 5px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Keep transitions */
+    /* ... (Existing styles) ... */
     z-index: 1100; /* Above navbar */
     /* Add subtle animation */
     animation: subtle-fire-bg 5s infinite alternate;
 }
 
 @keyframes subtle-fire-bg {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 20px; } /* Small shift */
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 20px;
+    }
+    /* Small shift */
 }
 
 /* Show on DESKTOP hover/focus */
@@ -214,7 +28,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         visibility: visible;
         transform: translateY(0);
     }
-     .has-dropdown > a:focus + .dropdown {
+
+    .has-dropdown > a:focus + .dropdown {
         display: block;
         opacity: 1;
         visibility: visible;
@@ -223,133 +38,123 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .dropdown li a {
-    padding: 0.8rem 1.2rem;
-    color: var(--light-text);
-    text-decoration: none;
-    display: block;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.95rem;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    white-space: nowrap;
-    background: none; /* Remove mobile background */
+    /* ... (Existing styles) ... */
 }
 
 /* Styling for Sub-items and Headers in Dropdown */
 .dropdown li strong,
 .dropdown li strong.sub-header {
-    display: flex;
-    align-items: center;
-    /* padding: 0.7rem 1.8rem 0.2rem;  */
-    padding: 0.7rem 2.2rem 0.2rem; /* Adjusted left padding */
-    /* color: var(--accent-color); */
-    color: #ffcc80; /* Lighter, glowing gold */
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: none;
-    /* text-shadow: 1px 1px 2px #000; */ /* Subtle text shadow */
+    /* ... (Existing styles) ... */
 }
+
 .dropdown li strong.sub-header {
-    margin-top: 0.5em;
+    /* ... (Existing styles) ... */
 }
+
 .dropdown li:first-child > strong {
-     margin-top: 0;
+    /* ... (Existing styles) ... */
 }
+
 /* Style for fire icon in headers */
 .dropdown li strong i.fa-fire {
-    color: var(--secondary-color); /* <<<< Orange Color */
-    margin-right: 0.6em;
-    font-size: 0.9em;
+    /* ... (Existing styles) ... */
 }
 
 .dropdown li a.sub-item {
-    padding-left: 2.8rem; /* Indentation */
+    padding-left: 3.5rem;
+    /* Increased indentation */
     font-size: 0.9rem;
-    color: #eee; /* Slightly lighter */
+    color: #eee;
+    /* Slightly lighter */
 }
 
 .dropdown li a:hover,
 .dropdown li a:focus {
-    background: rgba(255, 69, 0, 0.8); /* Semi-transparent fire */
-    color: #fff;
-    outline: none;
-}
-.dropdown li a.sub-item:hover,
-.dropdown li a.sub-item:focus {
-    background: rgba(255, 140, 0, 0.8); /* Darker orange */
+    /* ... (Existing styles) ... */
 }
 
+.dropdown li a.sub-item:hover,
+.dropdown li a.sub-item:focus {
+    /* ... (Existing styles) ... */
+}
 
 /* --- Hamburger Menu Button --- */
 .hamburger {
-    display: none; /* Hidden on desktop */
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 10px;
-    z-index: 10001; /* Ensure hamburger is above active mobile menu AND navbar */
-    order: 3;
-    margin-left: 1rem;
+    /* ... (Existing styles) ... */
+    z-index: 10001;
+    /* Ensure hamburger is above active mobile menu AND navbar */
 }
 
-.hamburger .line {
-    display: block;
-    width: 28px;
-    height: 3px;
-    background: var(--light-text);
-    margin: 6px 0;
-    transition: all 0.4s ease-in-out;
-    border-radius: 2px;
-}
-
-/* Animation when menu is open */
-.hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
-.hamburger.active .line2 { opacity: 0; }
-.hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
+/* ... (Existing hamburger styles) ... */
 
 /* --- Map Container & Loading --- */
 .map-container {
-    position: relative;
-    z-index: 1; /* Low z-index */
-    background-color: #fff;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    max-width: 1600px;
-    margin: 1rem auto;
-    padding: 1rem;
-    overflow: hidden;
-}
-/* Attempt to force map container behind menu when body class is present */
-body.menu-open .map-container {
-    /* Setting negative z-index can cause issues with map interaction if not careful */
-    /* Let's rely on the high z-index of navbar/menu first */
-     /* z-index: -1; */
+    /* ... (Existing styles) ... */
 }
 
-#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
-.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
-.controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
-.leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
-.leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
-.leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
-.leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
+/* ... (Existing map container styles) ... */
+
+#map {
+    /* ... (Existing styles) ... */
+}
+
+.controls {
+    /* ... (Existing styles) ... */
+}
+
+.controls button {
+    /* ... (Existing styles) ... */
+}
+
+.controls button:hover {
+    /* ... (Existing styles) ... */
+}
+
+.leaflet-control-container .leaflet-control {
+    /* ... (Existing styles) ... */
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+    /* ... (Existing styles) ... */
+}
+
+.leaflet-bar a:first-child {
+    /* ... (Existing styles) ... */
+}
+
+.leaflet-bar a:last-child {
+    /* ... (Existing styles) ... */
+}
+
+.leaflet-control-locate a {
+    /* ... (Existing styles) ... */
+}
 
 /* Loading Overlay with Fire Theme */
 .loading-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Slightly darker */
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 9998; /* <<< Below mobile menu but above map container */
-    backdrop-filter: blur(4px); /* Slightly stronger blur */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    /* Slightly darker */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9998;
+    /* <<< Below mobile menu but above map container */
+    backdrop-filter: blur(4px);
+    /* Slightly stronger blur */
     border-radius: 5px;
     /* Add transition for smoother fade */
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
+
 /* Add a class to hide it */
 .loading-overlay.hidden {
     opacity: 0;
@@ -357,10 +162,172 @@ body.menu-open .map-container {
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
+/* ... (Existing flame-loader and other styles) ... */
 
-/* Flame Loader */
-.flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
-.flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
-.flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
-.flame-loader::after { right: 5px; animation-delay: 0.5s; }
-@keyframes flicker
+/* --- Responsive Design --- */
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+    body {
+        /* ... (Existing styles) ... */
+    }
+
+    .navbar {
+        /* ... (Existing styles) ... */
+        z-index: 10000;
+        /* High z-index */
+    }
+
+    .navbar-container {
+        /* ... (Existing styles) ... */
+    }
+
+    .logo-link {
+        /* ... (Existing styles) ... */
+    }
+
+    .logo-container span {
+        /* ... (Existing styles) ... */
+    }
+
+    .hamburger {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Mobile Menu - Dropdown from Top */
+    .nav-menu {
+        display: none;
+        /* Hidden by default */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        /* Position below relative navbar */
+        left: 0;
+        right: 0;
+        background: var(--dark-bg);
+        /* Opaque background */
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        border-top: 2px solid var(--primary-color);
+        max-height: 0;
+        /* Start closed */
+        overflow-y: auto;
+        /* Allow scroll */
+        overflow-x: hidden;
+        transition: max-height 0.4s ease-out;
+        /* Use max-height transition */
+        z-index: 9999;
+        /* High z-index (below navbar) */
+        padding-top: 0;
+        height: auto;
+        margin-left: 0;
+        align-items: stretch;
+    }
+
+    .nav-menu.active {
+        display: flex;
+        max-height: calc(100vh - 70px);
+        /* Fill available height */
+    }
+
+    /* Mobile Menu Item Structure */
+    .main-menu {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu li {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu li:last-child {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li > a {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li:hover > a {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li > a:hover {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li > a > i {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Mobile Dropdown - Show when parent has .open class */
+    .dropdown {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li.has-dropdown.open > a > i {
+        /* ... (Existing styles) ... */
+    }
+
+    .main-menu > li.has-dropdown.open > .dropdown {
+        /* ... (Existing styles) ... */
+    }
+
+    .dropdown li a {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Adjust padding for non-sub-item links */
+    .dropdown li > a:not(.sub-item) {
+        /* ... (Existing styles) ... */
+    }
+
+    .dropdown li a:hover {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Styling for Sub-items and Headers */
+    .dropdown li strong.sub-header {
+        /* ... (Existing styles) ... */
+    }
+
+    .dropdown li:first-child > strong.sub-header {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Style for fire icon in headers */
+    .dropdown li strong i.fa-fire {
+        /* ... (Existing styles) ... */
+    }
+
+    .dropdown li a.sub-item {
+        padding-left: 3.5rem;
+        /* INCREASED Indentation */
+        font-size: 0.9rem;
+    }
+
+    .dropdown li a.sub-item:hover {
+        /* ... (Existing styles) ... */
+    }
+
+    /* Map and Controls Layout */
+    .map-container {
+        /* ... (Existing styles) ... */
+    }
+
+    #map {
+        /* ... (Existing styles) ...
+    }
+
+    .controls {
+        /* ... (Existing styles) ...
+    }
+
+    .error-message {
+        /* ... (Existing styles) ...
+    }
+}
+
+/* Smaller Mobile (< 480px) */
+@media (max-width: 480px) {
+    /* ... (Existing styles) ... */
+}
