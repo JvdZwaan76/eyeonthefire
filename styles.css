@@ -90,26 +90,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     gap: 0.75rem;
 }
 
-/* Style for the Logo Image - REMOVED FOR NOW */
-/*
-.logo-container img {
-    height: 35px !important;
-    width: auto !important;
-    max-width: 100px !important;
-    display: block !important;
-    object-fit: contain !important;
-    flex-shrink: 0 !important;
-}
-*/
-
 /* Logo Text Placeholder Style */
-.logo-container span { /* Style the placeholder span */
-    font-size: 1.5rem;
-    font-weight: 700;
+.logo-container span {
+    font-size: 1.8rem; /* More prominent size */
+    font-weight: 700; /* Bold */
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
-    text-shadow: 1px 1px 3px var(--primary-color);
+    text-shadow: 1px 1px 3px var(--primary-color); /* Fire glow */
     white-space: nowrap;
+    transition: color 0.3s ease; /* Add transition */
+}
+/* Hover effect for logo text */
+.logo-link:hover .logo-container span {
+    color: var(--secondary-color); /* Change color on hover */
 }
 
 
@@ -153,6 +146,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
+    cursor: pointer; /* Indicate clickable */
 }
 .main-menu > li > a > i {
     margin-left: 0.4em;
@@ -172,7 +166,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Dropdown Styles */
 .dropdown {
-    display: none;
+    display: none; /* Hide by default */
     position: absolute;
     top: 100%;
     left: 0;
@@ -191,12 +185,16 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     z-index: 1100;
 }
 
+/* Show on DESKTOP hover/focus */
 .has-dropdown:hover .dropdown,
 .has-dropdown:focus-within .dropdown {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    /* Add check to prevent this on mobile if JS is handling it */
+     @media (min-width: 769px) {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+     }
 }
 
 .dropdown li a {
@@ -379,8 +377,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text);
     font-weight: 700;
     font-family: 'Montserrat', sans-serif;
-    color: var(--light-text) !important; /* Override general H3 if necessary */
-    border-bottom: none; /* Remove general h3 border */
+    color: var(--light-text) !important;
+    border-bottom: none;
     margin-bottom: 0.75rem;
 }
 
@@ -434,7 +432,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-container span { font-size: 1.3rem; } /* Adjust placeholder text */
+    .logo-container span { font-size: 1.6rem; } /* Adjust placeholder */
     .footer-content { gap: 1.5rem; }
 }
 
@@ -454,7 +452,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-     .logo-container span { font-size: 1.1rem; } /* Adjust placeholder text */
+    .logo-container span { font-size: 1.5rem; } /* Adjust placeholder */
 
 
     .hamburger { display: block; }
@@ -489,10 +487,25 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
     .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
     .main-menu > li > a > i { float: right; transition: transform 0.3s ease; transform: none; }
-    .main-menu > li:focus-within > a > i { transform: rotate(180deg); }
 
-    .dropdown { position: static; box-shadow: none; border-top: none; border-radius: 0; width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none; display: none; background: #444; transition: none; }
-    .main-menu > li:focus-within > .dropdown { display: block; }
+    /* Mobile Dropdown - Show when parent has .open class */
+    .dropdown {
+        position: static; box-shadow: none; border-top: none; border-radius: 0;
+        width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
+        display: none; /* Hide by default */
+        background: #444; transition: none;
+        max-height: 0; /* Start closed */
+        overflow: hidden;
+        transition: max-height 0.4s ease-out; /* Add transition */
+    }
+    .main-menu > li.has-dropdown.open > a > i { /* Rotate arrow when open */
+         transform: rotate(180deg);
+    }
+    .main-menu > li.has-dropdown.open > .dropdown {
+        display: block; /* Show on .open */
+        max-height: 500px; /* Allow height for content */
+    }
+
     .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
     .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
 
@@ -511,7 +524,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-     .logo-container span { font-size: 1.0rem; } /* Adjust placeholder text */
+    .logo-container span { font-size: 1.3rem; } /* Adjust placeholder */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
