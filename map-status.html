@@ -21,12 +21,13 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    </head>
+</head>
 <body>
     <header class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                  <div class="logo-container">
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
                     <span class="logo-text">Eye on the Fire</span>
                  </div>
             </a>
@@ -108,7 +109,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch with better error handling
+        // Retry fetch
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -118,7 +119,6 @@
                         const errorText = await response.text();
                         throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
-                     // Using original API endpoint from uploaded file
                     return await response.json();
                 } catch (error) {
                     console.error(`Fetch attempt ${i + 1} failed:`, error.message);
@@ -131,7 +131,7 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            const [center, setCenter] = useState([37.7749, -122.4194]);
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -160,28 +160,25 @@
                 }
             }, [center, zoom]);
 
-            // Fetch fire data (Using endpoint from your uploaded file)
+            // Fetch fire data
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
-                // Using the endpoint from your originally uploaded file
                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
                         console.log('Fire data received:', data);
-                         // Using original parsing logic from uploaded file
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                         // Using original slicing logic from uploaded file
                         setFires(fireList.slice(0, 100));
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
-                        setErrorMessage(`Failed to load fire data: ${err.message}.`); // Simplified error
+                        setErrorMessage(`Failed to load fire data: ${err.message}.`);
                     })
                     .finally(() => {
                         setIsLoading(false);
@@ -193,7 +190,6 @@
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
-                    // Using original icon logic from uploaded file
                     const fireIcon = L.icon({
                         iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
@@ -201,7 +197,6 @@
 
                     fires.forEach(fire => {
                         L.marker([fire.lat, fire.lon], { icon: fireIcon })
-                             // Using original popup logic from uploaded file
                             .bindPopup(fire.title)
                             .addTo(markerLayerRef.current);
                     });
@@ -212,7 +207,6 @@
             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
             // Locate Me
-             // Using original logic from uploaded file
             const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
                  if (navigator.geolocation) {
@@ -225,7 +219,7 @@
                             console.error('Geolocation error:', err.message);
                             setErrorMessage('Failed to get your location: ' + err.message); setIsLoading(false);
                         },
-                         { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 } // Added options
+                         { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
                 } else {
                     setErrorMessage('Geolocation is not supported by your browser'); setIsLoading(false);
@@ -236,33 +230,28 @@
             const dismissError = () => setErrorMessage('');
 
             return (
-                 // Using original map container structure but React manages controls
                 <div className="map-container">
                     {isLoading && (
-                        // Using original loading overlay structure from uploaded file
                         <div className="loading-overlay">
-                            <div className="flame-container">
-                                <div className="flame"></div>
-                                <div className="flame"></div>
-                                <div className="flame"></div>
+                            <div className="flame-container"> {/* Using flame-loader instead */}
+                                <div className="flame-loader"></div>
                             </div>
-                            <p>Loading wild fires...</p>
+                            <p>Loading wild fires...</p> {/* Adjusted text */}
                         </div>
                     )}
-                     {/* Original Controls buttons - consider integrating into Leaflet UI later */}
+                    {/* Controls moved above map */}
                     <div className="controls">
                         <button onClick={handleReset}>Reset</button>
                         <button onClick={handleLocateMe}>Locate Me</button>
                     </div>
                     {errorMessage && (
-                         // Using original error message structure from uploaded file
                         <div className="error-message">
                             <span>{errorMessage}</span>
-                            <button onClick={dismissError}>×</button>
+                            <button onClick={dismissError} aria-label="Dismiss error">×</button>
                         </div>
                     )}
-                     {/* Original map div structure */}
-                    <div id="map" style={{ height: 'calc(80vh)', width: '100%' }}></div>
+                    {/* >>>>> Adjusted Map Height <<<<< */}
+                    <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                 </div>
             );
         };
@@ -271,6 +260,7 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Hamburger Menu Toggle
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
 
@@ -281,10 +271,10 @@
                  });
             }
 
+            // Close menu when a link is clicked
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', (e) => {
                     if (hamburger && navMenu && hamburger.classList.contains('active')) {
-                        // Basic close on any link click
                         hamburger.classList.remove('active');
                         navMenu.classList.remove('active');
                     }
