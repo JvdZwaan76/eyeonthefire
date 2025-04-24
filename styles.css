@@ -36,25 +36,25 @@ main {
 /* Typography */
 h1, h2, h3 {
   font-family: 'Montserrat', sans-serif;
-  color: #b71c1c; /* Retained original heading color */
+  color: #b71c1c;
   margin-bottom: 0.75em;
 }
 
 h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
 h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
 h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; } /* Retained original p color */
-a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; } /* Retained original link color */
-a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original link hover */
+p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
+a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: #b71c1c; text-decoration: underline; }
 
 
 /* --- Fire-themed Navbar --- */
 .navbar {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 2rem; /* Padding left/right */
-    background: linear-gradient(to right, var(--dark-bg), #1a1a1a); /* Dark gradient */
+    justify-content: center; /* Center the container */
+    align-items: stretch; /* Stretch items to fill height */
+    padding: 0 1rem; /* Consistent padding */
+    background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
     position: fixed;
     width: 100%;
@@ -68,19 +68,19 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 
 .navbar-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* Space logo, nav, hamburger */
+    align-items: center; /* Vertically center items */
     width: 100%;
-    max-width: 1300px; /* Slightly wider max-width */
-    height: 100%;
+    max-width: 1300px;
+    height: 100%; /* Ensure container uses full navbar height */
 }
 
 .logo-link {
     text-decoration: none;
-    height: 100%;
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* Prevent logo from shrinking */
+    flex-shrink: 0; /* Prevent shrinking */
+    padding: 0 0.5rem; /* Add padding around logo */
 }
 
 .logo-container {
@@ -90,11 +90,11 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 }
 
 .logo-text {
-    font-size: 1.8rem; /* Larger logo text */
-    font-weight: 700; /* Bolder */
+    font-size: 1.8rem;
+    font-weight: 700;
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
-    text-shadow: 1px 1px 3px var(--primary-color); /* Subtle fire glow */
+    text-shadow: 1px 1px 3px var(--primary-color);
     transition: color 0.3s ease;
     white-space: nowrap;
 }
@@ -103,84 +103,88 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 }
 
 /* --- Horizontal Dropdown Menu (Desktop) --- */
+/* Ensure .nav-menu is visible and uses flex on desktop */
 .nav-menu {
-    display: flex; /* Ensures nav menu is visible on desktop */
-    align-items: center;
-    height: 100%;
-    margin-left: auto; /* Pushes nav menu towards the right if space available */
+    display: flex; /* Use flexbox */
+    align-items: stretch; /* Stretch to fill height */
+    height: 100%; /* Take full navbar height */
+    overflow: hidden; /* Hide potential overflow on desktop */
 }
 
+/* Styles for the main menu list itself */
 .main-menu {
-    display: flex; /* KEY: Makes li items horizontal (side-by-side) by default */
-    flex-direction: row; /* Explicitly set for clarity */
+    display: flex; /* KEY: Use flexbox for horizontal layout */
+    flex-direction: row; /* KEY: Explicitly set row direction */
+    flex-wrap: nowrap; /* KEY: Prevent wrapping on desktop */
     list-style: none;
-    gap: 1rem; /* Spacing between main items */
+    gap: 0.5rem; /* Adjust spacing as needed */
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 100%; /* Ensure full height */
+    align-items: stretch; /* Stretch li elements */
 }
 
+/* Styles for each list item */
 .main-menu li {
     position: relative;
-    display: flex;
-    align-items: center; /* Vertically center items */
-    height: 100%;
+    display: flex; /* Use flex for alignment within li */
+    align-items: stretch; /* Stretch link to fill height */
 }
 
+/* Styles for the links within list items */
 .main-menu > li > a {
     color: var(--light-text);
     text-decoration: none;
-    padding: 0 1rem; /* Padding for clickable area */
+    padding: 0 1rem; /* Padding left/right */
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    display: flex; /* Use flex to center text vertically */
+    align-items: center; /* Center text vertically */
     position: relative;
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent; /* For hover effect */
     white-space: nowrap; /* Prevent wrapping */
 }
 .main-menu > li > a > i { /* Dropdown arrow */
-    margin-left: 0.3em;
+    margin-left: 0.4em;
     font-size: 0.8em;
     transition: transform 0.3s ease;
 }
 
 .main-menu > li:hover > a {
-    color: var(--accent-color); /* Gold hover */
-    background-color: rgba(255, 69, 0, 0.1); /* Subtle orange background */
+    color: var(--accent-color);
+    background-color: rgba(255, 69, 0, 0.1);
     border-bottom-color: var(--primary-color);
 }
 .main-menu > li:hover > a > i {
-    transform: rotate(180deg); /* Rotate arrow on hover */
+    transform: rotate(180deg);
 }
 
 
 /* Dropdown Styles */
 .dropdown {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
-    top: 100%; /* Position below parent */
+    top: 100%;
     left: 0;
-    background: var(--dark-bg); /* Match navbar background */
+    background: var(--dark-bg);
     list-style: none;
     padding: 0.5rem 0;
     margin: 0;
-    min-width: 180px; /* Minimum width */
+    min-width: 180px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     border-top: 2px solid var(--primary-color);
     border-radius: 0 0 5px 5px;
-    opacity: 0; /* Start hidden */
+    opacity: 0;
     visibility: hidden;
-    transform: translateY(10px); /* Start slightly lower */
+    transform: translateY(10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    z-index: 1100; /* Ensure dropdown is above other content */
+    z-index: 1100;
 }
 
 .has-dropdown:hover .dropdown,
-.has-dropdown:focus-within .dropdown { /* Show on hover or when child has focus */
+.has-dropdown:focus-within .dropdown {
     display: block;
     opacity: 1;
     visibility: visible;
@@ -188,516 +192,248 @@ a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original lin
 }
 
 .dropdown li a {
-    padding: 0.8rem 1.2rem; /* Generous padding */
+    padding: 0.8rem 1.2rem;
     color: var(--light-text);
     text-decoration: none;
     display: block;
-    font-family: 'Open Sans', sans-serif; /* Use body font */
+    font-family: 'Open Sans', sans-serif;
     font-size: 0.95rem;
     transition: background-color 0.3s ease, color 0.3s ease;
-    white-space: nowrap; /* Prevent wrapping */
+    white-space: nowrap;
 }
 
 .dropdown li a:hover,
 .dropdown li a:focus {
-    background: var(--primary-color); /* Fire orange background on hover/focus */
-    color: var(--dark-bg); /* Dark text on hover/focus */
+    background: var(--primary-color);
+    color: var(--dark-bg);
     outline: none;
 }
 
 
 /* --- Hamburger Menu (Mobile) --- */
 .hamburger {
-    display: none; /* Hidden by default on desktop */
+    display: none; /* Hidden on desktop */
     cursor: pointer;
     background: none;
     border: none;
     padding: 10px;
-    z-index: 1002; /* Above nav menu */
-    order: 3; /* Position hamburger to the right in flex container */
-    margin-left: 1rem; /* Add some space between nav and hamburger if needed */
+    z-index: 1002;
+    order: 3; /* Keep hamburger on the right */
+    margin-left: auto; /* Push hamburger to the far right */
 }
 
 .hamburger .line {
     display: block;
-    width: 28px; /* Slightly wider */
+    width: 28px;
     height: 3px;
-    background: var(--light-text); /* White lines */
-    margin: 6px 0; /* More spacing */
+    background: var(--light-text);
+    margin: 6px 0;
     transition: all 0.4s ease-in-out;
     border-radius: 2px;
 }
 
-/* Hamburger animation */
-.hamburger.active .line1 {
-    transform: rotate(-45deg) translate(-7px, 7px);
-    background-color: var(--primary-color); /* Change color on active */
-}
-.hamburger.active .line2 {
-    opacity: 0;
-}
-.hamburger.active .line3 {
-    transform: rotate(45deg) translate(-6px, -7px);
-     background-color: var(--primary-color); /* Change color on active */
-}
+.hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
+.hamburger.active .line2 { opacity: 0; }
+.hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
 /* --- Map Container & Loading --- */
 .map-container {
     position: relative;
-    background-color: #fff; /* White background for the map area */
+    background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
-    max-width: 1600px; /* Max width for map container */
-    margin: 1rem auto; /* Center map container with margin */
-    padding: 1rem; /* Padding inside container */
+    max-width: 1600px;
+    margin: 1rem auto;
+    padding: 1rem;
 }
 
-/* Leaflet Map */
 #map {
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ddd;
-    z-index: 1; /* Ensure map is below overlays/controls */
+    z-index: 1;
     /* Height is controlled by inline style in React component */
 }
 
-/* Map Controls (Leaflet Default & Custom) */
 .leaflet-control-container .leaflet-control {
   box-shadow: 0 1px 7px rgba(0,0,0,0.5);
   border-radius: 5px;
-  background-clip: padding-box; /* Fix background clipping issue */
-  z-index: 800; /* Ensure controls are above map tiles */
+  background-clip: padding-box;
+  z-index: 800;
 }
-.leaflet-bar a, .leaflet-bar a:hover {
-    color: var(--primary-color);
-    border-bottom: 1px solid #ccc;
-}
-.leaflet-bar a:first-child {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-.leaflet-bar a:last-child {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom: none;
-}
-.leaflet-control-locate a { /* Style leaflet-locate plugin if used */
-    font-size: 1.4em;
-    line-height: 30px;
-}
+.leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
+.leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
+.leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
+.leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
 
-
-/* Loading Overlay with Fire Theme */
 .loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Above map, below navbar */
-    backdrop-filter: blur(3px);
-    border-radius: 5px; /* Match container */
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 1000; backdrop-filter: blur(3px); border-radius: 5px;
 }
+.flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
+.flame-loader::before, .flame-loader::after {
+    content: ''; position: absolute; bottom: 0; width: 20px; height: 50px;
+    background: var(--secondary-color); border-radius: 50% 50% 20% 20%;
+    animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center;
+}
+.flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
+.flame-loader::after { right: 5px; animation-delay: 0.5s; }
+@keyframes flicker { 0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; } 50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; } }
+.loading-overlay p { color: var(--light-text); margin-top: 10px; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; text-shadow: 1px 1px 2px var(--dark-bg); }
 
-/* Advanced Flame Loader */
-.flame-loader {
-    width: 50px;
-    height: 70px;
-    position: relative;
-    margin-bottom: 20px;
-}
-.flame-loader::before,
-.flame-loader::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    width: 20px;
-    height: 50px;
-    background: var(--secondary-color);
-    border-radius: 50% 50% 20% 20%;
-    animation: flicker 1.5s infinite ease-in-out;
-    transform-origin: bottom center;
-}
-.flame-loader::before {
-    left: 5px;
-    background: var(--primary-color); /* Redder flame */
-    animation-delay: 0s;
-}
-.flame-loader::after {
-    right: 5px;
-    animation-delay: 0.5s; /* Stagger animation */
-}
-
-@keyframes flicker {
-    0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; }
-    50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; }
-}
-
-.loading-overlay p {
-    color: var(--light-text);
-    margin-top: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    text-shadow: 1px 1px 2px var(--dark-bg);
-}
-
-/* Error Message */
 .error-message {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--primary-color);
-    color: var(--light-text);
-    padding: 10px 15px;
-    border-radius: 5px;
-    z-index: 900; /* Above map, below controls */
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    max-width: 90%;
-    text-align: center;
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    background: var(--primary-color); color: var(--light-text); padding: 10px 15px;
+    border-radius: 5px; z-index: 900; display: flex; align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); max-width: 90%; text-align: center;
 }
-
-.error-message button {
-    margin-left: 15px;
-    background: none;
-    border: none;
-    color: var(--light-text);
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 1;
-}
+.error-message button { margin-left: 15px; background: none; border: none; color: var(--light-text); font-size: 18px; font-weight: bold; cursor: pointer; line-height: 1; }
 
 
 /* --- Fire-themed Footer --- */
 .site-footer {
-    background: linear-gradient(to right, #3a200a, #1a1005); /* Dark brown/black gradient */
-    color: #a9a9a9; /* Light grey text */
-    padding: 2.5rem 1rem 1rem 1rem; /* More top padding */
-    margin-top: auto; /* Push to bottom */
-    border-top: 4px solid var(--primary-color); /* Thick fire line */
-    flex-shrink: 0; /* Prevent footer from shrinking */
+    background: linear-gradient(to right, #3a200a, #1a1005);
+    color: #a9a9a9; padding: 2.5rem 1rem 1rem 1rem;
+    margin-top: auto; border-top: 4px solid var(--primary-color);
+    flex-shrink: 0;
 }
+.footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem; }
+.footer-section { flex: 1; min-width: 200px; margin-bottom: 1.5rem; }
+.footer-section h3 { color: var(--secondary-color); font-family: 'Montserrat', sans-serif; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-weight: 500; }
+.footer-section.about .logo-text { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text); font-weight: 700; }
+.footer-section.about p { font-size: 0.9rem; color: #ccc; line-height: 1.5; }
 
-.footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 2rem;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 200px; /* Prevent sections from becoming too narrow */
-    margin-bottom: 1.5rem;
-}
-
-.footer-section h3 {
-    color: var(--secondary-color); /* Dark orange titles */
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.footer-section.about .logo-text {
-    font-size: 1.5rem;
-    display: block;
-    margin-bottom: 0.5rem;
-    text-shadow: 1px 1px 2px var(--primary-color);
-    color: var(--light-text); /* Make logo text lighter */
-    font-weight: 700; /* Match header */
-}
-.footer-section.about p {
-    font-size: 0.9rem;
-    color: #ccc; /* Lighter paragraph text */
-    line-height: 1.5;
-}
-
-/* Footer Links Section */
+/* Footer Links Section - Centered Bullet Styling */
 .footer-section.links ul {
     list-style: none; /* Remove default bullets */
     padding: 0;
     margin: 0;
+    /* Optional: Center the whole list block if desired */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
 }
 
 .footer-section.links li {
-    margin-bottom: 0.6rem;
-    text-align: center; /* Center the list item container */
+    display: flex; /* Use flex to align bullet and link */
+    align-items: center; /* Vertically center bullet and link */
+    justify-content: center; /* Center the content (bullet + link) within the li */
+    margin-bottom: 0.8rem; /* Increased spacing */
+    text-align: left; /* Reset text-align from previous attempts if any */
+}
+
+.footer-section.links li::before {
+    content: '🔥'; /* Fire emoji as bullet */
+    /* content: '•'; */ /* Or use a standard bullet */
+    color: var(--secondary-color); /* Bullet color */
+    font-size: 0.9em; /* Adjust bullet size */
+    margin-right: 0.7em; /* Space between bullet and link */
+    display: inline-block; /* Needed for proper alignment */
 }
 
 .footer-section.links a {
     color: #a9a9a9;
     text-decoration: none;
-    transition: color 0.3s ease, letter-spacing 0.3s ease; /* Add letter-spacing transition */
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
     font-size: 0.95rem;
-    display: inline-block; /* Needed for text-align to work well */
-    padding: 0.2em 0; /* Add some padding */
+    display: inline-block; /* Make link inline-block */
+    padding: 0.2em 0;
+    flex-shrink: 0; /* Prevent link text from shrinking weirdly */
 }
 
 .footer-section.links a:hover {
-    color: var(--accent-color); /* Gold hover */
-    /* padding-left: 0; Removed indent */
-    letter-spacing: 0.5px; /* Slightly increase spacing on hover */
-    text-decoration: underline; /* Add underline on hover */
+    color: var(--accent-color);
+    letter-spacing: 0.5px;
+    text-decoration: underline;
 }
 
 /* Social Icons */
-.social-icons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-    justify-content: center; /* Center icons if they wrap */
-}
+.social-icons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.social-icons a { color: #a9a9a9; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
+.social-icons a:hover { color: var(--primary-color); transform: scale(1.2) rotate(5deg); }
 
-.social-icons a {
-    color: #a9a9a9;
-    font-size: 1.5rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block; /* Fix transform issue */
-}
-
-.social-icons a:hover {
-    color: var(--primary-color); /* Fire orange hover */
-    transform: scale(1.2) rotate(5deg); /* Grow slightly and rotate */
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.85rem;
-    color: #888;
-}
-
-.footer-bottom a {
-    color: #a9a9a9;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    margin: 0 0.3em;
-}
-
-.footer-bottom a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
+.footer-bottom { text-align: center; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: #888; }
+.footer-bottom a { color: #a9a9a9; text-decoration: none; transition: color 0.3s ease; margin: 0 0.3em; }
+.footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
 
 
 /* --- Responsive Design --- */
 
 /* Tablet (<= 992px) */
 @media (max-width: 992px) {
-    .navbar {
-        padding: 0 1rem; /* Reduce padding */
-    }
-    .navbar-container {
-        max-width: 900px;
-    }
-    .nav-menu {
-        margin-left: 0; /* Reset margin */
-    }
-    .main-menu {
-        gap: 0.5rem; /* Reduce gap */
-    }
-     .main-menu > li > a {
-        padding: 0 0.7rem;
-        font-size: 0.95rem; /* Slightly smaller font */
-     }
-    .footer-content {
-        gap: 1.5rem;
-    }
+    .navbar { padding: 0 1rem; }
+    .main-menu { gap: 0.3rem; } /* Further reduce gap */
+    .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; } /* Adjust padding/font */
+    .logo-text { font-size: 1.6rem; }
 }
 
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    body {
-        padding-top: 0; /* Remove top padding as navbar might not be fixed */
-    }
-    .navbar {
-        position: relative; /* Make navbar static for simplicity on mobile */
-        height: auto; /* Allow height to adjust */
-        padding: 0 1rem; /* Adjust padding */
-        border-bottom-width: 3px; /* Thicker border */
-    }
-    .navbar-container {
-        flex-wrap: wrap; /* Allow wrapping */
-        justify-content: space-between; /* Space between logo and hamburger */
+    body { padding-top: 0; }
+    .navbar { position: relative; height: auto; padding: 0 1rem; border-bottom-width: 3px; }
+    .navbar-container { flex-wrap: wrap; justify-content: space-between; padding: 0.5rem 0; min-height: 60px; }
+    .logo-link { height: auto; padding: 0.3rem 0; }
+
+    /* Show hamburger, hide desktop menu */
+    .hamburger { display: block; }
+    .nav-menu {
+        display: none; /* Initially hidden */
+        flex-direction: column; /* Stack items */
         width: 100%;
-        padding: 0.8rem 0;
-        min-height: 60px; /* Ensure minimum height */
-    }
-     .logo-link {
-        height: auto; /* Adjust height */
-     }
-     .nav-menu {
-        /* Hide main menu on mobile initially */
-        display: none;
-        /* When active, it becomes a block */
-        flex-direction: column; /* Stack items vertically */
-        width: 100%;
-        position: absolute; /* Position for dropdown effect */
-        top: 100%; /* Position below the relative navbar */
+        position: absolute;
+        top: 100%; /* Below navbar */
         left: 0;
-        background: var(--dark-bg); /* Same dark background */
+        background: var(--dark-bg);
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
         max-height: 0; /* Start closed */
-        overflow-y: auto; /* Allow scrolling if menu is long */
-        transition: max-height 0.5s ease-out; /* Smooth transition */
-        z-index: 1001; /* Ensure it's above main content */
+        overflow-y: auto;
+        transition: max-height 0.5s ease-out;
+        z-index: 1001;
     }
     .nav-menu.active {
-        /* display: flex; Redundant due to flex-direction */
-        display: block; /* Use block for simple stacking */
-        max-height: calc(100vh - 60px); /* Limit height, adjust 60px if navbar height changes */
-    }
-    .hamburger {
-        display: block; /* Show hamburger */
+        display: block; /* Show when active */
+        max-height: calc(100vh - 60px);
     }
 
+    /* Stack main menu items */
     .main-menu {
-        /* Already set to flex-direction: column from .nav-menu */
-        flex-direction: column; /* Explicitly stack */
-        width: 100%;
-        height: auto; /* Auto height */
-        gap: 0; /* Remove gap */
+        flex-direction: column; /* Stack items */
+        width: 100%; height: auto; gap: 0; align-items: stretch;
     }
-    .main-menu li {
-        width: 100%;
-        border-bottom: 1px solid var(--border-color);
-        height: auto;
-        display: block; /* Ensure li takes full width */
-    }
-     .main-menu li:last-child {
-         border-bottom: none;
-     }
-    .main-menu > li > a {
-        padding: 1rem 1.5rem; /* Vertical padding */
-        /* justify-content: space-between; Less relevant for block display */
-        display: block; /* Make link take full width */
-        width: 100%;
-        height: auto;
-        border-bottom: none; /* Remove desktop border */
-        text-align: left;
-    }
-    .main-menu > li:hover > a {
-        background-color: var(--primary-color); /* Full background hover */
-        color: var(--light-text);
-        border-bottom: none;
-     }
-    .main-menu > li > a > i { /* Arrow */
-        float: right; /* Keep arrow on the right */
-        transform: none; /* Reset rotation */
-        transition: transform 0.3s ease; /* Add transition back */
-    }
-    /* Rotate arrow when dropdown is open (example using focus-within) */
-     .main-menu > li:focus-within > a > i {
-        transform: rotate(180deg);
-     }
-
+    .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
+    .main-menu li:last-child { border-bottom: none; }
+    .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
+    .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
+    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; }
+    .main-menu > li:focus-within > a > i { transform: rotate(180deg); } /* Rotate arrow on open */
 
     /* Mobile Dropdowns */
-    .dropdown {
-        position: static; /* Static position within the flow */
-        box-shadow: none;
-        border-top: none;
-        border-radius: 0;
-        width: 100%;
-        padding: 0;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        display: none; /* Initially hidden - Use JS to toggle or :focus-within */
-        background: #444; /* Slightly lighter background for sub-menu */
-        transition: none; /* No transition needed for static */
-    }
-    /* Simple toggle example: Show dropdown when parent li is focused/hovered */
-    /* Using focus-within is better for accessibility than hover alone */
-    .main-menu > li:focus-within > .dropdown {
-       display: block;
-    }
-     .dropdown li a {
-        padding: 0.8rem 2.5rem; /* Indent submenu items more */
-        font-size: 0.9rem;
-     }
-     .dropdown li a:hover {
-        background: var(--secondary-color);
-        color: var(--dark-bg);
-     }
+    .dropdown { position: static; box-shadow: none; border-top: none; border-radius: 0; width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none; display: none; background: #444; transition: none; }
+    .main-menu > li:focus-within > .dropdown { display: block; } /* Show on focus */
+    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
+    .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
 
-    .map-container {
-        margin: 0.5rem; /* Reduce margin */
-        padding: 0.5rem;
-    }
-     #map {
-        height: calc(100vh - 100px); /* Adjust map height for mobile */
-     }
-    .error-message {
-        position: sticky; /* Stick to top inside map container */
-        top: 5px;
-        width: auto; /* Adjust width */
-        max-width: calc(100% - 20px); /* Max width within padding */
-        font-size: 0.9rem;
-    }
-    .footer-content {
-        flex-direction: column;
-        align-items: center; /* Center sections vertically */
-        text-align: center; /* Center text within sections */
-    }
-    .footer-section {
-        min-width: 100%;
-        max-width: 400px; /* Limit width on mobile */
-        display: flex; /* Use flexbox for centering content inside */
-        flex-direction: column;
-        align-items: center;
-    }
-    .footer-section.links ul {
-      width: 100%; /* Ensure ul takes width for text-align */
-    }
-    .social-icons {
-        justify-content: center;
-    }
+    .map-container { margin: 0.5rem; padding: 0.5rem; }
+    #map { height: calc(100vh - 100px); }
+    .error-message { position: sticky; top: 5px; width: auto; max-width: calc(100% - 20px); font-size: 0.9rem; }
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+    .footer-section.links ul { width: 100%; }
+    .footer-section.links li { justify-content: center; } /* Ensure items center */
+    .social-icons { justify-content: center; }
 }
 
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
-    .navbar {
-        padding: 0 0.5rem;
-    }
-    .logo-text {
-        font-size: 1.4rem;
-    }
-    .main-menu > li > a {
-        padding: 0.8rem 1rem;
-        font-size: 0.95rem;
-    }
-    .site-footer {
-        padding: 1.5rem 0.5rem 0.5rem 0.5rem;
-    }
-    .footer-section h3 {
-        font-size: 1.05rem;
-    }
-    .footer-bottom {
-        font-size: 0.8rem;
-    }
-    .error-message {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-    }
-    .error-message button {
-        font-size: 16px;
-        margin-left: 10px;
-    }
+    .navbar { padding: 0 0.5rem; }
+    .logo-text { font-size: 1.3rem; } /* Slightly smaller */
+    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
+    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
+    .footer-section h3 { font-size: 1rem; }
+    .footer-bottom { font-size: 0.8rem; }
+    .error-message { font-size: 0.85rem; padding: 8px 12px; }
+    .error-message button { font-size: 16px; margin-left: 10px; }
 }
