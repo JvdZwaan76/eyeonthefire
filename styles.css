@@ -360,7 +360,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
-        z-index: 10000; /* <<<< INCREASED Navbar z-index */
+        z-index: 10000; /* <<< INCREASED Navbar z-index */
     }
     .navbar-container {
         flex-wrap: wrap;
@@ -425,7 +425,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
-        /* border-top: 1px solid var(--border-color); Added when open */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
