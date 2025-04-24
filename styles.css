@@ -81,7 +81,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: center;
     flex-shrink: 0;
     padding: 0 0.5rem;
-    /* height: 100%; REMOVED - Let content determine height */
+    /* height: 100%; REMOVED */
     overflow: hidden;
 }
 
@@ -89,22 +89,27 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    /* height: 100%; REMOVED - Let content determine height */
+    /* height: 100%; REMOVED */
 }
 
-/* Style for the Logo Image - Forceful */
+/* Style for the Logo Image - Forceful & Simplified */
 .logo-container img {
-    height: 30px !important; /* Force height */
-    width: auto;
-    max-width: 120px !important; /* Force max-width */
-    max-height: calc(var(--navbar-height) - 20px);
-    display: block;
-    object-fit: contain;
-    flex-shrink: 0;
+    height: 35px !important; /* Force height */
+    max-width: 100px !important; /* Force max-width */
+    width: auto !important; /* Allow browser to calc width based on forced height */
+    display: block !important; /* Ensure block display */
+    object-fit: contain !important; /* Ensure scaling */
+    flex-shrink: 0 !important;
 }
 
-/* Logo Text - Smaller */
+/* Logo Text - Hide for testing logo image sizing */
+/*
 .logo-text {
+    display: none;
+}
+*/
+/* Restore logo text styles if needed later */
+ .logo-text {
     font-size: 1.1rem; /* Smaller text */
     font-weight: 700;
     color: var(--light-text);
@@ -117,6 +122,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
 }
+
 
 /* --- Horizontal Dropdown Menu (Desktop) --- */
 .nav-menu {
@@ -378,11 +384,24 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     margin-top: auto; border-top: 4px solid var(--primary-color);
     flex-shrink: 0;
 }
+/* Footer Logo Text */
+.footer-section.about .logo-text-footer { /* Use different class or more specific selector if needed */
+    font-size: 1.5rem; display: block; margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text);
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif; /* Ensure font */
+    color: var(--light-text) !important; /* Override general H3 if necessary */
+    border-bottom: none; /* Remove general h3 border */
+    margin-bottom: 0.75rem;
+}
+
 .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem; }
 .footer-section { flex: 1; min-width: 200px; margin-bottom: 1.5rem; }
 .footer-section h3 { color: var(--secondary-color); font-family: 'Montserrat', sans-serif; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-weight: 500; }
-.footer-section.about .logo-text { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; text-shadow: 1px 1px 2px var(--primary-color); color: var(--light-text); font-weight: 700; }
+/* Ensure footer H3 style doesn't override logo text */
+.footer-section.about h3.logo-text-footer { color: var(--light-text); border-bottom: none; }
 .footer-section.about p { font-size: 0.9rem; color: #ccc; line-height: 1.5; }
+
 
 /* Footer Links Section - Centered Bullet Styling */
 .footer-section.links ul { list-style: none; padding: 0; margin: 0; }
@@ -426,8 +445,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-text { font-size: 1.3rem; }
-    .logo-container img { max-height: 35px; height: 30px; max-width: 100px !important; } /* Adjust logo size */
+    .logo-text { font-size: 1.3rem; } /* Adjusted */
+    .logo-container img { max-height: 30px !important; height: 30px !important; max-width: 100px !important; } /* Adjust logo size */
     .footer-content { gap: 1.5rem; }
 }
 
@@ -447,7 +466,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 30px; height: 25px; max-width: 90px !important; } /* Adjust mobile logo */
+    .logo-container img { max-height: 28px !important; height: 28px !important; max-width: 90px !important; } /* Adjust mobile logo */
     .logo-text { font-size: 1.1rem; margin-left: 0.3rem;}
 
 
@@ -506,7 +525,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
     .logo-text { font-size: 1.0rem; }
-    .logo-container img { max-height: 28px; height: 25px; max-width: 80px !important; } /* Smaller logo */
+    .logo-container img { max-height: 25px !important; height: 25px !important; max-width: 70px !important; } /* Smaller logo */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
