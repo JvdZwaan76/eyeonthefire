@@ -471,14 +471,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         top: 100%; /* Position below the relative navbar */
         left: 0; /* Align to left */
         right: 0; /* Align to right */
-        background: var(--dark-bg);
+        background: var(--dark-bg); /* Ensure opaque background */
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
         max-height: 0;
         overflow-y: auto; /* Allow scroll if content exceeds height */
         overflow-x: hidden; /* Prevent horizontal scroll */
         transition: max-height 0.5s ease-out;
-        z-index: 9999; /* <<< Increased Z-Index >>> */
+        z-index: 9999; /* <<< High Z-Index >>> */
+        transform: translateZ(0); /* <<< Force rendering layer (potential fix for map conflict) >>> */
         margin-left: 0;
         align-items: stretch;
     }
@@ -499,24 +500,27 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
     /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        position: static; box-shadow: none; border-top: none; border-radius: 0;
+        position: relative; /* Changed from static for better control? */
+        box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
         display: block; /* Keep block for layout */
-        background: #444; transition: none;
+        background: #555; /* Slightly different background */
+        transition: none;
         max-height: 0; /* Start closed */
         overflow: hidden;
-        transition: max-height 0.4s ease-out;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
+        box-sizing: border-box;
     }
     .main-menu > li.has-dropdown.open > a > i { /* Rotate arrow when open */
          transform: rotate(180deg);
     }
     .main-menu > li.has-dropdown.open > .dropdown {
-        /* display: block; Already block */
         max-height: 500px; /* Allow height for content */
         border-top: 1px solid var(--border-color); /* Add separator */
+        padding: 0.5rem 0; /* Add padding back when open */
     }
 
-    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
+    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; } /* Match dropdown bg */
     .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
 
     .map-container { margin: 0.5rem; padding: 0.5rem; }
