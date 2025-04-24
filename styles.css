@@ -33,6 +33,21 @@ main {
     flex-grow: 1; /* Ensure main content pushes footer down */
 }
 
+/* Typography */
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: #b71c1c; /* Retained original heading color */
+  margin-bottom: 0.75em;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
+h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
+p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; } /* Retained original p color */
+a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; } /* Retained original link color */
+a:hover { color: #b71c1c; text-decoration: underline; } /* Retained original link hover */
+
+
 /* --- Fire-themed Navbar --- */
 .navbar {
     display: flex;
@@ -87,13 +102,14 @@ main {
 
 /* --- Horizontal Dropdown Menu --- */
 .nav-menu {
-    display: flex;
+    display: flex; /* Ensures nav menu is visible on desktop */
     align-items: center;
     height: 100%;
 }
 
 .main-menu {
-    display: flex;
+    display: flex; /* THIS IS THE KEY: Makes li items horizontal by default */
+    /* flex-direction: row; is the default */
     list-style: none;
     gap: 1rem; /* Spacing between main items */
     margin: 0;
@@ -119,23 +135,29 @@ main {
     display: flex;
     align-items: center;
     position: relative;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 3px solid transparent; /* For hover effect */
+    white-space: nowrap; /* Prevent wrapping */
 }
-.main-menu > li > a > i {
-    margin-left: 0.3em; /* Space before dropdown arrow */
+.main-menu > li > a > i { /* Dropdown arrow */
+    margin-left: 0.3em;
     font-size: 0.8em;
+    transition: transform 0.3s ease;
 }
 
 .main-menu > li:hover > a {
     color: var(--accent-color); /* Gold hover */
     background-color: rgba(255, 69, 0, 0.1); /* Subtle orange background */
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom-color: var(--primary-color);
 }
+.main-menu > li:hover > a > i {
+    transform: rotate(180deg); /* Rotate arrow on hover */
+}
+
 
 /* Dropdown Styles */
 .dropdown {
-    display: none;
+    display: none; /* Hidden by default */
     position: absolute;
     top: 100%; /* Position below parent */
     left: 0;
@@ -151,9 +173,11 @@ main {
     visibility: hidden;
     transform: translateY(10px); /* Start slightly lower */
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1100; /* Ensure dropdown is above other content */
 }
 
-.has-dropdown:hover .dropdown {
+.has-dropdown:hover .dropdown,
+.has-dropdown:focus-within .dropdown { /* Show on hover or when child has focus */
     display: block;
     opacity: 1;
     visibility: visible;
@@ -171,20 +195,23 @@ main {
     white-space: nowrap; /* Prevent wrapping */
 }
 
-.dropdown li a:hover {
-    background: var(--primary-color); /* Fire orange background on hover */
-    color: var(--dark-bg); /* Dark text on hover */
+.dropdown li a:hover,
+.dropdown li a:focus {
+    background: var(--primary-color); /* Fire orange background on hover/focus */
+    color: var(--dark-bg); /* Dark text on hover/focus */
+    outline: none;
 }
 
 
 /* --- Hamburger Menu (Mobile) --- */
 .hamburger {
-    display: none; /* Hidden by default */
+    display: none; /* Hidden by default on desktop */
     cursor: pointer;
     background: none;
     border: none;
     padding: 10px;
     z-index: 1002; /* Above nav menu */
+    order: 3; /* Position hamburger to the right in flex container */
 }
 
 .hamburger .line {
@@ -214,13 +241,9 @@ main {
 .map-container {
     position: relative;
     /* Removed fixed margin-top, body padding handles it */
-    /* margin-top: var(--navbar-height);  */
-    /* padding: 10px; */ /* Add padding if needed around the map */
     background-color: #fff; /* White background for the map area */
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
-    /* Ensure map container takes available space if needed */
-    /* width: 100%; */
     max-width: 1600px; /* Max width for map container */
     margin: 1rem auto; /* Center map container with margin */
     padding: 1rem; /* Padding inside container */
@@ -232,6 +255,7 @@ main {
     width: 100%;
     border-radius: 4px;
     border: 1px solid #ddd;
+    z-index: 1; /* Ensure map is below overlays/controls */
 }
 
 /* Map Controls (Leaflet Default & Custom) */
@@ -239,13 +263,25 @@ main {
 .leaflet-control-container .leaflet-control {
   box-shadow: 0 1px 7px rgba(0,0,0,0.5);
   border-radius: 5px;
+  background-clip: padding-box; /* Fix background clipping issue */
+  z-index: 800; /* Ensure controls are above map tiles */
 }
 .leaflet-bar a, .leaflet-bar a:hover {
     color: var(--primary-color);
     border-bottom: 1px solid #ccc;
 }
+.leaflet-bar a:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.leaflet-bar a:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: none;
+}
 .leaflet-control-locate a { /* Style leaflet-locate plugin if used */
     font-size: 1.4em;
+    line-height: 30px;
 }
 
 
@@ -310,15 +346,15 @@ main {
 
 /* Error Message */
 .error-message {
-    position: absolute;
-    top: calc(var(--navbar-height) + 10px); /* Below navbar */
+    position: absolute; /* Changed from fixed to absolute relative to map-container */
+    top: 10px; /* Position near top of map container */
     left: 50%;
     transform: translateX(-50%);
     background: var(--primary-color);
     color: var(--light-text);
     padding: 10px 15px;
     border-radius: 5px;
-    z-index: 1001; /* Above map */
+    z-index: 900; /* Above map, below controls */
     display: flex;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -342,9 +378,10 @@ main {
 .site-footer {
     background: linear-gradient(to right, #3a200a, #1a1005); /* Dark brown/black gradient */
     color: #a9a9a9; /* Light grey text */
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 2.5rem 1rem 1rem 1rem; /* More top padding */
     margin-top: auto; /* Push to bottom */
     border-top: 4px solid var(--primary-color); /* Thick fire line */
+    flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
 .footer-content {
@@ -365,9 +402,11 @@ main {
 .footer-section h3 {
     color: var(--secondary-color); /* Dark orange titles */
     font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
+    font-weight: 500;
 }
 
 .footer-section.about .logo-text {
@@ -376,15 +415,18 @@ main {
     margin-bottom: 0.5rem;
     text-shadow: 1px 1px 2px var(--primary-color);
     color: var(--light-text); /* Make logo text lighter */
+    font-weight: 700; /* Match header */
 }
 .footer-section.about p {
     font-size: 0.9rem;
     color: #ccc; /* Lighter paragraph text */
+    line-height: 1.5;
 }
 
 .footer-section.links ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer-section.links li {
@@ -395,6 +437,7 @@ main {
     color: #a9a9a9;
     text-decoration: none;
     transition: color 0.3s ease, padding-left 0.3s ease;
+    font-size: 0.95rem;
 }
 
 .footer-section.links a:hover {
@@ -406,17 +449,19 @@ main {
 .social-icons {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
 .social-icons a {
     color: #a9a9a9;
     font-size: 1.5rem;
     transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block; /* Fix transform issue */
 }
 
 .social-icons a:hover {
     color: var(--primary-color); /* Fire orange hover */
-    transform: scale(1.2); /* Grow slightly */
+    transform: scale(1.2) rotate(5deg); /* Grow slightly and rotate */
 }
 
 .footer-bottom {
@@ -432,10 +477,12 @@ main {
     color: #a9a9a9;
     text-decoration: none;
     transition: color 0.3s ease;
+    margin: 0 0.3em;
 }
 
 .footer-bottom a:hover {
     color: var(--accent-color);
+    text-decoration: underline;
 }
 
 
@@ -443,6 +490,9 @@ main {
 
 /* Tablet (<= 992px) */
 @media (max-width: 992px) {
+    .navbar {
+        padding: 0 1rem; /* Reduce padding */
+    }
     .navbar-container {
         max-width: 900px;
     }
@@ -451,9 +501,10 @@ main {
     }
      .main-menu > li > a {
         padding: 0 0.7rem;
+        font-size: 0.95rem; /* Slightly smaller font */
      }
     .footer-content {
-        gap: 1rem;
+        gap: 1.5rem;
     }
 }
 
@@ -463,67 +514,87 @@ main {
         padding-top: 0; /* Remove top padding as navbar might not be fixed */
     }
     .navbar {
-        position: relative; /* Make navbar static */
+        position: relative; /* Make navbar static for simplicity on mobile */
         height: auto; /* Allow height to adjust */
         padding: 0 1rem; /* Adjust padding */
+        border-bottom-width: 3px; /* Thicker border */
     }
     .navbar-container {
         flex-wrap: wrap; /* Allow wrapping */
         justify-content: space-between; /* Space between logo and hamburger */
         width: 100%;
         padding: 0.8rem 0;
+        min-height: 60px; /* Ensure minimum height */
     }
-     .logo-container {
-         /* Ensure logo stays on left */
-    }
+     .logo-link {
+        height: auto; /* Adjust height */
+     }
     .hamburger {
         display: block; /* Show hamburger */
     }
     .nav-menu {
-        display: none; /* Hide main menu */
-        flex-direction: column;
+        /* Hide main menu on mobile initially */
+        display: none;
+        /* When active, it becomes a block */
+        flex-direction: column; /* Stack items vertically */
         width: 100%;
         position: absolute; /* Position for dropdown effect */
-        top: 100%; /* Below the navbar container */
+        top: 100%; /* Position below the relative navbar */
         left: 0;
         background: var(--dark-bg); /* Same dark background */
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-top: 2px solid var(--primary-color);
         max-height: 0; /* Start closed */
-        overflow: hidden;
+        overflow-y: auto; /* Allow scrolling if menu is long */
         transition: max-height 0.5s ease-out; /* Smooth transition */
+        z-index: 1001; /* Ensure it's above main content */
     }
     .nav-menu.active {
-        display: flex; /* Show when active */
-        max-height: 80vh; /* Limit height */
+        /* display: flex; Redundant due to flex-direction */
+        display: block; /* Use block for simple stacking */
+        max-height: calc(100vh - 60px); /* Limit height, adjust 60px if navbar height changes */
     }
 
     .main-menu {
-        flex-direction: column;
+        /* Already set to flex-direction: column from .nav-menu */
+        flex-direction: column; /* Explicitly stack */
         width: 100%;
         height: auto; /* Auto height */
-        gap: 0;
+        gap: 0; /* Remove gap */
     }
     .main-menu li {
         width: 100%;
         border-bottom: 1px solid var(--border-color);
         height: auto;
+        display: block; /* Ensure li takes full width */
     }
      .main-menu li:last-child {
          border-bottom: none;
      }
     .main-menu > li > a {
         padding: 1rem 1.5rem; /* Vertical padding */
-        justify-content: space-between; /* Push arrow to right */
+        /* justify-content: space-between; Less relevant for block display */
+        display: block; /* Make link take full width */
         width: 100%;
         height: auto;
-        border-bottom: none; /* Remove bottom border */
+        border-bottom: none; /* Remove desktop border */
+        text-align: left;
     }
-     .main-menu > li:hover > a {
+    .main-menu > li:hover > a {
         background-color: var(--primary-color); /* Full background hover */
         color: var(--light-text);
         border-bottom: none;
      }
+    .main-menu > li > a > i { /* Hide arrow on mobile if not used for toggle */
+        /* display: none; */
+        /* Or style for toggle if needed */
+        float: right;
+        transform: none; /* Reset rotation */
+    }
+     .main-menu > li:hover > a > i {
+        transform: none; /* No rotation on hover */
+     }
+
 
     /* Mobile Dropdowns */
     .dropdown {
@@ -536,20 +607,18 @@ main {
         opacity: 1;
         visibility: visible;
         transform: none;
-        display: none; /* Initially hidden */
+        display: none; /* Initially hidden - Use JS to toggle or :focus-within */
         background: #444; /* Slightly lighter background for sub-menu */
+        transition: none; /* No transition needed for static */
     }
-    .has-dropdown:hover .dropdown {
-         /* Keep hidden until toggled */
-         display: none;
-    }
-    /* Add JS toggle for mobile dropdowns if needed, or use focus-within */
-    .has-dropdown > a:focus + .dropdown, /* Show on focus */
-    .has-dropdown:focus-within > .dropdown { /* Show if child focused */
+    /* Simple toggle example: Show dropdown when parent li is focused/hovered */
+    .main-menu > li:focus-within > .dropdown,
+    .main-menu > li:hover > .dropdown {
        display: block;
     }
      .dropdown li a {
-        padding: 0.8rem 2rem; /* Indent submenu items */
+        padding: 0.8rem 2.5rem; /* Indent submenu items more */
+        font-size: 0.9rem;
      }
      .dropdown li a:hover {
         background: var(--secondary-color);
@@ -561,8 +630,15 @@ main {
         padding: 0.5rem;
     }
      #map {
-        height: calc(100vh - 150px); /* Adjust map height for mobile */
+        height: calc(100vh - 100px); /* Adjust map height for mobile, considering potential url bar etc */
      }
+    .error-message {
+        position: sticky; /* Stick to top inside map container */
+        top: 5px;
+        width: auto; /* Adjust width */
+        max-width: calc(100% - 20px); /* Max width within padding */
+        font-size: 0.9rem;
+    }
     .footer-content {
         flex-direction: column;
         align-items: center;
@@ -570,6 +646,7 @@ main {
     }
     .footer-section {
         min-width: 100%;
+        max-width: 400px; /* Limit width on mobile */
     }
     .social-icons {
         justify-content: center;
@@ -578,8 +655,11 @@ main {
 
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
+    .navbar {
+        padding: 0 0.5rem;
+    }
     .logo-text {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     .main-menu > li > a {
         padding: 0.8rem 1rem;
@@ -589,9 +669,17 @@ main {
         padding: 1.5rem 0.5rem 0.5rem 0.5rem;
     }
     .footer-section h3 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
     .footer-bottom {
         font-size: 0.8rem;
+    }
+    .error-message {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+    .error-message button {
+        font-size: 16px;
+        margin-left: 10px;
     }
 }
