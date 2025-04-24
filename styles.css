@@ -60,7 +60,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Default z-index for navbar */
+    z-index: 10000; /* High z-index for navbar */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -226,33 +226,30 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 /* Styling for Sub-items and Headers in Dropdown */
-.dropdown li strong,
-.dropdown li strong.sub-header { /* Target both */
+.dropdown li strong.sub-header {
     display: flex;
     align-items: center;
-    padding: 0.7rem 1.5rem 0.2rem; /* <<<< ADDED Left Padding */
+    padding: 0.7rem 1.8rem 0.2rem; /* <<<< INCREASED Left Padding */
     color: var(--accent-color);
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     background: none;
-}
-.dropdown li strong.sub-header {
     margin-top: 0.5em; /* Add space above sub-headers */
 }
-.dropdown li:first-child > strong { /* Remove top margin for first header */
-     margin-top: 0;
+.dropdown li:first-child > strong.sub-header {
+     margin-top: 0; /* Remove top margin for first header */
 }
 /* Style for fire icon in headers */
 .dropdown li strong i.fa-fire {
-    color: var(--secondary-color); /* <<<< Fire/Orange Color */
-    margin-right: 0.6em; /* <<<< Adjusted Space */
+    color: var(--secondary-color); /* <<<< Orange Color */
+    margin-right: 0.6em;
     font-size: 0.9em;
 }
 
 .dropdown li a.sub-item {
-    padding-left: 2.5rem; /* Indent sub-items MORE */
+    padding-left: 2.8rem; /* <<<< INCREASED Indentation */
     font-size: 0.9rem;
     color: var(--light-text);
 }
@@ -298,8 +295,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* --- Map Container & Loading --- */
 .map-container {
-    position: relative; /* Needed for z-index */
-    z-index: 1; /* Ensure map container is low */
+    position: relative;
+    z-index: 1; /* Lower z-index */
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -308,11 +305,16 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding: 1rem;
     overflow: hidden;
 }
-#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; } /* Map itself also needs low z-index */
+/* Attempt to force map container behind menu when body class is present */
+body.menu-open .map-container {
+    z-index: -1; /* Try forcing behind */
+}
+
+#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
 .controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
 .controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; } /* Leaflet controls default z-index */
+.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
 .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
 .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
@@ -360,7 +362,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
-        z-index: 10000; /* <<< INCREASED Navbar z-index */
+        z-index: 10000; /* High z-index for mobile navbar */
     }
     .navbar-container {
         flex-wrap: wrap;
@@ -388,8 +390,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         max-height: 0; /* Start closed */
         overflow-y: auto; /* Allow scroll */
         overflow-x: hidden;
-        transition: max-height 0.4s ease-out; /* Use max-height transition */
-        z-index: 9999; /* High z-index (BELOW navbar) */
+        transition: max-height 0.4s ease-out; /* Transition height */
+        z-index: 9999; /* High z-index (below navbar) */
         padding-top: 0;
         height: auto;
         margin-left: 0;
@@ -446,7 +448,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .dropdown li strong.sub-header { /* Target specific class */
         display: flex; /* Use flex for icon */
         align-items: center;
-        padding: 0.7rem 1.5rem 0.2rem; /* Consistent padding */
+        padding: 0.7rem 1.8rem 0.2rem; /* <<<< Added Padding Left */
         color: var(--accent-color);
         font-weight: 700;
         font-size: 0.9rem;
@@ -460,13 +462,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
      }
      /* Style for fire icon in headers */
     .dropdown li strong i.fa-fire {
-        color: var(--secondary-color); /* <<<< UPDATED Color */
-        margin-right: 0.6em;
+        color: var(--secondary-color); /* <<<< Orange Color */
+        margin-right: 0.6em; /* <<<< Adjusted Space */
         font-size: 0.9em;
     }
 
     .dropdown li a.sub-item {
-        padding-left: 2.5rem; /* Keep indentation */
+        padding-left: 2.8rem; /* <<<< INCREASED Indentation */
         font-size: 0.9rem;
     }
     .dropdown li a.sub-item:hover {
@@ -488,4 +490,14 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 /* Smaller Mobile (< 480px) */
-@media (max-width: 4
+@media (max-width: 480px) {
+    /* Keep navbar relative */
+    .logo-container span { font-size: 1.3rem; }
+    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
+    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
+    .footer-section h3 { font-size: 1rem; }
+    .footer-bottom { font-size: 0.8rem; }
+    .error-message { font-size: 0.85rem; padding: 8px 12px; }
+    .error-message button { font-size: 16px; margin-left: 10px; }
+    #map { height: calc(60vh); }
+}
