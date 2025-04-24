@@ -92,20 +92,20 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     height: 100%;
 }
 
-/* Style for the Logo Image */
+/* Style for the Logo Image - More Restrictive */
 .logo-container img {
-    height: 35px; /* Fixed height */
+    height: 30px; /* Even smaller fixed height */
     width: auto;  /* Maintain aspect ratio based on height */
-    max-width: 150px; /* Prevent image from getting too wide */
-    max-height: calc(var(--navbar-height) - 20px); /* Keep safeguard, adjusted padding slightly */
+    max-width: 120px; /* More restrictive max width */
+    max-height: calc(var(--navbar-height) - 20px); /* Keep safeguard */
     display: block;
     object-fit: contain; /* Scale image nicely */
-    flex-shrink: 0; /* Prevent image from shrinking if container is squeezed */
+    flex-shrink: 0; /* Prevent image from shrinking */
 }
 
-/* Logo Text */
+/* Logo Text - Smaller */
 .logo-text {
-    font-size: 1.5rem; /* Reduced size */
+    font-size: 1.1rem; /* Smaller text */
     font-weight: 700;
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
@@ -429,8 +429,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-text { font-size: 1.5rem; } /* Adjusted */
-    .logo-container img { max-height: 40px; height: 35px; } /* Adjust logo size */
+    .logo-text { font-size: 1.3rem; } /* Adjusted */
+    .logo-container img { max-height: 35px; height: 30px; } /* Adjust logo size */
     .footer-content { gap: 1.5rem; }
 }
 
@@ -450,8 +450,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 35px; height: 30px; } /* Adjust mobile logo */
-    .logo-text { font-size: 1.3rem; margin-left: 0.3rem;} /* Adjust mobile logo text */
+    .logo-container img { max-height: 30px; height: 25px; } /* Adjust mobile logo */
+    .logo-text { font-size: 1.1rem; margin-left: 0.3rem;} /* Adjust mobile logo text */
 
 
     .hamburger { display: block; } /* Show hamburger */
@@ -510,8 +510,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-    .logo-text { font-size: 1.1rem; } /* Smaller text if shown */
-    .logo-container img { max-height: 30px; } /* Smaller logo */
+    .logo-text { font-size: 1.0rem; } /* Smaller text if shown */
+    .logo-container img { max-height: 28px; height: 25px; } /* Smaller logo */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
