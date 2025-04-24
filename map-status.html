@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Map Controls Test</title>
+    <title>Eye on the Fire - Final Polish</title>
     <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
     <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -68,7 +68,7 @@
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                <h3 class="logo-text-footer">Eye on the Fire</h3>
+                 <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
                     Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay safe.
                 </p>
@@ -263,14 +263,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const mobileMediaQuery = window.matchMedia('(max-width: 768px)'); // Check screen size
+            const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
 
             // Hamburger Menu Toggle
             if (hamburger && navMenu) {
+                 console.log("Hamburger and NavMenu found. Adding listener.");
                  hamburger.addEventListener('click', () => {
+                    console.log("Hamburger clicked!");
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    // Close any open dropdowns when hamburger is toggled
+                    // Close any open dropdowns when hamburger is toggled OFF
                     if (!hamburger.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                             openDropdown.classList.remove('open');
@@ -292,8 +294,9 @@
                              e.preventDefault(); // Prevent link navigation on mobile tap
                              const parentLi = link.closest('.has-dropdown');
                              if (parentLi) {
+                                 // Toggle the clicked dropdown
                                  parentLi.classList.toggle('open');
-                                 // Optional: Close other open dropdowns
+                                 // Close other open dropdowns
                                  document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                      if (openDropdown !== parentLi) {
                                          openDropdown.classList.remove('open');
@@ -312,7 +315,7 @@
                         if (hamburger && hamburger.classList.contains('active')) {
                             hamburger.classList.remove('active');
                             navMenu.classList.remove('active');
-                             // Also close the parent dropdown if desired
+                             // Also close the parent dropdown
                              const parentLi = subLink.closest('.has-dropdown');
                              if(parentLi && parentLi.classList.contains('open')) {
                                  parentLi.classList.remove('open');
@@ -331,8 +334,6 @@
                          }
                     });
                  });
-
-
              }
 
             // Footer year
@@ -342,6 +343,3 @@
             }
         });
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-</body>
-</html>
