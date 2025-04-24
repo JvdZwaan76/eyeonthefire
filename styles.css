@@ -28,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* overflow-x: hidden; Might not be needed now */
+  /* overflow-x: hidden; Might be needed for fixed menu */
 }
 
 main {
@@ -61,7 +61,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Default z-index for navbar */
+    z-index: 1000; /* Navbar z-index */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -113,7 +113,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: stretch;
     height: 100%;
     margin-left: auto; /* Push right on desktop */
-    position: static; /* Default static position */
+    /* Default state (overridden on mobile) */
+    position: static;
     width: auto;
     background: none;
     z-index: auto;
@@ -310,56 +311,58 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    body { padding-top: 0; } /* Remove padding as navbar is relative */
+    body { padding-top: var(--navbar-height); } /* Ensure padding for fixed navbar */
     .navbar {
-        position: relative; /* Navbar static for dropdown */
-        height: auto;
+        position: fixed; /* Keep navbar fixed on mobile */
+        height: var(--navbar-height); /* Use fixed height */
         padding: 0 1rem;
-        border-bottom-width: 3px;
-        z-index: 1000; /* Ensure navbar is above map */
+        z-index: 10000; /* High z-index for navbar */
     }
     .navbar-container {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-        min-height: 60px;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        padding: 0;
+        min-height: auto; /* Remove min-height */
     }
-    .logo-link { height: auto; padding: 0.3rem 0; }
+    .logo-link { height: 100%; } /* Use full height */
     .logo-container span { font-size: 1.5rem; }
 
     .hamburger { display: block; }
 
-    /* Mobile Menu - Dropdown from Top */
+    /* Mobile Menu - Fixed Position Dropdown */
     .nav-menu {
-        display: none; /* Hidden by default */
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 100%; /* Position below relative navbar */
+        display: block; /* Use block for positioning */
+        flex-direction: column; /* Stack */
+        position: fixed; /* Position relative to viewport */
+        top: var(--navbar-height); /* Start below navbar */
         left: 0;
         right: 0;
-        background: var(--dark-bg); /* Opaque background */
+        width: 100%;
+        height: calc(100vh - var(--navbar-height)); /* Fill remaining height */
+        background: var(--dark-bg);
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-        border-top: 2px solid var(--primary-color);
-        max-height: 0; /* Start closed */
-        overflow-y: auto; /* Allow scroll */
+        /* Remove border-top */
+        overflow-y: auto;
         overflow-x: hidden;
-        transition: max-height 0.4s ease-out; /* Use max-height transition */
-        z-index: 9999; /* High z-index */
-        /* transform: translateZ(0); */ /* Removed potential fix */
-        padding-top: 0;
-        height: auto; /* Let content determine height up to max-height */
+        z-index: 9999; /* Below navbar but above map */
+        /* Use opacity & visibility for transitions */
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+        /* Remove max-height and its transition */
+        padding: 1rem 0; /* Add padding */
         margin-left: 0;
         align-items: stretch;
     }
     .nav-menu.active {
-        display: flex;
-        max-height: calc(100vh - 70px); /* Fill available height (use var) */
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease-out, visibility 0s linear 0s;
+        /* display: flex; No longer needed, use block */
     }
 
     /* Mobile Menu Item Structure */
     .main-menu {
-        flex-direction: column; /* Stack */
+        flex-direction: column;
         width: 100%; height: auto; gap: 0; align-items: stretch;
         padding: 0;
     }
@@ -372,19 +375,50 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
     /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        position: relative; /* Relative to parent li */
+        position: relative;
         box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
         display: block;
-        background: #555; /* Submenu background */
+        background: #555;
         transition: none;
-        max-height: 0; /* Start closed */
+        max-height: 0;
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
-        /* border-top: 1px solid var(--border-color); Added when open */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
         max-height: 500px;
         padding: 0.5rem 0;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
+    .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
+
+    /* Map and Controls Layout */
+    .map-container { margin: 0.5rem; padding: 0.5rem; margin-top: calc(var(--navbar-height) + 0.5rem); /* Adjust top margin */ }
+    #map { height: calc(65vh); }
+    .controls { flex-wrap: wrap; }
+    .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
+
+    /* Footer Layout */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+    .footer-section.links ul { width: 100%; display: inline-block; text-align: center; }
+    .footer-section.links li { justify-content: center; display: inline-flex; width: auto; }
+    .social-icons { justify-content: center; }
+}
+
+/* Smaller Mobile (< 480px) */
+@media (max-width: 480px) {
+    /* Keep navbar fixed height */
+    .logo-container span { font-size: 1.3rem; }
+    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
+    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
+    .footer-section h3 { font-size: 1rem; }
+    .footer-bottom { font-size: 0.8rem; }
+    .error-message { font-size: 0.85rem; padding: 8px 12px; }
+    .error-message button { font-size: 16px; margin-left: 10px; }
+    #map { height: calc(60vh); }
+}
