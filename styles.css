@@ -81,26 +81,26 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: center;
     flex-shrink: 0;
     padding: 0 0.5rem;
-    height: 100%; /* Allow logo container to use full height */
+    /* height: 100%; REMOVED - Let content determine height */
     overflow: hidden;
 }
 
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 0.75rem; /* Increased gap slightly */
-    height: 100%;
+    gap: 0.75rem;
+    /* height: 100%; REMOVED - Let content determine height */
 }
 
-/* Style for the Logo Image - More Restrictive */
+/* Style for the Logo Image - Forceful */
 .logo-container img {
-    height: 30px; /* Even smaller fixed height */
-    width: auto;  /* Maintain aspect ratio based on height */
-    max-width: 120px; /* More restrictive max width */
-    max-height: calc(var(--navbar-height) - 20px); /* Keep safeguard */
+    height: 30px !important; /* Force height */
+    width: auto;
+    max-width: 120px !important; /* Force max-width */
+    max-height: calc(var(--navbar-height) - 20px);
     display: block;
-    object-fit: contain; /* Scale image nicely */
-    flex-shrink: 0; /* Prevent image from shrinking */
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 /* Logo Text - Smaller */
@@ -112,7 +112,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     text-shadow: 1px 1px 3px var(--primary-color);
     transition: color 0.3s ease;
     white-space: nowrap;
-    margin-left: 0.5rem; /* Ensure some space if text is kept */
+    margin-left: 0.5rem;
 }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
@@ -124,14 +124,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: stretch;
     height: 100%;
     overflow: hidden;
-    margin-left: auto; /* Pushes nav menu towards the right */
+    margin-left: auto;
 }
 
-/* Styles for the main menu list itself */
 .main-menu {
-    display: flex; /* Use flexbox */
-    flex-direction: row; /* Explicitly row */
-    flex-wrap: nowrap; /* Prevent wrapping */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     list-style: none;
     gap: 0.5rem;
     margin: 0;
@@ -140,14 +139,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: stretch;
 }
 
-/* Styles for each list item */
 .main-menu li {
     position: relative;
     display: flex;
     align-items: stretch;
 }
 
-/* Styles for the links within list items */
 .main-menu > li > a {
     color: var(--light-text);
     text-decoration: none;
@@ -238,7 +235,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     margin-left: 1rem;
 }
 
-.hamburger .line { /* Target lines specifically */
+.hamburger .line {
     display: block;
     width: 28px;
     height: 3px;
@@ -259,8 +256,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
     max-width: 1600px;
-    margin: 1rem auto; /* Center map container */
-    padding: 1rem; /* Add padding around map */
+    margin: 1rem auto;
+    padding: 1rem;
     overflow: hidden;
 }
 
@@ -272,22 +269,22 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     /* Height is controlled by inline style in React component */
 }
 
-/* Controls outside map */
+/* Controls outside map (Rendered by React now) */
 .controls {
-  display: flex; /* Use flex for alignment */
-  justify-content: center; /* Center buttons */
+  display: flex;
+  justify-content: center;
   gap: 10px;
-  padding: 10px 0; /* Add padding above/below */
-  position: static; /* Remove absolute positioning */
+  padding: 10px 0;
+  position: static;
   z-index: auto;
-  width: 100%; /* Take full width */
-  margin-bottom: 10px; /* Space below buttons */
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .controls button {
-  margin-right: 0; /* Remove margin handled by gap */
-  padding: 8px 15px; /* Slightly larger padding */
-  background: var(--primary-color); /* Use theme color */
+  margin-right: 0;
+  padding: 8px 15px;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -298,7 +295,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .controls button:hover {
-  background: var(--secondary-color); /* Use theme hover */
+  background: var(--secondary-color);
   transform: translateY(-1px);
 }
 
@@ -321,7 +318,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.7);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 1000; backdrop-filter: blur(3px); border-radius: 5px; /* Match container */
+    z-index: 1000; backdrop-filter: blur(3px); border-radius: 5px;
 }
 
 /* Flame Loader */
@@ -343,25 +340,25 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     color: var(--light-text);
     padding: 10px 15px;
     border-radius: 5px;
-    z-index: auto; /* No longer needs high z-index */
+    z-index: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Space text and button */
+    justify-content: space-between;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     max-width: 90%;
-    text-align: left; /* Align text to left */
-    margin: 0 auto 10px auto; /* Center block, add margin below */
+    text-align: left;
+    margin: 0 auto 10px auto;
     position: static;
     transform: none;
     left: auto;
 }
 
 .error-message span {
-    margin-right: 15px; /* Space between text and button */
+    margin-right: 15px;
 }
 
 .error-message button {
-    margin-left: 0; /* Reset margin */
+    margin-left: 0;
     background: none;
     border: none;
     color: var(--light-text);
@@ -369,8 +366,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-weight: bold;
     cursor: pointer;
     line-height: 1;
-    padding: 0; /* Remove padding if any */
-    flex-shrink: 0; /* Prevent button from shrinking */
+    padding: 0;
+    flex-shrink: 0;
 }
 
 
@@ -392,15 +389,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .footer-section.links li {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Align bullet/link left */
+    justify-content: flex-start;
     margin-bottom: 0.8rem;
     text-align: left;
 }
 .footer-section.links li::before {
-    content: '•'; /* Standard bullet */
+    content: '•';
     color: var(--secondary-color);
-    font-size: 1.2em; /* Adjust bullet size */
-    line-height: 1; /* Adjust line height for centering */
+    font-size: 1.2em;
+    line-height: 1;
     margin-right: 0.7em;
     display: inline-block;
     flex-shrink: 0;
@@ -412,7 +409,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .footer-section.links a:hover { color: var(--accent-color); letter-spacing: 0.5px; text-decoration: underline; }
 
 /* Social Icons */
-.social-icons { display: flex; gap: 1rem; flex-wrap: wrap; /* Removed justify-content for default left align */ }
+.social-icons { display: flex; gap: 1rem; flex-wrap: wrap; }
 .social-icons a { color: #a9a9a9; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
 .social-icons a:hover { color: var(--primary-color); transform: scale(1.2) rotate(5deg); }
 
@@ -429,38 +426,38 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-text { font-size: 1.3rem; } /* Adjusted */
-    .logo-container img { max-height: 35px; height: 30px; } /* Adjust logo size */
+    .logo-text { font-size: 1.3rem; }
+    .logo-container img { max-height: 35px; height: 30px; max-width: 100px !important; } /* Adjust logo size */
     .footer-content { gap: 1.5rem; }
 }
 
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    body { padding-top: 0; } /* Remove padding as navbar is static */
+    body { padding-top: 0; }
     .navbar {
-        position: relative; /* Make static for mobile */
+        position: relative;
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
     }
     .navbar-container {
-        flex-wrap: wrap; /* Allow logo/hamburger to wrap if needed */
+        flex-wrap: wrap;
         justify-content: space-between;
-        padding: 0.5rem 0; /* Padding top/bottom */
+        padding: 0.5rem 0;
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 30px; height: 25px; } /* Adjust mobile logo */
-    .logo-text { font-size: 1.1rem; margin-left: 0.3rem;} /* Adjust mobile logo text */
+    .logo-container img { max-height: 30px; height: 25px; max-width: 90px !important; } /* Adjust mobile logo */
+    .logo-text { font-size: 1.1rem; margin-left: 0.3rem;}
 
 
-    .hamburger { display: block; } /* Show hamburger */
+    .hamburger { display: block; }
     .nav-menu {
-        display: none; /* Hide nav menu */
-        flex-direction: column; /* Stack items vertically */
+        display: none;
+        flex-direction: column;
         width: 100%;
         position: absolute;
-        top: 100%; /* Position below navbar container */
+        top: 100%;
         left: 0;
         background: var(--dark-bg);
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
@@ -469,54 +466,52 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         overflow-y: auto;
         transition: max-height 0.5s ease-out;
         z-index: 1001;
-        margin-left: 0; /* Reset margin */
-        align-items: stretch; /* Stretch items */
+        margin-left: 0;
+        align-items: stretch;
     }
     .nav-menu.active {
-        display: flex; /* Use flex when active */
-        max-height: calc(100vh - 60px); /* Limit height */
+        display: flex;
+        max-height: calc(100vh - 60px);
     }
 
-    /* Stack main menu items */
     .main-menu {
-        flex-direction: column; /* Stack items */
+        flex-direction: column;
         width: 100%; height: auto; gap: 0; align-items: stretch;
     }
     .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
     .main-menu li:last-child { border-bottom: none; }
     .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
     .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
-    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; transform: none; } /* Reset rotation */
+    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; transform: none; }
     .main-menu > li:focus-within > a > i { transform: rotate(180deg); }
 
-    /* Mobile Dropdowns */
     .dropdown { position: static; box-shadow: none; border-top: none; border-radius: 0; width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none; display: none; background: #444; transition: none; }
     .main-menu > li:focus-within > .dropdown { display: block; }
     .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
     .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
 
     .map-container { margin: 0.5rem; padding: 0.5rem; }
-    #map { height: calc(65vh); } /* Adjusted height */
-    .controls { flex-wrap: wrap; } /* Allow buttons to wrap */
+    #map { height: calc(65vh); }
+    .controls { flex-wrap: wrap; }
     .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
 
     .footer-content { flex-direction: column; align-items: center; text-align: center; }
     .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
-    .footer-section.links ul { width: 100%; display: inline-block; text-align: center; } /* Center list block */
-    .footer-section.links li { justify-content: center; display: inline-flex; width: auto; } /* Allow centering within centered block */
+    .footer-section.links ul { width: 100%; display: inline-block; text-align: center; }
+    .footer-section.links li { justify-content: center; display: inline-flex; width: auto; }
     .social-icons { justify-content: center; }
 }
 
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-    .logo-text { font-size: 1.0rem; } /* Smaller text if shown */
-    .logo-container img { max-height: 28px; height: 25px; } /* Smaller logo */
+    .logo-text { font-size: 1.0rem; }
+    .logo-container img { max-height: 28px; height: 25px; max-width: 80px !important; } /* Smaller logo */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
     .footer-bottom { font-size: 0.8rem; }
     .error-message { font-size: 0.85rem; padding: 8px 12px; }
     .error-message button { font-size: 16px; margin-left: 10px; }
-    #map { height: calc(60vh); } /* Further adjust map height */
+    #map { height: calc(60vh); }
 }
