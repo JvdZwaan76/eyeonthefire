@@ -28,8 +28,7 @@
             <a href="index.html" class="logo-link">
                  <div class="logo-container">
                     <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
-                    <span class="logo-text">Eye on the Fire</span>
-                 </div>
+                    </div>
             </a>
             <nav class="nav-menu">
                 <ul class="main-menu">
@@ -64,12 +63,13 @@
 
     <main>
         <div id="root"></div>
-        </main>
+    </main>
 
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                <h3 class="logo-text">Eye on the Fire</h3>
+                 {/* Using H3 for consistency, text set via CSS */}
+                <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
                     Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay safe.
                 </p>
@@ -121,7 +121,7 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
+                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     console.log(`Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -144,7 +144,7 @@
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Keep Leaflet zoom
+                        zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
@@ -164,7 +164,7 @@
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
-                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Using endpoint from original file
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
@@ -174,7 +174,7 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        setFires(fireList.slice(0, 100)); // Limit to 100 fires
+                        setFires(fireList.slice(0, 100));
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
@@ -191,7 +191,7 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png', // Check path
+                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -203,10 +203,10 @@
                 }
             }, [fires]);
 
-            // Reset map
+            // Reset map function
             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
-            // Locate Me
+            // Locate Me function
             const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
                  if (navigator.geolocation) {
@@ -226,32 +226,36 @@
                 }
             };
 
-            // Dismiss error
+            // Dismiss error function
             const dismissError = () => setErrorMessage('');
 
-            // Render component UI including controls
+            // Render component UI
             return (
-                <div className="map-container">
-                    {isLoading && (
-                        <div className="loading-overlay">
-                            <div className="flame-loader"></div>
-                            <p>Loading wild fires...</p>
+                // Use React Fragments <>...</> to avoid unnecessary outer div
+                <>
+                    {/* Map container div */}
+                    <div className="map-container">
+                        {isLoading && (
+                            <div className="loading-overlay">
+                                <div className="flame-loader"></div>
+                                <p>Loading wild fires...</p>
+                            </div>
+                        )}
+                        {/* Controls div rendered INSIDE React component */}
+                        <div className="controls">
+                            <button onClick={handleReset}>Reset</button>
+                            <button onClick={handleLocateMe}>Locate Me</button>
                         </div>
-                    )}
-                    {/* Buttons ARE NOW RENDERED BY REACT */}
-                    <div className="controls">
-                        <button onClick={handleReset}>Reset</button>
-                        <button onClick={handleLocateMe}>Locate Me</button>
+                        {errorMessage && (
+                            <div className="error-message">
+                                <span>{errorMessage}</span>
+                                <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                            </div>
+                        )}
+                        {/* Map div */}
+                        <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                     </div>
-                    {errorMessage && (
-                        <div className="error-message">
-                            <span>{errorMessage}</span>
-                            <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                        </div>
-                    )}
-                    {/* Map div */}
-                    <div id="map" style={{ height: '70vh', width: '100%' }}></div>
-                </div>
+                </>
             );
         };
 
