@@ -160,7 +160,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     white-space: nowrap;
     cursor: pointer;
 }
-.main-menu > li > a > i {
+.main-menu > li > a > i.fa-caret-down { /* Target only caret icon */
     margin-left: 0.4em;
     font-size: 0.8em;
     transition: transform 0.3s ease;
@@ -171,7 +171,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     background-color: rgba(255, 69, 0, 0.1);
     border-bottom-color: var(--primary-color);
 }
-.main-menu > li:hover > a > i {
+.main-menu > li:hover > a > i.fa-caret-down {
     transform: rotate(180deg);
 }
 
@@ -228,7 +228,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Styling for Sub-items and Headers */
 .dropdown li strong,
 .dropdown li strong.sub-header { /* Target both */
-    display: block;
+    display: flex; /* Use flex for icon alignment */
+    align-items: center;
     padding: 0.7rem 1.2rem 0.2rem;
     color: var(--accent-color);
     font-weight: 700;
@@ -243,9 +244,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .dropdown li:first-child > strong { /* Remove top margin for first header */
      margin-top: 0;
 }
+/* Style for fire icon in headers */
+.dropdown li strong i.fa-fire {
+    color: var(--primary-color); /* Fire color */
+    margin-right: 0.5em;
+    font-size: 0.9em; /* Slightly smaller than text */
+}
 
 .dropdown li a.sub-item {
-    padding-left: 2rem; /* Indent sub-items */
+    padding-left: 2.5rem; /* Indent sub-items MORE */
     font-size: 0.9rem;
     color: var(--light-text);
 }
@@ -292,7 +299,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* --- Map Container & Loading --- */
 .map-container {
     position: relative; /* Needed for z-index */
-    z-index: 1; /* Ensure map container is below nav */
+    z-index: 1; /* Ensure map container is low */
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -422,10 +429,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
-        max-height: 500px; /* Allow height */
+        max-height: 1000px; /* INCREASED max-height for nested */
         padding: 0.5rem 0;
         border-top: 1px solid var(--border-color); /* Add separator only when open */
-
     }
 
     .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
@@ -437,7 +443,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
     /* Styling for Sub-items and Headers */
     .dropdown li strong.sub-header { /* Target specific class */
-        display: block;
+        display: flex; /* Use flex for icon */
+        align-items: center;
         padding: 0.7rem 1.5rem 0.2rem;
         color: var(--accent-color);
         font-weight: 700;
@@ -450,6 +457,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
      .dropdown li:first-child > strong.sub-header {
          margin-top: 0; /* Remove top margin for first header */
      }
+     /* Style for fire icon in headers */
+    .dropdown li strong i.fa-fire {
+        color: var(--primary-color);
+        margin-right: 0.5em;
+        font-size: 0.9em;
+    }
 
     .dropdown li a.sub-item {
         padding-left: 2.5rem; /* Keep indentation */
@@ -460,7 +473,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     }
 
     /* Map and Controls Layout */
-    .map-container { margin: 0.5rem; padding: 0.5rem; z-index: 1; /* Ensure map container is lower */ }
+    .map-container { margin: 0.5rem; padding: 0.5rem; z-index: 1; } /* Ensure map container is lower */
     #map { height: calc(65vh); }
     .controls { flex-wrap: wrap; }
     .error-message { position: static; transform: none; left: auto; max-width: 100%; margin: 10px 0;}
