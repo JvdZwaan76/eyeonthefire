@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
+    <title>Eye on the Fire - Map Controls Test</title>
     <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
     <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -27,8 +27,7 @@
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                  <div class="logo-container">
-                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo">
-                    <span class="logo-text">Eye on the Fire</span>
+                    <span>Eye on the Fire</span> {/* Placeholder text */}
                  </div>
             </a>
             <nav class="nav-menu">
@@ -69,7 +68,7 @@
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                 <h3 class="logo-text-footer">Eye on the Fire</h3>
+                <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
                     Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay safe.
                 </p>
@@ -109,7 +108,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch with better error handling
+        // Retry fetch
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -230,32 +229,29 @@
             const dismissError = () => setErrorMessage('');
 
             // Render component UI
+            // Make sure controls are INSIDE the return and map-container
             return (
-                // Use React Fragments <>...</>
-                <>
-                    {/* Map container div */}
-                    <div className="map-container">
-                        {isLoading && (
-                            <div className="loading-overlay">
-                                <div className="flame-loader"></div>
-                                <p>Loading wild fires...</p>
-                            </div>
-                        )}
-                        {/* Controls div rendered INSIDE React component */}
-                        <div className="controls">
-                            <button onClick={handleReset}>Reset</button>
-                            <button onClick={handleLocateMe}>Locate Me</button>
-                        </div>
-                        {errorMessage && (
-                            <div className="error-message">
-                                <span>{errorMessage}</span>
-                                <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                            </div>
-                        )}
-                        {/* Map div */}
-                        <div id="map" style={{ height: '70vh', width: '100%' }}></div>
-                    </div>
-                </>
+                <div className="map-container">
+                     {isLoading && (
+                         <div className="loading-overlay">
+                             <div className="flame-loader"></div>
+                             <p>Loading wild fires...</p>
+                         </div>
+                     )}
+                     {/* Controls rendered by React */}
+                     <div className="controls">
+                         <button onClick={handleReset}>Reset</button>
+                         <button onClick={handleLocateMe}>Locate Me</button>
+                     </div>
+                     {errorMessage && (
+                         <div className="error-message">
+                             <span>{errorMessage}</span>
+                             <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                         </div>
+                     )}
+                     {/* Map div */}
+                     <div id="map" style={{ height: '70vh', width: '100%' }}></div>
+                 </div>
             );
         };
 
