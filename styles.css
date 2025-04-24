@@ -94,22 +94,25 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Style for the Logo Image */
 .logo-container img {
-    height: 40px; /* Fixed height */
-    width: auto; /* Maintain aspect ratio */
-    max-height: calc(var(--navbar-height) - 15px); /* Safeguard */
+    height: 35px; /* Fixed height */
+    width: auto;  /* Maintain aspect ratio based on height */
+    max-width: 150px; /* Prevent image from getting too wide */
+    max-height: calc(var(--navbar-height) - 20px); /* Keep safeguard, adjusted padding slightly */
     display: block;
     object-fit: contain; /* Scale image nicely */
+    flex-shrink: 0; /* Prevent image from shrinking if container is squeezed */
 }
 
 /* Logo Text */
 .logo-text {
-    font-size: 1.6rem; /* Slightly smaller if used with image */
+    font-size: 1.5rem; /* Reduced size */
     font-weight: 700;
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
     text-shadow: 1px 1px 3px var(--primary-color);
     transition: color 0.3s ease;
     white-space: nowrap;
+    margin-left: 0.5rem; /* Ensure some space if text is kept */
 }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
@@ -426,8 +429,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    .logo-text { font-size: 1.6rem; }
-    .logo-container img { max-height: 45px; height: calc(var(--navbar-height) - 25px); } /* Adjust logo size */
+    .logo-text { font-size: 1.5rem; } /* Adjusted */
+    .logo-container img { max-height: 40px; height: 35px; } /* Adjust logo size */
     .footer-content { gap: 1.5rem; }
 }
 
@@ -447,7 +450,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 40px; height: auto; } /* Adjust mobile logo */
+    .logo-container img { max-height: 35px; height: 30px; } /* Adjust mobile logo */
+    .logo-text { font-size: 1.3rem; margin-left: 0.3rem;} /* Adjust mobile logo text */
+
 
     .hamburger { display: block; } /* Show hamburger */
     .nav-menu {
@@ -506,7 +511,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
     .logo-text { font-size: 1.1rem; } /* Smaller text if shown */
-    .logo-container img { max-height: 35px; } /* Smaller logo */
+    .logo-container img { max-height: 30px; } /* Smaller logo */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
