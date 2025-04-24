@@ -1,3 +1,5 @@
+/* --- EYE ON THE FIRE - FINAL STYLES --- */
+
 /* --- Global Styles & Variables --- */
 :root {
     --primary-color: #ff4500; /* OrangeRed - Core fire color */
@@ -7,8 +9,7 @@
     --light-text: #f5f5f5; /* Off-white text */
     --dark-text: #333;
     --border-color: #444;
-    --navbar-height: 70px; /* Increased height for better spacing */
-    --footer-height: 200px; /* Approximate footer height */
+    --navbar-height: 70px;
 }
 
 /* Reset and Base */
@@ -22,7 +23,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
   color: var(--dark-text);
-  background-color: #f0f0f0; /* Lighter grey background */
+  background-color: #f0f0f0;
   padding-top: var(--navbar-height); /* Space for fixed navbar */
   display: flex;
   flex-direction: column;
@@ -51,9 +52,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* --- Fire-themed Navbar --- */
 .navbar {
     display: flex;
-    justify-content: center; /* Center the container */
-    align-items: stretch; /* Stretch items to fill height */
-    padding: 0 1rem; /* Consistent padding */
+    justify-content: center;
+    align-items: stretch;
+    padding: 0 1rem;
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
     position: fixed;
@@ -68,19 +69,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .navbar-container {
     display: flex;
-    justify-content: space-between; /* Space logo, nav, hamburger */
-    align-items: center; /* Vertically center items */
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     max-width: 1300px;
-    height: 100%; /* Ensure container uses full navbar height */
+    height: 100%;
 }
 
 .logo-link {
     text-decoration: none;
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* Prevent shrinking */
-    padding: 0 0.5rem; /* Add padding around logo */
+    flex-shrink: 0;
+    padding: 0 0.5rem;
 }
 
 .logo-container {
@@ -103,50 +104,51 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 /* --- Horizontal Dropdown Menu (Desktop) --- */
-/* Ensure .nav-menu is visible and uses flex on desktop */
 .nav-menu {
-    display: flex; /* Use flexbox */
-    align-items: stretch; /* Stretch to fill height */
-    height: 100%; /* Take full navbar height */
-    overflow: hidden; /* Hide potential overflow on desktop */
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    overflow: hidden;
+    margin-left: auto; /* Pushes nav menu towards the right */
 }
 
 /* Styles for the main menu list itself */
+/* >>>>> THIS IS THE CRITICAL RULE FOR HORIZONTAL LAYOUT <<<<< */
 .main-menu {
-    display: flex; /* KEY: Use flexbox for horizontal layout */
-    flex-direction: row; /* KEY: Explicitly set row direction */
-    flex-wrap: nowrap; /* KEY: Prevent wrapping on desktop */
+    display: flex; /* Use flexbox */
+    flex-direction: row; /* Explicitly row */
+    flex-wrap: nowrap; /* Prevent wrapping */
     list-style: none;
-    gap: 0.5rem; /* Adjust spacing as needed */
+    gap: 0.5rem;
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure full height */
-    align-items: stretch; /* Stretch li elements */
+    height: 100%;
+    align-items: stretch;
 }
 
 /* Styles for each list item */
 .main-menu li {
     position: relative;
-    display: flex; /* Use flex for alignment within li */
-    align-items: stretch; /* Stretch link to fill height */
+    display: flex;
+    align-items: stretch;
 }
 
 /* Styles for the links within list items */
 .main-menu > li > a {
     color: var(--light-text);
     text-decoration: none;
-    padding: 0 1rem; /* Padding left/right */
+    padding: 0 1rem;
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    display: flex; /* Use flex to center text vertically */
-    align-items: center; /* Center text vertically */
+    display: flex;
+    align-items: center;
     position: relative;
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-    border-bottom: 3px solid transparent; /* For hover effect */
-    white-space: nowrap; /* Prevent wrapping */
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
 }
-.main-menu > li > a > i { /* Dropdown arrow */
+.main-menu > li > a > i {
     margin-left: 0.4em;
     font-size: 0.8em;
     transition: transform 0.3s ease;
@@ -212,14 +214,14 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* --- Hamburger Menu (Mobile) --- */
 .hamburger {
-    display: none; /* Hidden on desktop */
+    display: none;
     cursor: pointer;
     background: none;
     border: none;
     padding: 10px;
     z-index: 1002;
-    order: 3; /* Keep hamburger on the right */
-    margin-left: auto; /* Push hamburger to the far right */
+    order: 3;
+    margin-left: 1rem; /* Adjusted from auto to ensure consistent spacing */
 }
 
 .hamburger .line {
@@ -307,30 +309,28 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Footer Links Section - Centered Bullet Styling */
 .footer-section.links ul {
-    list-style: none; /* Remove default bullets */
+    list-style: none;
     padding: 0;
     margin: 0;
-    /* Optional: Center the whole list block if desired */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
 }
 
 .footer-section.links li {
-    display: flex; /* Use flex to align bullet and link */
-    align-items: center; /* Vertically center bullet and link */
-    justify-content: center; /* Center the content (bullet + link) within the li */
-    margin-bottom: 0.8rem; /* Increased spacing */
-    text-align: left; /* Reset text-align from previous attempts if any */
+    display: flex;
+    align-items: center;
+    /* justify-content: center; Let's try flex-start for default alignment */
+    justify-content: flex-start; /* Align bullet/link to the left */
+    margin-bottom: 0.8rem;
+    text-align: left; /* Ensure text aligns left */
 }
 
 .footer-section.links li::before {
-    content: '🔥'; /* Fire emoji as bullet */
-    /* content: '•'; */ /* Or use a standard bullet */
-    color: var(--secondary-color); /* Bullet color */
-    font-size: 0.9em; /* Adjust bullet size */
-    margin-right: 0.7em; /* Space between bullet and link */
-    display: inline-block; /* Needed for proper alignment */
+    content: '•'; /* Standard bullet */
+    color: var(--secondary-color);
+    font-size: 1.2em; /* Adjust bullet size */
+    line-height: 1; /* Adjust line height for centering */
+    margin-right: 0.7em;
+    display: inline-block;
+    flex-shrink: 0;
 }
 
 .footer-section.links a {
@@ -338,9 +338,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     text-decoration: none;
     transition: color 0.3s ease, letter-spacing 0.3s ease;
     font-size: 0.95rem;
-    display: inline-block; /* Make link inline-block */
+    display: inline-block;
     padding: 0.2em 0;
-    flex-shrink: 0; /* Prevent link text from shrinking weirdly */
+    flex-shrink: 0;
 }
 
 .footer-section.links a:hover {
@@ -364,8 +364,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Tablet (<= 992px) */
 @media (max-width: 992px) {
     .navbar { padding: 0 1rem; }
-    .main-menu { gap: 0.3rem; } /* Further reduce gap */
-    .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; } /* Adjust padding/font */
+    .nav-menu { margin-left: 0; }
+    .main-menu { gap: 0.3rem; }
+    .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
     .logo-text { font-size: 1.6rem; }
 }
 
@@ -376,64 +377,4 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .navbar-container { flex-wrap: wrap; justify-content: space-between; padding: 0.5rem 0; min-height: 60px; }
     .logo-link { height: auto; padding: 0.3rem 0; }
 
-    /* Show hamburger, hide desktop menu */
-    .hamburger { display: block; }
-    .nav-menu {
-        display: none; /* Initially hidden */
-        flex-direction: column; /* Stack items */
-        width: 100%;
-        position: absolute;
-        top: 100%; /* Below navbar */
-        left: 0;
-        background: var(--dark-bg);
-        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-        border-top: 2px solid var(--primary-color);
-        max-height: 0; /* Start closed */
-        overflow-y: auto;
-        transition: max-height 0.5s ease-out;
-        z-index: 1001;
-    }
-    .nav-menu.active {
-        display: block; /* Show when active */
-        max-height: calc(100vh - 60px);
-    }
-
-    /* Stack main menu items */
-    .main-menu {
-        flex-direction: column; /* Stack items */
-        width: 100%; height: auto; gap: 0; align-items: stretch;
-    }
-    .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); display: block; }
-    .main-menu li:last-child { border-bottom: none; }
-    .main-menu > li > a { padding: 1rem 1.5rem; display: block; width: 100%; text-align: left; border-bottom: none; }
-    .main-menu > li:hover > a { background-color: var(--primary-color); color: var(--light-text); }
-    .main-menu > li > a > i { float: right; transition: transform 0.3s ease; }
-    .main-menu > li:focus-within > a > i { transform: rotate(180deg); } /* Rotate arrow on open */
-
-    /* Mobile Dropdowns */
-    .dropdown { position: static; box-shadow: none; border-top: none; border-radius: 0; width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none; display: none; background: #444; transition: none; }
-    .main-menu > li:focus-within > .dropdown { display: block; } /* Show on focus */
-    .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
-    .dropdown li a:hover { background: var(--secondary-color); color: var(--dark-bg); }
-
-    .map-container { margin: 0.5rem; padding: 0.5rem; }
-    #map { height: calc(100vh - 100px); }
-    .error-message { position: sticky; top: 5px; width: auto; max-width: calc(100% - 20px); font-size: 0.9rem; }
-    .footer-content { flex-direction: column; align-items: center; text-align: center; }
-    .footer-section { min-width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
-    .footer-section.links ul { width: 100%; }
-    .footer-section.links li { justify-content: center; } /* Ensure items center */
-    .social-icons { justify-content: center; }
-}
-
-/* Smaller Mobile (< 480px) */
-@media (max-width: 480px) {
-    .navbar { padding: 0 0.5rem; }
-    .logo-text { font-size: 1.3rem; } /* Slightly smaller */
-    .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
-    .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
-    .footer-section h3 { font-size: 1rem; }
-    .footer-bottom { font-size: 0.8rem; }
-    .error-message { font-size: 0.85rem; padding: 8px 12px; }
-    .error-message button { font-size: 16px; margin-left: 10px; }
-}
+    .
