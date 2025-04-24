@@ -81,44 +81,48 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: center;
     flex-shrink: 0;
     padding: 0 0.5rem;
-    /* height: 100%; REMOVED */
+    /* height removed */
     overflow: hidden;
 }
 
+/* Style the logo container */
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    /* height: 100%; REMOVED */
+    gap: 0.6rem; /* Adjust gap */
+    max-height: calc(var(--navbar-height) - 20px); /* Limit container height */
+    max-width: 250px; /* Limit container width */
+    /* height removed */
+    overflow: hidden; /* Hide overflow from children */
 }
 
-/* Style for the Logo Image - Forceful & Simplified Test */
+/* Style for the Logo Image within the container */
 .logo-container img {
-    height: 35px !important; /* Force height */
-    width: auto !important;  /* Force auto width */
-    display: block !important;
-    object-fit: contain !important;
-    max-width: 100px !important; /* Force max width */
-    flex-shrink: 0 !important;
+    display: block;
+    object-fit: contain; /* Scale image within dimensions */
+    max-height: 100%; /* Max height is container's max height */
+    max-width: 100%;  /* Max width is container's max width */
+    /* height and width constraints removed - let container size it */
+    flex-shrink: 0; /* Don't allow image itself to shrink */
 }
 
-/* Logo Text - REMOVED for testing logo image sizing */
-/*
- .logo-text {
-    font-size: 1.1rem;
+/* Logo Text - Restore */
+.logo-text {
+    font-size: 1.2rem; /* Further reduced size */
     font-weight: 700;
     color: var(--light-text);
     font-family: 'Montserrat', sans-serif;
     text-shadow: 1px 1px 3px var(--primary-color);
     transition: color 0.3s ease;
     white-space: nowrap;
-    margin-left: 0.5rem;
+    margin-left: 0.3rem; /* Adjust margin */
+    flex-shrink: 1; /* Allow text to shrink if needed */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
 }
 .logo-link:hover .logo-text {
     color: var(--secondary-color);
 }
-*/
-
 
 /* --- Horizontal Dropdown Menu (Desktop) --- */
 .nav-menu {
@@ -441,8 +445,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .nav-menu { margin-left: 0; }
     .main-menu { gap: 0.3rem; }
     .main-menu > li > a { padding: 0 0.6rem; font-size: 0.9rem; }
-    /* .logo-text { font-size: 1.3rem; } */ /* Text removed */
-    .logo-container img { max-height: 30px !important; height: 30px !important; max-width: 100px !important; }
+    .logo-container { max-width: 200px; } /* Adjust container width */
+    .logo-text { font-size: 1.1rem; }
+    /* Logo image size adjusted by container */
     .footer-content { gap: 1.5rem; }
 }
 
@@ -462,8 +467,8 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-height: 60px;
     }
     .logo-link { height: auto; padding: 0.3rem 0; }
-    .logo-container img { max-height: 28px !important; height: 28px !important; max-width: 90px !important; }
-    /* .logo-text { font-size: 1.1rem; margin-left: 0.3rem;} */ /* Text removed */
+    .logo-container { max-height: 35px; max-width: 180px; gap: 0.4rem; } /* Adjust container */
+    .logo-text { font-size: 1.0rem; margin-left: 0.3rem;}
 
 
     .hamburger { display: block; }
@@ -520,8 +525,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Smaller Mobile (< 480px) */
 @media (max-width: 480px) {
     .navbar { padding: 0.5rem; }
-    /* .logo-text { font-size: 1.0rem; } */ /* Text removed */
-    .logo-container img { max-height: 25px !important; height: 25px !important; max-width: 70px !important; } /* Smaller logo */
+    .logo-container { max-height: 30px; max-width: 150px; } /* Adjust container */
+    .logo-text { font-size: 0.9rem; }
+    /* Image scales within container */
     .main-menu > li > a { padding: 0.8rem 1rem; font-size: 0.9rem; }
     .site-footer { padding: 1.5rem 0.5rem 0.5rem 0.5rem; }
     .footer-section h3 { font-size: 1rem; }
