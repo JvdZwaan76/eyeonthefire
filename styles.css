@@ -310,13 +310,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    body { padding-top: 0; } /* Removed padding as navbar is relative */
+    body { padding-top: 0; } /* Remove padding as navbar is relative */
     .navbar {
         position: relative; /* Navbar static for dropdown */
         height: auto;
         padding: 0 1rem;
         border-bottom-width: 3px;
-        z-index: 1000; /* Ensure navbar is above map but below menu */
+        z-index: 1000; /* Ensure navbar is above map */
     }
     .navbar-container {
         flex-wrap: wrap;
@@ -329,7 +329,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
     .hamburger { display: block; }
 
-    /* Revert to Dropdown-from-top Mobile Menu */
+    /* Mobile Menu - Dropdown from Top */
     .nav-menu {
         display: none; /* Hidden by default */
         flex-direction: column;
@@ -344,22 +344,23 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         max-height: 0; /* Start closed */
         overflow-y: auto; /* Allow scroll */
         overflow-x: hidden;
-        transition: max-height 0.4s ease-out; /* Use max-height transition */
+        /* Use transition on max-height */
+        transition: max-height 0.4s ease-out;
         z-index: 9999; /* High z-index */
         /* transform: translateZ(0); Keep potential layering fix */
         padding-top: 0;
-        height: auto;
+        height: auto; /* Let content determine height up to max-height */
         margin-left: 0;
         align-items: stretch;
     }
     .nav-menu.active {
         display: flex;
-        max-height: calc(100vh - 70px); /* Fill available height */
+        max-height: calc(100vh - 70px); /* Fill available height (use var) */
     }
 
     /* Mobile Menu Item Structure */
     .main-menu {
-        flex-direction: column;
+        flex-direction: column; /* Stack */
         width: 100%; height: auto; gap: 0; align-items: stretch;
         padding: 0;
     }
@@ -372,22 +373,24 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
     /* Mobile Dropdown - Show when parent has .open class */
     .dropdown {
-        position: relative;
+        position: relative; /* Relative to parent li */
         box-shadow: none; border-top: none; border-radius: 0;
         width: 100%; padding: 0; opacity: 1; visibility: visible; transform: none;
         display: block;
-        background: #555;
+        background: #555; /* Submenu background */
         transition: none;
-        max-height: 0;
+        max-height: 0; /* Start closed */
         overflow: hidden;
         transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         box-sizing: border-box;
-        border-top: 1px solid var(--border-color);
+        /* border-top: 1px solid var(--border-color); Removed, border is on li */
     }
     .main-menu > li.has-dropdown.open > a > i { transform: rotate(180deg); }
     .main-menu > li.has-dropdown.open > .dropdown {
-        max-height: 500px;
+        max-height: 500px; /* Allow height */
         padding: 0.5rem 0;
+        border-top: 1px solid var(--border-color); /* Add separator only when open */
+
     }
 
     .dropdown li a { padding: 0.8rem 2.5rem; font-size: 0.9rem; background: #555; }
