@@ -63,7 +63,9 @@
     </header>
 
     <main>
+        {/* React will render map component here */}
         <div id="root"></div>
+         {/* >>>>> REMOVED the static controls div from here <<<<< */}
     </main>
 
     <footer class="site-footer">
@@ -119,7 +121,6 @@
                         const errorText = await response.text();
                         throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
-                    // Using original API endpoint from uploaded file
                     return await response.json();
                 } catch (error) {
                     console.error(`Fetch attempt ${i + 1} failed:`, error.message);
@@ -132,7 +133,7 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default: San Francisco
+            const [center, setCenter] = useState([37.7749, -122.4194]);
             const [zoom, setZoom] = useState(5);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
@@ -230,15 +231,16 @@
             // Dismiss error
             const dismissError = () => setErrorMessage('');
 
+            // >>>>> RENDER COMPONENT UI including controls <<<<<
             return (
                 <div className="map-container">
                     {isLoading && (
                         <div className="loading-overlay">
-                            <div className="flame-loader"></div> {/* Using CSS loader */}
+                            <div className="flame-loader"></div>
                             <p>Loading wild fires...</p>
                         </div>
                     )}
-                    {/* Buttons above map */}
+                    {/* Buttons ARE NOW RENDERED BY REACT */}
                     <div className="controls">
                         <button onClick={handleReset}>Reset</button>
                         <button onClick={handleLocateMe}>Locate Me</button>
@@ -249,7 +251,7 @@
                             <button onClick={dismissError} aria-label="Dismiss error">×</button>
                         </div>
                     )}
-                    {/* Adjusted Map Height */}
+                    {/* Map div */}
                     <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                 </div>
             );
