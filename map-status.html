@@ -63,10 +63,8 @@
     </header>
 
     <main>
-        {/* React will render map component here */}
         <div id="root"></div>
-         {/* >>>>> REMOVED the static controls div from here <<<<< */}
-    </main>
+        </main>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -231,7 +229,7 @@
             // Dismiss error
             const dismissError = () => setErrorMessage('');
 
-            // >>>>> RENDER COMPONENT UI including controls <<<<<
+            // Render component UI including controls
             return (
                 <div className="map-container">
                     {isLoading && (
