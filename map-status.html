@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Final Polish</title>
+    <title>Eye on the Fire - Final Version</title>
     <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
     <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" href="styles.css">
 
-</head>
+    </head>
 <body>
     <header class="navbar">
         <div class="navbar-container">
@@ -31,7 +31,7 @@
                  </div>
             </a>
             <nav class="nav-menu">
-                <ul class="main-menu">
+                 <ul class="main-menu">
                     <li><a href="#">Home</a></li>
                     <li class="has-dropdown">
                         <a href="#">Map Tools <i class="fas fa-caret-down"></i></a>
@@ -49,6 +49,9 @@
                             <li><a href="#">Emergency Kit</a></li>
                         </ul>
                     </li>
+                     {/* >>>>> ADDED New Nav Items <<<<< */}
+                    <li><a href="#">Prepare</a></li>
+                    <li><a href="#">Prevent</a></li>
                     <li><a href="#">News</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
@@ -120,9 +123,9 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Workspace attempt ${i + 1} failed:`, error.message);
+                    console.error(`Data fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
-                    console.log(`Retrying in ${delay}ms...`);
+                    console.log(`Retrying fetch in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
@@ -177,7 +180,7 @@
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
-                        setErrorMessage(`Failed to load fire data: ${err.message}.`);
+                        setErrorMessage(`Failed to load fire data. Please check API or network.`);
                     })
                     .finally(() => {
                         setIsLoading(false);
@@ -301,23 +304,19 @@
                                  });
                              }
                          }
-                         // On desktop, the click navigates (or does nothing if href="#")
                      });
                  });
 
                  // Close full mobile menu only when clicking a *final* navigation link
                  const allNavLinks = navMenu.querySelectorAll('a');
                  allNavLinks.forEach(link => {
-                    // Check if the link is NOT a dropdown toggle itself
-                    const isToggle = link.parentElement.classList.contains('has-dropdown') && link.matches('.has-dropdown > a');
+                    const isToggle = link.matches('.has-dropdown > a');
 
                     if (!isToggle) {
                          link.addEventListener('click', () => {
-                              // If mobile menu is active, close it
-                             if (hamburger && hamburger.classList.contains('active')) {
+                             if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                // Also close any open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
