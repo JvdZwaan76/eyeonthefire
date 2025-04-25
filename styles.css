@@ -186,13 +186,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transform: translateY(10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Keep transitions */
     z-index: 1100; /* Above navbar */
-    /* animation: subtle-fire-bg 5s infinite alternate; */ /* Optional: remove animation if distracting */
 }
-
-/* @keyframes subtle-fire-bg { */
-/* 0% { background-position: 0 0; } */
-/* 100% { background-position: 0 20px; } */
-/* } */
 
 /* Show on DESKTOP hover/focus */
 /* Use a common breakpoint like 992px */
@@ -590,12 +584,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         display: block;
     }
 
-    /* Style items within the mobile dropdown */
+    /* Style items within the mobile dropdown -- UPDATED FOR TEXT WRAPPING */
      .nav-menu.active .dropdown li a {
-        padding: 0.8rem 1.5rem 0.8rem 2.5rem; /* Indented items */
+        padding: 0.8rem 1rem 0.8rem 2.5rem; /* Adjusted right padding */
         font-size: 0.9rem;
         border-bottom: 1px solid rgba(68, 68, 68, 0.5); /* Fainter lines */
         color: var(--light-text); /* Ensure text color */
+        white-space: normal; /* Allow text to wrap */
+        line-height: 1.4; /* Slightly increase line height for wrapped text */
+        display: block; /* Ensure it takes full width for wrapping */
     }
      .nav-menu.active .dropdown li:last-child a {
          border-bottom: none;
@@ -611,9 +608,16 @@ a:hover { color: #b71c1c; text-decoration: underline; }
          padding: 0.7rem 1.5rem 0.2rem 2rem; /* Mobile sub-header padding */
          background-color: rgba(0, 0, 0, 0.1); /* Subtle background */
          color: #ffcc80; /* Match desktop */
+         /* Inherits display: flex from desktop */
+         /* Ensure text wrapping if needed */
+         white-space: normal;
+         line-height: 1.4;
     }
+     /* Style sub-items within mobile dropdown -- UPDATED FOR TEXT WRAPPING */
      .nav-menu.active .dropdown li a.sub-item {
         padding-left: 3.5rem; /* Further indent sub-items */
+        padding-right: 1rem; /* Ensure consistent right padding */
+        /* Inherits white-space: normal and line-height: 1.4 from parent 'a' rule */
     }
 
 } /* End Mobile Media Query */
