@@ -123,6 +123,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
+        // Retry fetch
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -153,6 +154,7 @@
             const initialCenter = [37.7749, -122.4194];
             const initialZoom = 5;
 
+            // Initialize map
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
@@ -165,12 +167,14 @@
                 }
             }, []);
 
+            // Update map view
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
+            // Fetch fire data
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
@@ -195,6 +199,7 @@
                     });
             }, []);
 
+            // Update fire markers
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
@@ -211,8 +216,10 @@
                 }
             }, [fires]);
 
+            // Reset map function
             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
+            // Locate Me function
             const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
                  if (navigator.geolocation) {
@@ -232,10 +239,13 @@
                 }
             };
 
+            // Dismiss error function
             const dismissError = () => setErrorMessage('');
 
+            // Render component UI
             return (
                 <>
+                    {/* Map container div */}
                     <div className="map-container">
                         {isLoading && (
                             <div className="loading-overlay">
@@ -243,6 +253,7 @@
                                 <p>Loading wild fires...</p>
                             </div>
                         )}
+                        {/* Controls div rendered INSIDE React component */}
                         <div className="controls">
                             <button onClick={handleReset}>Reset</button>
                             <button onClick={handleLocateMe}>Locate Me</button>
@@ -253,6 +264,7 @@
                                 <button onClick={dismissError} aria-label="Dismiss error">×</button>
                             </div>
                         )}
+                        {/* Map div */}
                         <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                     </div>
                 </>
@@ -265,63 +277,73 @@
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const body = document.body;
 
+            // Hamburger Menu Toggle
             if (hamburger && navMenu) {
-                console.log("Hamburger and NavMenu found.");
-                hamburger.addEventListener('click', () => {
-                    console.log("Hamburger clicked.");
+                 hamburger.addEventListener('click', () => {
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    body.classList.toggle('menu-open');
-                });
+                    // Close any open dropdowns when hamburger menu is closed
+                    if (!navMenu.classList.contains('active')) {
+                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                            openDropdown.classList.remove('open');
+                        });
+                    }
+                 });
             } else {
-                console.error("Hamburger or NavMenu not found!");
+                console.error("Hamburger button or NavMenu element not found!");
             }
 
-            if (navMenu) {
-                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+             // Dropdown Toggle Logic (Mobile Only)
+             if (navMenu) {
+                 const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
 
-                dropdownToggles.forEach(toggleLink => {
-                    toggleLink.addEventListener('click', (e) => {
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault();
-                            const parentLi = toggleLink.closest('.has-dropdown');
-                            if (parentLi) {
-                                parentLi.classList.toggle('open');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                    if (otherLi !== parentLi) {
-                                        otherLi.classList.remove('open');
-                                    }
-                                });
-                            }
-                        }
-                    });
-                });
+                 dropdownToggles.forEach(toggleLink => {
+                     toggleLink.addEventListener('click', (e) => {
+                         // Check if hamburger is visible (i.e., mobile view)
+                         if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                             e.preventDefault(); // Prevent default link behavior ONLY on mobile toggle
+                             const parentLi = toggleLink.closest('.has-dropdown');
+                             if (parentLi) {
+                                 // Toggle the clicked dropdown
+                                 parentLi.classList.toggle('open');
+                                 // Close other open dropdowns
+                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
+                                     if (otherLi !== parentLi) {
+                                         otherLi.classList.remove('open');
+                                     }
+                                 });
+                             }
+                         }
+                     });
+                 });
 
-                const allNavLinks = navMenu.querySelectorAll('a');
-                allNavLinks.forEach(link => {
+                 // Close full mobile menu only when clicking a *final* navigation link
+                 const allNavLinks = navMenu.querySelectorAll('a');
+                 allNavLinks.forEach(link => {
                     const isToggle = link.matches('.has-dropdown > a');
+
                     if (!isToggle) {
-                        link.addEventListener('click', () => {
-                            if (hamburger && navMenu.classList.contains('active')) {
+                         link.addEventListener('click', () => {
+                             if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                body.classList.remove('menu-open');
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
-                            }
-                        });
-                    }
-                });
-            }
+                             }
+                         });
+                     }
+                 });
+             }
 
+            // Footer year
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
+                 yearSpan.textContent = new Date().getFullYear();
             }
         });
     </script>
-</body>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'935a3083dd5353fe',t:'MTc0NTU0NTgyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
