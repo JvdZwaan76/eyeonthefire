@@ -1,57 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eye on the Fire - Final Version</title>
-    <meta name="description"
-        content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
-    <meta name="keywords"
-        content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
+    <meta name="description" content="Eye on the Fire is your premier destination to monitor active wildfires near you with our interactive live map. Get real-time updates, safety tips, and community insights instantly.">
+    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-T8RE6KDBEW');
     </script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <link rel="stylesheet" href="styles.css">
-
 </head>
-
 <body>
     <header class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
-                <div class="logo-container">
+                 <div class="logo-container">
                     <span>Eye on the Fire</span>
-                </div>
+                 </div>
             </a>
             <nav class="nav-menu">
-                <ul class="main-menu">
+                 <ul class="main-menu">
                     <li><a href="#">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
-                            <li><a href="#" class="sub-item">Hardening Your Home</a></li>
-                            <li><a href="#" class="sub-item">Defensible Space</a></li>
-                            <li><a href="#" class="sub-item">Defensible Space & Drought</a></li>
-                            <li><a href="#" class="sub-item">Fire-Smart Landscaping</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                            <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
-                            <li><a href="#" class="sub-item">Prepare Your Family</a></li>
-                            <li><a href="#" class="sub-item">Create Your Go Bag</a></li>
-                            <li><a href="#" class="sub-item">Insurance Preparedness</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                            <li><a href="#" class="sub-item">Go! Evacuation Guide</a></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
+                             <li><a href="#" class="sub-item">Hardening Your Home</a></li>
+                             <li><a href="#" class="sub-item">Defensible Space</a></li>
+                             <li><a href="#" class="sub-item">Defensible Space & Drought</a></li>
+                             <li><a href="#" class="sub-item">Fire-Smart Landscaping</a></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
+                             <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
+                             <li><a href="#" class="sub-item">Prepare Your Family</a></li>
+                             <li><a href="#" class="sub-item">Create Your Go Bag</a></li>
+                             <li><a href="#" class="sub-item">Insurance Preparedness</a></li>
+                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
+                             <li><a href="#" class="sub-item">Go! Evacuation Guide</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Prevent</a></li>
@@ -63,7 +56,7 @@
                             <li><a href="#">Submit Report</a></li>
                         </ul>
                     </li>
-                    <li class="has-dropdown">
+                     <li class="has-dropdown">
                         <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
                             <li><a href="#">Evacuation Plans</a></li>
@@ -90,10 +83,9 @@
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                <h3 class="logo-text-footer">Eye on the Fire</h3>
+                 <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
-                    Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay
-                    safe.
+                    Your premier source for real-time wildfire monitoring and safety information. Stay informed, stay safe.
                 </p>
             </div>
             <div class="footer-section links">
@@ -207,7 +199,6 @@
                     });
             }, []);
 
-
             // Update fire markers
             useEffect(() => {
                 if (markerLayerRef.current) {
@@ -230,8 +221,8 @@
 
             // Locate Me function
             const handleLocateMe = () => {
-                setIsLoading(true); setErrorMessage('');
-                if (navigator.geolocation) {
+                 setIsLoading(true); setErrorMessage('');
+                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
@@ -241,7 +232,7 @@
                             console.error('Geolocation error:', err.message);
                             setErrorMessage('Failed to get your location: ' + err.message); setIsLoading(false);
                         },
-                        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+                         { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
                 } else {
                     setErrorMessage('Geolocation is not supported by your browser'); setIsLoading(false);
@@ -254,7 +245,6 @@
             // Render component UI
             return (
                 <>
-                    {/* Map container div */}
                     <div className="map-container">
                         {isLoading && (
                             <div className="loading-overlay">
@@ -262,7 +252,6 @@
                                 <p>Loading wild fires...</p>
                             </div>
                         )}
-                        {/* Controls div rendered INSIDE React component */}
                         <div className="controls">
                             <button onClick={handleReset}>Reset</button>
                             <button onClick={handleLocateMe}>Locate Me</button>
@@ -273,7 +262,6 @@
                                 <button onClick={dismissError} aria-label="Dismiss error">×</button>
                             </div>
                         )}
-                        {/* Map div */}
                         <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                     </div>
                 </>
@@ -289,73 +277,69 @@
 
             // Hamburger Menu Toggle
             if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
+                 hamburger.addEventListener('click', () => {
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
                     // Close any open dropdowns when hamburger menu is closed
                     if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                             openDropdown.classList.remove('open');
                         });
                     }
-                });
+                 });
             } else {
                 console.error("Hamburger button or NavMenu element not found!");
             }
 
-            // Dropdown Toggle Logic (Mobile Only)
-            if (navMenu) {
-                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+             // Dropdown Toggle Logic (Mobile Only)
+             if (navMenu) {
+                 const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
 
-                dropdownToggles.forEach(toggleLink => {
-                    toggleLink.addEventListener('click', (e) => {
-                        // Check if hamburger is visible (i.e., mobile view)
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault(); // Prevent default link behavior ONLY on mobile toggle
-                            const parentLi = toggleLink.closest('.has-dropdown');
-                            if (parentLi) {
-                                // Toggle the clicked dropdown
-                                parentLi.classList.toggle('open');
-                                // Close other open dropdowns
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                    if (otherLi !== parentLi) {
-                                        otherLi.classList.remove('open');
-                                    }
-                                });
-                            }
-                        }
-                    });
-                });
+                 dropdownToggles.forEach(toggleLink => {
+                     toggleLink.addEventListener('click', (e) => {
+                         if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                             e.preventDefault();
+                             const parentLi = toggleLink.closest('.has-dropdown');
+                             if (parentLi) {
+                                 parentLi.classList.toggle('open');
+                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
+                                     if (otherLi !== parentLi) {
+                                         otherLi.classList.remove('open');
+                                     }
+                                 });
+                             }
+                         }
+                     });
+                 });
 
-                // Close full mobile menu only when clicking a *final* navigation link
-                const allNavLinks = navMenu.querySelectorAll('a');
-                allNavLinks.forEach(link => {
+                 // Close full mobile menu when clicking a final navigation link
+                 const allNavLinks = navMenu.querySelectorAll('a');
+                 allNavLinks.forEach(link => {
                     const isToggle = link.matches('.has-dropdown > a');
 
                     if (!isToggle) {
-                        link.addEventListener('click', () => {
-                            if (hamburger && navMenu.classList.contains('active')) {
+                         link.addEventListener('click', () => {
+                             if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
+                                document.body.classList.remove('menu-open');
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
                                 });
-                            }
-                        });
+                             }
+                         });
                     }
-                });
-            }
+                 });
+             }
 
             // Footer year
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
+                 yearSpan.textContent = new Date().getFullYear();
             }
         });
     </script>
-    <script>
-        (function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('logging' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'logging' !== document.readyState && (document.onreadystatechange = e, c()) } } })();
-    </script>
-</body>
-
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9359fbb06ea3b07a',t:'MTc0NTU0MzY2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
