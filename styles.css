@@ -598,8 +598,9 @@ body.menu-open .map-container {}
         text-align: left;
         height: auto;
         border-bottom: none;
-        display: flex; /* Ensure flex for alignment */
-        align-items: center; /* Vertical alignment */
+        display: flex;
+        align-items: center;
+        /* Ensure flex for alignment */
     }
 
     .main-menu > li:hover > a {
@@ -632,6 +633,7 @@ body.menu-open .map-container {}
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease-in-out;
+        z-index: 10003;
     }
 
     .main-menu > li.has-dropdown.open > .dropdown {
@@ -706,7 +708,8 @@ body.menu-open .map-container {}
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding-bottom: 2rem; /* Add padding for spacing */
+        padding-bottom: 2rem;
+        /* Add padding for spacing */
     }
 
     .footer-section {
@@ -715,7 +718,8 @@ body.menu-open .map-container {}
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 2rem; /* Add margin between sections */
+        margin-bottom: 2rem;
+        /* Add margin between sections */
     }
 
     .footer-section.links ul {
@@ -732,7 +736,8 @@ body.menu-open .map-container {}
 
     .social-icons {
         justify-content: center;
-        margin-top: 1rem; /* Add margin for spacing */
+        margin-top: 1rem;
+        /* Add margin for spacing */
     }
 }
 
@@ -780,14 +785,22 @@ body.menu-open .map-container {}
     border-top: 4px solid var(--primary-color);
     flex-shrink: 0;
     text-align: center;
-    position: relative; /* For the subtle fire background */
-    overflow: hidden;   /* Hide overflow */
-    animation: subtle-footer-fire 10s infinite alternate; /* Fire animation */
+    position: relative;
+    /* For the subtle fire background */
+    overflow: hidden;
+    /* Hide overflow */
+    animation: subtle-footer-fire 10s infinite alternate;
+    /* Fire animation */
 }
 
 @keyframes subtle-footer-fire {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 20px; }
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 20px;
+    }
 }
 
 .site-footer::before {
@@ -797,8 +810,10 @@ body.menu-open .map-container {}
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 69, 0, 0.05); /* Very subtle orange overlay */
-    pointer-events: none; /* Don't interfere with clicks */
+    background: rgba(255, 69, 0, 0.05);
+    /* Very subtle orange overlay */
+    pointer-events: none;
+    /* Don't interfere with clicks */
 }
 
 .footer-section.about .logo-text-footer {
@@ -900,6 +915,7 @@ body.menu-open .map-container {}
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
 .social-icons a {
