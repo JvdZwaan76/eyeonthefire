@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Eye on the Fire - Live Interactive US Wildfire Map & Safety Info</title>
-    <meta name="description" content="Eye on the Fire: Your essential US resource for real-time wildfire tracking via our live interactive fire map. Get critical updates for fires across the United States. Find fire safety guides, home hardening tips, and emergency resources. Stay informed during the US fire season.">
-    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map US, emergency preparedness, evacuation guide, California fire map, US fire map, live fire tracker, home hardening, defensible space, US fire season, wildfire safety, fire map live">
+    <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
+    <meta name="description" content="Eye on the Fire: Track wildfires near you with our live US interactive fire map. Get real-time wildfire updates across the United States. Find fire safety guides, alerts, and emergency preparedness resources.">
+    <meta name="keywords" content="wildfires near me, interactive fire map, live wildfire updates, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map US, emergency preparedness, evacuation guide, California fire map, US fire map, live fire tracker, home hardening, defensible space, US fire season, wildfire safety, fire map live, current wildfires">
     <meta name="author" content="Eye on the Fire Team">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://eyeonthefire.com/">
 
-    <meta property="og:title" content="Eye on the Fire - Live Interactive US Wildfire Map & Safety Info">
+    <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
     <meta property="og:image" content="images/hero-bg.jpg">
@@ -51,16 +51,16 @@
         "target": "https://eyeonthefire.com/#map-section?query={search_term_string}",
         "query-input": "required name=search_term_string"
       },
-       "description": "Real-time interactive wildfire map monitoring fires across the United States, live updates, and fire safety information."
+       "description": "Real-time interactive wildfire map monitoring fires across the United States, live updates, and fire safety information. Track wildfires near you."
     }
     </script>
      <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Eye on the Fire - Live Interactive US Wildfire Map & Safety Info",
+      "name": "Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker",
       "url": "https://eyeonthefire.com/",
-      "description": "Homepage for Eye on the Fire, providing a live interactive fire map, wildfire updates, and safety resources for the United States.",
+      "description": "Homepage for Eye on the Fire, providing a live interactive fire map to track wildfires near you, wildfire updates, and safety resources for the United States.",
        "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [{
@@ -73,7 +73,7 @@
       "mainEntity": {
          "@type": "Map",
          "name": "Live Interactive US Wildfire Map",
-         "description": "Real-time map showing active wildfire locations and related data across the United States.",
+         "description": "Real-time map showing active wildfire locations and related data across the United States. Helps users find fires near their location.",
          "url": "https://eyeonthefire.com/#map-section"
        }
     }
@@ -98,11 +98,12 @@
         .section-title { color: var(--secondary-color, #ff8c00); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.5rem); }
         .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; color: #444; }
 
-        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #f9f9f9; padding: 1.5rem; border-radius: 5px; border-left: 5px solid var(--accent-color, #ffd700); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1rem; text-align: left; font-size: 1.1em; }
+        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; /* Rounded corners */ border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; /* Slightly larger heading */ border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
         .map-usage-guide ul { list-style: none; padding-left: 0; }
-        .map-usage-guide li { margin-bottom: 0.75em; display: flex; align-items: center; }
-        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 0.75em; width: 1.2em; text-align: center; font-size: 1.1em; }
+        .map-usage-guide li { margin-bottom: 1em; /* More spacing */ display: flex; align-items: flex-start; /* Align icon top */ }
+        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; /* More spacing */ width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; /* Prevent icon shrinking */ padding-top: 0.15em; /* Align icon better with text */ }
+        .map-usage-guide li span { /* Wrap text for better structure */ line-height: 1.5; }
 
         .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
         .prevention-grid .prevention-item { border: 1px solid #eee; border-top: 4px solid var(--primary-color, #ff4500); padding: 2rem; background-color: #fdfdfd; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; display: flex; flex-direction: column; align-items: center;}
@@ -117,7 +118,7 @@
 
         .cta-banner { background: linear-gradient(to right, var(--primary-color, #ff4500), var(--secondary-color, #ff8c00)); color: white; padding: 1.5rem; border-radius: 5px; margin: 2rem auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 800px; }
         .cta-banner p { margin: 0; font-size: 1.1em; }
-        .cta-banner a { color: #ffffff; font-weight: bold; text-decoration: underline; } /* High contrast link */
+        .cta-banner a { color: #ffffff; font-weight: bold; text-decoration: underline; }
         .cta-banner a:hover { color: var(--accent-color, #ffd700); text-decoration: none;}
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
@@ -131,7 +132,7 @@
         .nav-menu.active .dropdown li a.sub-item { color: var(--light-text, #f5f5f5); }
         .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
 
-        .content-section .section-title { text-align: center; } /* Ensure H2 is centered */
+        .content-section .section-title { text-align: center; }
 
         a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
         .hamburger:focus { outline: none; }
@@ -140,7 +141,7 @@
         hr.section-divider {
           border: 0;
           height: 1px;
-          background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0)); /* Adjusted color */
+          background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0));
           margin: 3rem auto;
           width: 60%;
         }
@@ -213,7 +214,7 @@
 
      <section id="intro" class="content-section">
          <div class="container">
-             <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active wildfires across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
+             <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
          </div>
      </section>
 
@@ -222,14 +223,14 @@
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
-            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of the current <strong>US fire season</strong> activity.</p>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
             <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
                 <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i>How to Use the Map:</h4>
                 <ul>
-                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i>Click <strong>Locate Me</strong> to center the map on your current position.</li>
-                    <li><i class="fas fa-search-plus" aria-hidden="true"></i>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out.</li>
-                    <li><i class="fas fa-undo" aria-hidden="true"></i>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</li>
-                    <li><i class="fas fa-fire" aria-hidden="true"></i>Fire icons indicate detected hotspots or reported incidents. Click icons for details.</li>
+                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
+                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
+                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
+                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
                 </ul>
             </div>
         </div>
@@ -246,7 +247,7 @@
     <section id="about" class="content-section">
         <div class="container">
             <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
-             <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. We aim to be your trusted source for situational awareness during the <strong>US fire season</strong>.</p>
+             <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
         </div>
     </section>
 
