@@ -31,7 +31,7 @@ body {
 }
 
 main {
-    flex-grow: 1;
+    flex-grow: 1; /* Ensures main content pushes footer down */
 }
 
 /* Typography (Keep consistent) */
@@ -60,7 +60,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 10000; /* Navbar base z-index (high) */
+    z-index: 10000; /* <<< Navbar base z-index (high) */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -71,7 +71,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1300px;
+    max-width: 1300px; /* Adjust as needed */
     height: 100%;
 }
 
@@ -106,58 +106,45 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 
-/* --- Navigation Menu (Base & Desktop) --- */
+/* --- Navigation Menu (Desktop) --- */
 .nav-menu {
     display: flex; /* Display as flex on desktop */
     align-items: stretch;
     height: 100%;
     margin-left: auto; /* Push right on desktop */
-    position: static; /* Default static position */
-    width: auto;
-    background: none;
-    z-index: auto;
-    padding-top: 0;
-    overflow: visible; /* Allow dropdowns */
-    transform: none;
-    transition: none;
-    flex-direction: row; /* Ensure horizontal */
-    box-shadow: none;
-    border-right: none;
 }
 
 .main-menu {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-direction: row; /* Horizontal on desktop */
     list-style: none;
-    gap: 0.5rem;
+    gap: 0.5rem; /* Spacing between desktop items */
     margin: 0;
     padding: 0;
     height: 100%;
-    align-items: stretch;
+    align-items: stretch; /* Align items vertically */
 }
 
 .main-menu li {
-    position: relative;
-    display: flex;
-    align-items: stretch;
-    border-bottom: none; /* Ensure no mobile border */
+    position: relative; /* For dropdown positioning */
+    display: flex; /* Ensure li itself is flex container */
+    align-items: stretch; /* Stretch to fill navbar height */
 }
 
 .main-menu > li > a {
     color: var(--light-text);
     text-decoration: none;
-    padding: 0 1rem;
+    padding: 0 1rem; /* Horizontal padding */
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    display: flex;
+    display: flex; /* Center text vertically */
     align-items: center;
     height: 100%; /* Fill height */
     position: relative;
     transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-    border-bottom: 3px solid transparent;
-    white-space: nowrap;
+    border-bottom: 3px solid transparent; /* Underline effect */
+    white-space: nowrap; /* Prevent wrapping */
     cursor: pointer;
 }
 .main-menu > li > a > i.fa-caret-down { /* Target only caret icon */
@@ -168,11 +155,11 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 .main-menu > li:hover > a {
     color: var(--accent-color);
-    background-color: rgba(255, 69, 0, 0.1);
-    border-bottom-color: var(--primary-color);
+    background-color: rgba(255, 69, 0, 0.1); /* Subtle hover background */
+    border-bottom-color: var(--primary-color); /* Fire underline on hover */
 }
 .main-menu > li:hover > a > i.fa-caret-down {
-    transform: rotate(180deg);
+    transform: rotate(180deg); /* Rotate caret on hover */
 }
 
 
@@ -180,38 +167,27 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .dropdown {
     display: none; /* Hide by default */
     position: absolute;
-    top: 100%;
+    top: 100%; /* Position below parent li */
     left: 0;
     background: linear-gradient(to bottom, #331a00, #261300); /* Darker, fiery gradient */
     list-style: none;
     padding: 0.5rem 0;
     margin: 0;
-    min-width: 220px; /* Increased width */
+    min-width: 220px; /* Width of dropdown */
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); /* Deeper shadow */
-    border-top: 2px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color); /* Fire accent */
     border-radius: 0 0 5px 5px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
+    transform: translateY(10px); /* Start slightly below */
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     z-index: 1100; /* Above navbar */
-    animation: subtle-fire-bg 5s infinite alternate;
-}
-
-@keyframes subtle-fire-bg {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 20px; } /* Small shift */
 }
 
 /* Show on DESKTOP hover/focus */
-@media (hover: hover) and (min-width: 769px) {
-    .has-dropdown:hover > .dropdown {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-     .has-dropdown > a:focus + .dropdown {
+@media (hover: hover) and (min-width: 992px) { /* Increased breakpoint */
+    .has-dropdown:hover > .dropdown,
+    .has-dropdown > a:focus + .dropdown {
         display: block;
         opacity: 1;
         visibility: visible;
@@ -220,7 +196,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .dropdown li a {
-    padding: 0.8rem 1.2rem;
+    padding: 0.8rem 1.2rem; /* Padding inside dropdown links */
     color: var(--light-text);
     text-decoration: none;
     display: block;
@@ -228,64 +204,58 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-size: 0.95rem;
     transition: background-color 0.2s ease, color 0.2s ease;
     white-space: nowrap;
-    background: none;
 }
 
 /* Styling for Sub-items and Headers in Dropdown */
-.dropdown li strong,
 .dropdown li strong.sub-header {
     display: flex;
     align-items: center;
-    padding: 0.7rem 2.2rem 0.2rem; /* Adjusted left padding */
+    padding: 0.7rem 1.2rem 0.2rem; /* Adjusted padding */
     color: #ffcc80; /* Lighter, glowing gold */
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background: none;
-}
-.dropdown li strong.sub-header {
     margin-top: 0.5em;
 }
-.dropdown li:first-child > strong {
+.dropdown li:first-child > strong.sub-header {
      margin-top: 0;
 }
 /* Style for fire icon in headers */
 .dropdown li strong i.fa-fire {
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* Orange Color */
     margin-right: 0.6em;
-    padding-left: 0.4em;
     font-size: 0.9em;
 }
 
 .dropdown li a.sub-item {
-    padding-left: 3.5rem; /* Indentation */
+    padding-left: 2.5rem; /* Indentation for sub-items */
     font-size: 0.9rem;
-    color: #eee;
+    color: #eee; /* Slightly lighter */
 }
 
 .dropdown li a:hover,
 .dropdown li a:focus {
-    background: rgba(255, 69, 0, 0.8); /* Semi-transparent fire */
+    background: rgba(255, 69, 0, 0.8); /* Semi-transparent fire on hover */
     color: #fff;
     outline: none;
 }
 .dropdown li a.sub-item:hover,
 .dropdown li a.sub-item:focus {
-    background: rgba(255, 140, 0, 0.8); /* Darker orange */
+    background: rgba(255, 140, 0, 0.8); /* Darker orange for sub-items */
 }
 
 
 /* --- Hamburger Menu Button --- */
 .hamburger {
-    display: none; /* Hidden on desktop */
+    display: none; /* Hidden by default, shown in media query */
     cursor: pointer;
     background: none;
     border: none;
     padding: 10px;
-    z-index: 10001; /* Above mobile menu and navbar */
-    order: 3;
-    margin-left: 1rem;
+    z-index: 10001; /* Above mobile menu background */
+    order: 3; /* Place it last in flex order if needed */
+    margin-left: 1rem; /* Space from nav items if they were visible */
 }
 
 .hamburger .line {
@@ -298,83 +268,132 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     border-radius: 2px;
 }
 
-/* Animation when menu is open */
+/* Hamburger Animation when menu is open */
 .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
 .hamburger.active .line2 { opacity: 0; }
 .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-/* --- Mobile Menu Styles --- */
-@media (max-width: 768px) {
+
+/* --- Mobile Navigation Styles --- */
+@media (max-width: 991.98px) { /* Breakpoint for mobile nav */
     .hamburger {
-        display: block;
+        display: block; /* Show hamburger */
     }
 
     .nav-menu {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: var(--dark-bg);
-        z-index: 9999;
-        overflow-y: auto;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        position: fixed; /* Take over screen */
+        left: -100%; /* Start off-screen */
+        top: var(--navbar-height); /* Position below navbar */
+        width: 80%; /* Or 100% for full width */
+        max-width: 350px; /* Max width */
+        height: calc(100vh - var(--navbar-height)); /* Full height minus navbar */
+        background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); /* Fire theme bg */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5); /* Shadow */
+        flex-direction: column; /* Stack items vertically */
+        align-items: stretch; /* Stretch items */
+        margin-left: 0;
+        padding-top: 1rem;
+        overflow-y: auto; /* Allow scrolling if content overflows */
+        transition: left 0.4s ease-in-out; /* Slide-in animation */
+        z-index: 9999; /* Below navbar, above content */
+        border-right: 2px solid var(--primary-color); /* Fire accent border */
     }
 
     .nav-menu.active {
-        display: flex;
+        left: 0; /* Slide in */
     }
 
     .main-menu {
-        flex-direction: column;
+        flex-direction: column; /* Stack items vertically */
         width: 100%;
-        height: auto;
-        align-items: center;
+        height: auto; /* Allow content to determine height */
+        gap: 0; /* Remove desktop gap */
+        align-items: stretch; /* Stretch items full width */
     }
 
     .main-menu li {
         width: 100%;
-        text-align: center;
-        margin: 0.5rem 0;
+        border-bottom: 1px solid var(--border-color); /* Separator lines */
     }
+     .main-menu li:last-child {
+        border-bottom: none;
+    }
+
 
     .main-menu > li > a {
-        padding: 1rem;
-        font-size: 1.2rem;
-        border-bottom: none;
-        justify-content: center;
+        padding: 1rem 1.5rem; /* Generous padding for touch */
+        justify-content: space-between; /* Push caret to the right */
+        border-bottom: none; /* Remove desktop border */
+        height: auto; /* Auto height */
+        width: 100%; /* Full width */
+    }
+    .main-menu > li > a:hover {
+         background-color: rgba(255, 69, 0, 0.2); /* Subtle mobile hover */
+         color: var(--accent-color);
+         border-bottom-color: transparent; /* No underline on mobile hover */
     }
 
+    .main-menu > li > a > i.fa-caret-down {
+        transition: transform 0.3s ease; /* Ensure caret transition */
+    }
+    /* Rotate caret when dropdown is open on mobile */
+    .main-menu .has-dropdown.open > a > i.fa-caret-down {
+        transform: rotate(180deg);
+    }
+
+
+    /* Mobile Dropdown Styles */
     .dropdown {
-        position: static;
-        width: 100%;
-        background: linear-gradient(to bottom, #3a1d00, #2d1600); /* Slightly lighter gradient */
-        box-shadow: none;
-        border-top: none;
-        border-radius: 0;
+        display: none; /* Hide by default */
+        position: static; /* Position relative to parent li in column flow */
         opacity: 1;
         visibility: visible;
         transform: none;
-        transition: none;
-        display: none; /* Hidden by default on mobile */
+        width: 100%;
+        background: rgba(0,0,0,0.2); /* Slightly different background for nesting */
+        box-shadow: none;
+        border-top: 1px solid var(--border-color);
+        border-radius: 0;
+        padding: 0;
+        margin-top: 0;
+        transition: none; /* No transition needed */
+        min-width: unset;
+        animation: none; /* Disable desktop animation */
     }
 
     .has-dropdown.open > .dropdown {
-        display: block;
+        display: block; /* Show when parent li has .open class (from JS) */
     }
 
-    body.menu-open .map-container {
-        pointer-events: none;
+    .dropdown li a {
+        padding: 0.8rem 1.5rem 0.8rem 2.5rem; /* Indented items */
+        font-size: 0.9rem;
+        border-bottom: 1px solid rgba(68, 68, 68, 0.5); /* Fainter lines within dropdown */
     }
-}
+    .dropdown li:last-child a {
+         border-bottom: none;
+    }
+
+    .dropdown li a:hover,
+    .dropdown li a:focus {
+        background: rgba(255, 69, 0, 0.3); /* Mobile dropdown hover */
+    }
+
+    .dropdown li strong.sub-header {
+         padding: 0.7rem 1.5rem 0.2rem 2rem; /* Mobile sub-header padding */
+         background-color: rgba(0, 0, 0, 0.1); /* Subtle background */
+    }
+    .dropdown li a.sub-item {
+        padding-left: 3.5rem; /* Further indent sub-items */
+    }
+
+} /* End Mobile Media Query */
+
 
 /* --- Map Container & Loading --- */
 .map-container {
     position: relative;
-    z-index: 1; /* Low z-index */
+    z-index: 1; /* Keep map below navbar/mobile menu */
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -384,9 +403,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     overflow: hidden;
 }
 
-#map { width: 100%; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
-.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
-.controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+#map { width: 100%; height: 70vh; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
+.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; margin-bottom: 10px; }
+.controls button { padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
 .leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
@@ -394,22 +413,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
 .leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
 
-/* Loading Overlay with Fire Theme */
+/* Loading Overlay */
 .loading-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.8);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 9998; /* Below mobile menu but above map */
+    z-index: 9998;
     backdrop-filter: blur(4px);
     border-radius: 5px;
-    opacity: 1;
-    visibility: visible;
+    opacity: 1; visibility: visible;
     transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
-
 .loading-overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0; visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
@@ -417,103 +433,155 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
 .flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
 .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
-.flame-loader::after { right: 5px; animation-delay: 0.5s; }
+.flame-loader::after { right: 5px; background: var(--secondary-color); animation-delay: 0.5s; } /* Adjusted position */
+
 @keyframes flicker {
-    0% { transform: scaleY(1); opacity: 1; }
-    50% { transform: scaleY(1.2); opacity: 0.8; }
-    100% { transform: scaleY(1); opacity: 1; }
+  0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; }
+  50% { transform: scaleY(0.8) rotate(2deg); opacity: 0.8; }
 }
 
-/* --- Footer Styling --- */
-.site-footer {
-    background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
+.loading-overlay p {
     color: var(--light-text);
-    padding: 2rem 1rem;
-    border-top: 2px solid var(--primary-color);
-    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.4);
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 10px;
+    text-shadow: 1px 1px 2px black;
+}
+
+/* Error Message */
+.error-message {
+    background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000;
+    padding: 15px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center;
+    border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 9990; /* Below loader */
+}
+.error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
+
+
+/* --- Elegant, Fire-Themed Footer --- */
+.site-footer {
+    background: linear-gradient(to top, var(--dark-bg), #1a1a1a); /* Dark gradient */
+    color: var(--light-text);
+    padding: 3rem 1rem 1.5rem; /* More top padding */
+    margin-top: 2rem; /* Space above footer */
+    border-top: 4px solid var(--primary-color); /* Thicker fire accent */
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .footer-content {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1300px;
-    margin: 0 auto;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-around; /* Distribute space */
+    align-items: flex-start; /* Align items to top */
+    max-width: 1200px;
+    margin: 0 auto 2rem; /* Center content and add bottom margin */
+    text-align: center; /* Center text within sections */
 }
 
 .footer-section {
-    padding: 1rem;
-    flex: 1;
-    min-width: 200px;
+    flex: 1; /* Allow sections to grow */
+    min-width: 250px; /* Minimum width before wrapping */
+    margin: 1rem; /* Spacing around sections */
+    padding: 0 1rem;
 }
 
 .footer-section h3 {
-    color: var(--accent-color);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--secondary-color); /* DarkOrange heading */
+    margin-bottom: 1.2em;
+    font-size: 1.3rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color); /* Subtle underline */
+    padding-bottom: 0.5em;
+    display: inline-block; /* Fit border to text */
 }
 
-.footer-section.about p {
-    color: var(--light-text);
-    font-size: 1rem;
+.logo-text-footer { /* Specific style for logo text */
+     font-size: 1.6rem;
+     font-weight: 700;
+     color: var(--light-text);
+     text-shadow: 1px 1px 3px var(--primary-color); /* Fire glow */
+     border-bottom: none; /* No underline for logo */
+     margin-bottom: 0.8em;
 }
 
-.footer-section.links ul {
+.footer-section p {
+    color: #ccc; /* Lighter paragraph text */
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.footer-section ul {
     list-style: none;
+    padding: 0;
 }
 
-.footer-section.links a {
+.footer-section ul li {
+    margin-bottom: 0.8em;
+}
+
+.footer-section ul li a {
     color: var(--light-text);
-    font-size: 1rem;
-    transition: color 0.3s ease;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    font-size: 0.95rem;
 }
 
-.footer-section.links a:hover {
-    color: var(--accent-color);
+.footer-section ul li a:hover {
+    color: var(--accent-color); /* Gold hover */
+    padding-left: 5px; /* Slight indent on hover */
+    text-decoration: none;
 }
 
 .social-icons {
-    display: flex;
-    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .social-icons a {
     color: var(--light-text);
-    font-size: 1.5rem;
-    transition: color 0.3s ease;
+    font-size: 1.6rem;
+    margin: 0 0.7rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block; /* Needed for transform */
 }
 
 .social-icons a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color); /* Core fire color hover */
+    transform: scale(1.1) translateY(-2px); /* Slight pop effect */
 }
 
 .footer-bottom {
     text-align: center;
-    padding: 1rem 0;
-    border-top: 1px solid var(--border-color);
-    margin-top: 1rem;
-    color: var(--light-text);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color); /* Separator line */
     font-size: 0.9rem;
+    color: #aaa; /* Dimmer text */
 }
 
 .footer-bottom a {
-    color: var(--light-text);
+    color: #ccc; /* Slightly lighter links */
     margin: 0 0.5rem;
     transition: color 0.3s ease;
 }
 
 .footer-bottom a:hover {
-    color: var(--accent-color);
+    color: var(--accent-color); /* Gold hover */
+    text-decoration: underline;
 }
 
+/* Responsive adjustments for footer if needed */
 @media (max-width: 768px) {
     .footer-content {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Stack sections vertically */
+        align-items: center; /* Center sections */
         text-align: center;
     }
-
-    .social-icons {
-        justify-content: center;
+    .footer-section {
+        margin-bottom: 2rem;
+        min-width: 80%; /* Wider on small screens */
     }
+    .footer-section:last-child {
+        margin-bottom: 0;
+    }
+     .footer-section h3 {
+        display: block; /* Full width border */
+     }
 }
