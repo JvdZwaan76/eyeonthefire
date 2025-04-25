@@ -18,9 +18,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <link rel="stylesheet" href="styles.css"> {/* <<< Ensure this path is correct */}
-
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="navbar">
@@ -30,14 +28,7 @@
                     <span>Eye on the Fire</span>
                  </div>
             </a>
-             {/* Hamburger button is crucial for mobile */}
-            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
-            </button>
-            {/* Nav menu contains the links */}
-            <nav class="nav-menu" id="main-nav">
+            <nav class="nav-menu">
                  <ul class="main-menu">
                     <li><a href="#">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
@@ -77,15 +68,16 @@
                     <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
-            {/* Hamburger moved slightly earlier for structure, CSS handles final position */}
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </button>
         </div>
     </header>
 
     <main>
-        {/* Map container */}
-        <div id="root">
-             {/* React Map Component will render here */}
-        </div>
+        <div id="root"></div>
     </main>
 
     <footer class="site-footer">
@@ -123,18 +115,14 @@
         </div>
     </footer>
 
-    {/* --- Scripts --- */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
-
-    {/* React Map Component (Keep As Is) */}
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -164,39 +152,28 @@
             const markerLayerRef = useRef(null);
             const initialCenter = [37.7749, -122.4194];
             const initialZoom = 5;
-            const loadingOverlayRef = useRef(null); // Ref for loading overlay
 
-
-            // Initialize map
             useEffect(() => {
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
-                        zoomControl: true // Ensure Leaflet zoom controls are enabled
+                        zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(mapRef.current);
                     markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-
-                     // Add Leaflet's native zoom control
-                    mapRef.current.zoomControl.setPosition('topright'); // Example position
-
                 }
-            }, []); // Empty dependency array ensures this runs only once
+            }, []);
 
-            // Update map view when center or zoom changes
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
-            // Fetch fire data
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
-                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden'); // Show loader
-
                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
 
                 fetchWithRetry(fireApiUrl)
@@ -207,27 +184,22 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        // Limit markers for performance if necessary
-                        setFires(fireList.slice(0, 200)); // Increased limit slightly
+                        setFires(fireList.slice(0, 100));
                     })
                     .catch(err => {
                         console.error('Final error fetching fires:', err.message);
-                        setErrorMessage(`Failed to load fire data. Check API or network.`);
+                        setErrorMessage(`Failed to load fire data. Please check API or network.`);
                     })
                     .finally(() => {
-                         setIsLoading(false);
-                         // Hide loader smoothly
-                         if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                        setIsLoading(false);
                     });
-            }, []); // Fetch only once on component mount
+            }, []);
 
-
-            // Update fire markers when fire data changes
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png', // Ensure this URL is correct
+                        iconUrl: 'https://eyeonthefire.com/images/fire-icon.png',
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -237,175 +209,119 @@
                             .addTo(markerLayerRef.current);
                     });
                 }
-            }, [fires]); // Rerun when 'fires' state updates
+            }, [fires]);
 
-            // Reset map function
             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
-            // Locate Me function
             const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
-                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden'); // Show loader
                  if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
-                            setCenter([latitude, longitude]); setZoom(12);
-                            setIsLoading(false);
-                            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); // Hide loader
+                            setCenter([latitude, longitude]); setZoom(12); setIsLoading(false);
                         },
                         err => {
                             console.error('Geolocation error:', err.message);
-                            setErrorMessage('Failed to get location: ' + err.message);
-                            setIsLoading(false);
-                            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); // Hide loader
+                            setErrorMessage('Failed to get your location: ' + err.message); setIsLoading(false);
                         },
                          { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
                 } else {
-                    setErrorMessage('Geolocation not supported');
-                    setIsLoading(false);
-                    if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); // Hide loader
+                    setErrorMessage('Geolocation is not supported by your browser'); setIsLoading(false);
                 }
             };
 
-            // Dismiss error function
             const dismissError = () => setErrorMessage('');
 
-            // Render component UI
             return (
                 <>
-                    {/* Map container div */}
                     <div className="map-container">
-                         {/* Loading Overlay Element */}
-                         <div ref={loadingOverlayRef} className="loading-overlay">
-                             <div className="flame-loader"></div>
-                             <p>Loading wild fires...</p>
-                         </div>
-
-                        {/* Controls div rendered INSIDE React component */}
+                        {isLoading && (
+                            <div className="loading-overlay">
+                                <div className="flame-loader"></div>
+                                <p>Loading wild fires...</p>
+                            </div>
+                        )}
                         <div className="controls">
-                            <button onClick={handleReset}>Reset View</button> {/* Changed text slightly */}
+                            <button onClick={handleReset}>Reset</button>
                             <button onClick={handleLocateMe}>Locate Me</button>
                         </div>
-
-                        {/* Error Message Display */}
                         {errorMessage && (
                             <div className="error-message">
                                 <span>{errorMessage}</span>
                                 <button onClick={dismissError} aria-label="Dismiss error">×</button>
                             </div>
                         )}
-                        {/* The actual map div */}
-                        <div id="map"></div> {/* Style is now applied via CSS */}
+                        <div id="map" style={{ height: '70vh', width: '100%' }}></div>
                     </div>
                 </>
             );
         };
 
-        // Mount the React component
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
-
-    {/* Vanilla JS for Menu Toggle & Footer Year */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a'); // Select all links in main menu
+            const body = document.body;
 
-            // Hamburger Menu Toggle
             if (hamburger && navMenu) {
-                 hamburger.addEventListener('click', () => {
-                    const isActive = navMenu.classList.contains('active');
+                console.log("Hamburger and NavMenu found.");
+                hamburger.addEventListener('click', () => {
+                    console.log("Hamburger clicked.");
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive); // Update aria-expanded
-
-                    // Close any open dropdowns when main mobile menu is closed
-                    if (!navMenu.classList.contains('active')) {
-                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                            openDropdown.classList.remove('open');
-                            // Ensure caret resets on menu close
-                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                            if(caret) caret.style.transform = ''; // Reset rotation
-                        });
-                    }
-                 });
+                    body.classList.toggle('menu-open');
+                });
             } else {
-                console.error("Hamburger button or NavMenu element not found!");
+                console.error("Hamburger or NavMenu not found!");
             }
 
-             // Dropdown Toggle Logic (Mobile Only)
-             if (navMenu) {
-                 const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+            if (navMenu) {
+                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
 
-                 dropdownToggles.forEach(toggleLink => {
-                     toggleLink.addEventListener('click', (e) => {
-                         // Check if hamburger is visible (i.e., mobile view)
-                         if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                             e.preventDefault(); // Prevent default link behavior ONLY on mobile toggle
-                             const parentLi = toggleLink.closest('.has-dropdown');
-                             if (parentLi) {
-                                const currentlyOpen = parentLi.classList.contains('open');
-
-                                // Close *all* other open dropdowns first
+                dropdownToggles.forEach(toggleLink => {
+                    toggleLink.addEventListener('click', (e) => {
+                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                            e.preventDefault();
+                            const parentLi = toggleLink.closest('.has-dropdown');
+                            if (parentLi) {
+                                parentLi.classList.toggle('open');
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                     if (otherLi !== parentLi) {
-                                         otherLi.classList.remove('open');
-                                         // Reset caret rotation on others
-                                          const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
-                                          if(otherCaret) otherCaret.style.transform = '';
-                                     }
-                                 });
+                                    if (otherLi !== parentLi) {
+                                        otherLi.classList.remove('open');
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
 
-                                // Toggle the clicked dropdown
-                                parentLi.classList.toggle('open', !currentlyOpen);
-
-                                // Update caret rotation for the clicked item
-                                const caret = toggleLink.querySelector('i.fa-caret-down');
-                                if (caret) {
-                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
-                                }
-                             }
-                         }
-                     });
-                 });
-
-                // Close full mobile menu when clicking a *final* navigation link (not a dropdown toggle)
-                 mainNavLinks.forEach(link => {
-                    const isToggle = link.matches('.has-dropdown > a'); // Check if it's the main link of a dropdown
-
-                    if (!isToggle) { // If it's NOT a dropdown toggle link
-                         link.addEventListener('click', () => {
-                             // Check if the mobile menu is active
-                             if (hamburger && navMenu.classList.contains('active')) {
-                                // Close the menu
+                const allNavLinks = navMenu.querySelectorAll('a');
+                allNavLinks.forEach(link => {
+                    const isToggle = link.matches('.has-dropdown > a');
+                    if (!isToggle) {
+                        link.addEventListener('click', () => {
+                            if (hamburger && navMenu.classList.contains('active')) {
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
-                                hamburger.setAttribute('aria-expanded', 'false');
-
-                                // Close any open dropdowns within the menu
+                                body.classList.remove('menu-open');
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                                     openDropdown.classList.remove('open');
-                                    // Reset caret rotation
-                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                                    if(caret) caret.style.transform = '';
                                 });
-                             }
-                         });
-                     }
-                 });
-             }
+                            }
+                        });
+                    }
+                });
+            }
 
-            // Footer year
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
-                 yearSpan.textContent = new Date().getFullYear();
+                yearSpan.textContent = new Date().getFullYear();
             }
         });
     </script>
-    {/* Optional: Cloudflare script from original HTML if needed */}
-    {/* <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9348c5b79b3878cc',t:'MTc0NTM2MzE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('logging'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'logging'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script> */}
 </body>
 </html>
