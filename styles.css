@@ -634,6 +634,7 @@ body.menu-open .map-container {}
         overflow: hidden;
         transition: max-height 0.3s ease-in-out;
         z-index: 10003;
+        /* Higher z-index */
     }
 
     .main-menu > li.has-dropdown.open > .dropdown {
