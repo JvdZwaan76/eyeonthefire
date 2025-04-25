@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {/* --- SEO & Meta Tags (Retained from original index.html) --- */}
-    <title>Eye on the Fire - Premier Interactive Fire Map & Live Updates</title>
-    <meta name="description" content="Eye on the Fire offers the premier interactive live fire map for real-time wildfire monitoring. Get instant updates on fires near you, critical safety tips, fire prevention guides, and community insights. Stay informed, stay safe.">
-    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map, emergency preparedness, evacuation guide">
+
+    {/* --- SEO & Meta Tags (Retained & Enhanced) --- */}
+    <title>Eye on the Fire - Live Interactive Wildfire Map (California & US)</title>
+    <meta name="description" content="Eye on the Fire: Your top resource for real-time wildfire monitoring via our live interactive fire map. Get crucial updates for fires near Moorpark, Ventura County, California, and the US. Access fire safety tips, prevention guides, and local emergency information.">
+    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map, emergency preparedness, evacuation guide, California fire map, Moorpark fire, Ventura County fire, live fire tracker">
     <meta name="author" content="Eye on the Fire Team">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://eyeonthefire.com/"> {/* Adjust if domain changes */}
-    <meta property="og:title" content="Eye on the Fire - Premier Interactive Live Wildfire Map">
-    <meta property="og:description" content="Monitor active wildfires with Eye on the Fire’s real-time interactive map. Access live updates, fire locations near you, safety resources, and prevention tips.">
+    <meta property="og:title" content="Eye on the Fire - Live Interactive Wildfire Map (California & US)">
+    <meta property="og:description" content="Monitor active wildfires in Moorpark, California, and across the US with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/"> {/* Adjust if domain changes */}
     <meta property="og:image" content="images/hero-bg.jpg"> {/* Ensure this image path is correct */}
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    {/* --- Favicons (Retained from original index.html) --- */}
+    {/* --- Favicons (Retained) --- */}
     <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" sizes="180x180">
     <meta name="apple-mobile-web-app-title" content="eyeonthefire">
     <link rel="manifest" href="favicon/site.webmanifest">
 
-    {/* --- Analytics (Retained from original index.html) --- */}
+    {/* --- Analytics (Retained) --- */}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -33,25 +34,58 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
 
-    {/* --- CSS Dependencies (Updated for new map/styles) --- */}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> {/* Matched map-status version */}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" /> {/* Added for map */}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" /> {/* Added for map */}
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> {/* Matched map-status version */}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> {/* Matched map-status version */}
+    {/* --- CSS Dependencies (Matched map-status.html) --- */}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     {/* --- Main Stylesheet --- */}
     <link rel="stylesheet" href="styles.css">
 
+    {/* --- Schema Markup for SEO --- */}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Eye on the Fire",
+      "url": "https://eyeonthefire.com/", // Adjust if domain changes
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://eyeonthefire.com/#map-section?query={search_term_string}", // Example search action if applicable
+        "query-input": "required name=search_term_string"
+      },
+       "description": "Real-time interactive wildfire map monitoring fires near you, live updates, and fire safety information for California and the US."
+    }
+    </script>
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Eye on the Fire - Live Interactive Wildfire Map (California & US)",
+      "url": "https://eyeonthefire.com/", // Adjust if domain changes
+      "description": "Homepage for Eye on the Fire, providing a live interactive fire map, wildfire updates, and safety resources for California and the US.",
+       "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home"
+        }]
+      }
+    }
+    </script>
+
 </head>
 <body>
 
-    {/* --- Updated Header (Structure from map-status.html) --- */}
+    {/* --- Header (Matches map-status.html structure) --- */}
     <header class="navbar">
         <div class="navbar-container">
-            <a href="#home" class="logo-link"> {/* Link to top of page */}
+            <a href="#home" class="logo-link">
                  <div class="logo-container">
-                    {/* Optional: Add img back if desired <img src="images/fire-icon.png" alt="Eye on the Fire Logo"> */}
+                    {/* <img src="images/fire-icon.png" alt="Eye on the Fire Logo Icon" style="height: 40px; width: auto;"> */}
                     <span>Eye on the Fire</span>
                  </div>
             </a>
@@ -60,105 +94,116 @@
                 <span class="line line2"></span>
                 <span class="line line3"></span>
             </button>
+            {/* --- Navigation Menu (Matches map-status.html structure) --- */}
             <nav class="nav-menu" id="main-nav">
                  <ul class="main-menu">
-                    <li><a href="#home">Home</a></li> {/* Link to hero section */}
+                    <li><a href="#home">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
-                             <li><a href="#prevention" class="sub-item">Hardening Your Home</a></li> {/* Link to prevention section */}
-                             <li><a href="#prevention" class="sub-item">Defensible Space</a></li> {/* Link to prevention section */}
-                             <li><a href="#" class="sub-item">Defensible Space & Drought</a></li> {/* Placeholder link */}
-                             <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li> {/* Link to prevention section */}
+                             <li><a href="#prevention" class="sub-item">Hardening Your Home</a></li>
+                             <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
+                             <li><a href="#prevention" class="sub-item">Defensible Space & Drought</a></li>
+                             <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                             <li><a href="#" class="sub-item">Wildfire Action Plan</a></li> {/* Placeholder link */}
-                             <li><a href="#" class="sub-item">Prepare Your Family</a></li> {/* Placeholder link */}
-                             <li><a href="#" class="sub-item">Create Your Go Bag</a></li> {/* Placeholder link */}
-                             <li><a href="#" class="sub-item">Insurance Preparedness</a></li> {/* Placeholder link */}
+                             <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
+                             <li><a href="#" class="sub-item">Prepare Your Family</a></li>
+                             <li><a href="#" class="sub-item">Create Your Go Bag</a></li>
+                             <li><a href="#" class="sub-item">Insurance Preparedness</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                             <li><a href="#" class="sub-item">Go! Evacuation Guide</a></li> {/* Placeholder link */}
+                             <li><a href="#" class="sub-item">Go! Evacuation Guide</a></li>
                         </ul>
                     </li>
-                    <li><a href="#prevention">Prevent</a></li> {/* Link to prevention section */}
+                    <li><a href="#prevention">Prevent</a></li>
                     <li class="has-dropdown">
-                        <a href="#map-section">Map Tools <i class="fas fa-caret-down"></i></a> {/* Link to map section */}
+                        <a href="#map-section">Map Tools <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
-                             {/* These could link to specific features or documentation if available */}
                             <li><a href="#">Layer Options</a></li>
                             <li><a href="#">Historical Data</a></li>
                             <li><a href="#">Submit Report</a></li>
                         </ul>
                     </li>
                      <li class="has-dropdown">
-                        <a href="#community">Safety Info <i class="fas fa-caret-down"></i></a> {/* Link to community/resources section */}
+                        <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
+                             {/* Link these to specific pages or sections when available */}
                             <li><a href="#">Evacuation Plans</a></li>
-                            <li><a href="#prevention">Prevention Tips</a></li> {/* Link to prevention section */}
+                            <li><a href="#prevention">Prevention Tips</a></li>
                             <li><a href="#">Emergency Kit</a></li>
                         </ul>
                     </li>
-                    <li><a href="#community">News</a></li> {/* Link to community/resources section */}
-                    <li><a href="#">Contact</a></li> {/* Placeholder link */}
+                    <li><a href="#community">News</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    {/* --- Hero Section (Retained from original index.html) --- */}
-    <section class="hero" id="home"> {/* Changed header tag to section for structure */}
+    {/* --- Hero Section (Retained, slight text adjustment) --- */}
+    <section class="hero" id="home">
         <h1>Monitor Wildfires in Real-Time</h1>
-        <p>Your premier destination for live interactive fire maps, breaking wildfire updates, and crucial fire safety information.</p>
+        <p>Track active fires near you with our live interactive map. Get critical updates for California, including Moorpark & Ventura County, and across the US.</p>
         <a href="#map-section" class="cta-button">View Live Fire Map</a>
     </section>
 
-    {/* --- Map Section (Using React component from map-status.html) --- */}
-    <section id="map-section"> {/* Added section wrapper for semantic structure */}
-        <h2 style="text-align: center; margin-top: 2rem;">Interactive Live Wildfire Map</h2>
-         <p style="text-align: center; max-width: 800px; margin: 0 auto 1rem auto;">Track active fires near you with real-time data. Use the map controls to locate yourself, zoom, and toggle data layers.</p>
+    {/* --- Map Section (Working Map) --- */}
+    <section id="map-section">
+        {/* Heading styled by general h2 rules in styles.css */}
+        <h2 style="text-align: center; margin-top: 2rem; color: var(--primary-color);">Interactive Live Wildfire Map</h2>
+         {/* Paragraph styled by general p rules */}
+         <p style="text-align: center; max-width: 800px; margin: 0 auto 1rem auto;">Monitor the latest wildfire activity with our <strong>real-time fire monitoring</strong> map. Use the controls to find <strong>fires near you</strong>, zoom to specific areas like <strong>Moorpark</strong> or greater <strong>Ventura County</strong>, and explore data layers.</p>
         <main>
-             {/* React Map Component will render here */}
+            {/* React Map Component Renders Here */}
             <div id="root"></div>
         </main>
     </section>
 
-    {/* --- About Section (Retained, text enhanced for SEO) --- */}
-    <section id="about" class="content-section">
+    {/* --- About Section (Themed & Enhanced SEO Text) --- */}
+    {/* Added a class 'themed-section-light' if you want to add specific light-bg theme styles later in CSS */}
+    <section id="about" class="content-section themed-section-light">
         <div class="container">
-        <h2>Why Choose Eye on the Fire?</h2>
-        <p>We provide the most up-to-date and comprehensive wildfire information available. Our <strong>interactive fire map</strong> combines data from multiple trusted sources like NASA FIRMS and NIFC, giving you a clear picture of <strong>fires near you</strong>. Get <strong>real-time fire monitoring</strong> and <strong>live wildfire updates</strong> directly on the map. Understanding current fire locations and spread is crucial for <strong>fire safety</strong> and timely preparation. Our easy-to-use interface helps you stay informed, assess risks, and make safe decisions during fire season.</p>
+        {/* Heading styled by general h2 rules */}
+        <h2>Why Use Eye on the Fire?</h2>
+         {/* Paragraph styled by general p rules */}
+        <p>When wildfires threaten, timely information is vital. Eye on the Fire delivers the most current and comprehensive wildfire data through our premier <strong>interactive fire map</strong>. We integrate information from trusted sources, including NASA and NIFC, providing a clear view of <strong>live wildfire updates</strong> and <strong>fires near me</strong>. Whether you're in <strong>California</strong> or elsewhere, our <strong>real-time fire monitoring</strong> helps you understand the situation. Effective <strong>fire safety</strong> and <strong>emergency preparedness</strong> depend on reliable data – our platform provides the insights needed to stay safe.</p>
         </div>
     </section>
 
-    {/* --- Prevention Section (Retained, text enhanced for SEO) --- */}
-    <section id="prevention" class="content-section">
+    {/* --- Prevention Section (Themed & Enhanced SEO Text) --- */}
+    <section id="prevention" class="content-section themed-section-light">
         <div class="container">
-        <h2>Essential Fire Prevention Tips</h2>
-        <p>Proactive <strong>fire safety</strong> starts at home. Protect your property and community by implementing these essential <strong>fire prevention</strong> practices. Reducing fuel sources is key to improving your home's chances of surviving a wildfire.</p>
+        {/* Heading styled by general h2 rules */}
+        <h2>Essential Wildfire Prevention Guides</h2>
+        <p>Increase your home's resilience to wildfires with proactive <strong>fire prevention</strong>. Implementing key <strong>fire safety</strong> measures creates a defensible space, significantly improving the chances of your property surviving an ember storm or advancing flames. This is crucial for homeowners in areas like <strong>Moorpark</strong> and <strong>Ventura County</strong>.</p>
+        {/* Grid items inherit general styles, can be customized further if needed */}
         <div class="prevention-grid">
-            <div class="prevention-item"><h3>Clear Defensible Space</h3><p>Maintain a minimum of 30 feet (ideally 100 feet) of lean, clean, and green space around your home. Remove dead vegetation, dry leaves, and overhanging branches to reduce potential fuel for wildfires.</p></div>
-            <div class="prevention-item"><h3>Maintain Roof & Gutters</h3><p>Regularly clean roofs and gutters of pine needles, leaves, and other flammable debris. Embers can easily ignite these materials. Use non-combustible roofing materials where possible.</p></div>
-            <div class="prevention-item"><h3>Fire-Resistant Landscaping</h3><p>Choose native, drought-tolerant, and fire-resistant plants for landscaping within your defensible space. Avoid highly flammable plants like junipers or bamboo near structures.</p></div>
+            <div class="prevention-item"><h3>Establish Defensible Space</h3><p>Maintain zones around your home (30-100ft) clear of flammable materials. Remove dead plants, dry leaves, and prune trees. This is a primary step in any <strong>wildfire action plan</strong>.</p></div>
+            <div class="prevention-item"><h3>Home Hardening Basics</h3><p>Regularly clean roofs and gutters. Use non-combustible materials for roofing and siding where possible. Screen vents to block embers. These steps are vital for <strong>hardening your home</strong> against wildfire.</p></div>
+            <div class="prevention-item"><h3>Fire-Smart Landscaping</h3><p>Choose fire-resistant, drought-tolerant plants. Avoid placing flammable vegetation near structures. Proper landscaping complements your <strong>defensible space</strong> efforts.</p></div>
         </div>
-        {/* Maybe add a link here to a more detailed prevention page */}
+        {/* Add a link to a more detailed prevention page if available */}
+        {/* <p style="text-align: center; margin-top: 1.5rem;"><a href="#" class="cta-button-small">Learn More Prevention Tips</a></p> */}
         </div>
     </section>
 
-    {/* --- Community Section (Retained) --- */}
-    <section id="community" class="content-section">
+    {/* --- Community Section (Themed & Enhanced Alt Text) --- */}
+    <section id="community" class="content-section themed-section-light">
         <div class="container">
-            <h2>Community Resources & Updates</h2>
-            <p>Stay connected with local emergency resources and official updates during wildfire events.</p>
-            <div class="cta-banner"><p>Find local emergency services and evacuation information: <a href="#" target="_blank" rel="noopener noreferrer">Your Local Authority Website</a></p></div>
-            {/* Consider making these images link to relevant news or resources */}
+             {/* Heading styled by general h2 rules */}
+            <h2>Local Resources & Community Updates</h2>
+            <p>Access local emergency information and stay updated during wildfire events in your area.</p>
+            {/* Link styled by general a rules */}
+            <div class="cta-banner"><p>Find official resources for Ventura County: <a href="#" target="_blank" rel="noopener noreferrer">VC Emergency Website</a></p></div>
+             {/* Gallery items inherit general styles */}
             <div class="gallery">
-                <div class="gallery-item"><img src="images/community-1.jpg" alt="Community members clearing brush for fire prevention"></div>
-                <div class="gallery-item"><img src="images/community-2.jpg" alt="Firefighters working to contain a wildfire"></div>
-                <div class="gallery-item"><img src="images/community-3.jpg" alt="Landscape showing regrowth after a fire"></div>
+                <div class="gallery-item"><img src="images/community-1.jpg" alt="Community volunteers clearing brush for fire prevention in Southern California"></div>
+                <div class="gallery-item"><img src="images/community-2.jpg" alt="Firefighters coordinating efforts during a California wildfire"></div>
+                <div class="gallery-item"><img src="images/community-3.jpg" alt="Green landscape showing signs of regrowth after a wildfire passed through"></div>
             </div>
         </div>
     </section>
 
-    {/* --- Updated Footer (Structure from map-status.html) --- */}
+    {/* --- Footer (Matches map-status.html structure & styling) --- */}
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -170,7 +215,6 @@
             <div class="footer-section links">
                 <h3>Quick Links</h3>
                 <ul>
-                     {/* Update links to point to relevant sections */}
                     <li><a href="#map-section">Live Map</a></li>
                     <li><a href="#prevention">Safety Tips</a></li>
                     <li><a href="#community">News/Resources</a></li>
@@ -196,20 +240,18 @@
         </div>
     </footer>
 
-    {/* --- Script Dependencies (Map) --- */}
+    {/* --- Script Dependencies (Map & React) --- */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-
-    {/* --- Script Dependencies (React for Map) --- */}
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
 
-    {/* --- React Map Component (Copied from map-status.html) --- */}
+    {/* --- React Map Component --- */}
     <script type="text/babel">
+        // React Map Component code remains the same as previous version...
         const { useState, useEffect, useRef } = React;
 
-        // Retry fetch
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
@@ -221,9 +263,10 @@
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Data fetch attempt ${i + 1} failed:`, error.message);
+                    // Avoid logging retry attempts in the final version unless debugging
+                    // console.error(`Data fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
-                    console.log(`Retrying fetch in ${delay}ms...`);
+                    // console.log(`Retrying fetch in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
@@ -231,38 +274,35 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([37.7749, -122.4194]); // Default Center (SF)
-            const [zoom, setZoom] = useState(5); // Default Zoom
+            const [center, setCenter] = useState([34.2800, -118.7367]); // Centered near Moorpark/Simi
+            const [zoom, setZoom] = useState(9); // Zoomed in slightly more
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
-            const initialCenter = [37.7749, -122.4194]; // Store initial default
-            const initialZoom = 5;
+            const initialCenter = [34.2800, -118.7367]; // Store initial default
+            const initialZoom = 9;
             const loadingOverlayRef = useRef(null);
 
-            // Initialize map
             useEffect(() => {
                 if (!mapRef.current) {
-                    mapRef.current = L.map('map', { // Target the div inside #root
+                    mapRef.current = L.map('map', {
                         zoomControl: true
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors | Eye on the Fire' // Simplified attribution
+                        attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
                     }).addTo(mapRef.current);
                     markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
                      mapRef.current.zoomControl.setPosition('topright');
                 }
-            }, []); // Run once
+            }, []);
 
-            // Update map view
             useEffect(() => {
                 if (mapRef.current) {
                     mapRef.current.setView(center, zoom);
                 }
             }, [center, zoom]);
 
-            // Fetch fire data
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
@@ -272,31 +312,30 @@
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
-                        console.log('Fire data received:', data);
+                        // console.log('Fire data received:', data); // Disable console log for production
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        setFires(fireList.slice(0, 200)); // Limit markers
+                        setFires(fireList.slice(0, 200));
                     })
                     .catch(err => {
-                        console.error('Final error fetching fires:', err.message);
+                        console.error('Error fetching fire data:', err.message); // Keep error log
                         setErrorMessage(`Failed to load fire data. Please check API or network.`);
                     })
                     .finally(() => {
                          setIsLoading(false);
                          if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                     });
-            }, []); // Fetch once
+            }, []);
 
 
-            // Update fire markers
             useEffect(() => {
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'images/fire-icon.png', // Ensure this path is correct relative to index.html
+                        iconUrl: 'images/fire-icon.png', // Ensure this path is correct
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -308,10 +347,8 @@
                 }
             }, [fires]);
 
-            // Reset map function
             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
 
-            // Locate Me function
             const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
                  if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
@@ -324,7 +361,7 @@
                             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                         },
                         err => {
-                            console.error('Geolocation error:', err.message);
+                            console.error('Geolocation error:', err.message); // Keep error log
                             setErrorMessage('Failed to get location: ' + err.message);
                             setIsLoading(false);
                             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
@@ -338,58 +375,48 @@
                 }
             };
 
-            // Dismiss error function
             const dismissError = () => setErrorMessage('');
 
-            // Render component UI
             return (
                 <>
-                    {/* Map container div - styles applied via CSS */}
                     <div className="map-container">
-                         {/* Loading Overlay Element */}
                          <div ref={loadingOverlayRef} className="loading-overlay">
                              <div className="flame-loader"></div>
-                             <p>Loading live fire data...</p> {/* Slightly different text */}
+                             <p>Loading live fire data...</p>
                          </div>
-
-                        {/* Controls div rendered INSIDE React component */}
                         <div className="controls">
                             <button onClick={handleReset}>Reset View</button>
                             <button onClick={handleLocateMe}>Locate Me</button>
                         </div>
-
-                        {/* Error Message Display */}
                         {errorMessage && (
                             <div className="error-message">
                                 <span>{errorMessage}</span>
                                 <button onClick={dismissError} aria-label="Dismiss error">×</button>
                             </div>
                         )}
-                        {/* The actual map div - must have an ID for Leaflet */}
                         <div id="map"></div>
                     </div>
                 </>
             );
         };
 
-        // Mount the React component into the #root div
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 
-    {/* --- Vanilla JS for Menu Toggle & Footer Year (Copied from map-status.html) --- */}
+    {/* --- Vanilla JS for Menu Toggle & Footer Year --- */}
     <script>
+        // Hamburger Menu & Footer Year JS remains the same as previous version...
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a'); // Select all links in main menu
+            const mainNavLinks = document.querySelectorAll('.main-menu a');
 
-            // Hamburger Menu Toggle
             if (hamburger && navMenu) {
                  hamburger.addEventListener('click', () => {
                     const isActive = navMenu.classList.contains('active');
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive); // Update aria-expanded
+                    hamburger.setAttribute('aria-expanded', !isActive);
 
                     if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
@@ -399,14 +426,10 @@
                         });
                     }
                  });
-            } else {
-                console.error("Hamburger button or NavMenu element not found!");
             }
 
-             // Dropdown Toggle Logic (Mobile Only)
              if (navMenu) {
                  const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
-
                  dropdownToggles.forEach(toggleLink => {
                      toggleLink.addEventListener('click', (e) => {
                          if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
@@ -428,19 +451,30 @@
                                 }
                              }
                          }
+                         // Allow default link behavior on desktop for dropdown toggles with href
+                         else if (toggleLink.getAttribute('href') && toggleLink.getAttribute('href') !== '#') {
+                            // Allow normal navigation
+                         } else {
+                             e.preventDefault(); // Prevent default for '#' links on desktop too
+                         }
                      });
                  });
 
-                // Close full mobile menu when clicking a *final* navigation link (not a dropdown toggle)
                  mainNavLinks.forEach(link => {
                     const isToggle = link.matches('.has-dropdown > a');
-                    // Also check if it's a link within an open dropdown on mobile
                     const isInDropdown = link.closest('.dropdown') !== null;
 
-                    // Close menu if it's NOT a dropdown toggle OR if it IS a link inside a dropdown
                     if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
-                         link.addEventListener('click', () => {
+                         link.addEventListener('click', (e) => {
+                             // Only close menu if mobile is active
                              if (hamburger && navMenu.classList.contains('active')) {
+                                // Check if it's a link to a section on the same page
+                                const href = link.getAttribute('href');
+                                if (href && href.startsWith('#')) {
+                                   // Allow default scroll behavior
+                                }
+
+                                // Close menu
                                 hamburger.classList.remove('active');
                                 navMenu.classList.remove('active');
                                 hamburger.setAttribute('aria-expanded', 'false');
@@ -455,7 +489,6 @@
                  });
              }
 
-            // Footer year
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
                  yearSpan.textContent = new Date().getFullYear();
