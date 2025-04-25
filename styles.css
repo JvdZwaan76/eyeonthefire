@@ -598,6 +598,8 @@ body.menu-open .map-container {}
         text-align: left;
         height: auto;
         border-bottom: none;
+        display: flex; /* Ensure flex for alignment */
+        align-items: center; /* Vertical alignment */
     }
 
     .main-menu > li:hover > a {
@@ -704,6 +706,7 @@ body.menu-open .map-container {}
         flex-direction: column;
         align-items: center;
         text-align: center;
+        padding-bottom: 2rem; /* Add padding for spacing */
     }
 
     .footer-section {
@@ -712,6 +715,7 @@ body.menu-open .map-container {}
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 2rem; /* Add margin between sections */
     }
 
     .footer-section.links ul {
@@ -728,6 +732,7 @@ body.menu-open .map-container {}
 
     .social-icons {
         justify-content: center;
+        margin-top: 1rem; /* Add margin for spacing */
     }
 }
 
@@ -774,7 +779,26 @@ body.menu-open .map-container {}
     margin-top: auto;
     border-top: 4px solid var(--primary-color);
     flex-shrink: 0;
-    text-align: center; /* Center the footer content */
+    text-align: center;
+    position: relative; /* For the subtle fire background */
+    overflow: hidden;   /* Hide overflow */
+    animation: subtle-footer-fire 10s infinite alternate; /* Fire animation */
+}
+
+@keyframes subtle-footer-fire {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 20px; }
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 69, 0, 0.05); /* Very subtle orange overlay */
+    pointer-events: none; /* Don't interfere with clicks */
 }
 
 .footer-section.about .logo-text-footer {
@@ -787,13 +811,13 @@ body.menu-open .map-container {}
     font-family: 'Montserrat', sans-serif;
     color: var(--light-text) !important;
     border-bottom: none;
-    margin: 0 auto 0.75rem auto; /* Center and spacing */
+    margin: 0 auto 0.75rem auto;
 }
 
 .footer-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center the sections */
+    justify-content: center;
     max-width: 1200px;
     margin: 0 auto;
     gap: 2rem;
@@ -803,18 +827,18 @@ body.menu-open .map-container {}
     flex: 1;
     min-width: 200px;
     margin-bottom: 1.5rem;
-    text-align: center; /* Center within sections */
+    text-align: center;
 }
 
 .footer-section h3 {
     color: var(--secondary-color);
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
-    margin: 0 auto 1rem auto; /* Center and spacing */
+    margin: 0 auto 1rem auto;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
     font-weight: 500;
-    width: fit-content; /* Fit to content */
+    width: fit-content;
 }
 
 .footer-section.about h3.logo-text-footer {
@@ -826,15 +850,15 @@ body.menu-open .map-container {}
     font-size: 0.9rem;
     color: #ccc;
     line-height: 1.5;
-    margin: 0 auto; /* Center paragraph */
-    max-width: 400px; /* Optional: Limit paragraph width */
+    margin: 0 auto;
+    max-width: 400px;
 }
 
 .footer-section.links ul {
     list-style: none;
     padding: 0;
-    margin: 0 auto; /* Center the ul */
-    width: fit-content; /* Fit to content */
+    margin: 0 auto;
+    width: fit-content;
 }
 
 .footer-section.links li {
