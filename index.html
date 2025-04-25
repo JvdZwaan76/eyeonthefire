@@ -14,7 +14,7 @@
     <meta property="og:title" content="Eye on the Fire - Live Interactive US Wildfire Map & Safety Info">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="images/hero-background-us-wide.jpg">
+    <meta property="og:image" content="images/hero-bg.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
@@ -80,54 +80,71 @@
     </script>
 
     <style>
-        .hero { background: url('images/hero-background-us-wide.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-        .hero-content { background-color: rgba(44, 44, 44, 0.6); padding: 2rem; border-radius: 8px; text-align: center; }
-        .hero h1 { color: var(--light-text); text-shadow: 2px 2px 5px var(--primary-color); margin-bottom: 0.5em;}
-        .hero p { color: var(--light-text); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .hero .cta-button { background-color: var(--primary-color); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1rem; }
-        .hero .cta-button:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
+        /* Internal styles for enhanced theme consistency and ADA */
+        body {
+            /* Ensure base colors provide good contrast */
+            background-color: #f0f0f0;
+            color: var(--dark-text, #333);
+        }
+        .hero { background: url('images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-content { background-color: rgba(44, 44, 44, 0.65); padding: 2rem; border-radius: 8px; text-align: center; }
+        .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em;}
+        .hero p { color: var(--light-text, #f5f5f5); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero .cta-button { background-color: var(--primary-color, #ff4500); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1rem; display: inline-block; padding: 0.8em 1.5em; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; }
+        .hero .cta-button:hover { background-color: var(--secondary-color, #ff8c00); transform: translateY(-2px); }
 
-        #map-section, #about, #prevention, #community { padding: 3rem 0; }
-        #prevention { background-color: #ffffff; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
+        .content-section { padding: 3rem 1rem; } /* Standard padding for sections */
+        .content-section#prevention { background-color: #ffffff; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
 
-        .section-title { color: var(--secondary-color); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; }
-        .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; }
+        .section-title { color: var(--secondary-color, #ff8c00); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.5rem); } /* Ensure H2 size */
+        .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; }
 
-        .map-usage-guide { max-width: 700px; margin: 0 auto 2rem auto; text-align: left; background-color: #f9f9f9; padding: 1.5rem; border-radius: 5px; border-left: 5px solid var(--accent-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color); font-family: 'Montserrat', sans-serif; margin-bottom: 1rem; text-align: left; } /* Ensure h4 is left aligned */
+        .map-usage-guide { max-width: 700px; margin: 0 auto 2rem auto; text-align: left; background-color: #f9f9f9; padding: 1.5rem; border-radius: 5px; border-left: 5px solid var(--accent-color, #ffd700); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1rem; text-align: left; font-size: 1.1em; }
         .map-usage-guide ul { list-style: none; padding-left: 0; }
         .map-usage-guide li { margin-bottom: 0.75em; display: flex; align-items: center; }
-        .map-usage-guide li i { color: var(--primary-color); margin-right: 0.75em; width: 1.2em; text-align: center; font-size: 1.1em; }
+        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 0.75em; width: 1.2em; text-align: center; font-size: 1.1em; }
 
-        .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; } /* Added grid display */
-        .prevention-grid .prevention-item { border-top: 4px solid var(--primary-color); padding: 2rem; background-color: #fdfdfd; border-radius: 5px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
+        .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .prevention-grid .prevention-item { border-top: 4px solid var(--primary-color, #ff4500); padding: 2rem; background-color: #fdfdfd; border-radius: 5px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
         .prevention-grid .prevention-item:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
-        .prevention-grid .prevention-item:nth-child(2) { border-top-color: var(--secondary-color); }
-        .prevention-grid .prevention-item:nth-child(2) i { color: var(--secondary-color); }
-        .prevention-grid .prevention-item:nth-child(3) { border-top-color: var(--accent-color); }
-        .prevention-grid .prevention-item:nth-child(3) i { color: var(--accent-color); }
+        .prevention-grid .prevention-item:nth-child(2) { border-top-color: var(--secondary-color, #ff8c00); }
+        .prevention-grid .prevention-item:nth-child(2) i { color: var(--secondary-color, #ff8c00); }
+        .prevention-grid .prevention-item:nth-child(3) { border-top-color: var(--accent-color, #ffd700); }
+        .prevention-grid .prevention-item:nth-child(3) i { color: var(--accent-color, #ffd700); }
         .prevention-grid .prevention-item i { font-size: 2.5em; margin-bottom: 0.5em; display: block; }
-        .prevention-grid .prevention-item h3 { font-family: 'Montserrat', sans-serif; color: #333; margin-top: 0.5em; font-size: 1.2em; margin-bottom: 0.75em; } /* Centered H3 */
-        .prevention-grid .prevention-item p { font-size: 0.95em; color: #555; line-height: 1.6; } /* Centered p */
+        .prevention-grid .prevention-item h3 { font-family: 'Montserrat', sans-serif; color: var(--dark-text, #333); margin-top: 0.5em; font-size: 1.2em; margin-bottom: 0.75em; text-align: center; }
+        .prevention-grid .prevention-item p { font-size: 0.95em; color: #555; line-height: 1.6; }
 
-        .cta-banner { background-color: var(--primary-color); color: white; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        .cta-banner { background-color: var(--primary-color, #ff4500); color: white; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
         .cta-banner p { margin: 0; font-size: 1.1em; }
-        .cta-banner a { color: var(--accent-color); font-weight: bold; text-decoration: underline; }
-        .cta-banner a:hover { color: #fff; }
+        /* ADA Fix: Ensure link has high contrast on banner bg */
+        .cta-banner a { color: #ffffff; font-weight: bold; text-decoration: underline; }
+        .cta-banner a:hover { color: var(--accent-color, #ffd700); text-decoration: none;}
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-        .gallery .gallery-item img { width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .gallery .gallery-item img { width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block; }
 
         .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
         .text-center { text-align: center; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
 
-        .nav-menu.active .dropdown li a { color: var(--light-text); }
+        .nav-menu.active .dropdown li a,
+        .nav-menu.active .dropdown li a.sub-item { color: var(--light-text, #f5f5f5); } /* Ensure contrast in mobile nav */
         .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
-        .nav-menu.active .dropdown li a.sub-item { color: #eee; }
 
-        /* Explicitly center all H2s within content sections */
-        .content-section h2 { text-align: center; }
+        /* Ensure all H2 (section titles) are centered */
+        .content-section .section-title { text-align: center; }
+
+        /* Add focus styles for accessibility */
+        a:focus, button:focus, input:focus {
+            outline: 2px solid var(--secondary-color, #ff8c00);
+            outline-offset: 2px;
+        }
+        .hamburger:focus { outline: none; } /* Remove default outline on hamburger if visually distracting */
+        .hamburger:focus-visible .line { /* Style hamburger lines on focus-visible */
+             outline: 1px dashed var(--accent-color, #ffd700);
+        }
 
     </style>
 
@@ -196,12 +213,12 @@
         </div>
     </section>
 
-    <section id="map-section">
+    <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
             <p class="section-intro">Monitor the latest wildfire activity nationwide with our <strong>real-time fire monitoring</strong> map. Use the controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of the current situation.</p>
-            <div class="map-usage-guide">
-                <h4><i class="fas fa-map-marked-alt"></i>How to Use the Map:</h4>
+            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
+                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt"></i>How to Use the Map:</h4>
                 <ul>
                     <li><i class="fas fa-location-crosshairs"></i>Click <strong>Locate Me</strong> to center the map on your current position.</li>
                     <li><i class="fas fa-search-plus"></i>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out.</li>
@@ -231,17 +248,17 @@
             <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. These resources help you build your <strong>wildfire action plan</strong>.</p>
             <div class="prevention-grid">
                 <div class="prevention-item">
-                    <i class="fas fa-home"></i>
+                    <i class="fas fa-home" aria-hidden="true"></i>
                     <h3>Defensible Space Zones</h3>
                     <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
                 </div>
                 <div class="prevention-item">
-                     <i class="fas fa-tools"></i>
+                     <i class="fas fa-tools" aria-hidden="true"></i>
                     <h3>Home Hardening Techniques</h3>
                     <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
                 </div>
                 <div class="prevention-item">
-                     <i class="fas fa-seedling"></i>
+                     <i class="fas fa-seedling" aria-hidden="true"></i>
                     <h3>Fire-Smart Landscaping</h3>
                     <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
                 </div>
@@ -257,10 +274,10 @@
                 <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
             <p class="section-intro">Images below depict common scenes related to wildfire response and impact in the US.</p>
-            <div class="gallery">
-                <div class="gallery-item"><img src="images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item"><img src="images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item"><img src="images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+            <div class="gallery" role="list" aria-label="Community and wildfire images">
+                <div class="gallery-item" role="listitem"><img src="images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item" role="listitem"><img src="images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item" role="listitem"><img src="images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
@@ -328,13 +345,13 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([39.8283, -98.5795]); // Center of US
-            const [zoom, setZoom] = useState(4); // Zoom for US view
+            const [center, setCenter] = useState([39.8283, -98.5795]);
+            const [zoom, setZoom] = useState(4);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
-            const initialCenter = [39.8283, -98.5795]; // Store initial US view
+            const initialCenter = [39.8283, -98.5795];
             const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
 
