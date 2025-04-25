@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Eye on the Fire - Live Interactive Wildfire Map (California & US)</title>
-    <meta name="description" content="Eye on the Fire: Your essential resource for real-time wildfire tracking via our live interactive fire map. Get critical updates for fires near Moorpark, Ventura County, California, and the US. Find fire safety guides, home hardening tips, and local emergency links.">
-    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map, emergency preparedness, evacuation guide, California fire map, Moorpark fire, Ventura County fire, live fire tracker, home hardening, defensible space, California fire season">
+    <title>Eye on the Fire - Live Interactive US Wildfire Map & Safety Info</title>
+    <meta name="description" content="Eye on the Fire: Your essential US resource for real-time wildfire tracking via our live interactive fire map. Get critical updates for fires across the United States. Find fire safety guides, home hardening tips, and emergency resources.">
+    <meta name="keywords" content="interactive fire map, live wildfire updates, fires near me, real-time fire monitoring, fire safety, Eye on the Fire, wildfire map US, emergency preparedness, evacuation guide, California fire map, US fire map, live fire tracker, home hardening, defensible space, US fire season">
     <meta name="author" content="Eye on the Fire Team">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://eyeonthefire.com/">
 
-    <meta property="og:title" content="Eye on the Fire - Live Interactive Wildfire Map (California & US)">
-    <meta property="og:description" content="Monitor active wildfires in Moorpark, California, and across the US with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find safety resources.">
+    <meta property="og:title" content="Eye on the Fire - Live Interactive US Wildfire Map & Safety Info">
+    <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="images/hero-bg.jpg">
+    <meta property="og:image" content="images/hero-background-us-wide.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
@@ -51,16 +51,16 @@
         "target": "https://eyeonthefire.com/#map-section?query={search_term_string}",
         "query-input": "required name=search_term_string"
       },
-       "description": "Real-time interactive wildfire map monitoring fires near you, live updates, and fire safety information for California and the US, including Moorpark and Ventura County."
+       "description": "Real-time interactive wildfire map monitoring fires across the United States, live updates, and fire safety information."
     }
     </script>
      <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Eye on the Fire - Live Interactive Wildfire Map (California & US)",
+      "name": "Eye on the Fire - Live Interactive US Wildfire Map & Safety Info",
       "url": "https://eyeonthefire.com/",
-      "description": "Homepage for Eye on the Fire, providing a live interactive fire map, wildfire updates, and safety resources for Moorpark, Ventura County, California and the US.",
+      "description": "Homepage for Eye on the Fire, providing a live interactive fire map, wildfire updates, and safety resources for the United States.",
        "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [{
@@ -72,12 +72,59 @@
       },
       "mainEntity": {
          "@type": "Map",
-         "name": "Live Interactive Wildfire Map",
-         "description": "Real-time map showing active wildfire locations and related data.",
+         "name": "Live Interactive US Wildfire Map",
+         "description": "Real-time map showing active wildfire locations and related data across the United States.",
          "url": "https://eyeonthefire.com/#map-section"
        }
     }
     </script>
+
+    <style>
+        /* Inline styles moved here for better organization and theme consistency */
+        .hero { background: url('images/hero-background-us-wide.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-content { background-color: rgba(44, 44, 44, 0.6); /* Slightly darker overlay using --dark-bg variable concept */ padding: 2rem; border-radius: 8px; text-align: center; }
+        .hero h1 { color: var(--light-text); text-shadow: 2px 2px 5px var(--primary-color); margin-bottom: 0.5em;}
+        .hero p { color: var(--light-text); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero .cta-button { background-color: var(--primary-color); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1rem; }
+        .hero .cta-button:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
+
+        #map-section, #about, #prevention, #community { padding: 3rem 0; } /* Consistent vertical padding */
+        #prevention { background-color: #ffffff; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
+
+        .section-title { color: var(--secondary-color); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; }
+        .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; }
+
+        .map-usage-guide { max-width: 700px; margin: 0 auto 2rem auto; text-align: left; background-color: #f9f9f9; padding: 1.5rem; border-radius: 5px; border-left: 5px solid var(--accent-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color); font-family: 'Montserrat', sans-serif; margin-bottom: 1rem; }
+        .map-usage-guide ul { list-style: none; padding-left: 0; }
+        .map-usage-guide li { margin-bottom: 0.75em; display: flex; align-items: center; }
+        .map-usage-guide li i { color: var(--primary-color); margin-right: 0.75em; width: 1.2em; text-align: center; font-size: 1.1em; }
+
+        .prevention-grid .prevention-item { border-top: 4px solid var(--primary-color); padding-top: 1.5rem; background-color: #fdfdfd; padding: 2rem; border-radius: 5px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .prevention-grid .prevention-item:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+        .prevention-grid .prevention-item:nth-child(2) { border-top-color: var(--secondary-color); }
+        .prevention-grid .prevention-item:nth-child(2) i { color: var(--secondary-color); }
+        .prevention-grid .prevention-item:nth-child(3) { border-top-color: var(--accent-color); }
+        .prevention-grid .prevention-item:nth-child(3) i { color: var(--accent-color); }
+        .prevention-grid .prevention-item i { font-size: 2.5em; margin-bottom: 0.5em; display: block; text-align: center; }
+        .prevention-grid .prevention-item h3 { font-family: 'Montserrat', sans-serif; color: #333; margin-top: 0.5em; text-align: center; font-size: 1.2em; }
+        .prevention-grid .prevention-item p { text-align: center; font-size: 0.95em; color: #555; }
+
+        .cta-banner { background-color: var(--primary-color); color: white; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .cta-banner p { margin: 0; font-size: 1.1em; }
+        .cta-banner a { color: var(--accent-color); font-weight: bold; text-decoration: underline; }
+        .cta-banner a:hover { color: #fff; }
+
+        .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
+        .text-center { text-align: center; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+
+        /* Ensure dropdown text is readable */
+        .nav-menu.active .dropdown li a { color: var(--light-text); }
+        .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
+        .nav-menu.active .dropdown li a.sub-item { color: #eee; }
+
+    </style>
 
 </head>
 <body>
@@ -136,80 +183,79 @@
         </div>
     </header>
 
-    <section class="hero" id="home" style="background: url('images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
-        <div class="hero-content" style="background-color: rgba(0,0,0,0.4); padding: 2rem; border-radius: 8px; text-align: center;">
-            <h1 style="color: var(--light-text); text-shadow: 2px 2px 5px var(--primary-color);">Monitor Wildfires in Real-Time</h1>
-            <p style="color: var(--light-text); font-size: 1.2em;">Track active fires near you with our live interactive map. Get critical updates for California, including Moorpark & Ventura County, and across the US.</p>
-            <a href="#map-section" class="cta-button" style="background-color: var(--primary-color); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">View Live Fire Map</a>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Monitor US Wildfires in Real-Time</h1>
+            <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
+            <a href="#map-section" class="cta-button">View Live US Fire Map</a>
         </div>
     </section>
 
-    <section id="map-section" style="padding: 2rem 0;">
+    <section id="map-section">
         <div class="container text-center">
-            <h2 style="color: var(--secondary-color); margin-bottom: 0.5em;">Interactive Live Wildfire Tracker</h2>
-            <p style="max-width: 800px; margin: 0 auto 1.5rem auto;">Monitor the latest wildfire activity with our <strong>real-time fire monitoring</strong> map. Use the controls to find <strong>fires near Moorpark</strong>, zoom across <strong>California</strong>, explore nationwide hotspots, and toggle data layers for a comprehensive view.</p>
-            <div class="map-usage-guide" style="max-width: 700px; margin: 0 auto 2rem auto; text-align: left; background-color: #f9f9f9; padding: 1rem; border-radius: 5px; border-left: 5px solid var(--accent-color);">
-                <h4 style="margin-top: 0; color: var(--primary-color); font-family: 'Montserrat', sans-serif;"><i class="fas fa-map-marked-alt" style="margin-right: 0.5em;"></i>How to Use the Map:</h4>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><i class="fas fa-location-crosshairs" style="color: var(--primary-color); margin-right: 0.5em; width: 1em; text-align: center;"></i>Click <strong>Locate Me</strong> to center the map on your current position.</li>
-                    <li><i class="fas fa-search-plus" style="color: var(--primary-color); margin-right: 0.5em; width: 1em; text-align: center;"></i>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out.</li>
-                    <li><i class="fas fa-undo" style="color: var(--primary-color); margin-right: 0.5em; width: 1em; text-align: center;"></i>Click <strong>Reset View</strong> to return to the initial map extent.</li>
-                    <li><i class="fas fa-fire" style="color: var(--primary-color); margin-right: 0.5em; width: 1em; text-align: center;"></i>Fire icons indicate detected hotspots or reported incidents. Click icons for details.</li>
+            <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide with our <strong>real-time fire monitoring</strong> map. Use the controls to find <strong>fires near you</strong> anywhere in the US, zoom into regions like <strong>California</strong> or the Pacific Northwest, and explore data layers for a comprehensive view.</p>
+            <div class="map-usage-guide">
+                <h4><i class="fas fa-map-marked-alt"></i>How to Use the Map:</h4>
+                <ul>
+                    <li><i class="fas fa-location-crosshairs"></i>Click <strong>Locate Me</strong> to center the map on your current position.</li>
+                    <li><i class="fas fa-search-plus"></i>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out.</li>
+                    <li><i class="fas fa-undo"></i>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</li>
+                    <li><i class="fas fa-fire"></i>Fire icons indicate detected hotspots or reported incidents. Click icons for details.</li>
                 </ul>
             </div>
         </div>
         <main>
             <div id="root"></div>
         </main>
-         <div class="container text-center" style="margin-top: 1rem;">
-             <p style="font-size: 0.9em; color: #666;">Map data sourced from NASA FIRMS, NIFC, and other official channels. Updates occur periodically. Always follow official evacuation orders.</p>
+         <div class="container data-source-note">
+             <p>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</p>
          </div>
     </section>
 
-    <section id="about" class="content-section" style="padding: 2rem 0;">
+    <section id="about" class="content-section">
         <div class="container text-center">
-            <h2 style="color: var(--secondary-color);">Stay Informed, Stay Safe</h2>
-             <p style="max-width: 800px; margin: 0 auto 1rem auto;">During the <strong>California fire season</strong>, having access to reliable information is crucial. Eye on the Fire provides a vital service through our premier <strong>interactive fire map</strong>, aggregating data for clear, actionable insights. Our platform helps residents in areas like <strong>Moorpark</strong> and greater <strong>Ventura County</strong> assess potential threats by offering <strong>real-time fire monitoring</strong>. Understand current fire perimeters, hotspots, and incident reports to aid your <strong>emergency preparedness</strong> and <strong>evacuation planning</strong>.</p>
-             <p style="max-width: 800px; margin: 0 auto;">We are committed to providing the most accurate and timely data available from official sources like NASA FIRMS and NIFC to support community <strong>fire safety</strong>.</p>
+            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
+             <p class="section-intro">As wildfire seasons intensify across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and <strong>fire safety</strong>.</p>
         </div>
     </section>
 
-    <section id="prevention" class="content-section" style="background-color: #ffffff; padding: 3rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee;">
+    <section id="prevention" class="content-section">
         <div class="container text-center">
-            <h2 style="color: var(--secondary-color);">Wildfire Prevention & Home Safety</h2>
-            <p style="max-width: 800px; margin: 0 auto 2rem auto;">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival. These resources help you build your <strong>wildfire action plan</strong>.</p>
+            <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
+            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. These resources help you build your <strong>wildfire action plan</strong>.</p>
             <div class="prevention-grid">
-                <div class="prevention-item" style="border-top: 3px solid var(--primary-color); padding-top: 1.5rem;">
-                    <i class="fas fa-home" style="font-size: 2.5em; color: var(--primary-color); margin-bottom: 0.5em;"></i>
-                    <h3 style="font-family: 'Montserrat', sans-serif; color: #333;">Defensible Space Zones</h3>
-                    <p>Learn how to create and maintain zones 0, 1, and 2 around your home to reduce flammable materials and stop fire spread. Essential for California homeowners.</p>
+                <div class="prevention-item">
+                    <i class="fas fa-home"></i>
+                    <h3>Defensible Space Zones</h3>
+                    <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread.</p>
                 </div>
-                <div class="prevention-item" style="border-top: 3px solid var(--secondary-color); padding-top: 1.5rem;">
-                     <i class="fas fa-tools" style="font-size: 2.5em; color: var(--secondary-color); margin-bottom: 0.5em;"></i>
-                    <h3 style="font-family: 'Montserrat', sans-serif; color: #333;">Home Hardening Techniques</h3>
-                    <p>Discover methods to make your home more resistant to embers and flames, including non-combustible roofing, siding, screened vents, and dual-pane windows.</p>
+                <div class="prevention-item">
+                     <i class="fas fa-tools"></i>
+                    <h3>Home Hardening Techniques</h3>
+                    <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks.</p>
                 </div>
-                <div class="prevention-item" style="border-top: 3px solid var(--accent-color); padding-top: 1.5rem;">
-                     <i class="fas fa-seedling" style="font-size: 2.5em; color: var(--accent-color); margin-bottom: 0.5em;"></i>
-                    <h3 style="font-family: 'Montserrat', sans-serif; color: #333;">Fire-Smart Landscaping</h3>
-                    <p>Choose appropriate vegetation and spacing for plants near your home. Use fire-resistant native plants and maintain irrigation to enhance your defensible space.</p>
+                <div class="prevention-item">
+                     <i class="fas fa-seedling"></i>
+                    <h3>Fire-Smart Landscaping</h3>
+                    <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="community" class="content-section" style="padding: 2rem 0;">
+    <section id="community" class="content-section">
         <div class="container text-center">
-            <h2 style="color: var(--secondary-color);">Local Resources & Emergency Info</h2>
-            <p style="max-width: 800px; margin: 0 auto 1.5rem auto;">Access official local resources for emergency alerts, evacuation status, and support during wildfire events in Moorpark and Ventura County.</p>
-            <div class="cta-banner" style="background-color: var(--primary-color); color: white; padding: 1rem; border-radius: 5px; margin-bottom: 2rem;">
-                <p style="margin: 0; font-size: 1.1em;">Official Ventura County Emergency Information: <a href="https://www.vcemergency.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); font-weight: bold; text-decoration: underline;">Visit VCemergency.com</a></p>
+            <h2 class="section-title">National & Local Resources</h2>
+            <p class="section-intro">Access official resources for emergency alerts, evacuation status, and support during wildfire events across the United States.</p>
+            <div class="cta-banner">
+                <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
-            <p style="max-width: 800px; margin: 0 auto 1.5rem auto;">Stay connected and prepared by knowing your local resources.</p>
+            <p class="section-intro">Images below depict common scenes related to wildfire response and impact in the US.</p>
             <div class="gallery">
-                <div class="gallery-item"><img src="images/community-1.jpg" alt="Community volunteers clearing brush for fire prevention near Moorpark, CA"></div>
-                <div class="gallery-item"><img src="images/community-2.jpg" alt="Ventura County firefighters working to contain a California wildfire"></div>
-                <div class="gallery-item"><img src="images/community-3.jpg" alt="California landscape showing green regrowth after a wildfire"></div>
+                <div class="gallery-item"><img src="images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item"><img src="images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item"><img src="images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
@@ -219,16 +265,16 @@
             <div class="footer-section about">
                  <h3 class="logo-text-footer">Eye on the Fire</h3>
                 <p>
-                    Providing critical real-time wildfire monitoring and fire safety resources for California and the US. Our interactive map helps you stay informed and prepared.
+                    Providing critical real-time wildfire monitoring and fire safety resources for the United States. Our interactive map helps you stay informed and prepared.
                 </p>
             </div>
             <div class="footer-section links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#map-section">Live Map</a></li>
-                    <li><a href="#prevention">Prevention Tips</a></li>
-                    <li><a href="#community">Local Resources</a></li>
-                    <li><a href="#about">About Eye on the Fire</a></li>
+                    <li><a href="#map-section">Live US Map</a></li>
+                    <li><a href="#prevention">Prevention Guides</a></li>
+                    <li><a href="#community">Emergency Resources</a></li>
+                    <li><a href="#about">About Us</a></li>
                     <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
@@ -277,14 +323,17 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([34.2800, -118.7367]);
-            const [zoom, setZoom] = useState(9);
+            // Default center to continental US
+            const [center, setCenter] = useState([39.8283, -98.5795]);
+            // Default zoom for US view
+            const [zoom, setZoom] = useState(4);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
-            const initialCenter = [34.2800, -118.7367];
-            const initialZoom = 9;
+            // Store initial default US view
+            const initialCenter = [39.8283, -98.5795];
+            const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
 
             useEffect(() => {
@@ -319,7 +368,7 @@
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
-                        setFires(fireList.slice(0, 200));
+                        setFires(fireList.slice(0, 200)); // Limit markers if needed
                     })
                     .catch(err => {
                         console.error('Error fetching fire data:', err.message);
@@ -336,7 +385,7 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'images/fire-icon.png',
+                        iconUrl: 'images/fire-icon.png', // Ensure path is correct
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
@@ -357,7 +406,7 @@
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
-                            setCenter([latitude, longitude]); setZoom(12);
+                            setCenter([latitude, longitude]); setZoom(10); // Zoom closer for locate me
                             setIsLoading(false);
                             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                         },
@@ -386,7 +435,7 @@
                              <p>Loading live fire data...</p>
                          </div>
                         <div className="controls">
-                            <button onClick={handleReset} title="Reset Map View">Reset View</button>
+                            <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
                             <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
                         </div>
                         {errorMessage && (
