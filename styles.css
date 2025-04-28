@@ -40,7 +40,7 @@ h1, h2, h3 {
   font-family: 'Montserrat', sans-serif;
   color: #b71c1c; /* Original heading color from your file */
   margin-bottom: 0.75em;
-  text-align: center; /* Center headings by default based on your file */
+  text-align: center; /* Center headings based on your file */
 }
 h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
 h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
@@ -61,12 +61,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .navbar {
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
-    padding: 0.5rem 1rem; /* Keep padding from your file */
+    padding: 0.5rem 1rem;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 10000; /* Ensure high z-index */
+    z-index: 10000; /* High z-index */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0,0,0,0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -75,22 +75,20 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     align-items: stretch;
 }
 
-/* Original header/logo styles - kept for context */
+/* Original header/logo styles - .navbar-header likely not used by new nav */
 .navbar-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .logo { display: flex; align-items: center; text-decoration: none; }
-/* .logo img { height: 50px; width: auto; margin-right: 0.5em; } */ /* Rule for removed logo image - REMOVED/COMMENTED */
+/* .logo img { height: 50px; width: auto; margin-right: 0.5em; } */ /* Logo image removed */
 .logo-text { color: var(--light-text); font-size: 1.5em; font-weight: bold; font-family: 'Montserrat', sans-serif; }
-/* Original hamburger styles */
-.hamburger { display: none; flex-direction: column; justify-content: space-around; width: 30px; height: 21px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 10001; }
-.hamburger .line { display: block; width: 30px; height: 3px; background: var(--light-text); border-radius: 3px; transition: all 0.3s linear;}
-.hamburger.active .line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.hamburger.active .line:nth-child(2) { opacity: 0; }
-.hamburger.active .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-/* Original nav menu UL styles */
-.nav-menu { list-style: none; display: flex; align-items: center; margin: 0; padding: 0; }
-.nav-menu li { margin-left: 20px; }
-.nav-menu a { color: var(--light-text); text-decoration: none; padding: 5px 10px; transition: background-color 0.3s ease; font-family: 'Montserrat', sans-serif; font-weight: 500; }
-.nav-menu a:hover { color: var(--accent-color); text-decoration: none; }
+/* Original hamburger styles - kept for reference but likely overridden below */
+/* .hamburger { ... } */
+/* .hamburger .line { ... } */
+/* .hamburger.active .line { ... } */
+/* Original nav menu UL styles - kept for reference but likely overridden below */
+/* .nav-menu { ... } */
+/* .nav-menu li { ... } */
+/* .nav-menu a { ... } */
+
 
 /* --- Hero Section Styles (From your file) --- */
 .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; color: var(--light-text); min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 1rem; }
@@ -118,14 +116,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* React Map Container */
 #root .map-container { margin: 0; padding: 0; box-shadow: none; border-radius: 0; max-width: none; background: none; }
 #root #map { height: 70vh; }
-/* Map Usage Guide (From previous merge, retained for layout) */
+/* Map Usage Guide */
 .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
 .map-usage-guide ul { list-style: none; padding-left: 0; }
 .map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
 .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
 .map-usage-guide li span { line-height: 1.5; }
-
 
 /* --- Prevention Grid Styles (From your file) --- */
 .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
@@ -135,11 +132,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .prevention-item p { font-size: 0.95em; color: #555; line-height: 1.6; flex-grow: 1;}
 .prevention-item:nth-child(2) { border-top-color: var(--secondary-color); }
 .prevention-item:nth-child(3) { border-top-color: var(--accent-color); }
-/* Added icon styles if missing from base */
 .prevention-item i { font-size: 2.8em; margin-bottom: 0.75em; display: block; color: var(--primary-color); }
 .prevention-item:nth-child(2) i { color: var(--secondary-color); }
 .prevention-item:nth-child(3) i { color: var(--accent-color); }
-
 
 /* --- Community Section Styles (From your file) --- */
 .cta-banner { background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); color: white; padding: 1.5rem; border-radius: 5px; margin: 2rem auto; max-width: 800px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -148,16 +143,16 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
 .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block; }
 
-/* --- Footer Styles (From your file) --- */
-footer { background: var(--dark-bg); color: var(--light-text); padding: 2rem 1rem; text-align: center; margin-top: auto; border-top: 4px solid var(--primary-color); }
-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
-footer p { margin-bottom: 0.5em; color: #ccc; font-size: 0.9em; }
-footer a { color: var(--accent-color); margin: 0 0.5em; }
-footer a:hover { color: var(--light-text); text-decoration: underline; }
-footer .social-icons { margin-top: 1em; }
-footer .social-icons a { color: var(--light-text); font-size: 1.5em; margin: 0 0.8em; transition: color 0.3s ease, transform 0.2s ease; }
-footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1); }
-/* Footer Structure (Styles from previous merge, ensure they apply correctly) */
+/* --- Footer Styles (From your file, using site-footer class) --- */
+.site-footer { background: var(--dark-bg); color: var(--light-text); padding: 2rem 1rem; text-align: center; margin-top: auto; border-top: 4px solid var(--primary-color); box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3); z-index: 10;}
+.site-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; } /* Scoped container */
+.site-footer p { margin-bottom: 0.5em; color: #ccc; font-size: 0.9em; }
+.site-footer a { color: var(--accent-color); margin: 0 0.5em; }
+.site-footer a:hover { color: var(--light-text); text-decoration: underline; }
+.site-footer .social-icons { margin-top: 1em; }
+.site-footer .social-icons a { color: var(--light-text); font-size: 1.5em; margin: 0 0.8em; transition: color 0.3s ease, transform 0.2s ease; }
+.site-footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1); }
+/* Footer Structure Styles */
 .footer-content { display: flex; flex-wrap: wrap; justify-content: space-around; align-items: flex-start; max-width: 1200px; margin: 0 auto 2rem; text-align: center; }
 .footer-section { flex: 1; min-width: 250px; margin: 1rem; padding: 0 1rem; }
 .footer-section.about { text-align: left; }
@@ -179,43 +174,17 @@ footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1
 .footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
 
 
-/* === CSS Appended for Final Navigation Structure & Logo === */
+/* === CSS Appended/Corrected for Final Navigation Structure === */
 
-/* Logo Styles (No logo image) */
-.navbar .logo-container { /* Ensure container aligns items vertically */
-    display: flex;
-    align-items: center;
-    gap: 0; /* No gap needed without image */
-}
-.navbar .logo-container span { /* Styles for text logo */
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--light-text);
-    font-family: 'Montserrat', sans-serif;
-    text-shadow: 1px 1px 3px var(--primary-color);
-    white-space: nowrap;
-    transition: color 0.3s ease;
-}
-.navbar .logo-link:hover .logo-container span {
-    color: var(--secondary-color);
-}
+/* Styles for new nav structure - use .navbar prefix for specificity */
+.navbar .navbar-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; height: 100%; }
+.navbar .logo-link { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; padding: 0 0.5rem; overflow: hidden; }
+.navbar .logo-container { display: flex; align-items: center; gap: 0; /* No logo image */ }
+.navbar .logo-container span { font-size: 1.6rem; font-weight: 700; color: var(--light-text); font-family: 'Montserrat', sans-serif; text-shadow: 1px 1px 3px var(--primary-color); white-space: nowrap; transition: color 0.3s ease; }
+.navbar .logo-link:hover .logo-container span { color: var(--secondary-color); }
 
-/* Final Nav Menu Structure Styles */
-.navbar .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
-    height: 100%;
-}
-.navbar .nav-menu { /* Target the <nav> tag */
-    display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none;
-}
-.navbar .main-menu { /* Target the <ul> inside <nav> */
-    display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch;
-}
+.navbar .nav-menu { display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none; }
+.navbar .main-menu { display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch; }
 .navbar .main-menu li { position: relative; display: flex; align-items: stretch; border-bottom: none; }
 .navbar .main-menu > li > a { color: var(--light-text); text-decoration: none; padding: 0 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; height: 100%; position: relative; transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease; border-bottom: 3px solid transparent; white-space: nowrap; cursor: pointer; }
 .navbar .main-menu > li > a > i.fa-caret-down { margin-left: 0.4em; font-size: 0.8em; transition: transform 0.3s ease; }
@@ -227,7 +196,7 @@ footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1
 @media (hover: hover) and (min-width: 992px) { .navbar .has-dropdown:hover > .dropdown, .navbar .has-dropdown > a:focus + .dropdown { display: block; opacity: 1; visibility: visible; transform: translateY(0); } }
 .navbar .dropdown li a { padding: 0.8rem 1.2rem; color: var(--light-text); text-decoration: none; display: block; font-family: 'Open Sans', sans-serif; font-size: 0.95rem; transition: background-color 0.2s ease, color 0.2s ease; white-space: nowrap; background: none; }
 .navbar .dropdown li strong.sub-header { display: flex; align-items: center; padding: 0.7rem 1.5rem 0.2rem 1.5rem; color: #ffcc80; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; background: none; margin-top: 0.5em; }
-/* Corrected Icon Spacing */
+/* Final Corrected Icon Spacing */
  .navbar .dropdown li strong i.fa-fire,
  .navbar .dropdown li strong i.fa-shield-alt,
  .navbar .dropdown li strong i.fa-info-circle,
@@ -246,12 +215,11 @@ footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1
 .navbar .hamburger.active .line2 { opacity: 0; }
 .navbar .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-
 /* Final Mobile Navigation Styles */
 @media (max-width: 991.98px) {
     .navbar .hamburger { display: block; }
-    .navbar .navbar-container .main-menu { display: none; }
-    .navbar .nav-menu { display: none; }
+    .navbar .navbar-container .main-menu { display: none; } /* Hides the UL directly */
+    .navbar .nav-menu { display: none; } /* Hides the NAV container */
 
     .navbar .nav-menu.active { display: block; position: fixed; left: 0; top: var(--navbar-height); width: 80%; max-width: 320px; height: calc(100vh - var(--navbar-height)); background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding-top: 1rem; overflow-y: auto; z-index: 1099; border-right: 2px solid var(--primary-color); animation: slideIn 0.4s ease-in-out forwards; }
     @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
@@ -271,7 +239,7 @@ footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1
     .navbar .nav-menu.active .dropdown li a:hover, .navbar .nav-menu.active .dropdown li a:focus { background: rgba(255, 69, 0, 0.3); }
     .navbar .nav-menu.active .dropdown li strong.sub-header { padding: 0.7rem 1.5rem 0.2rem 1.5rem; background-color: rgba(0, 0, 0, 0.1); color: #ffcc80; white-space: normal; line-height: 1.4; margin-top: 0.5em; display: flex; align-items: center; }
 
-    /* Corrected Mobile Icon Spacing */
+    /* Mobile Icon Spacing */
     .navbar .nav-menu.active .dropdown li strong i.fa-fire,
     .navbar .nav-menu.active .dropdown li strong i.fa-shield-alt,
     .navbar .nav-menu.active .dropdown li strong i.fa-info-circle,
@@ -288,7 +256,7 @@ footer .social-icons a:hover { color: var(--primary-color); transform: scale(1.1
 
 /* Final Focus Styles */
 a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
-.navbar .hamburger:focus { outline: none; } /* Use class from final HTML */
+.navbar .hamburger:focus { outline: none; }
 .navbar .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
 
 /* Final Layout Helpers */
