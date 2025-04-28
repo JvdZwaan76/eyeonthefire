@@ -247,18 +247,20 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 /* === UPDATED ICON SPACING RULES === */
-/* Style for fire icon in headers */
-.dropdown li strong i.fa-fire {
+/* Style for common icons (fire, info, map) */
+.dropdown li strong i.fa-fire,
+.dropdown li strong i.fa-info-circle,
+.dropdown li strong i.fa-map { /* Added info and map icons */
     color: var(--secondary-color);
-    margin-right: 0.6em; /* Keep original spacing for fire icon */
+    margin-right: 0.6em; /* Standard spacing */
     padding-left: 0.4em;
     font-size: 0.9em;
     flex-shrink: 0;
 }
-/* Style specifically for shield icon in headers */
+/* Style specifically for shield icon (needs slightly more space) */
 .dropdown li strong i.fa-shield-alt {
     color: var(--secondary-color);
-    margin-right: 0.8em; /* Slightly increased spacing ONLY for shield icon */
+    margin-right: 0.8em; /* Increased spacing ONLY for shield */
     padding-left: 0.4em;
     font-size: 0.9em;
     flex-shrink: 0;
@@ -643,21 +645,24 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     }
 
      /* === UPDATED MOBILE ICON SPACING RULES === */
-    /* Style for fire icon in MOBILE headers */
-    .nav-menu.active .dropdown li strong i.fa-fire {
+    /* Style for common icons (fire, info, map) */
+    .nav-menu.active .dropdown li strong i.fa-fire,
+    .nav-menu.active .dropdown li strong i.fa-info-circle,
+    .nav-menu.active .dropdown li strong i.fa-map { /* Added info and map icons */
         color: var(--secondary-color);
-        margin-right: 0.6em; /* Keep original spacing */
+        margin-right: 0.6em; /* Standard spacing */
         font-size: 0.9em;
         flex-shrink: 0;
     }
-    /* Style specifically for shield icon in MOBILE headers */
+    /* Style specifically for shield icon (needs slightly more space) */
     .nav-menu.active .dropdown li strong i.fa-shield-alt {
         color: var(--secondary-color);
         margin-right: 0.8em; /* Increased spacing ONLY for shield */
         font-size: 0.9em;
         flex-shrink: 0;
     }
-    /* === END UPDATED MOBILE ICON SPACING RULES === */
+     /* === END UPDATED MOBILE ICON SPACING RULES === */
+
 
      .nav-menu.active .dropdown li a.sub-item {
         padding-left: 3.5rem; /* Indent */
