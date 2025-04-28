@@ -18,6 +18,7 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
+    {/* Favicon links using root-relative paths */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
@@ -31,14 +32,18 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    {/* Stylesheets */}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.css" integrity="sha512-DRkMa+fn898M1uc6s9JZeztUoXN6viuHsXmh/pgz3jG6a77YWO3U3QYEjLoqbxOeclc2NunWfMTya4Y5twXAKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {/* Add Marker Cluster CSS - Assuming it's needed by map script */ }
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
+    {/* Schema Markup */}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -81,22 +86,22 @@
 </head>
 <body>
 
-    {/* === FINAL NAVIGATION HEADER (No Logo Image) === */}
+    {/* === FINAL NAVIGATION HEADER (Logo Added Back, Map Tools Removed, Contact Dropdown Added) === */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
                  <div class="logo-container">
-                    {/* Img tag removed */}
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
                     <span>Eye on the Fire</span>
                  </div>
             </a>
-            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
+            <button class="hamburger" id="hamburger-menu" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
             </button>
             <nav class="nav-menu" id="main-nav">
-                 <ul class="main-menu">
+                 <ul class="main-menu" id="nav-menu"> {/* Added ID back if JS uses it */}
                     <li><a href="#home">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -149,7 +154,7 @@
     {/* === END FINAL NAVIGATION HEADER === */}
 
 
-    {/* Hero Section (Content from your file) */}
+    {/* Hero Section from your uploaded file */}
     <header class="hero" id="home">
         <div class="hero-content">
             <h1>Monitor US Wildfires in Real-Time</h1>
@@ -158,43 +163,45 @@
         </div>
     </header>
 
-    {/* Map Section (Content and Structure from your file) */}
+    {/* Map Section from your uploaded file */}
     <section id="map-section" class="map-section content-section">
         <div class="map-wrapper" id="map-wrapper">
             <div class="map-header">Interactive Wildfire Map</div>
-            {/* This div below is likely where your map script from the original file attached */}
+            {/* Assuming your script targets 'fire-map' OR 'root'. If React uses #root, replace #fire-map below with #root */}
             <div id="fire-map">
-                <div id="map-loading-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001;">Loading map data...</div>
-                <div id="map-error-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; z-index: 1001;"></div>
+                 {/* React component will render here OR your original map script initializes here */}
+                 {/* If using React, replace the below messages with <div id="root"></div> */}
+                 <div id="root">
+                     <div id="map-loading-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001;">Loading map data...</div>
+                     <div id="map-error-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; z-index: 1001;"></div>
+                 </div>
             </div>
         </div>
         <div id="geolocation-error" style="text-align: center; color: #b71c1c; margin-top: 10px; display: none;">Could not get your location. Showing default view.</div>
-        {/* Optional: Add back the Map Usage Guide if desired */}
-        {/* <div class="container"> ... <div class="map-usage-guide">...</div> ... </div> */}
     </section>
 
-    {/* About Section (Content from your file) */}
+    {/* About Section from your uploaded file */}
     <section id="about" class="content-section">
-        <div class="container">
-          <h2>Why Choose Eye on the Fire?</h2>
-          <p>We provide the most up-to-date and comprehensive wildfire information available, combining data from multiple trusted sources like NASA and NIFC. Our easy-to-use interactive map helps you stay informed and safe.</p>
-        </div>
-      </section>
+      <div class="container">
+        <h2>Why Choose Eye on the Fire?</h2>
+        <p>We provide the most up-to-date and comprehensive wildfire information available, combining data from multiple trusted sources like NASA and NIFC. Our easy-to-use interactive map helps you stay informed and safe.</p>
+      </div>
+    </section>
 
-    {/* Prevention Section (Content from your file) */}
+    {/* Prevention Section from your uploaded file */}
     <section id="prevention" class="content-section">
-        <div class="container">
-          <h2>Fire Prevention Tips</h2>
-          <p>Protect your home and community by following these essential fire prevention practices.</p>
-          <div class="prevention-grid">
-            <div class="prevention-item"><h3>Clear Defensible Space</h3><p>Remove flammable vegetation, leaves, and debris from around your home (at least 30 feet).</p></div>
-            <div class="prevention-item"><h3>Maintain Roof & Gutters</h3><p>Regularly clean roofs and gutters of pine needles, leaves, and other flammable materials.</p></div>
-            <div class="prevention-item"><h3>Choose Fire-Resistant Landscaping</h3><p>Use native, drought-tolerant plants that are less likely to ignite easily.</p></div>
-          </div>
+      <div class="container">
+        <h2>Fire Prevention Tips</h2>
+        <p>Protect your home and community by following these essential fire prevention practices.</p>
+        <div class="prevention-grid">
+          <div class="prevention-item"><h3>Clear Defensible Space</h3><p>Remove flammable vegetation, leaves, and debris from around your home (at least 30 feet).</p></div>
+          <div class="prevention-item"><h3>Maintain Roof & Gutters</h3><p>Regularly clean roofs and gutters of pine needles, leaves, and other flammable materials.</p></div>
+          <div class="prevention-item"><h3>Choose Fire-Resistant Landscaping</h3><p>Use native, drought-tolerant plants that are less likely to ignite easily.</p></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-    {/* Community Section (Content from your file) */}
+    {/* Community Section from your uploaded file */}
     <section id="community" class="content-section">
         <div class="container">
             <h2>Community Resources & Updates</h2>
@@ -208,9 +215,9 @@
         </div>
     </section>
 
-    {/* Footer (Content from your file) */}
+    {/* Footer from your uploaded file */}
     <footer class="site-footer">
-        <div class="container"> {/* Assuming container usage from your file */}
+        <div class="container">
             <p>&copy; <span id="year">2025</span> Eye on the Fire. All Rights Reserved.</p>
             <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a></p>
             <div class="social-icons">
@@ -221,192 +228,144 @@
         </div>
     </footer>
 
-    {/* Scripts (Leaflet, Plugins, React, Babel, Map Logic) */}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    {/* Scripts Section */}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.js" integrity="sha512-c6ydt5Rypa1ptlnH2U1u+JybARYppbD1qxgythCI4pJ9EOfNYEWlLBjxBX926O3tq5p4Aw5GTY68vT0FdKbG3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {/* Add Marker Cluster JS if used */}
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-    {/* Ensure React related scripts are included if your map uses React */}
+    {/* React Scripts */}
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
 
-    {/* Your original map logic script OR the React Babel script */}
-    {/* If using React: */}
+    {/* React Map Component Script */}
     <script type="text/babel">
-      const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef } = React;
 
-      const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
-          for (let i = 0; i < retries; i++) {
-              let response;
-              try {
-                  response = await fetch(url);
-                  if (!response.ok) {
-                      const errorText = await response.text();
-                      throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
-                  }
-                  return await response.json();
-              } catch (error) {
-                  if (i === retries - 1) throw error;
-                  await new Promise(resolve => setTimeout(resolve, delay));
-              }
-          }
-      };
+        const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+            for (let i = 0; i < retries; i++) {
+                let response;
+                try {
+                    response = await fetch(url);
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        };
 
-      const MapComponent = () => {
-          const [fires, setFires] = useState([]);
-          const [center, setCenter] = useState([39.8283, -98.5795]); // Center of US
-          const [zoom, setZoom] = useState(4); // Zoom for US view
-          const [errorMessage, setErrorMessage] = useState('');
-          const [isLoading, setIsLoading] = useState(true);
-          const mapRef = useRef(null);
-          const markerLayerRef = useRef(null);
-          const initialCenter = [39.8283, -98.5795]; // Store initial US view
-          const initialZoom = 4;
-          const loadingOverlayRef = useRef(null);
+        const MapComponent = () => {
+            const [fires, setFires] = useState([]);
+            const [center, setCenter] = useState([39.8283, -98.5795]); // Center of US
+            const [zoom, setZoom] = useState(4); // Zoom for US view
+            const [errorMessage, setErrorMessage] = useState('');
+            const [isLoading, setIsLoading] = useState(true);
+            const mapRef = useRef(null);
+            const markerLayerRef = useRef(null);
+            const initialCenter = [39.8283, -98.5795]; // Store initial US view
+            const initialZoom = 4;
+            const loadingOverlayRef = useRef(null);
 
-          useEffect(() => {
-              // Ensure the target div exists before initializing the map
-              const mapElement = document.getElementById('map');
-              if (!mapRef.current && mapElement) {
-                  mapRef.current = L.map(mapElement, { // Target the div inside #root
-                      zoomControl: true,
-                      // fullscreenControl: true // Add if fullscreen plugin is active
-                  }).setView(center, zoom);
-                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
-                  }).addTo(mapRef.current);
-                  // Check if MarkerCluster library is loaded before using
-                  if (typeof L.markerClusterGroup === 'function') {
-                      markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                  } else {
-                       console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                       markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
-                  }
-                   mapRef.current.zoomControl.setPosition('topright');
-              } else if (!mapElement) {
-                  console.error("Map target element 'map' not found in DOM.");
-              }
-          }, []); // Dependencies array left empty to run once on mount
+            useEffect(() => {
+                // Use 'fire-map' if that's the target in your original non-React script
+                // Use 'map' if it's inside the #root div for React rendering
+                const mapTargetId = 'root' // Change to 'fire-map' if not using React in #root
+                const mapElement = document.getElementById(mapTargetId === 'root' ? 'map' : mapTargetId);
 
-          useEffect(() => {
-              if (mapRef.current) {
-                  mapRef.current.setView(center, zoom);
-              }
-          }, [center, zoom]);
+                if (!mapRef.current && mapElement) {
+                    mapRef.current = L.map(mapElement, {
+                        zoomControl: true,
+                        fullscreenControl: true, // Add fullscreen control
+                    }).setView(center, zoom);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
+                    }).addTo(mapRef.current);
+                    // Check if MarkerCluster library is loaded before using
+                    if (typeof L.markerClusterGroup === 'function') {
+                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                    } else {
+                         console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                         markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
+                    }
+                     mapRef.current.zoomControl.setPosition('topright');
+                } else if (!mapElement) {
+                     console.error("Map target element not found in DOM.");
+                     // If #root exists but #map doesn't, maybe render #map inside #root?
+                     // If you are using the React script, ensure <div id="map"> is inside the MapComponent's return statement.
+                }
+            }, []); // Run once on mount
 
-          useEffect(() => {
-              setIsLoading(true);
-              setErrorMessage('');
-               if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-              const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Ensure this endpoint is correct
+            useEffect(() => { if (mapRef.current) { mapRef.current.setView(center, zoom); } }, [center, zoom]);
 
-              fetchWithRetry(fireApiUrl)
-                  .then(data => {
-                      const fireList = (data.events || []).map(event => ({
-                          lat: event.geometry[0].coordinates[1],
-                          lon: event.geometry[0].coordinates[0],
-                          title: event.title || 'Active Fire'
-                      }));
-                      setFires(fireList.slice(0, 200));
-                  })
-                  .catch(err => {
-                      console.error('Error fetching fire data:', err.message);
-                      setErrorMessage(`Failed to load fire data. Check API or network connection.`);
-                  })
-                  .finally(() => {
-                       setIsLoading(false);
-                       if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-                  });
-          }, []);
+            useEffect(() => {
+                setIsLoading(true); setErrorMessage('');
+                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Ensure this endpoint is correct
 
+                fetchWithRetry(fireApiUrl)
+                    .then(data => { /* Process data as before */
+                        const fireList = (data.events || []).map(event => ({lat: event.geometry[0].coordinates[1], lon: event.geometry[0].coordinates[0], title: event.title || 'Active Fire'}));
+                        setFires(fireList.slice(0, 200));
+                    })
+                    .catch(err => { /* Handle error as before */
+                        console.error('Error fetching fire data:', err.message); setErrorMessage(`Failed to load fire data.`);
+                    })
+                    .finally(() => { /* Hide loader */
+                         setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                    });
+            }, []);
 
-          useEffect(() => {
-              if (markerLayerRef.current) {
-                  markerLayerRef.current.clearLayers();
-                  const fireIcon = L.icon({
-                      iconUrl: '/images/fire-icon.png', // Use root-relative path
-                      iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
-                  });
+            useEffect(() => { /* Add markers as before */
+                if (markerLayerRef.current) {
+                    markerLayerRef.current.clearLayers();
+                    const fireIcon = L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32] });
+                    fires.forEach(fire => { L.marker([fire.lat, fire.lon], { icon: fireIcon }).bindPopup(fire.title).addTo(markerLayerRef.current); });
+                }
+            }, [fires]);
 
-                  fires.forEach(fire => {
-                      L.marker([fire.lat, fire.lon], { icon: fireIcon })
-                          .bindPopup(fire.title)
-                          .addTo(markerLayerRef.current);
-                  });
-              }
-          }, [fires]);
+            const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
+            const handleLocateMe = () => { /* Geolocation logic as before */
+                 setIsLoading(true); setErrorMessage(''); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                 if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( position => { setCenter([position.coords.latitude, position.coords.longitude]); setZoom(10); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }, err => { console.error('Geolocation error:', err.message); setErrorMessage('Could not get location: ' + err.message); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }); }
+                 else { setErrorMessage('Geolocation is not supported.'); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }
+            };
+            const dismissError = () => setErrorMessage('');
 
-          const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
-
-          const handleLocateMe = () => {
-               setIsLoading(true); setErrorMessage('');
-               if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-               if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(
-                      position => {
-                          const { latitude, longitude } = position.coords;
-                          setCenter([latitude, longitude]); setZoom(10);
-                          setIsLoading(false);
-                          if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-                      },
-                      err => {
-                          console.error('Geolocation error:', err.message);
-                          setErrorMessage('Could not get your location: ' + err.message);
-                          setIsLoading(false);
-                          if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-                      },
-                       { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-                  );
-              } else {
-                  setErrorMessage('Geolocation is not supported by this browser.');
-                  setIsLoading(false);
-                  if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-              }
-          };
-
-          const dismissError = () => setErrorMessage('');
-
-          // Render structure for React map component
-          return (
-              <>
-                  <div className="map-container">
-                       <div ref={loadingOverlayRef} className="loading-overlay">
-                           <div className="flame-loader"></div>
-                           <p>Loading live fire data...</p>
-                       </div>
-                      <div className="controls">
-                          <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
-                          <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
-                      </div>
-                      {errorMessage && (
-                          <div className="error-message">
-                              <span>{errorMessage}</span>
-                              <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                          </div>
-                      )}
-                      {/* The div the Leaflet map will attach to */}
-                      <div id="map" style={{height: '70vh', borderRadius: '5px'}}></div>
-                  </div>
-              </>
-          );
-      };
-
-      ReactDOM.render(<MapComponent />, document.getElementById('root'));
+            // Render structure FOR REACT map component
+            return (
+                <>
+                    <div className="map-container">
+                         <div ref={loadingOverlayRef} className="loading-overlay"> <div className="flame-loader"></div> <p>Loading live fire data...</p> </div>
+                        <div className="controls"> <button onClick={handleReset} title="Reset Map View to US">Reset View</button> <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button> </div>
+                        {errorMessage && ( <div className="error-message"> <span>{errorMessage}</span> <button onClick={dismissError} aria-label="Dismiss error">×</button> </div> )}
+                        <div id="map" style={{height: '70vh', borderRadius: '5px'}}></div> {/* Map div *inside* React component */}
+                    </div>
+                </>
+            );
+        };
+        // Render React component into the #root div
+        ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 
-    {/* Navigation JS */}
+    {/* Navigation Menu JS */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('#main-nav'); // Correct target
+            // Use the ID of the <nav> element from the new structure
+            const navMenu = document.querySelector('#main-nav');
             const mainNavLinks = document.querySelectorAll('.main-menu a');
 
             if (hamburger && navMenu) {
                  hamburger.addEventListener('click', () => {
                     const isActive = navMenu.classList.contains('active');
                     hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
+                    navMenu.classList.toggle('active'); // Target the <nav> element
                     hamburger.setAttribute('aria-expanded', !isActive);
 
                     if (!navMenu.classList.contains('active')) {
@@ -423,6 +382,7 @@
                  const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
                  dropdownToggles.forEach(toggleLink => {
                      toggleLink.addEventListener('click', (e) => {
+                         // Check if hamburger is visible (mobile view)
                          if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
                              e.preventDefault();
                              const parentLi = toggleLink.closest('.has-dropdown');
@@ -442,12 +402,14 @@
                                 }
                              }
                          }
+                         // Allow default link behavior on desktop ONLY if it's not just '#'
                          else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
                              e.preventDefault();
                          }
                      });
                  });
 
+                 // Close full mobile menu when clicking a *final* navigation link
                  mainNavLinks.forEach(link => {
                     const isToggle = link.matches('.has-dropdown > a');
                     const isInDropdown = link.closest('.dropdown') !== null;
@@ -474,10 +436,9 @@
                  });
              }
 
+            // Footer year logic from your file
             const yearSpan = document.getElementById('year');
-            if (yearSpan) {
-                 yearSpan.textContent = new Date().getFullYear();
-            }
+            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
         });
     </script>
 
