@@ -14,11 +14,11 @@
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Assuming images folder is at root */}
+    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Use root-relative path */}
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    {/* Favicon links from your uploaded file, assuming paths are correct relative to root */}
+    {/* Favicon links (ensure paths are correct relative to root) */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
@@ -40,7 +40,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    {/* Link to your external stylesheet */}
     <link rel="stylesheet" href="styles.css">
 
     {/* Schema Markup */}
@@ -86,7 +85,7 @@
 </head>
 <body>
 
-    {/* === INSERTED FINALIZED NAVIGATION HEADER === */}
+    {/* === REPLACED NAVIGATION HEADER === */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
@@ -151,7 +150,7 @@
             </nav>
         </div>
     </header>
-    {/* === END FINALIZED NAVIGATION HEADER === */}
+    {/* === END REPLACED NAVIGATION HEADER === */}
 
     {/* Hero Section from your uploaded file */}
     <section class="hero" id="home">
@@ -285,7 +284,7 @@
         </div>
     </footer>
 
-    {/* Scripts from your uploaded file */}
+    {/* Scripts (ensure these match your needs, using React Map scripts from previous version) */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
@@ -446,6 +445,7 @@
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 
+    {/* Navigation JS (Keep this specific version for the nav structure) */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
