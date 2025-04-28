@@ -14,15 +14,13 @@
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Path relative to root */}
+    <meta property="og:image" content="/images/hero-bg.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    {/* Favicons using root-relative paths */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
-    <meta name="apple-mobile-web-app-title" content="eyeonthefire">
     <link rel="manifest" href="/favicon/site.webmanifest">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -33,18 +31,14 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
 
-    {/* Stylesheets from your file */ }
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.css" integrity="sha512-DRkMa+fn898M1uc6s9JZeztUoXN6viuHsXmh/pgz3jG6a77YWO3U3QYEjLoqbxOeclc2NunWfMTya4Y5twXAKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {/* Add Marker Cluster CSS - Assuming map script uses it */ }
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
-    {/* Schema Markup */}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -84,27 +78,105 @@
     }
     </script>
 
+    <style>
+        body {
+            background-color: #f0f0f0;
+            color: var(--dark-text, #333);
+        }
+        /* Logo Styling */
+        #navbar-logo {
+            height: 45px; /* Adjust height as needed */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle;
+            margin-right: 0.5rem; /* Space between logo and text */
+        }
+        .logo-container { /* Ensure container aligns items vertically */
+            display: flex;
+            align-items: center;
+        }
+        /* End Logo Styling */
+
+        .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+        .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
+        .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); }
+        .hero p { color: var(--light-text, #f5f5f5); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        .hero .cta-button { background-color: var(--primary-color, #ff4500); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1.5rem; display: inline-block; padding: 0.8em 1.8em; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.1em; }
+        .hero .cta-button:hover { background-color: var(--secondary-color, #ff8c00); transform: translateY(-2px); }
+
+        .content-section { padding: 3rem 1rem; border-bottom: 1px solid #e0e0e0; }
+        .content-section:last-of-type { border-bottom: none; }
+        .content-section#prevention { background-color: #ffffff; }
+
+        .section-title { color: var(--secondary-color, #ff8c00); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+        .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; color: #444; }
+
+        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        .map-usage-guide ul { list-style: none; padding-left: 0; }
+        .map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
+        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
+        .map-usage-guide li span { line-height: 1.5; }
+
+        .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .prevention-grid .prevention-item { border: 1px solid #eee; border-top: 4px solid var(--primary-color, #ff4500); padding: 2rem; background-color: #fdfdfd; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; display: flex; flex-direction: column; align-items: center;}
+        .prevention-grid .prevention-item:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+        .prevention-grid .prevention-item:nth-child(2) { border-top-color: var(--secondary-color, #ff8c00); }
+        .prevention-grid .prevention-item:nth-child(2) i { color: var(--secondary-color, #ff8c00); }
+        .prevention-grid .prevention-item:nth-child(3) { border-top-color: var(--accent-color, #ffd700); }
+        .prevention-grid .prevention-item:nth-child(3) i { color: var(--accent-color, #ffd700); }
+        .prevention-grid .prevention-item i { font-size: 2.8em; margin-bottom: 0.75em; display: block; }
+        .prevention-grid .prevention-item h3 { font-family: 'Montserrat', sans-serif; color: var(--dark-text, #333); margin-top: 0.5em; font-size: 1.25em; margin-bottom: 0.75em; text-align: center; }
+        .prevention-grid .prevention-item p { font-size: 0.95em; color: #555; line-height: 1.6; flex-grow: 1; }
+
+        .cta-banner { background: linear-gradient(to right, var(--primary-color, #ff4500), var(--secondary-color, #ff8c00)); color: white; padding: 1.5rem; border-radius: 5px; margin: 2rem auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 800px; }
+        .cta-banner p { margin: 0; font-size: 1.1em; }
+        .cta-banner a { color: #ffffff; font-weight: bold; text-decoration: underline; }
+        .cta-banner a:hover { color: var(--accent-color, #ffd700); text-decoration: none;}
+
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .gallery .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block; }
+
+        .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
+        .text-center { text-align: center; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+
+        .nav-menu.active .dropdown li a,
+        .nav-menu.active .dropdown li a.sub-item { color: var(--light-text, #f5f5f5); }
+        .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
+
+        .content-section .section-title { text-align: center; }
+
+        a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
+        .hamburger:focus { outline: none; }
+        .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
+
+        hr.section-divider {
+          border: 0;
+          height: 1px;
+          background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0));
+          margin: 3rem auto;
+          width: 60%;
+        }
+
+    </style>
 </head>
 <body>
 
-    {/* === REPLACED NAVIGATION HEADER (Using Final Agreed Structure with Logo) === */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
                  <div class="logo-container">
-                    {/* Logo Added Back In */}
                     <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
                     <span>Eye on the Fire</span>
                  </div>
             </a>
-            <button class="hamburger" id="hamburger-menu" aria-label="Toggle navigation" aria-expanded="false">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
+            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
             </button>
-            {/* This specific nav structure is required for the appended CSS */}
             <nav class="nav-menu" id="main-nav">
-                 <ul class="main-menu" id="nav-menu">
+                 <ul class="main-menu">
                     <li><a href="#home">Home</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -132,6 +204,15 @@
                             <li><a href="#" class="sub-item">Landowner Assistance</a></li>
                          </ul>
                     </li>
+                    <li class="has-dropdown">
+                        <a href="#map-section">Map Tools <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-map"></i> Map Features</strong></li>
+                            <li><a href="#" class="sub-item">Layer Options</a></li>
+                            <li><a href="#" class="sub-item">Historical Data</a></li>
+                            <li><a href="#" class="sub-item">Submit Report</a></li>
+                        </ul>
+                    </li>
                      <li class="has-dropdown">
                         <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -142,112 +223,147 @@
                         </ul>
                     </li>
                     <li><a href="#community">News & Resources</a></li>
-                    <li class="has-dropdown">
-                        <a href="#">Contact <i class="fas fa-caret-down"></i></a>
-                         <ul class="dropdown">
-                             <li><strong class="sub-header"><i class="fas fa-envelope"></i> Get In Touch</strong></li>
-                             <li><a href="#" class="sub-item">Contact Form</a></li>
-                             <li><a href="#" class="sub-item">Advertising Inquiries</a></li>
-                         </ul>
-                    </li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    {/* === END REPLACED NAVIGATION HEADER === */}
 
-
-    {/* Body Content Sections from your uploaded file */}
-    <header class="hero" id="home">
+    <section class="hero" id="home">
         <div class="hero-content">
             <h1>Monitor US Wildfires in Real-Time</h1>
             <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
             <a href="#map-section" class="cta-button">View Live US Fire Map</a>
         </div>
-    </header>
+    </section>
 
-    <section id="map-section" class="map-section content-section">
-        <div class="map-wrapper" id="map-wrapper">
-            <div class="map-header">Interactive Wildfire Map</div>
-            <div id="fire-map">
-                <div id="map-loading-message">Loading map data...</div>
-                <div id="map-error-message"></div>
-                 {/* React Target Div if using React map */}
-                 {/* <div id="root"></div> */}
+     <section id="intro" class="content-section">
+         <div class="container">
+             <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
+         </div>
+     </section>
+
+    <hr class="section-divider">
+
+    <section id="map-section" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
+            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
+                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i>How to Use the Map:</h4>
+                <ul>
+                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
+                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
+                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
+                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
+                </ul>
             </div>
         </div>
-        <div id="geolocation-error">Could not get your location. Showing default view.</div>
+        <main>
+            <div id="root"></div>
+        </main>
+         <div class="container data-source-note">
+             <p>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</p>
+         </div>
     </section>
+
+    <hr class="section-divider">
 
     <section id="about" class="content-section">
-      <div class="container">
-        <h2>Why Choose Eye on the Fire?</h2>
-        <p>We provide the most up-to-date and comprehensive wildfire information available, combining data from multiple trusted sources like NASA and NIFC. Our easy-to-use interactive map helps you stay informed and safe.</p>
-      </div>
+        <div class="container">
+            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
+             <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
+        </div>
     </section>
 
+    <hr class="section-divider">
+
     <section id="prevention" class="content-section">
-      <div class="container">
-        <h2>Fire Prevention Tips</h2>
-        <p>Protect your home and community by following these essential fire prevention practices.</p>
-        <div class="prevention-grid">
-          <div class="prevention-item"><h3>Clear Defensible Space</h3><p>Remove flammable vegetation, leaves, and debris from around your home (at least 30 feet).</p></div>
-          <div class="prevention-item"><h3>Maintain Roof & Gutters</h3><p>Regularly clean roofs and gutters of pine needles, leaves, and other flammable materials.</p></div>
-          <div class="prevention-item"><h3>Choose Fire-Resistant Landscaping</h3><p>Use native, drought-tolerant plants that are less likely to ignite easily.</p></div>
+        <div class="container">
+            <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
+            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
+            <div class="prevention-grid">
+                <div class="prevention-item">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <h3>Defensible Space Zones</h3>
+                    <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
+                </div>
+                <div class="prevention-item">
+                     <i class="fas fa-tools" aria-hidden="true"></i>
+                    <h3>Home Hardening Techniques</h3>
+                    <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
+                </div>
+                <div class="prevention-item">
+                     <i class="fas fa-seedling" aria-hidden="true"></i>
+                    <h3>Fire-Smart Landscaping</h3>
+                    <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
+
+    <hr class="section-divider">
 
     <section id="community" class="content-section">
         <div class="container">
-            <h2>Community Resources & Updates</h2>
-            <p>Stay connected with local resources and see updates from affected areas.</p>
-            <div class="cta-banner"><p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p></div>
-            <div class="gallery">
-                <div class="gallery-item"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+            <h2 class="section-title">National & Local Resources</h2>
+            <p class="section-intro">Access official resources for emergency alerts, evacuation status, and support during wildfire events across the United States.</p>
+            <div class="cta-banner">
+                <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
+            </div>
+            <div class="gallery" role="list" aria-label="Community and wildfire images">
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
 
-    {/* Footer from your uploaded file */}
     <footer class="site-footer">
-        <div class="container">
-            <p>&copy; <span id="year">2025</span> Eye on the Fire. All Rights Reserved.</p>
-            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a></p>
-            <div class="social-icons">
-                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <div class="footer-content">
+            <div class="footer-section about">
+                 <h3 class="logo-text-footer">Eye on the Fire</h3>
+                <p>
+                    Providing critical real-time wildfire monitoring and fire safety resources for the United States. Our interactive map helps you stay informed and prepared.
+                </p>
             </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#map-section">Live US Map</a></li>
+                    <li><a href="#prevention">Prevention Guides</a></li>
+                    <li><a href="#community">Emergency Resources</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="RSS Feed"><i class="fas fa-rss"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="year"></span> Eye on the Fire | All Rights Reserved | Data provided "as is" without warranty |
+            <a href="#">Terms of Use</a> |
+            <a href="#">Privacy Policy</a>
         </div>
     </footer>
 
-    {/* Scripts Section (Ensure map script targets correct ID: 'fire-map' or 'root'/'map') */}
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.js" integrity="sha512-c6ydt5Rypa1ptlnH2U1u+JybARYppbD1qxgythCI4pJ9EOfNYEWlLBjxBX926O3tq5p4Aw5GTY68vT0FdKbG3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-
-    {/* === IMPORTANT: CHOOSE ONE MAP SCRIPT === */}
-    {/* Option 1: If your original script targeted 'fire-map' directly */}
-     {/* <script> */}
-         {/* // Your original map initialization script here targeting 'fire-map' */}
-         {/* // Ensure it uses the Leaflet/plugins linked above */}
-          {/* // Example: const map = L.map('fire-map')... */}
-         {/* // Make sure the functions like addMapControls, loadFIRMSFires etc. are defined or included */}
-     {/* </script> */}
-
-    {/* Option 2: If using the React map component (ensure #root div exists in map section) */}
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+
     <script type="text/babel">
-        // The React map component code provided previously
-        // Ensure it initializes the map on the div with id="map" INSIDE the #root div
         const { useState, useEffect, useRef } = React;
 
-        const fetchWithRetry = async (url, retries = 3, delay = 1000) => { /* ... fetch logic ... */
+        const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 let response;
                 try {
@@ -262,91 +378,148 @@
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
-         };
+        };
 
-        const MapComponent = () => { /* ... React component state and logic ... */
+        const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([39.8283, -98.5795]);
-            const [zoom, setZoom] = useState(4);
+            const [center, setCenter] = useState([39.8283, -98.5795]); // Center of US
+            const [zoom, setZoom] = useState(4); // Zoom for US view
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
-            const initialCenter = [39.8283, -98.5795];
+            const initialCenter = [39.8283, -98.5795]; // Store initial US view
             const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
 
-             useEffect(() => {
-                 const mapElement = document.getElementById('map'); // Target map div inside root
-                 if (!mapRef.current && mapElement) {
-                     mapRef.current = L.map(mapElement, {
-                         zoomControl: true,
-                         // fullscreenControl: true // Add if linked
-                     }).setView(center, zoom);
-                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                         attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
-                     }).addTo(mapRef.current);
-                     if (typeof L.markerClusterGroup === 'function') {
-                         markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                     } else {
-                          console.warn('MarkerClusterGroup not available.');
-                          markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-                     }
-                      mapRef.current.zoomControl.setPosition('topright');
-                 } else if (!mapElement) {
-                      console.error("Target map element (#map) not found inside #root.");
-                 }
-             }, []);
+            useEffect(() => {
+                if (!mapRef.current) {
+                    mapRef.current = L.map('map', {
+                        zoomControl: true
+                        // Add fullscreen control if Leaflet.fullscreen plugin is linked
+                        // fullscreenControl: true,
+                    }).setView(center, zoom);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
+                    }).addTo(mapRef.current);
+                    if (typeof L.markerClusterGroup === 'function') {
+                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                    } else {
+                         console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                         markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
+                    }
+                     mapRef.current.zoomControl.setPosition('topright');
+                }
+            }, []);
 
-             useEffect(() => { if (mapRef.current) { mapRef.current.setView(center, zoom); } }, [center, zoom]);
+            useEffect(() => {
+                if (mapRef.current) {
+                    mapRef.current.setView(center, zoom);
+                }
+            }, [center, zoom]);
 
-             useEffect(() => { // Fetch data
+            useEffect(() => {
+                setIsLoading(true);
+                setErrorMessage('');
+                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Ensure this endpoint is correct
+
+                fetchWithRetry(fireApiUrl)
+                    .then(data => {
+                        const fireList = (data.events || []).map(event => ({
+                            lat: event.geometry[0].coordinates[1],
+                            lon: event.geometry[0].coordinates[0],
+                            title: event.title || 'Active Fire'
+                        }));
+                        setFires(fireList.slice(0, 200));
+                    })
+                    .catch(err => {
+                        console.error('Error fetching fire data:', err.message);
+                        setErrorMessage(`Failed to load fire data. Check API or network connection.`);
+                    })
+                    .finally(() => {
+                         setIsLoading(false);
+                         if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                    });
+            }, []);
+
+
+            useEffect(() => {
+                if (markerLayerRef.current) {
+                    markerLayerRef.current.clearLayers();
+                    const fireIcon = L.icon({
+                        iconUrl: '/images/fire-icon.png', // Use root-relative path
+                        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
+                    });
+
+                    fires.forEach(fire => {
+                        L.marker([fire.lat, fire.lon], { icon: fireIcon })
+                            .bindPopup(fire.title)
+                            .addTo(markerLayerRef.current);
+                    });
+                }
+            }, [fires]);
+
+            const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
+
+            const handleLocateMe = () => {
                  setIsLoading(true); setErrorMessage('');
-                  if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
-                 fetchWithRetry(fireApiUrl)
-                     .then(data => {
-                         const fireList = (data.events || []).map(event => ({lat: event.geometry[0].coordinates[1], lon: event.geometry[0].coordinates[0], title: event.title || 'Active Fire'}));
-                         setFires(fireList.slice(0, 200));
-                     })
-                     .catch(err => { console.error('Error fetching fire data:', err.message); setErrorMessage(`Failed to load fire data.`); })
-                     .finally(() => { setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); });
-             }, []);
+                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                 if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            const { latitude, longitude } = position.coords;
+                            setCenter([latitude, longitude]); setZoom(10);
+                            setIsLoading(false);
+                            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                        },
+                        err => {
+                            console.error('Geolocation error:', err.message);
+                            setErrorMessage('Could not get your location: ' + err.message);
+                            setIsLoading(false);
+                            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                        },
+                         { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+                    );
+                } else {
+                    setErrorMessage('Geolocation is not supported by this browser.');
+                    setIsLoading(false);
+                    if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                }
+            };
 
-             useEffect(() => { // Add markers
-                 if (markerLayerRef.current) {
-                     markerLayerRef.current.clearLayers();
-                     const fireIcon = L.icon({ iconUrl: '/images/fire-icon.png', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32] });
-                     fires.forEach(fire => { L.marker([fire.lat, fire.lon], { icon: fireIcon }).bindPopup(fire.title).addTo(markerLayerRef.current); });
-                 }
-             }, [fires]);
+            const dismissError = () => setErrorMessage('');
 
-             const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
-             const handleLocateMe = () => { /* Geolocation logic */
-                  setIsLoading(true); setErrorMessage(''); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-                  if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( p => { setCenter([p.coords.latitude, p.coords.longitude]); setZoom(10); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }, err => { console.error('Geo Error:', err.message); setErrorMessage('Could not get location.'); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }); }
-                  else { setErrorMessage('Geolocation not supported.'); setIsLoading(false); if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden'); }
-             };
-             const dismissError = () => setErrorMessage('');
+            return (
+                <>
+                    <div className="map-container">
+                         <div ref={loadingOverlayRef} className="loading-overlay">
+                             <div className="flame-loader"></div>
+                             <p>Loading live fire data...</p>
+                         </div>
+                        <div className="controls">
+                            <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
+                            <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
+                        </div>
+                        {errorMessage && (
+                            <div className="error-message">
+                                <span>{errorMessage}</span>
+                                <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                            </div>
+                        )}
+                        <div id="map" style={{borderRadius: '5px'}}></div>
+                    </div>
+                </>
+            );
+        };
 
-             return (
-                 <>
-                     {/* Note: map-container class is now on #root's parent section */}
-                     <div ref={loadingOverlayRef} className="loading-overlay"> <div className="flame-loader"></div> <p>Loading live fire data...</p> </div>
-                     <div className="controls"> <button onClick={handleReset} title="Reset Map View to US">Reset View</button> <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button> </div>
-                     {errorMessage && ( <div className="error-message"> <span>{errorMessage}</span> <button onClick={dismissError} aria-label="Dismiss error">×</button> </div> )}
-                     <div id="map" style={{height: '70vh', borderRadius: '5px'}}></div>
-                 </>
-             );
-         };
-         ReactDOM.render(<MapComponent />, document.getElementById('root'));
+        ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 
-    {/* Navigation Menu JS */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('#main-nav'); // Target <nav>
+            const navMenu = document.querySelector('.nav-menu');
             const mainNavLinks = document.querySelectorAll('.main-menu a');
 
             if (hamburger && navMenu) {
@@ -403,8 +576,9 @@
                          link.addEventListener('click', (e) => {
                              const href = link.getAttribute('href');
                              let isExternal = false;
-                             try { isExternal = new URL(href, window.location.origin).origin !== window.location.origin; }
-                             catch (_) { /* ignore */ }
+                             try {
+                                 isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
+                             } catch (_) { /* ignore invalid URLs */ }
 
                              if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
                                 hamburger.classList.remove('active');
