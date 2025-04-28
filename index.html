@@ -78,115 +78,8 @@
     }
     </script>
 
-    <style>
-        body {
-            background-color: #f0f0f0;
-            color: var(--dark-text, #333);
-        }
-        #navbar-logo {
-            height: 45px;
-            width: auto;
-            vertical-align: middle;
-            margin-right: 0.5rem;
-        }
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-        .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
-        .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
-        .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); }
-        .hero p { color: var(--light-text, #f5f5f5); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; }
-        .hero .cta-button { background-color: var(--primary-color, #ff4500); color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1.5rem; display: inline-block; padding: 0.8em 1.8em; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.1em; }
-        .hero .cta-button:hover { background-color: var(--secondary-color, #ff8c00); transform: translateY(-2px); }
+    {/* Internal <style> block removed */}
 
-        .content-section { padding: 3rem 1rem; border-bottom: 1px solid #e0e0e0; }
-        .content-section:last-of-type { border-bottom: none; }
-        .content-section#prevention { background-color: #ffffff; }
-
-        .section-title { color: var(--secondary-color, #ff8c00); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.5rem); }
-        .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; color: #444; }
-
-        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
-        .map-usage-guide ul { list-style: none; padding-left: 0; }
-        .map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
-        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
-        .map-usage-guide li span { line-height: 1.5; }
-
-        .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
-        .prevention-grid .prevention-item { border: 1px solid #eee; border-top: 4px solid var(--primary-color, #ff4500); padding: 2rem; background-color: #fdfdfd; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; display: flex; flex-direction: column; align-items: center;}
-        .prevention-grid .prevention-item:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
-        .prevention-grid .prevention-item:nth-child(2) { border-top-color: var(--secondary-color, #ff8c00); }
-        .prevention-grid .prevention-item:nth-child(2) i { color: var(--secondary-color, #ff8c00); }
-        .prevention-grid .prevention-item:nth-child(3) { border-top-color: var(--accent-color, #ffd700); }
-        .prevention-grid .prevention-item:nth-child(3) i { color: var(--accent-color, #ffd700); }
-        .prevention-grid .prevention-item i { font-size: 2.8em; margin-bottom: 0.75em; display: block; }
-        .prevention-grid .prevention-item h3 { font-family: 'Montserrat', sans-serif; color: var(--dark-text, #333); margin-top: 0.5em; font-size: 1.25em; margin-bottom: 0.75em; text-align: center; }
-        .prevention-grid .prevention-item p { font-size: 0.95em; color: #555; line-height: 1.6; flex-grow: 1; }
-
-        .cta-banner { background: linear-gradient(to right, var(--primary-color, #ff4500), var(--secondary-color, #ff8c00)); color: white; padding: 1.5rem; border-radius: 5px; margin: 2rem auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 800px; }
-        .cta-banner p { margin: 0; font-size: 1.1em; }
-        .cta-banner a { color: #ffffff; font-weight: bold; text-decoration: underline; }
-        .cta-banner a:hover { color: var(--accent-color, #ffd700); text-decoration: none;}
-
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-        .gallery .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block; }
-
-        .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
-        .text-center { text-align: center; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
-
-        .nav-menu.active .dropdown li a,
-        .nav-menu.active .dropdown li a.sub-item { color: var(--light-text, #f5f5f5); }
-        .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
-
-        .content-section .section-title { text-align: center; }
-
-        a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
-        .hamburger:focus { outline: none; }
-        .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
-
-        hr.section-divider {
-          border: 0;
-          height: 1px;
-          background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0));
-          margin: 3rem auto;
-          width: 60%;
-        }
-
-        /* --- Updated Dropdown Icon Spacing --- */
-        /* Style for ALL icons within dropdown sub-headers */
-         .dropdown li strong i.fa-fire,
-         .dropdown li strong i.fa-shield-alt,
-         .dropdown li strong i.fa-info-circle,
-         .dropdown li strong i.fa-map,
-         .dropdown li strong i.fa-envelope {
-             color: var(--secondary-color);
-             margin-right: 0.6em; /* Consistent spacing for ALL icons */
-             padding-left: 0.4em;
-             font-size: 0.9em;
-             flex-shrink: 0;
-         }
-        /* Remove previous specific rule for shield */
-
-        /* Apply same consistency for mobile */
-         @media (max-width: 991.98px) {
-            .nav-menu.active .dropdown li strong i.fa-fire,
-            .nav-menu.active .dropdown li strong i.fa-shield-alt,
-            .nav-menu.active .dropdown li strong i.fa-info-circle,
-            .nav-menu.active .dropdown li strong i.fa-map,
-            .nav-menu.active .dropdown li strong i.fa-envelope {
-                color: var(--secondary-color);
-                margin-right: 0.6em; /* Consistent spacing */
-                font-size: 0.9em;
-                flex-shrink: 0;
-            }
-            /* Remove previous specific mobile rule for shield */
-         }
-        /* --- End Dropdown Icon Spacing Update --- */
-
-    </style>
 </head>
 <body>
 
@@ -213,12 +106,12 @@
                              <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
                              <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                             <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
-                             <li><a href="#" class="sub-item">Family Preparedness</a></li>
-                             <li><a href="#" class="sub-item">Emergency Go Bag</a></li>
-                             <li><a href="#" class="sub-item">Insurance Check-up</a></li>
+                             <li><a href="#">Wildfire Action Plan</a></li>
+                             <li><a href="#">Family Preparedness</a></li>
+                             <li><a href="#">Emergency Go Bag</a></li>
+                             <li><a href="#">Insurance Check-up</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                             <li><a href="#" class="sub-item">Evacuation Guide</a></li>
+                             <li><a href="#">Evacuation Guide</a></li>
                         </ul>
                     </li>
                     <li class="has-dropdown">
@@ -232,7 +125,6 @@
                             <li><a href="#" class="sub-item">Landowner Assistance</a></li>
                          </ul>
                     </li>
-                    {/* Map Tools item removed */}
                      <li class="has-dropdown">
                         <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -243,14 +135,12 @@
                         </ul>
                     </li>
                     <li><a href="#community">News & Resources</a></li>
-                    {/* Updated Contact item */}
                     <li class="has-dropdown">
                         <a href="#">Contact <i class="fas fa-caret-down"></i></a>
                          <ul class="dropdown">
                              <li><strong class="sub-header"><i class="fas fa-envelope"></i> Get In Touch</strong></li>
                              <li><a href="#" class="sub-item">Contact Form</a></li>
                              <li><a href="#" class="sub-item">Advertising Inquiries</a></li>
-                             {/* Add other relevant contact items if needed */}
                          </ul>
                     </li>
                 </ul>
