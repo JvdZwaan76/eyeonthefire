@@ -83,16 +83,19 @@
             background-color: #f0f0f0;
             color: var(--dark-text, #333);
         }
+        /* Logo Styling */
         #navbar-logo {
-            height: 45px;
-            width: auto;
+            height: 45px; /* Adjust height as needed */
+            width: auto; /* Maintain aspect ratio */
             vertical-align: middle;
-            margin-right: 0.5rem;
+            margin-right: 0.5rem; /* Space between logo and text */
         }
-        .logo-container {
+        .logo-container { /* Ensure container aligns items vertically */
             display: flex;
             align-items: center;
         }
+        /* End Logo Styling */
+
         .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
         .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
         .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); }
@@ -155,37 +158,6 @@
           width: 60%;
         }
 
-        /* --- Updated Dropdown Icon Spacing --- */
-        /* Style for ALL icons within dropdown sub-headers */
-         .dropdown li strong i.fa-fire,
-         .dropdown li strong i.fa-shield-alt,
-         .dropdown li strong i.fa-info-circle,
-         .dropdown li strong i.fa-map,
-         .dropdown li strong i.fa-envelope {
-             color: var(--secondary-color);
-             margin-right: 0.6em; /* Consistent spacing for ALL icons */
-             padding-left: 0.4em;
-             font-size: 0.9em;
-             flex-shrink: 0;
-         }
-        /* Remove previous specific rule for shield */
-
-        /* Apply same consistency for mobile */
-         @media (max-width: 991.98px) {
-            .nav-menu.active .dropdown li strong i.fa-fire,
-            .nav-menu.active .dropdown li strong i.fa-shield-alt,
-            .nav-menu.active .dropdown li strong i.fa-info-circle,
-            .nav-menu.active .dropdown li strong i.fa-map,
-            .nav-menu.active .dropdown li strong i.fa-envelope {
-                color: var(--secondary-color);
-                margin-right: 0.6em; /* Consistent spacing */
-                font-size: 0.9em;
-                flex-shrink: 0;
-            }
-            /* Remove previous specific mobile rule for shield */
-         }
-        /* --- End Dropdown Icon Spacing Update --- */
-
     </style>
 </head>
 <body>
@@ -213,12 +185,12 @@
                              <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
                              <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                             <li><a href="#" class="sub-item">Wildfire Action Plan</a></li>
-                             <li><a href="#" class="sub-item">Family Preparedness</a></li>
-                             <li><a href="#" class="sub-item">Emergency Go Bag</a></li>
-                             <li><a href="#" class="sub-item">Insurance Check-up</a></li>
+                             <li><a href="#">Wildfire Action Plan</a></li>
+                             <li><a href="#">Family Preparedness</a></li>
+                             <li><a href="#">Emergency Go Bag</a></li>
+                             <li><a href="#">Insurance Check-up</a></li>
                              <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                             <li><a href="#" class="sub-item">Evacuation Guide</a></li>
+                             <li><a href="#">Evacuation Guide</a></li>
                         </ul>
                     </li>
                     <li class="has-dropdown">
@@ -232,7 +204,15 @@
                             <li><a href="#" class="sub-item">Landowner Assistance</a></li>
                          </ul>
                     </li>
-                    {/* Map Tools item removed */}
+                    <li class="has-dropdown">
+                        <a href="#map-section">Map Tools <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-map"></i> Map Features</strong></li>
+                            <li><a href="#" class="sub-item">Layer Options</a></li>
+                            <li><a href="#" class="sub-item">Historical Data</a></li>
+                            <li><a href="#" class="sub-item">Submit Report</a></li>
+                        </ul>
+                    </li>
                      <li class="has-dropdown">
                         <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -243,16 +223,7 @@
                         </ul>
                     </li>
                     <li><a href="#community">News & Resources</a></li>
-                    {/* Updated Contact item */}
-                    <li class="has-dropdown">
-                        <a href="#">Contact <i class="fas fa-caret-down"></i></a>
-                         <ul class="dropdown">
-                             <li><strong class="sub-header"><i class="fas fa-envelope"></i> Get In Touch</strong></li>
-                             <li><a href="#" class="sub-item">Contact Form</a></li>
-                             <li><a href="#" class="sub-item">Advertising Inquiries</a></li>
-                             {/* Add other relevant contact items if needed */}
-                         </ul>
-                    </li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -425,6 +396,8 @@
                 if (!mapRef.current) {
                     mapRef.current = L.map('map', {
                         zoomControl: true
+                        // Add fullscreen control if Leaflet.fullscreen plugin is linked
+                        // fullscreenControl: true,
                     }).setView(center, zoom);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
@@ -433,7 +406,7 @@
                         markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
                     } else {
                          console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                         markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                         markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
                     }
                      mapRef.current.zoomControl.setPosition('topright');
                 }
@@ -449,7 +422,7 @@
                 setIsLoading(true);
                 setErrorMessage('');
                  if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/'; // Ensure this endpoint is correct
 
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
