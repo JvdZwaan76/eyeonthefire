@@ -38,9 +38,9 @@ main {
 /* Typography (Keep consistent) */
 h1, h2, h3 {
   font-family: 'Montserrat', sans-serif;
-  color: #b71c1c; /* Original heading color from your file */
+  color: #b71c1c; /* Original heading color */
   margin-bottom: 0.75em;
-  text-align: center; /* Center headings based on your file */
+  text-align: center; /* Ensure headings are centered */
 }
 h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
 h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
@@ -48,6 +48,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
 p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; /* Original p color */ }
 a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
 a:hover { color: #b71c1c; text-decoration: underline; }
+
 
 /* Container from your file */
 .container {
@@ -57,44 +58,36 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 
-/* --- Navbar Styles (Base from your file) --- */
+/* --- Navbar Styles (Base from your file, adjusted) --- */
 .navbar {
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
-    padding: 0.5rem 1rem;
+    padding: 0 1rem; /* Use padding from final nav */
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 10000; /* High z-index */
+    z-index: 10000;
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0,0,0,0.4);
     border-bottom: 2px solid var(--primary-color);
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Center the container */
     align-items: stretch;
 }
 
-/* Original header/logo styles - .navbar-header likely not used by new nav */
-.navbar-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.logo { display: flex; align-items: center; text-decoration: none; }
+/* Remove potentially conflicting old header/logo rules */
+/* .navbar-header { display: flex; justify-content: space-between; align-items: center; width: 100%; } */
+/* .logo { display: flex; align-items: center; text-decoration: none; } */
 /* .logo img { height: 50px; width: auto; margin-right: 0.5em; } */ /* Logo image removed */
-.logo-text { color: var(--light-text); font-size: 1.5em; font-weight: bold; font-family: 'Montserrat', sans-serif; }
-/* Original hamburger styles - kept for reference but likely overridden below */
-/* .hamburger { ... } */
-/* .hamburger .line { ... } */
-/* .hamburger.active .line { ... } */
-/* Original nav menu UL styles - kept for reference but likely overridden below */
-/* .nav-menu { ... } */
-/* .nav-menu li { ... } */
-/* .nav-menu a { ... } */
+/* .logo-text { color: var(--light-text); font-size: 1.5em; font-weight: bold; font-family: 'Montserrat', sans-serif; } */
 
 
 /* --- Hero Section Styles (From your file) --- */
 .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; color: var(--light-text); min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 1rem; }
 .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; max-width: 800px; }
 .hero h1 { margin-bottom: 0.5em; text-shadow: 2px 2px 5px var(--primary-color); color: var(--light-text); }
-.hero p { font-size: 1.2em; margin-bottom: 1.5em; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--light-text); }
+.hero p { font-size: 1.2em; margin-bottom: 1.5em; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--light-text); line-height: 1.6;}
 .cta-button { background-color: var(--primary-color); color: white; padding: 0.8em 1.8em; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.1em; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1.5rem; }
 .cta-button:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
 
@@ -103,6 +96,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .content-section:last-of-type { border-bottom: none; }
 .content-section h2 { color: var(--secondary-color); margin-bottom: 1.5rem; font-weight: 700; text-align: center; }
 .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; color: #444; }
+hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0)); margin: 3rem auto; width: 60%; } /* Added divider style */
 
 /* --- Map Section Styles (From your file) --- */
 .map-section { padding: 2rem 0; }
@@ -112,17 +106,33 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 #map-loading-message, #map-error-message { position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001; }
 #map-error-message { color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; }
 #geolocation-error { text-align: center; color: #b71c1c; margin-top: 10px; display: none; }
-
 /* React Map Container */
+#root { /* Style root if needed */ }
 #root .map-container { margin: 0; padding: 0; box-shadow: none; border-radius: 0; max-width: none; background: none; }
-#root #map { height: 70vh; }
-/* Map Usage Guide */
+#root #map { height: 70vh; border-radius: 5px; /* Add border radius */ border: 1px solid #ddd; /* Add border */ }
+/* Map Controls from React Structure */
+#root .controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; margin-bottom: 10px; }
+#root .controls button { padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+#root .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
+#root .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9998; backdrop-filter: blur(4px); border-radius: 5px; opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+#root .loading-overlay.hidden { opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+#root .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
+#root .flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
+#root .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
+#root .flame-loader::after { right: 5px; background: var(--secondary-color); animation-delay: 0.5s; }
+@keyframes flicker { 0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; } 50% { transform: scaleY(0.8) rotate(2deg); opacity: 0.8; } }
+#root .loading-overlay p { color: var(--light-text); font-family: 'Montserrat', sans-serif; margin-top: 10px; text-shadow: 1px 1px 2px black; }
+#root .error-message { background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000; padding: 15px; margin: 15px auto; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 990; max-width: 90%; }
+#root .error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
+
+/* Map Usage Guide (From previous merge) */
 .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
 .map-usage-guide ul { list-style: none; padding-left: 0; }
 .map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
 .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
 .map-usage-guide li span { line-height: 1.5; }
+.data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
 
 /* --- Prevention Grid Styles (From your file) --- */
 .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
@@ -145,7 +155,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 /* --- Footer Styles (From your file, using site-footer class) --- */
 .site-footer { background: var(--dark-bg); color: var(--light-text); padding: 2rem 1rem; text-align: center; margin-top: auto; border-top: 4px solid var(--primary-color); box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3); z-index: 10;}
-.site-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; } /* Scoped container */
+.site-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
 .site-footer p { margin-bottom: 0.5em; color: #ccc; font-size: 0.9em; }
 .site-footer a { color: var(--accent-color); margin: 0 0.5em; }
 .site-footer a:hover { color: var(--light-text); text-decoration: underline; }
@@ -174,15 +184,18 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
 
 
-/* === CSS Appended/Corrected for Final Navigation Structure === */
+/* === CSS Appended/Corrected for Final Navigation Structure (No Logo Image) === */
 
-/* Styles for new nav structure - use .navbar prefix for specificity */
+/* Container */
 .navbar .navbar-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; height: 100%; }
+
+/* Logo Text (No Image) */
 .navbar .logo-link { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; padding: 0 0.5rem; overflow: hidden; }
-.navbar .logo-container { display: flex; align-items: center; gap: 0; /* No logo image */ }
+.navbar .logo-container { display: flex; align-items: center; gap: 0; /* No gap needed */ }
 .navbar .logo-container span { font-size: 1.6rem; font-weight: 700; color: var(--light-text); font-family: 'Montserrat', sans-serif; text-shadow: 1px 1px 3px var(--primary-color); white-space: nowrap; transition: color 0.3s ease; }
 .navbar .logo-link:hover .logo-container span { color: var(--secondary-color); }
 
+/* Main Nav Structure */
 .navbar .nav-menu { display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none; }
 .navbar .main-menu { display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch; }
 .navbar .main-menu li { position: relative; display: flex; align-items: stretch; border-bottom: none; }
@@ -191,35 +204,33 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .navbar .main-menu > li:hover > a { color: var(--accent-color); background-color: rgba(255, 69, 0, 0.1); border-bottom-color: var(--primary-color); }
 .navbar .main-menu > li:hover > a > i.fa-caret-down { transform: rotate(180deg); }
 
-/* Final Desktop Dropdown Styles */
+/* Desktop Dropdown */
 .navbar .dropdown { display: none; position: absolute; top: 100%; left: 0; background: linear-gradient(to bottom, #331a00, #261300); list-style: none; padding: 0.5rem 0; margin: 0; min-width: 220px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); border-top: 2px solid var(--primary-color); border-radius: 0 0 5px 5px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; z-index: 1100; animation: subtle-fire-bg 5s infinite alternate; }
 @media (hover: hover) and (min-width: 992px) { .navbar .has-dropdown:hover > .dropdown, .navbar .has-dropdown > a:focus + .dropdown { display: block; opacity: 1; visibility: visible; transform: translateY(0); } }
 .navbar .dropdown li a { padding: 0.8rem 1.2rem; color: var(--light-text); text-decoration: none; display: block; font-family: 'Open Sans', sans-serif; font-size: 0.95rem; transition: background-color 0.2s ease, color 0.2s ease; white-space: nowrap; background: none; }
 .navbar .dropdown li strong.sub-header { display: flex; align-items: center; padding: 0.7rem 1.5rem 0.2rem 1.5rem; color: #ffcc80; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; background: none; margin-top: 0.5em; }
-/* Final Corrected Icon Spacing */
+/* Corrected Icon Spacing */
  .navbar .dropdown li strong i.fa-fire,
  .navbar .dropdown li strong i.fa-shield-alt,
  .navbar .dropdown li strong i.fa-info-circle,
  .navbar .dropdown li strong i.fa-map,
- .navbar .dropdown li strong i.fa-envelope {
-     color: var(--secondary-color); margin-right: 0.6em; padding-left: 0; font-size: 0.9em; flex-shrink: 0;
- }
+ .navbar .dropdown li strong i.fa-envelope { color: var(--secondary-color); margin-right: 0.6em; padding-left: 0; font-size: 0.9em; flex-shrink: 0; }
 .navbar .dropdown li a.sub-item { padding-left: 2.8rem; font-size: 0.9rem; color: #eee; }
 .navbar .dropdown li a:hover, .navbar .dropdown li a:focus { background: rgba(255, 69, 0, 0.8); color: #fff; outline: none; }
 .navbar .dropdown li a.sub-item:hover, .navbar .dropdown li a.sub-item:focus { background: rgba(255, 140, 0, 0.8); }
 
-/* Final Hamburger styles */
+/* Hamburger */
 .navbar .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 10px; z-index: 10001; order: 3; margin-left: 1rem; }
 .navbar .hamburger .line { display: block; width: 28px; height: 3px; background: var(--light-text); margin: 6px 0; transition: all 0.4s ease-in-out; border-radius: 2px; }
 .navbar .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
 .navbar .hamburger.active .line2 { opacity: 0; }
 .navbar .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-/* Final Mobile Navigation Styles */
+/* Mobile Navigation */
 @media (max-width: 991.98px) {
     .navbar .hamburger { display: block; }
-    .navbar .navbar-container .main-menu { display: none; } /* Hides the UL directly */
-    .navbar .nav-menu { display: none; } /* Hides the NAV container */
+    .navbar .navbar-container .main-menu { display: none; }
+    .navbar .nav-menu { display: none; }
 
     .navbar .nav-menu.active { display: block; position: fixed; left: 0; top: var(--navbar-height); width: 80%; max-width: 320px; height: calc(100vh - var(--navbar-height)); background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding-top: 1rem; overflow-y: auto; z-index: 1099; border-right: 2px solid var(--primary-color); animation: slideIn 0.4s ease-in-out forwards; }
     @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
@@ -239,28 +250,24 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     .navbar .nav-menu.active .dropdown li a:hover, .navbar .nav-menu.active .dropdown li a:focus { background: rgba(255, 69, 0, 0.3); }
     .navbar .nav-menu.active .dropdown li strong.sub-header { padding: 0.7rem 1.5rem 0.2rem 1.5rem; background-color: rgba(0, 0, 0, 0.1); color: #ffcc80; white-space: normal; line-height: 1.4; margin-top: 0.5em; display: flex; align-items: center; }
 
-    /* Mobile Icon Spacing */
+    /* Corrected Mobile Icon Spacing */
     .navbar .nav-menu.active .dropdown li strong i.fa-fire,
     .navbar .nav-menu.active .dropdown li strong i.fa-shield-alt,
     .navbar .nav-menu.active .dropdown li strong i.fa-info-circle,
     .navbar .nav-menu.active .dropdown li strong i.fa-map,
     .navbar .nav-menu.active .dropdown li strong i.fa-envelope {
-        color: var(--secondary-color);
-        margin-right: 0.6em; /* Consistent spacing */
-        font-size: 0.9em;
-        flex-shrink: 0;
+        color: var(--secondary-color); margin-right: 0.6em; font-size: 0.9em; flex-shrink: 0;
     }
     .navbar .nav-menu.active .dropdown li a.sub-item { padding-left: 2.8rem; padding-right: 1rem; }
 
 } /* End Mobile Media Query */
 
-/* Final Focus Styles */
+/* Focus Styles */
 a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
 .navbar .hamburger:focus { outline: none; }
 .navbar .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
 
-/* Final Layout Helpers */
-.container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+/* Additional layout helpers if needed (from previous merge) */
 .text-center { text-align: center; }
-hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0)); margin: 3rem auto; width: 60%; }
 .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
+hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0)); margin: 3rem auto; width: 60%; }
