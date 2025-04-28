@@ -14,15 +14,15 @@
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="images/hero-bg.jpg">
+    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Assuming images folder is at root */}
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" sizes="180x180">
-    <meta name="apple-mobile-web-app-title" content="eyeonthefire">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    {/* Updated Favicon Links (assuming /favicon/ folder at root) */}
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="/favicon/site.webmanifest">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
@@ -80,11 +80,12 @@
     </script>
 
     <style>
+        /* Internal styles from previous version for layout/theme - can be moved to styles.css */
         body {
             background-color: #f0f0f0;
             color: var(--dark-text, #333);
         }
-        .hero { background: url('images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+        .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
         .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
         .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); }
         .hero p { color: var(--light-text, #f5f5f5); font-size: 1.2em; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; }
@@ -98,12 +99,12 @@
         .section-title { color: var(--secondary-color, #ff8c00); margin-bottom: 1.5rem; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.5rem); }
         .section-intro { max-width: 800px; margin: 0 auto 2rem auto; text-align: center; line-height: 1.7; color: #444; }
 
-        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; /* Rounded corners */ border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; /* Slightly larger heading */ border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        .map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
         .map-usage-guide ul { list-style: none; padding-left: 0; }
-        .map-usage-guide li { margin-bottom: 1em; /* More spacing */ display: flex; align-items: flex-start; /* Align icon top */ }
-        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; /* More spacing */ width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; /* Prevent icon shrinking */ padding-top: 0.15em; /* Align icon better with text */ }
-        .map-usage-guide li span { /* Wrap text for better structure */ line-height: 1.5; }
+        .map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
+        .map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
+        .map-usage-guide li span { line-height: 1.5; }
 
         .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
         .prevention-grid .prevention-item { border: 1px solid #eee; border-top: 4px solid var(--primary-color, #ff4500); padding: 2rem; background-color: #fdfdfd; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; display: flex; flex-direction: column; align-items: center;}
@@ -162,6 +163,7 @@
                 <span class="line line2"></span>
                 <span class="line line3"></span>
             </button>
+             {/* */}
             <nav class="nav-menu" id="main-nav">
                  <ul class="main-menu">
                     <li><a href="#home">Home</a></li>
@@ -180,7 +182,17 @@
                              <li><a href="#">Evacuation Guide</a></li>
                         </ul>
                     </li>
-                    <li><a href="#prevention">Prevent</a></li>
+                    <li class="has-dropdown">
+                        <a href="#prevention">Prevent <i class="fas fa-caret-down"></i></a>
+                         <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-shield-alt"></i> Prevention Topics</strong></li>
+                            <li><a href="#" class="sub-item">Equipment & Vehicle Use</a></li>
+                            <li><a href="#" class="sub-item">Campfire Safety</a></li>
+                            <li><a href="#" class="sub-item">Fireworks Safety</a></li>
+                            <li><a href="#" class="sub-item">Target Shooting Safety</a></li>
+                            <li><a href="#" class="sub-item">Landowner Assistance</a></li>
+                         </ul>
+                    </li>
                     <li class="has-dropdown">
                         <a href="#map-section">Map Tools <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
@@ -223,7 +235,7 @@
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
-            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
             <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
                 <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i>How to Use the Map:</h4>
                 <ul>
@@ -287,9 +299,9 @@
                 <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
             <div class="gallery" role="list" aria-label="Community and wildfire images">
-                <div class="gallery-item" role="listitem"><img src="images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item" role="listitem"><img src="images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item" role="listitem"><img src="images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
@@ -416,7 +428,7 @@
                 if (markerLayerRef.current) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
-                        iconUrl: 'images/fire-icon.png',
+                        iconUrl: '/images/fire-icon.png', // Use root-relative path
                         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
                     });
 
