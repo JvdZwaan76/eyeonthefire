@@ -60,7 +60,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Adjusted z-index slightly */
+    z-index: 10000; /* <<< Navbar base z-index (high) */
     height: var(--navbar-height);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     border-bottom: 2px solid var(--primary-color);
@@ -107,18 +107,27 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
 
 /* --- Navigation Menu (Base & Desktop) --- */
-/* Keep original desktop structure */
 .nav-menu {
-    display: flex;
+    display: flex; /* Display as flex on desktop */
     align-items: stretch;
     height: 100%;
     margin-left: auto; /* Push right on desktop */
-    /* Removed mobile-specific properties from base */
+    position: static; /* Default static position */
+    width: auto;
+    background: none;
+    z-index: auto;
+    padding-top: 0;
+    overflow: visible; /* Allow dropdowns */
+    transform: none;
+    transition: none;
+    flex-direction: row; /* Ensure horizontal */
+    box-shadow: none;
+    border-right: none;
 }
 
 .main-menu {
-    display: flex; /* Display flex by default for desktop */
-    flex-direction: row; /* Horizontal layout for desktop */
+    display: flex;
+    flex-direction: row;
     flex-wrap: nowrap;
     list-style: none;
     gap: 0.5rem;
@@ -129,10 +138,10 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 .main-menu li {
-    position: relative; /* For dropdown positioning */
+    position: relative;
     display: flex;
     align-items: stretch;
-    /* Removed mobile border */
+    border-bottom: none; /* Ensure no mobile border */
 }
 
 .main-menu > li > a {
@@ -167,7 +176,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 
-/* Desktop Dropdown Styles (Keep as Original) */
+/* Desktop Dropdown Styles */
 .dropdown {
     display: none; /* Hide by default */
     position: absolute;
@@ -186,21 +195,30 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transform: translateY(10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Keep transitions */
     z-index: 1100; /* Above navbar */
+    animation: subtle-fire-bg 5s infinite alternate;
+}
+
+@keyframes subtle-fire-bg {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 20px; } /* Small shift */
 }
 
 /* Show on DESKTOP hover/focus */
-/* Use a common breakpoint like 992px */
-@media (hover: hover) and (min-width: 992px) {
-    .has-dropdown:hover > .dropdown,
-    .has-dropdown > a:focus + .dropdown { /* Added focus for accessibility */
-        display: block; /* Use block, not flex by default */
+@media (hover: hover) and (min-width: 769px) {
+    .has-dropdown:hover > .dropdown {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+     .has-dropdown > a:focus + .dropdown {
+        display: block;
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
     }
 }
 
-/* Keep Original Dropdown Item Styles */
 .dropdown li a {
     padding: 0.8rem 1.2rem;
     color: var(--light-text);
@@ -210,33 +228,42 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-size: 0.95rem;
     transition: background-color 0.2s ease, color 0.2s ease;
     white-space: nowrap;
-    background: none; /* Ensure no background from other states */
+    background: none; /* Remove mobile background */
 }
+
+/* Styling for Sub-items and Headers in Dropdown */
+.dropdown li strong,
 .dropdown li strong.sub-header {
     display: flex;
     align-items: center;
-    padding: 0.7rem 1.2rem 0.2rem; /* Adjusted padding */
+    padding: 0.7rem 2.2rem 0.2rem; /* Adjusted left padding */
     color: #ffcc80; /* Lighter, glowing gold */
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     background: none;
-    margin-top: 0.5em;
+    margin-top: 0.5em; /* Apply top margin to ALL sub-headers */
 }
-.dropdown li:first-child > strong.sub-header {
-     margin-top: 0;
-}
-.dropdown li strong i.fa-fire {
+
+/* === REMOVED RULE THAT TARGETED :first-child sub-header === */
+/* Now all sub-headers will get the 0.5em top margin from the rule above */
+
+/* Style for fire icon in headers */
+.dropdown li strong i.fa-fire,
+.dropdown li strong i.fa-shield-alt { /* Added shield icon selector */
     color: var(--secondary-color); /* Orange Color */
     margin-right: 0.6em;
+    padding-left: 0.4em; /* Added left padding */
     font-size: 0.9em;
 }
+
 .dropdown li a.sub-item {
-    padding-left: 2.5rem; /* Indentation */
+    padding-left: 3.5rem; /* Indentation */
     font-size: 0.9rem;
     color: #eee; /* Slightly lighter */
 }
+
 .dropdown li a:hover,
 .dropdown li a:focus {
     background: rgba(255, 69, 0, 0.8); /* Semi-transparent fire */
@@ -256,9 +283,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     background: none;
     border: none;
     padding: 10px;
-    z-index: 1101; /* Ensure hamburger is above active mobile menu background but below its content if needed */
-    order: 3; /* Place it after nav in flex order */
-    margin-left: 1rem; /* Space from logo if nav disappears */
+    z-index: 10001; /* Ensure hamburger is above active mobile menu AND navbar */
+    order: 3;
+    margin-left: 1rem;
 }
 
 .hamburger .line {
@@ -271,15 +298,15 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     border-radius: 2px;
 }
 
-/* Hamburger Animation when menu is open */
+/* Animation when menu is open */
 .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
 .hamburger.active .line2 { opacity: 0; }
 .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-/* --- Map Container & Loading (Keep as Original) --- */
+/* --- Map Container & Loading --- */
 .map-container {
     position: relative;
-    z-index: 1; /* Low z-index, should be below navbar and mobile menu */
+    z-index: 1; /* Low z-index */
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -288,33 +315,37 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding: 1rem;
     overflow: hidden;
 }
-#map { width: 100%; height: 70vh; border-radius: 4px; border: 1px solid #ddd; z-index: 1; } /* Ensure map div has height */
-.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; margin-bottom: 10px; }
-.controls button { padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+#map { width: 100%; height: 70vh; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
+.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
+.controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; } /* Leaflet controls z-index */
+.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
 .leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
 .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
 .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
 .leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
 
-/* Loading Overlay (Keep as Original) */
+/* Loading Overlay with Fire Theme */
 .loading-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.8); /* Slightly darker */
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 998; /* Below navbar/menu but above map */
-    backdrop-filter: blur(4px);
+    z-index: 9998; /* <<< Below mobile menu but above map container */
+    backdrop-filter: blur(4px); /* Slightly stronger blur */
     border-radius: 5px;
-    opacity: 1; visibility: visible;
+    opacity: 1;
+    visibility: visible;
     transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
 .loading-overlay.hidden {
-    opacity: 0; visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
-/* Flame Loader (Keep as Original) */
+
+/* Flame Loader */
 .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
 .flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
 .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
@@ -328,7 +359,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     color: var(--light-text); font-family: 'Montserrat', sans-serif; margin-top: 10px; text-shadow: 1px 1px 2px black;
 }
 
-/* Error Message (Keep as Original) */
+/* Error Message */
 .error-message {
     background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000;
     padding: 15px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center;
@@ -337,7 +368,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
 
 
-/* --- Elegant, Fire-Themed Footer (NEW/REVISED) --- */
+/* --- Elegant, Fire-Themed Footer --- */
 .site-footer {
     background: linear-gradient(to top, var(--dark-bg), #1a1a1a); /* Dark gradient */
     color: var(--light-text);
@@ -365,7 +396,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding: 0 1rem;
 }
 
-/* Specific alignment for 'about' section if needed */
 .footer-section.about {
      text-align: left; /* Left align the about text */
 }
@@ -396,7 +426,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     padding-bottom: 0.5em;
     display: inline-block; /* Fit border to text */
 }
-/* Override for centered sections */
 .footer-section.links h3, .footer-section.social h3 {
     display: block; /* Allow underline to span width in center */
 }
@@ -482,32 +511,30 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 }
 
 
-/* --- Mobile Navigation Styles (NEW/REVISED) --- */
-@media (max-width: 991.98px) { /* Use same breakpoint */
+/* --- Mobile Navigation Styles --- */
+@media (max-width: 991.98px) {
     .hamburger {
         display: block; /* Show hamburger */
     }
 
-    /* Hide the desktop main menu UL */
     .navbar-container .main-menu {
-        display: none;
+        display: none; /* Hide desktop menu UL */
     }
 
-    /* Style the nav-menu container when it's active (opened) */
     .nav-menu.active {
-        display: block; /* Override any default display */
-        position: fixed; /* Take over screen */
-        left: 0; /* Slide in from left */
-        top: var(--navbar-height); /* Position below navbar */
-        width: 80%; /* Or 100% for full width */
-        max-width: 320px; /* Limit width */
-        height: calc(100vh - var(--navbar-height)); /* Full height minus navbar */
-        background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); /* Fire theme bg */
-        box-shadow: 5px 0 15px rgba(0,0,0,0.5); /* Shadow */
+        display: block; /* Show mobile menu */
+        position: fixed;
+        left: 0;
+        top: var(--navbar-height);
+        width: 80%;
+        max-width: 320px;
+        height: calc(100vh - var(--navbar-height));
+        background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a);
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
         padding-top: 1rem;
-        overflow-y: auto; /* Allow scrolling */
-        z-index: 1099; /* Below navbar, above content */
-        border-right: 2px solid var(--primary-color); /* Fire accent border */
+        overflow-y: auto;
+        z-index: 1099;
+        border-right: 2px solid var(--primary-color);
         animation: slideIn 0.4s ease-in-out forwards;
     }
 
@@ -516,46 +543,41 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         to { transform: translateX(0); }
     }
 
-    /* Style the main menu list for vertical layout INSIDE the active nav-menu */
     .nav-menu.active .main-menu {
-        display: flex; /* Now make the UL flex */
-        flex-direction: column; /* Stack items vertically */
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: auto; /* Allow content to determine height */
-        gap: 0; /* Remove desktop gap */
-        align-items: stretch; /* Stretch items full width */
+        height: auto;
+        gap: 0;
+        align-items: stretch;
     }
 
-    /* Style individual mobile menu items */
     .nav-menu.active .main-menu li {
         width: 100%;
-        border-bottom: 1px solid var(--border-color); /* Separator lines */
+        border-bottom: 1px solid var(--border-color);
     }
     .nav-menu.active .main-menu li:last-child {
         border-bottom: none;
     }
 
-    /* Style links within the mobile menu */
     .nav-menu.active .main-menu > li > a {
-        display: flex; /* Use flex for alignment */
-        justify-content: space-between; /* Push caret to the right */
-        padding: 1rem 1.5rem; /* Generous padding for touch */
-        width: 100%; /* Full width */
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        width: 100%;
         height: auto;
-        border-bottom: none; /* Remove desktop border */
-        color: var(--light-text); /* Ensure text color */
+        border-bottom: none;
+        color: var(--light-text);
     }
      .nav-menu.active .main-menu > li > a:hover {
-         background-color: rgba(255, 69, 0, 0.2); /* Subtle mobile hover */
+         background-color: rgba(255, 69, 0, 0.2);
          color: var(--accent-color);
-         border-bottom-color: transparent; /* No underline on mobile hover */
+         border-bottom-color: transparent;
     }
 
-    /* Caret rotation handled by JS adding/removing .open class */
      .nav-menu.active .main-menu > li > a > i.fa-caret-down {
-        transition: transform 0.3s ease; /* Smooth rotation */
+        transition: transform 0.3s ease;
     }
-    /* Style is applied when JS adds .open class to parent li */
      .nav-menu.active .main-menu .has-dropdown.open > a > i.fa-caret-down {
         transform: rotate(180deg);
     }
@@ -564,12 +586,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     /* Mobile Dropdown Styles */
     .nav-menu.active .dropdown {
         display: none; /* Hidden by default */
-        position: static; /* Position relative to parent li */
+        position: static;
         opacity: 1;
         visibility: visible;
         transform: none;
         width: 100%;
-        background: rgba(0,0,0,0.2); /* Slightly different background for nesting */
+        background: rgba(0,0,0,0.2);
         box-shadow: none;
         border-top: 1px solid var(--border-color);
         border-radius: 0;
@@ -579,20 +601,18 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         min-width: unset;
     }
 
-    /* Show dropdown when JS adds .open class to parent li */
     .nav-menu.active .has-dropdown.open > .dropdown {
-        display: block;
+        display: block; /* Show when JS adds .open class */
     }
 
-    /* Style items within the mobile dropdown -- UPDATED FOR TEXT WRAPPING */
      .nav-menu.active .dropdown li a {
-        padding: 0.8rem 1rem 0.8rem 2.5rem; /* Adjusted right padding */
+        padding: 0.8rem 1rem 0.8rem 2.5rem; /* Adjusted padding for wrapping */
         font-size: 0.9rem;
-        border-bottom: 1px solid rgba(68, 68, 68, 0.5); /* Fainter lines */
-        color: var(--light-text); /* Ensure text color */
-        white-space: normal; /* Allow text to wrap */
-        line-height: 1.4; /* Slightly increase line height for wrapped text */
-        display: block; /* Ensure it takes full width for wrapping */
+        border-bottom: 1px solid rgba(68, 68, 68, 0.5);
+        color: var(--light-text);
+        white-space: normal; /* Allow text wrap */
+        line-height: 1.4;
+        display: block;
     }
      .nav-menu.active .dropdown li:last-child a {
          border-bottom: none;
@@ -600,24 +620,22 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 
      .nav-menu.active .dropdown li a:hover,
      .nav-menu.active .dropdown li a:focus {
-        background: rgba(255, 69, 0, 0.3); /* Mobile dropdown hover */
+        background: rgba(255, 69, 0, 0.3);
     }
 
-    /* Style sub-headers within mobile dropdown */
     .nav-menu.active .dropdown li strong.sub-header {
-         padding: 0.7rem 1.5rem 0.2rem 2rem; /* Mobile sub-header padding */
-         background-color: rgba(0, 0, 0, 0.1); /* Subtle background */
-         color: #ffcc80; /* Match desktop */
-         /* Inherits display: flex from desktop */
-         /* Ensure text wrapping if needed */
-         white-space: normal;
+         padding: 0.7rem 1.5rem 0.2rem 2rem; /* Mobile padding */
+         background-color: rgba(0, 0, 0, 0.1);
+         color: #ffcc80;
+         white-space: normal; /* Allow wrap */
          line-height: 1.4;
+         margin-top: 0.5em; /* Apply top margin to ALL sub-headers */
     }
-     /* Style sub-items within mobile dropdown -- UPDATED FOR TEXT WRAPPING */
+    /* === REMOVED RULE THAT TARGETED :first-child sub-header for mobile === */
+
      .nav-menu.active .dropdown li a.sub-item {
-        padding-left: 3.5rem; /* Further indent sub-items */
-        padding-right: 1rem; /* Ensure consistent right padding */
-        /* Inherits white-space: normal and line-height: 1.4 from parent 'a' rule */
+        padding-left: 3.5rem; /* Indent */
+        padding-right: 1rem; /* Ensure right padding */
     }
 
 } /* End Mobile Media Query */
