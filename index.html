@@ -81,12 +81,12 @@
 </head>
 <body>
 
-    {/* === FINAL NAVIGATION HEADER (Logo Removed) === */}
+    {/* === FINAL NAVIGATION HEADER (No Logo Image) === */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
                  <div class="logo-container">
-                    {/* Logo image tag removed */}
+                    {/* Img tag removed */}
                     <span>Eye on the Fire</span>
                  </div>
             </a>
@@ -148,147 +148,91 @@
     </header>
     {/* === END FINAL NAVIGATION HEADER === */}
 
-    {/* Hero Section */}
-    <section class="hero" id="home">
+
+    {/* Hero Section (Content from your file) */}
+    <header class="hero" id="home">
         <div class="hero-content">
-             <h1>Monitor US Wildfires in Real-Time</h1>
-             <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
-             <a href="#map-section" class="cta-button">View Live US Fire Map</a>
+            <h1>Monitor US Wildfires in Real-Time</h1>
+            <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
+            <a href="#map-section" class="cta-button">View Live US Fire Map</a>
         </div>
-    </section>
+    </header>
 
-    {/* Intro Section */}
-     <section id="intro" class="content-section">
-         <div class="container">
-             <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
-         </div>
-     </section>
-
-    <hr class="section-divider">
-
-    {/* Map Section */}
+    {/* Map Section (Content and Structure from your file) */}
     <section id="map-section" class="map-section content-section">
-        <div class="container">
-            <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
-            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
-            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
-                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i>How to Use the Map:</h4>
-                <ul>
-                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
-                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
-                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
-                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
-                </ul>
+        <div class="map-wrapper" id="map-wrapper">
+            <div class="map-header">Interactive Wildfire Map</div>
+            {/* This div below is likely where your map script from the original file attached */}
+            <div id="fire-map">
+                <div id="map-loading-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001;">Loading map data...</div>
+                <div id="map-error-message" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; z-index: 1001;"></div>
             </div>
         </div>
-        <main>
-            {/* React Map Renders Here */}
-            <div id="root"></div>
-        </main>
-         <div class="container data-source-note">
-             <p>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</p>
-         </div>
+        <div id="geolocation-error" style="text-align: center; color: #b71c1c; margin-top: 10px; display: none;">Could not get your location. Showing default view.</div>
+        {/* Optional: Add back the Map Usage Guide if desired */}
+        {/* <div class="container"> ... <div class="map-usage-guide">...</div> ... </div> */}
     </section>
 
-    <hr class="section-divider">
-
-    {/* About Section */}
+    {/* About Section (Content from your file) */}
     <section id="about" class="content-section">
         <div class="container">
-            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
-             <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
+          <h2>Why Choose Eye on the Fire?</h2>
+          <p>We provide the most up-to-date and comprehensive wildfire information available, combining data from multiple trusted sources like NASA and NIFC. Our easy-to-use interactive map helps you stay informed and safe.</p>
         </div>
-    </section>
+      </section>
 
-    <hr class="section-divider">
-
-    {/* Prevention Section */}
+    {/* Prevention Section (Content from your file) */}
     <section id="prevention" class="content-section">
         <div class="container">
-            <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
-            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
-            <div class="prevention-grid">
-                <div class="prevention-item">
-                    <i class="fas fa-home" aria-hidden="true"></i>
-                    <h3>Defensible Space Zones</h3>
-                    <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
-                </div>
-                <div class="prevention-item">
-                     <i class="fas fa-tools" aria-hidden="true"></i>
-                    <h3>Home Hardening Techniques</h3>
-                    <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
-                </div>
-                <div class="prevention-item">
-                     <i class="fas fa-seedling" aria-hidden="true"></i>
-                    <h3>Fire-Smart Landscaping</h3>
-                    <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
-                </div>
-            </div>
+          <h2>Fire Prevention Tips</h2>
+          <p>Protect your home and community by following these essential fire prevention practices.</p>
+          <div class="prevention-grid">
+            <div class="prevention-item"><h3>Clear Defensible Space</h3><p>Remove flammable vegetation, leaves, and debris from around your home (at least 30 feet).</p></div>
+            <div class="prevention-item"><h3>Maintain Roof & Gutters</h3><p>Regularly clean roofs and gutters of pine needles, leaves, and other flammable materials.</p></div>
+            <div class="prevention-item"><h3>Choose Fire-Resistant Landscaping</h3><p>Use native, drought-tolerant plants that are less likely to ignite easily.</p></div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <hr class="section-divider">
-
-    {/* Community Section */}
+    {/* Community Section (Content from your file) */}
     <section id="community" class="content-section">
         <div class="container">
-            <h2 class="section-title">National & Local Resources</h2>
-            <p class="section-intro">Access official resources for emergency alerts, evacuation status, and support during wildfire events across the United States.</p>
-            <div class="cta-banner">
-                <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
-            </div>
-            <div class="gallery" role="list" aria-label="Community and wildfire images">
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+            <h2>Community Resources & Updates</h2>
+            <p>Stay connected with local resources and see updates from affected areas.</p>
+            <div class="cta-banner"><p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p></div>
+            <div class="gallery">
+                <div class="gallery-item"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
 
-    {/* Footer */}
+    {/* Footer (Content from your file) */}
     <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-section about">
-                 <h3 class="logo-text-footer">Eye on the Fire</h3>
-                <p>
-                    Providing critical real-time wildfire monitoring and fire safety resources for the United States. Our interactive map helps you stay informed and prepared.
-                </p>
+        <div class="container"> {/* Assuming container usage from your file */}
+            <p>&copy; <span id="year">2025</span> Eye on the Fire. All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a></p>
+            <div class="social-icons">
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="footer-section links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#map-section">Live US Map</a></li>
-                    <li><a href="#prevention">Prevention Guides</a></li>
-                    <li><a href="#community">Emergency Resources</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="RSS Feed"><i class="fas fa-rss"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; <span id="year"></span> Eye on the Fire | All Rights Reserved | Data provided "as is" without warranty |
-            <a href="#">Terms of Use</a> |
-            <a href="#">Privacy Policy</a>
         </div>
     </footer>
 
-    {/* Scripts */}
+    {/* Scripts (Leaflet, Plugins, React, Babel, Map Logic) */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.js" integrity="sha512-c6ydt5Rypa1ptlnH2U1u+JybARYppbD1qxgythCI4pJ9EOfNYEWlLBjxBX926O3tq5p4Aw5GTY68vT0FdKbG3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {/* Ensure React related scripts are included if your map uses React */}
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
 
-    {/* React Map Component Script */}
+    {/* Your original map logic script OR the React Babel script */}
+    {/* If using React: */}
     <script type="text/babel">
       const { useState, useEffect, useRef } = React;
 
@@ -322,9 +266,12 @@
           const loadingOverlayRef = useRef(null);
 
           useEffect(() => {
-              if (!mapRef.current) {
-                  mapRef.current = L.map('map', { // Target the div inside #root
-                      zoomControl: true
+              // Ensure the target div exists before initializing the map
+              const mapElement = document.getElementById('map');
+              if (!mapRef.current && mapElement) {
+                  mapRef.current = L.map(mapElement, { // Target the div inside #root
+                      zoomControl: true,
+                      // fullscreenControl: true // Add if fullscreen plugin is active
                   }).setView(center, zoom);
                   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
@@ -337,8 +284,10 @@
                        markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
                   }
                    mapRef.current.zoomControl.setPosition('topright');
+              } else if (!mapElement) {
+                  console.error("Map target element 'map' not found in DOM.");
               }
-          }, []);
+          }, []); // Dependencies array left empty to run once on mount
 
           useEffect(() => {
               if (mapRef.current) {
@@ -436,7 +385,7 @@
                               <button onClick={dismissError} aria-label="Dismiss error">×</button>
                           </div>
                       )}
-                      {/* The div the Leaflet map will attach to, inside the React component */}
+                      {/* The div the Leaflet map will attach to */}
                       <div id="map" style={{height: '70vh', borderRadius: '5px'}}></div>
                   </div>
               </>
@@ -450,7 +399,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('#main-nav'); // Target the <nav>
+            const navMenu = document.querySelector('#main-nav'); // Correct target
             const mainNavLinks = document.querySelectorAll('.main-menu a');
 
             if (hamburger && navMenu) {
