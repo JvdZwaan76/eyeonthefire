@@ -1,7 +1,7 @@
 /* --- EYE ON THE FIRE - FINAL STYLES --- */
-/* --- FROM YOUR UPLOADED styles.css --- */
+/* --- Base styles from your uploaded styles.css --- */
 
-/* ... (Keep all styles from your uploaded file from :root down to the end of the Footer styles) ... */
+/* --- Global Styles & Variables --- */
 :root {
     --primary-color: #ff4500; /* OrangeRed - Core fire color */
     --secondary-color: #ff8c00; /* DarkOrange */
@@ -12,6 +12,7 @@
     --border-color: #444;
     --navbar-height: 70px; /* Consistent height */
 }
+
 /* Reset and Base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Open Sans', sans-serif; line-height: 1.6; color: var(--dark-text); background-color: #f0f0f0; padding-top: var(--navbar-height); display: flex; flex-direction: column; min-height: 100vh; }
@@ -27,7 +28,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 /* Container */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
 
-/* --- Navbar Base Styles --- */
+/* --- Navbar Base Styles (Keep essential parts) --- */
 .navbar { background: linear-gradient(to right, var(--dark-bg), #1a1a1a); color: var(--light-text); padding: 0 1rem; position: fixed; width: 100%; top: 0; left: 0; z-index: 10000; height: var(--navbar-height); box-shadow: 0 3px 10px rgba(0,0,0,0.4); border-bottom: 2px solid var(--primary-color); display: flex; justify-content: center; align-items: stretch; }
 
 /* --- Hero Section Styles --- */
@@ -46,10 +47,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0)); margin: 3rem auto; width: 60%; }
 
 /* --- Map Section Styles --- */
-.map-section { padding: 2rem 0; } /* Your base padding */
-.map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); } /* Your map wrapper */
+.map-section { padding: 2rem 0; }
+/* Original wrapper from your HTML */
+.map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
 .map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif; }
-#fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1; } /* Your original map div */
+/* Original map div */
+#fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1; }
 #geolocation-error { text-align: center; color: #b71c1c; margin-top: 10px; display: none; }
 .data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
 /* Map Usage Guide */
@@ -82,7 +85,6 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 /* --- Footer Styles --- */
 .site-footer { background: var(--dark-bg); color: var(--light-text); padding: 2rem 1rem; text-align: center; margin-top: auto; border-top: 4px solid var(--primary-color); box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3); z-index: 10;}
 .site-footer .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
-/* Footer structure styles */
 .footer-content { display: flex; flex-wrap: wrap; justify-content: space-around; align-items: flex-start; max-width: 1200px; margin: 0 auto 2rem; text-align: center; }
 .footer-section { flex: 1; min-width: 250px; margin: 1rem; padding: 0 1rem; }
 .footer-section.about { text-align: left; }
@@ -104,19 +106,16 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 .footer-bottom a:hover { color: var(--accent-color); text-decoration: underline; }
 
 
-/* === Appended CSS for Final Navigation Structure === */
-
-/* Container for new nav */
-.navbar .navbar-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; height: 100%; }
+/* === CSS Appended/Corrected for Final Navigation Structure & React Map === */
 
 /* Logo Styles */
 #navbar-logo { height: 45px; width: auto; vertical-align: middle; margin-right: 0.5rem; }
-.navbar .logo-link { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; padding: 0 0.5rem; overflow: hidden; }
 .navbar .logo-container { display: flex; align-items: center; gap: 0.5rem; }
 .navbar .logo-container span { font-size: 1.6rem; font-weight: 700; color: var(--light-text); font-family: 'Montserrat', sans-serif; text-shadow: 1px 1px 3px var(--primary-color); white-space: nowrap; transition: color 0.3s ease; }
 .navbar .logo-link:hover .logo-container span { color: var(--secondary-color); }
 
-/* Final Nav Menu structure styles */
+/* Final Nav Structure Base */
+.navbar .navbar-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; height: 100%; }
 .navbar .nav-menu { display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none; list-style: none; }
 .navbar .main-menu { display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch; }
 .navbar .main-menu li { position: relative; display: flex; align-items: stretch; border-bottom: none; margin-left: 0; }
@@ -143,16 +142,17 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 /* Final Hamburger styles */
 .navbar .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 10px; z-index: 10001; order: 3; margin-left: 1rem; }
 .navbar .hamburger .line { display: block; width: 28px; height: 3px; background: var(--light-text); margin: 6px 0; transition: all 0.4s ease-in-out; border-radius: 2px; }
-.navbar .hamburger.active .line:nth-child(1), .navbar .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
-.navbar .hamburger.active .line:nth-child(2), .navbar .hamburger.active .line2 { opacity: 0; }
-.navbar .hamburger.active .line:nth-child(3), .navbar .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
+/* Hamburger line classes need to match HTML */
+.navbar .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
+.navbar .hamburger.active .line2 { opacity: 0; }
+.navbar .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
 
 /* Final Mobile Navigation Styles */
 @media (max-width: 991.98px) {
     .navbar .hamburger { display: block; }
     .navbar .navbar-container .main-menu { display: none; }
-    .navbar .nav-menu { display: none; } /* Hide base nav container */
+    .navbar .nav-menu { display: none; }
 
     .navbar .nav-menu.active { display: block; position: fixed; left: 0; top: var(--navbar-height); width: 80%; max-width: 320px; height: calc(100vh - var(--navbar-height)); background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding-top: 1rem; overflow-y: auto; z-index: 1099; border-right: 2px solid var(--primary-color); animation: slideIn 0.4s ease-in-out forwards; }
     @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
@@ -187,5 +187,61 @@ a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #
 .navbar .hamburger:focus { outline: none; }
 .navbar .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
 
-/* Final Layout Helpers */
-.text-center { text-align: center; }
+/* --- CSS Appended/Corrected for React Map/Layout Fixes --- */
+
+/* Ensure container holding overlay is positioned */
+#root .map-container {
+    position: relative; /* KEY FIX for containing overlay */
+    overflow: hidden; /* Clip overlay if container is rounded */
+    /* Reset styles potentially inherited from other .map-container rules if needed */
+    /* margin: 0; padding: 0; box-shadow: none; max-width: none; background: none; */
+}
+
+/* Loading Overlay specific to React structure */
+#root .loading-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 9998; /* High z-index */
+    backdrop-filter: blur(4px);
+    border-radius: 5px; /* Match map border-radius */
+    opacity: 1; visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+#root .loading-overlay.hidden {
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+#root .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
+#root .flame-loader::before, #root .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
+#root .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
+#root .flame-loader::after { right: 5px; background: var(--secondary-color); animation-delay: 0.5s; }
+#root .loading-overlay p { color: var(--light-text); font-family: 'Montserrat', sans-serif; margin-top: 10px; text-shadow: 1px 1px 2px black; }
+
+/* Map div height inside React structure */
+#root #map {
+    height: 70vh; /* Default height */
+    border-radius: 5px;
+    position: relative; /* Ensure in flow */
+    z-index: 1; /* Below overlay */
+    border: 1px solid #ddd; /* Re-add border if needed */
+}
+
+/* Desktop Map Height */
+@media (min-width: 992px) {
+    #root #map {
+        height: 550px; /* Adjusted desktop height */
+    }
+}
+
+/* Position controls/error relative to React map container */
+#root .controls {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 801; background-color: rgba(255, 255, 255, 0.8); padding: 5px 10px; border-radius: 5px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); display: flex; gap: 10px;
+}
+#root .controls button { padding: 6px 12px; background: var(--primary-color); color: #fff; border: none; border-radius: 4px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+#root .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
+
+#root .error-message {
+    position: absolute; top: 70px; /* Position below controls */ left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000; padding: 15px; margin: 0; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 990;
+}
+#root .error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
