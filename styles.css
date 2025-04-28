@@ -195,7 +195,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     100% { background-position: 0 20px; }
 }
 
-@media (hover: hover) and (min-width: 992px) { /* Adjusted breakpoint */
+@media (hover: hover) and (min-width: 992px) {
     .has-dropdown:hover > .dropdown,
     .has-dropdown > a:focus + .dropdown {
         display: block;
@@ -710,6 +710,7 @@ hr.section-divider {
   width: 60%;
 }
 /* Additional styles for the original index.html map structure if needed */
+/* These might conflict with React map container, ensure they are scoped if used */
 /* .map-section { padding: 2rem 0; } */
 /* .map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); } */
 /* .map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif;} */
