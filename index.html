@@ -14,11 +14,10 @@
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Assuming images folder is at root */}
+    <meta property="og:image" content="/images/hero-bg.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    {/* Updated Favicon Links (assuming /favicon/ folder at root) */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
@@ -32,17 +31,11 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
 
-    {/* Leaflet and Plugins CSS (Using versions from your latest file if different) */}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.css" integrity="sha512-DRkMa+fn898M1uc6s9JZeztUoXN6viuHsXmh/pgz3jG6a77YWO3U3QYEjLoqbxOeclc2NunWfMTya4Y5twXAKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {/* Marker Cluster CSS (Needed if map uses it, add back if required) */}
-    {/* <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" /> */}
-    {/* <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" /> */}
-
-    {/* Font Awesome & Google Fonts */}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" href="styles.css">
 
@@ -86,11 +79,23 @@
     </script>
 
     <style>
-        /* Internal styles incorporating previous refinements */
         body {
             background-color: #f0f0f0;
             color: var(--dark-text, #333);
         }
+        /* Logo Styling */
+        #navbar-logo {
+            height: 45px; /* Adjust height as needed */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle;
+            margin-right: 0.5rem; /* Space between logo and text */
+        }
+        .logo-container { /* Ensure container aligns items vertically */
+            display: flex;
+            align-items: center;
+        }
+        /* End Logo Styling */
+
         .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
         .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
         .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); }
@@ -135,16 +140,11 @@
         .text-center { text-align: center; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
 
-        /* Ensure dropdown text has good contrast */
         .nav-menu.active .dropdown li a,
         .nav-menu.active .dropdown li a.sub-item { color: var(--light-text, #f5f5f5); }
         .nav-menu.active .dropdown li strong.sub-header { color: #ffcc80; }
 
-        /* Ensure all H2 (section titles) are centered */
         .content-section .section-title { text-align: center; }
-        /* Ensure H3s within prevention grid are centered (already handled by text-align on item) */
-        /* .prevention-grid .prevention-item h3 { text-align: center; } */
-
 
         a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
         .hamburger:focus { outline: none; }
@@ -154,27 +154,20 @@
           border: 0;
           height: 1px;
           background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color, #444), rgba(0, 0, 0, 0));
-          margin: 3rem auto; /* Consistent vertical spacing */
+          margin: 3rem auto;
           width: 60%;
         }
-         /* Additional styles for the original index.html structure if needed */
-        .map-section { padding: 2rem 0; }
-        .map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        .map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif;}
-        #fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1;}
 
     </style>
 </head>
 <body>
 
-    {/* Updated Navigation Header */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
                  <div class="logo-container">
-                    {/* If using image logo from original index.html */}
-                    {/* <img src="/images/fire-icon.png" alt="Eye on the Fire Logo" style="height: 40px; width: auto;"> */}
-                    <span style="text-shadow: 1px 1px 4px var(--primary-color);">Eye on the Fire</span>
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
+                    <span>Eye on the Fire</span>
                  </div>
             </a>
             <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
@@ -236,7 +229,6 @@
         </div>
     </header>
 
-    {/* Hero Section - Using original background image */}
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>Monitor US Wildfires in Real-Time</h1>
@@ -245,7 +237,6 @@
         </div>
     </section>
 
-    {/* Intro Section */}
      <section id="intro" class="content-section">
          <div class="container">
              <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
@@ -254,7 +245,6 @@
 
     <hr class="section-divider">
 
-    {/* Map Section - Integrating React Map */}
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
@@ -269,7 +259,6 @@
                 </ul>
             </div>
         </div>
-        {/* Map component mounts here */}
         <main>
             <div id="root"></div>
         </main>
@@ -280,7 +269,6 @@
 
     <hr class="section-divider">
 
-    {/* About Section */}
     <section id="about" class="content-section">
         <div class="container">
             <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
@@ -290,7 +278,6 @@
 
     <hr class="section-divider">
 
-    {/* Prevention Section */}
     <section id="prevention" class="content-section">
         <div class="container">
             <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
@@ -317,7 +304,6 @@
 
     <hr class="section-divider">
 
-    {/* Community Section */}
     <section id="community" class="content-section">
         <div class="container">
             <h2 class="section-title">National & Local Resources</h2>
@@ -333,7 +319,6 @@
         </div>
     </section>
 
-    {/* Footer */}
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -369,20 +354,12 @@
         </div>
     </footer>
 
-    {/* Scripts */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    {/* Add Marker Cluster JS back if needed */}
-    {/* <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script> */}
-    {/* Use Leaflet version from your last uploaded file */}
-    {/* <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script> */}
-    {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.min.js" integrity="sha512-c6ydt5Rypa1ptlnH2U1u+JybARYppbD1qxgythCI4pJ9EOfNYEWlLBjxBX926O3tq5p4Aw5GTY68vT0FdKbG3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> */}
-
-    {/* React Scripts */}
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
 
-    {/* React Map Component */}
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -417,7 +394,6 @@
 
             useEffect(() => {
                 if (!mapRef.current) {
-                    // Use the Leaflet version linked in head (e.g., 1.7.1 or 1.9.4)
                     mapRef.current = L.map('map', {
                         zoomControl: true
                         // Add fullscreen control if Leaflet.fullscreen plugin is linked
@@ -426,10 +402,10 @@
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors | Eye on the Fire'
                     }).addTo(mapRef.current);
-                    // Initialize marker cluster group if linked
-                     if (typeof L.markerClusterGroup === 'function') {
+                    if (typeof L.markerClusterGroup === 'function') {
                         markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
                     } else {
+                         console.warn('MarkerClusterGroup not available. Using LayerGroup.');
                          markerLayerRef.current = L.layerGroup().addTo(mapRef.current); // Fallback
                     }
                      mapRef.current.zoomControl.setPosition('topright');
@@ -531,7 +507,6 @@
                                 <button onClick={dismissError} aria-label="Dismiss error">×</button>
                             </div>
                         )}
-                         {/* Ensure map div exists */}
                         <div id="map" style={{borderRadius: '5px'}}></div>
                     </div>
                 </>
@@ -541,7 +516,6 @@
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
 
-    {/* Navigation JS */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
