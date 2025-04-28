@@ -246,18 +246,25 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     margin-top: 0.5em; /* Apply top margin to ALL sub-headers */
 }
 
-
-/* Style for icons within sub-headers */
-.dropdown li strong i.fa-fire,
-.dropdown li strong i.fa-shield-alt {
-    color: var(--secondary-color); /* Orange Color */
-    /* === ADJUSTED MARGIN-RIGHT FOR SPACING === */
-    margin-right: 0.8em; /* Increased space between icon and text */
-    /* === END ADJUSTMENT === */
-    padding-left: 0.4em; /* This affects space before the icon, keep as is */
-    font-size: 0.9em; /* Font size of the icon itself */
-    flex-shrink: 0; /* Prevent icon from shrinking */
+/* === UPDATED ICON SPACING RULES === */
+/* Style for fire icon in headers */
+.dropdown li strong i.fa-fire {
+    color: var(--secondary-color);
+    margin-right: 0.6em; /* Keep original spacing for fire icon */
+    padding-left: 0.4em;
+    font-size: 0.9em;
+    flex-shrink: 0;
 }
+/* Style specifically for shield icon in headers */
+.dropdown li strong i.fa-shield-alt {
+    color: var(--secondary-color);
+    margin-right: 0.8em; /* Slightly increased spacing ONLY for shield icon */
+    padding-left: 0.4em;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+/* === END UPDATED ICON SPACING RULES === */
+
 
 .dropdown li a.sub-item {
     padding-left: 3.5rem; /* Indentation */
@@ -635,15 +642,22 @@ a:hover { color: #b71c1c; text-decoration: underline; }
          align-items: center; /* Align icon vertically */
     }
 
-     /* Style for icons within mobile sub-headers */
-    .nav-menu.active .dropdown li strong i.fa-fire,
-    .nav-menu.active .dropdown li strong i.fa-shield-alt {
+     /* === UPDATED MOBILE ICON SPACING RULES === */
+    /* Style for fire icon in MOBILE headers */
+    .nav-menu.active .dropdown li strong i.fa-fire {
         color: var(--secondary-color);
-        margin-right: 0.8em; /* Ensure consistent spacing */
+        margin-right: 0.6em; /* Keep original spacing */
         font-size: 0.9em;
         flex-shrink: 0;
     }
-
+    /* Style specifically for shield icon in MOBILE headers */
+    .nav-menu.active .dropdown li strong i.fa-shield-alt {
+        color: var(--secondary-color);
+        margin-right: 0.8em; /* Increased spacing ONLY for shield */
+        font-size: 0.9em;
+        flex-shrink: 0;
+    }
+    /* === END UPDATED MOBILE ICON SPACING RULES === */
 
      .nav-menu.active .dropdown li a.sub-item {
         padding-left: 3.5rem; /* Indent */
