@@ -14,13 +14,15 @@
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker">
     <meta property="og:description" content="Monitor active wildfires across the United States with Eye on the Fire’s real-time interactive map. Get live updates, check fires near you, and find crucial safety resources.">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="/images/hero-bg.jpg">
+    <meta property="og:image" content="/images/hero-bg.jpg"> {/* Assuming images folder is at root */}
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
+    {/* Favicon links from your uploaded file, assuming paths are correct relative to root */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+    <meta name="apple-mobile-web-app-title" content="eyeonthefire">
     <link rel="manifest" href="/favicon/site.webmanifest">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -31,14 +33,17 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
 
+    {/* Stylesheets from your uploaded file */}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    {/* Link to your external stylesheet */}
     <link rel="stylesheet" href="styles.css">
 
+    {/* Schema Markup */}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -81,6 +86,7 @@
 </head>
 <body>
 
+    {/* === INSERTED FINALIZED NAVIGATION HEADER === */}
     <header class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo-link">
@@ -145,15 +151,18 @@
             </nav>
         </div>
     </header>
+    {/* === END FINALIZED NAVIGATION HEADER === */}
 
+    {/* Hero Section from your uploaded file */}
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Monitor US Wildfires in Real-Time</h1>
-            <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
-            <a href="#map-section" class="cta-button">View Live US Fire Map</a>
+             <h1>Monitor US Wildfires in Real-Time</h1>
+             <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
+             <a href="#map-section" class="cta-button">View Live US Fire Map</a>
         </div>
     </section>
 
+    {/* Intro Section from your uploaded file */}
      <section id="intro" class="content-section">
          <div class="container">
              <p class="section-intro" style="font-size: 1.1em; color: #333;">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
@@ -162,6 +171,7 @@
 
     <hr class="section-divider">
 
+    {/* Map Section from your uploaded file (using #root) */}
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
@@ -186,6 +196,7 @@
 
     <hr class="section-divider">
 
+    {/* About Section from your uploaded file */}
     <section id="about" class="content-section">
         <div class="container">
             <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
@@ -195,6 +206,7 @@
 
     <hr class="section-divider">
 
+    {/* Prevention Section from your uploaded file */}
     <section id="prevention" class="content-section">
         <div class="container">
             <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
@@ -221,6 +233,7 @@
 
     <hr class="section-divider">
 
+    {/* Community Section from your uploaded file */}
     <section id="community" class="content-section">
         <div class="container">
             <h2 class="section-title">National & Local Resources</h2>
@@ -236,6 +249,7 @@
         </div>
     </section>
 
+    {/* Footer from your uploaded file */}
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -271,6 +285,7 @@
         </div>
     </footer>
 
+    {/* Scripts from your uploaded file */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
