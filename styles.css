@@ -109,45 +109,88 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 
 /* React Map Container */
 #root .map-container {
-    position: relative; /* This should already be there from the last fix */
-    width: 100%; /* Ensure it takes available width */
-    max-width: 100%; /* Ensure it takes available width */
-    margin: 0 auto; /* Center it if it's within a wider container */
+    position: relative; /* Essential for absolute positioning of children */
+    width: 100%; /* Take available width */
+    max-width: 100%; /* Ensure it respects parent width */
+    margin: 0 auto; /* Center within its parent container */
+    /* Add a min-height to ensure the container has dimension even before the map loads,
+       matching the map's initial height */
+    min-height: 70vh; /* Should match the default #root #map height */
     /* Existing styles below */
     padding: 0;
     box-shadow: none;
-    border-radius: 0;
-    background: none;
+    border-radius: 5px; /* Apply border-radius here to the container */
+    border: 1px solid #ddd; /* Apply border here to the container */
+    background: none; /* Or set a background if needed */
+    overflow: hidden; /* Hide any potential overflow */
 }
 
-/* Loading overlay positioning relative to map-container */
+/* Loading overlay to perfectly cover the map-container */
 #root .loading-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; /* Cover the full width of the positioned parent (.map-container) */
     height: 100%; /* Cover the full height of the positioned parent (.map-container) */
+    /* Ensure it's above the map but below controls if needed (controls have no explicit z-index) */
+    z-index: 10; /* A value clearly above the map (default z-index is auto/0) */
     /* Existing styles below */
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9998;
     backdrop-filter: blur(4px);
-    border-radius: 5px;
+    border-radius: 5px; /* Match container border-radius */
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
+#root .loading-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
 
-/* Map height */
+
+/* Map element within the container */
 #root #map {
-    height: 70vh; /* Keep this for smaller screens */
-    width: 100%; /* Ensure map fills its container */
+    height: 100%; /* Make map fill the height of its container by default */
+    width: 100%; /* Make map fill the width of its container by default */
+    /* Remove border-radius and border from here if applied to the container */
+    border-radius: 0; /* Reset or remove if set on container */
+    border: none; /* Reset or remove if set on container */
+    z-index: 5; /* Ensure map is below the overlay */
+}
+
+/* Map Controls position - ensure they are above the overlay if needed */
+#root .controls {
+    position: relative; /* Set position to ensure z-index works */
+    z-index: 20; /* Higher than overlay */
     /* Existing styles below */
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+/* Error message position - ensure it is above the overlay if needed */
+#root .error-message {
+     position: relative; /* Set position to ensure z-index works */
+     z-index: 20; /* Higher than overlay and controls */
+     /* Existing styles below */
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    color: #5a0000;
+    padding: 15px;
+    margin: 15px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 90%;
 }
 
 
@@ -157,22 +200,22 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
         display: flex;
         flex-direction: column; /* Stack content within the container */
         align-items: center; /* Center content */
-        /* Remove justify-content: center; if you want other items centered too */
     }
 
     #root .map-container {
-        max-width: 700px; /* Adjust this value - previously 600px */
+        max-width: 700px; /* Keep the width limited */
         width: 100%; /* Ensure it respects max-width */
-        height: 50vh; /* Reduce height on desktop */
-        margin-top: 20px; /* Add some space above the map */
-        margin-bottom: 20px; /* Add some space below the map */
+        height: 50vh; /* Set a specific, smaller height for desktop */
+        min-height: unset; /* Remove the min-height set for smaller screens */
+        margin-top: 20px; /* Add space */
+        margin-bottom: 20px; /* Add space */
     }
 
-     #root #map {
-         height: 100%; /* Make map fill the height of its container */
-         width: 100%; /* Make map fill the width of its container */
-     }
+    /* #root #map height and width should be 100% of container, as set above */
+    /* height: 100%; */
+    /* width: 100%; */
 }
+
 
 /* --- Prevention Grid Styles (From your file) --- */
 .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
@@ -308,15 +351,15 @@ a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #
         display: flex;
         flex-direction: column; /* Stack content within the container */
         align-items: center; /* Center content */
-        /* Remove justify-content: center; if you want other items centered too */
     }
 
     #root .map-container {
-        max-width: 700px; /* Adjust this value - previously 600px */
+        max-width: 700px; /* Keep the width limited */
         width: 100%; /* Ensure it respects max-width */
-        height: 50vh; /* Reduce height on desktop */
-        margin-top: 20px; /* Add some space above the map */
-        margin-bottom: 20px; /* Add some space below the map */
+        height: 50vh; /* Set a specific, smaller height for desktop */
+        min-height: unset; /* Remove the min-height set for smaller screens */
+        margin-top: 20px; /* Add space */
+        margin-bottom: 20px; /* Add space */
     }
 
      #root #map {
