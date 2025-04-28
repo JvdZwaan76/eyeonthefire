@@ -1,4 +1,5 @@
 /* --- EYE ON THE FIRE - FINAL STYLES --- */
+/* --- FROM YOUR UPLOADED styles.css --- */
 
 /* --- Global Styles & Variables --- */
 :root {
@@ -23,67 +24,167 @@ body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
   color: var(--dark-text);
-  background-color: #f0f0f0;
-  padding-top: var(--navbar-height);
+  background-color: #f0f0f0; /* Lighter background */
+  padding-top: var(--navbar-height); /* Space for fixed navbar */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 main {
-    flex-grow: 1;
+    flex-grow: 1; /* Ensures main content pushes footer down */
 }
 
-/* Typography */
+/* Typography (Keep consistent) */
 h1, h2, h3 {
   font-family: 'Montserrat', sans-serif;
+  color: #b71c1c; /* Original heading color from your file */
   margin-bottom: 0.75em;
 }
-h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; text-align: center; }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; text-align: center; }
-h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; text-align: center;}
-p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
+h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; text-align: center; } /* Centered H1 */
+h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; text-align: center; } /* Centered H2 */
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; text-align: center;} /* Centered H3 */
+p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; /* Original p color */ }
 a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
 a:hover { color: #b71c1c; text-decoration: underline; }
 
-
-/* --- Fire-themed Navbar --- */
-.navbar {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
+/* Container from your file */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
     padding: 0 1rem;
+}
+
+
+/* --- Navbar Styles (From your file, possibly older structure) --- */
+/* Assuming the .navbar class applies to the main nav container */
+.navbar {
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
-    position: fixed;
+    padding: 0.5rem 1rem; /* Adjusted padding slightly */
+    position: fixed; /* Ensure fixed position */
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 10000;
+    z-index: 10000; /* High z-index */
     height: var(--navbar-height);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
     border-bottom: 2px solid var(--primary-color);
+    display: flex; /* Added flex for alignment */
+    justify-content: center; /* Center content */
+    align-items: stretch; /* Stretch items vertically */
 }
 
+/* Styles specific to the header structure in your uploaded index.html */
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Take full width */
+    max-width: 1300px; /* Match container width */
+    margin: 0 auto; /* Center within navbar */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 50px; /* Example height */
+    width: auto;
+    margin-right: 0.5em;
+}
+
+.logo-text {
+    color: var(--light-text);
+    font-size: 1.5em; /* Example size */
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Hamburger styles from your file */
+.hamburger {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10001; /* Above nav menu */
+}
+
+.hamburger .line {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: var(--light-text);
+    border-radius: 3px;
+    transition: all 0.3s linear;
+}
+
+.hamburger.active .line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active .line:nth-child(2) { opacity: 0; }
+.hamburger.active .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Styles for nav menu UL from your file */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    margin-left: 20px;
+}
+
+.nav-menu a {
+    color: var(--light-text);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.nav-menu a:hover {
+    color: var(--accent-color);
+    text-decoration: none; /* Remove underline on hover if desired */
+}
+
+/* === END Styles from your uploaded styles.css === */
+
+/* === Styles Added/Corrected for Final Navigation and Layout === */
+
+/* Corrected Navbar Container for NEW nav structure */
 .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 1300px;
-    margin: 0 auto;
+    margin: 0 auto; /* Center container */
     height: 100%;
 }
 
-.logo-link {
-    text-decoration: none;
+/* Logo Sizing and Alignment */
+#navbar-logo {
+    height: 45px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+.logo-container {
     display: flex;
     align-items: center;
-    flex-shrink: 0;
-    padding: 0 0.5rem;
-    overflow: hidden;
+    gap: 0.5rem;
 }
-
 .logo-container span {
     font-size: 1.6rem;
     font-weight: 700;
@@ -97,8 +198,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     color: var(--secondary-color);
 }
 
-
-/* --- Navigation Menu (Base & Desktop) --- */
+/* NEW Nav Menu structure styles */
 .nav-menu {
     display: flex;
     align-items: stretch;
@@ -116,7 +216,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     box-shadow: none;
     border-right: none;
 }
-
 .main-menu {
     display: flex;
     flex-direction: row;
@@ -128,14 +227,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     height: 100%;
     align-items: stretch;
 }
-
 .main-menu li {
     position: relative;
     display: flex;
     align-items: stretch;
     border-bottom: none;
 }
-
 .main-menu > li > a {
     color: var(--light-text);
     text-decoration: none;
@@ -157,7 +254,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     font-size: 0.8em;
     transition: transform 0.3s ease;
 }
-
 .main-menu > li:hover > a {
     color: var(--accent-color);
     background-color: rgba(255, 69, 0, 0.1);
@@ -167,8 +263,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     transform: rotate(180deg);
 }
 
-
-/* Desktop Dropdown Styles */
+/* NEW Desktop Dropdown Styles */
 .dropdown {
     display: none;
     position: absolute;
@@ -189,19 +284,12 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     z-index: 1100;
     animation: subtle-fire-bg 5s infinite alternate;
 }
-
-@keyframes subtle-fire-bg {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 20px; }
-}
+@keyframes subtle-fire-bg { 0% { background-position: 0 0; } 100% { background-position: 0 20px; } }
 
 @media (hover: hover) and (min-width: 992px) {
     .has-dropdown:hover > .dropdown,
     .has-dropdown > a:focus + .dropdown {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+        display: block; opacity: 1; visibility: visible; transform: translateY(0);
     }
 }
 
@@ -216,7 +304,6 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     white-space: nowrap;
     background: none;
 }
-
 .dropdown li strong,
 .dropdown li strong.sub-header {
     display: flex;
@@ -230,8 +317,33 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     background: none;
     margin-top: 0.5em;
 }
+/* Corrected Icon Spacing */
+ .dropdown li strong i.fa-fire,
+ .dropdown li strong i.fa-shield-alt,
+ .dropdown li strong i.fa-info-circle,
+ .dropdown li strong i.fa-map,
+ .dropdown li strong i.fa-envelope {
+     color: var(--secondary-color);
+     margin-right: 0.6em; /* Consistent spacing for ALL icons */
+     padding-left: 0;
+     font-size: 0.9em;
+     flex-shrink: 0;
+ }
+.dropdown li a.sub-item {
+    padding-left: 2.8rem;
+    font-size: 0.9rem;
+    color: #eee;
+}
+.dropdown li a:hover, .dropdown li a:focus {
+    background: rgba(255, 69, 0, 0.8);
+    color: #fff;
+    outline: none;
+}
+.dropdown li a.sub-item:hover, .dropdown li a.sub-item:focus {
+    background: rgba(255, 140, 0, 0.8);
+}
 
-/* --- Hamburger Menu Button --- */
+/* NEW Hamburger styles (overwriting old ones if they exist) */
 .hamburger {
     display: none;
     cursor: pointer;
@@ -242,240 +354,21 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     order: 3;
     margin-left: 1rem;
 }
-
 .hamburger .line {
-    display: block;
-    width: 28px;
-    height: 3px;
-    background: var(--light-text);
-    margin: 6px 0;
-    transition: all 0.4s ease-in-out;
-    border-radius: 2px;
+    display: block; width: 28px; height: 3px; background: var(--light-text); margin: 6px 0; transition: all 0.4s ease-in-out; border-radius: 2px;
 }
-
 .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
 .hamburger.active .line2 { opacity: 0; }
 .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
 
-/* --- Map Container & Loading --- */
-.map-container {
-    position: relative;
-    z-index: 1;
-    background-color: #fff;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    max-width: 1600px;
-    margin: 1rem auto;
-    padding: 1rem;
-    overflow: hidden;
-}
 
-#map { width: 100%; height: 70vh; border-radius: 4px; border: 1px solid #ddd; z-index: 1; }
-.controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; position: static; z-index: auto; width: 100%; margin-bottom: 10px; }
-.controls button { margin-right: 0; padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
-.leaflet-control-container .leaflet-control { box-shadow: 0 1px 7px rgba(0,0,0,0.5); border-radius: 5px; background-clip: padding-box; z-index: 800; }
-.leaflet-bar a, .leaflet-bar a:hover { color: var(--primary-color); border-bottom: 1px solid #ccc; }
-.leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
-.leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; }
-.leaflet-control-locate a { font-size: 1.4em; line-height: 30px; }
-
-/* Loading Overlay */
-.loading-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 9998;
-    backdrop-filter: blur(4px);
-    border-radius: 5px;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s linear 0s;
-}
-.loading-overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-}
-
-
-/* Flame Loader */
-.flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
-.flame-loader::before, .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
-.flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
-.flame-loader::after { right: 5px; background: var(--secondary-color); animation-delay: 0.5s; }
-
-@keyframes flicker {
-  0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; }
-  50% { transform: scaleY(0.8) rotate(2deg); opacity: 0.8; }
-}
-.loading-overlay p {
-    color: var(--light-text); font-family: 'Montserrat', sans-serif; margin-top: 10px; text-shadow: 1px 1px 2px black;
-}
-
-/* Error Message */
-.error-message {
-    background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000;
-    padding: 15px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center;
-    border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 990;
-}
-.error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
-
-
-/* --- Elegant, Fire-Themed Footer --- */
-.site-footer {
-    background: linear-gradient(to top, var(--dark-bg), #1a1a1a);
-    color: var(--light-text);
-    padding: 3rem 1rem 1.5rem;
-    margin-top: auto;
-    border-top: 4px solid var(--primary-color);
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-}
-
-.footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto 2rem;
-    text-align: center;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 250px;
-    margin: 1rem;
-    padding: 0 1rem;
-}
-
-.footer-section.about {
-     text-align: left;
-}
-@media (max-width: 768px) {
-    .footer-section.about {
-        text-align: center;
-    }
-     .footer-content {
-        flex-direction: column;
-        align-items: center;
-    }
-     .footer-section {
-        min-width: 80%;
-        margin-bottom: 2rem;
-    }
-    .footer-section:last-child {
-        margin-bottom: 0;
-    }
-}
-
-.footer-section h3 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--secondary-color);
-    margin-bottom: 1.2em;
-    font-size: 1.3rem;
-    font-weight: 500;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5em;
-    display: inline-block;
-}
-.footer-section.links h3, .footer-section.social h3 {
-    display: block;
-}
-@media (min-width: 769px) {
-    .footer-section.about h3 {
-        display: inline-block;
-    }
-}
-
-
-.logo-text-footer {
-     font-size: 1.6rem;
-     font-weight: 700;
-     color: var(--light-text);
-     text-shadow: 1px 1px 3px var(--primary-color);
-     border-bottom: none;
-     margin-bottom: 0.8em;
-     display: block;
-}
-
-.footer-section p {
-    color: #ccc;
-    font-size: 0.95rem;
-    line-height: 1.7;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.8em;
-}
-
-.footer-section ul li a {
-    color: var(--light-text);
-    text-decoration: none;
-    transition: color 0.3s ease, padding-left 0.3s ease;
-    font-size: 0.95rem;
-}
-
-.footer-section ul li a:hover {
-    color: var(--accent-color);
-    padding-left: 5px;
-    text-decoration: none;
-}
-
-.social-icons {
-    margin-top: 1rem;
-}
-
-.social-icons a {
-    color: var(--light-text);
-    font-size: 1.6rem;
-    margin: 0 0.7rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-}
-
-.social-icons a:hover {
-    color: var(--primary-color);
-    transform: scale(1.1) translateY(-2px);
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    color: #aaa;
-}
-
-.footer-bottom a {
-    color: #ccc;
-    margin: 0 0.5rem;
-    transition: color 0.3s ease;
-}
-
-.footer-bottom a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-
-/* --- Mobile Navigation Styles --- */
+/* --- Mobile Navigation Styles (NEW structure) --- */
 @media (max-width: 991.98px) {
-    .hamburger {
-        display: block;
-    }
+    .hamburger { display: block; }
+    .navbar-container .main-menu { display: none; } /* Hides the UL inside the nav */
+    .nav-menu { /* Hide the container by default on mobile */ display: none; }
 
-    .navbar-container .main-menu {
-        display: none;
-    }
-
-    .nav-menu.active {
+    .nav-menu.active { /* Styles for when the menu is opened */
         display: block;
         position: fixed;
         left: 0;
@@ -491,13 +384,9 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         border-right: 2px solid var(--primary-color);
         animation: slideIn 0.4s ease-in-out forwards;
     }
+    @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
-    @keyframes slideIn {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
-    }
-
-    .nav-menu.active .main-menu {
+    .nav-menu.active .main-menu { /* Style the UL when menu is active */
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -505,90 +394,21 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         gap: 0;
         align-items: stretch;
     }
+    .nav-menu.active .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); }
+    .nav-menu.active .main-menu li:last-child { border-bottom: none; }
+    .nav-menu.active .main-menu > li > a { display: flex; justify-content: space-between; padding: 1rem 1.5rem; width: 100%; height: auto; border-bottom: none; color: var(--light-text); }
+    .nav-menu.active .main-menu > li > a:hover { background-color: rgba(255, 69, 0, 0.2); color: var(--accent-color); border-bottom-color: transparent; }
+    .nav-menu.active .main-menu > li > a > i.fa-caret-down { transition: transform 0.3s ease; }
+    .nav-menu.active .main-menu .has-dropdown.open > a > i.fa-caret-down { transform: rotate(180deg); }
 
-    .nav-menu.active .main-menu li {
-        width: 100%;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .nav-menu.active .main-menu li:last-child {
-        border-bottom: none;
-    }
+    .nav-menu.active .dropdown { display: none; position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background: rgba(0,0,0,0.2); box-shadow: none; border-top: 1px solid var(--border-color); border-radius: 0; padding: 0; margin-top: 0; transition: none; min-width: unset; }
+    .nav-menu.active .has-dropdown.open > .dropdown { display: block; }
+    .nav-menu.active .dropdown li a { padding: 0.8rem 1rem 0.8rem 2.5rem; font-size: 0.9rem; border-bottom: 1px solid rgba(68, 68, 68, 0.5); color: var(--light-text); white-space: normal; line-height: 1.4; display: block; }
+    .nav-menu.active .dropdown li:last-child a { border-bottom: none; }
+    .nav-menu.active .dropdown li a:hover, .nav-menu.active .dropdown li a:focus { background: rgba(255, 69, 0, 0.3); }
+    .nav-menu.active .dropdown li strong.sub-header { padding: 0.7rem 1.5rem 0.2rem 1.5rem; background-color: rgba(0, 0, 0, 0.1); color: #ffcc80; white-space: normal; line-height: 1.4; margin-top: 0.5em; display: flex; align-items: center; }
 
-    .nav-menu.active .main-menu > li > a {
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
-        width: 100%;
-        height: auto;
-        border-bottom: none;
-        color: var(--light-text);
-    }
-     .nav-menu.active .main-menu > li > a:hover {
-         background-color: rgba(255, 69, 0, 0.2);
-         color: var(--accent-color);
-         border-bottom-color: transparent;
-    }
-
-     .nav-menu.active .main-menu > li > a > i.fa-caret-down {
-        transition: transform 0.3s ease;
-    }
-     .nav-menu.active .main-menu .has-dropdown.open > a > i.fa-caret-down {
-        transform: rotate(180deg);
-    }
-
-
-    /* Mobile Dropdown Styles */
-    .nav-menu.active .dropdown {
-        display: none;
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        width: 100%;
-        background: rgba(0,0,0,0.2);
-        box-shadow: none;
-        border-top: 1px solid var(--border-color);
-        border-radius: 0;
-        padding: 0;
-        margin-top: 0;
-        transition: none;
-        min-width: unset;
-    }
-
-    .nav-menu.active .has-dropdown.open > .dropdown {
-        display: block;
-    }
-
-     .nav-menu.active .dropdown li a {
-        padding: 0.8rem 1rem 0.8rem 2.5rem;
-        font-size: 0.9rem;
-        border-bottom: 1px solid rgba(68, 68, 68, 0.5);
-        color: var(--light-text);
-        white-space: normal;
-        line-height: 1.4;
-        display: block;
-    }
-     .nav-menu.active .dropdown li:last-child a {
-         border-bottom: none;
-    }
-
-     .nav-menu.active .dropdown li a:hover,
-     .nav-menu.active .dropdown li a:focus {
-        background: rgba(255, 69, 0, 0.3);
-    }
-
-    .nav-menu.active .dropdown li strong.sub-header {
-         padding: 0.7rem 1.5rem 0.2rem 1.5rem; /* Adjusted mobile padding */
-         background-color: rgba(0, 0, 0, 0.1);
-         color: #ffcc80;
-         white-space: normal;
-         line-height: 1.4;
-         margin-top: 0.5em;
-         display: flex;
-         align-items: center;
-    }
-
-    /* Style for ALL icons within mobile sub-headers */
+    /* Mobile Icon Spacing */
     .nav-menu.active .dropdown li strong i.fa-fire,
     .nav-menu.active .dropdown li strong i.fa-shield-alt,
     .nav-menu.active .dropdown li strong i.fa-info-circle,
@@ -599,27 +419,13 @@ a:hover { color: #b71c1c; text-decoration: underline; }
         font-size: 0.9em;
         flex-shrink: 0;
     }
-
-
-     .nav-menu.active .dropdown li a.sub-item {
-        padding-left: 2.8rem; /* Adjusted mobile indent */
-        padding-right: 1rem;
-    }
+    .nav-menu.active .dropdown li a.sub-item { padding-left: 2.8rem; padding-right: 1rem; }
 
 } /* End Mobile Media Query */
 
 
-/* --- Styles moved from inline --- */
-#navbar-logo {
-    height: 45px; /* Logo height */
-    width: auto;
-    vertical-align: middle;
-    margin-right: 0.5rem;
-}
-.logo-container {
-    display: flex;
-    align-items: center;
-}
+/* --- Styles moved from previous inline block --- */
+/* (Includes Hero, Sections, Map Guide, Prevention Grid, CTA, Gallery, etc.) */
 .hero { background: url('/images/hero-bg.jpg') no-repeat center center/cover; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); padding: 4rem 1rem; display: flex; align-items: center; justify-content: center; min-height: 60vh; }
 .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; text-align: center; max-width: 800px; }
 .hero h1 { color: var(--light-text, #f5f5f5); text-shadow: 2px 2px 5px var(--primary-color, #ff4500); margin-bottom: 0.5em; font-size: clamp(2.2rem, 6vw, 3.5rem); text-align: center;}
@@ -678,13 +484,25 @@ hr.section-divider {
   width: 60%;
 }
 
-/* Additional styles for map structure if needed */
-.map-section { padding: 2rem 0; }
-.map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-.map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif;}
-#fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1;}
-
 /* Ensure React map div takes height */
 #root { /* Container for React app */ }
 #root .map-container { /* Style the container INSIDE React if needed */ }
 #root #map { height: 70vh; /* Explicit height for map div inside React */ }
+
+/* Logo Styles from base file upload - Added here for completeness */
+#navbar-logo {
+    height: 45px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Ensuring map styles from original file if different */
+.map-section { padding: 2rem 0; }
+.map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif;}
+#fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1;}
