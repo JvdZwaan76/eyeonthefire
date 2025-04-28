@@ -236,7 +236,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .dropdown li strong.sub-header {
     display: flex;
     align-items: center;
-    padding: 0.7rem 2.2rem 0.2rem; /* Adjusted left padding */
+    padding: 0.7rem 2.2rem 0.2rem; /* Maintain overall padding */
     color: #ffcc80; /* Lighter, glowing gold */
     font-weight: 700;
     font-size: 0.9rem;
@@ -246,16 +246,17 @@ a:hover { color: #b71c1c; text-decoration: underline; }
     margin-top: 0.5em; /* Apply top margin to ALL sub-headers */
 }
 
-/* === REMOVED RULE THAT TARGETED :first-child sub-header === */
-/* Now all sub-headers will get the 0.5em top margin from the rule above */
 
-/* Style for fire icon in headers */
+/* Style for icons within sub-headers */
 .dropdown li strong i.fa-fire,
-.dropdown li strong i.fa-shield-alt { /* Added shield icon selector */
+.dropdown li strong i.fa-shield-alt {
     color: var(--secondary-color); /* Orange Color */
-    margin-right: 0.6em;
-    padding-left: 0.4em; /* Added left padding */
-    font-size: 0.9em;
+    /* === ADJUSTED MARGIN-RIGHT FOR SPACING === */
+    margin-right: 0.8em; /* Increased space between icon and text */
+    /* === END ADJUSTMENT === */
+    padding-left: 0.4em; /* This affects space before the icon, keep as is */
+    font-size: 0.9em; /* Font size of the icon itself */
+    flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
 .dropdown li a.sub-item {
@@ -630,8 +631,19 @@ a:hover { color: #b71c1c; text-decoration: underline; }
          white-space: normal; /* Allow wrap */
          line-height: 1.4;
          margin-top: 0.5em; /* Apply top margin to ALL sub-headers */
+         display: flex; /* Ensure flex for icon alignment */
+         align-items: center; /* Align icon vertically */
     }
-    /* === REMOVED RULE THAT TARGETED :first-child sub-header for mobile === */
+
+     /* Style for icons within mobile sub-headers */
+    .nav-menu.active .dropdown li strong i.fa-fire,
+    .nav-menu.active .dropdown li strong i.fa-shield-alt {
+        color: var(--secondary-color);
+        margin-right: 0.8em; /* Ensure consistent spacing */
+        font-size: 0.9em;
+        flex-shrink: 0;
+    }
+
 
      .nav-menu.active .dropdown li a.sub-item {
         padding-left: 3.5rem; /* Indent */
