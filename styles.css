@@ -88,7 +88,7 @@ a:hover { color: #b71c1c; text-decoration: underline; }
 .hero-content { background-color: rgba(44, 44, 44, 0.7); padding: 2.5rem; border-radius: 8px; max-width: 800px; }
 .hero h1 { margin-bottom: 0.5em; text-shadow: 2px 2px 5px var(--primary-color); color: var(--light-text); }
 .hero p { font-size: 1.2em; margin-bottom: 1.5em; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--light-text); line-height: 1.6;}
-.cta-button { background-color: var(--primary-color); color: white; padding: 0.8em 1.8em; text-decoration: none; border-radius: 5(5px); font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.1em; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1.5rem; }
+.cta-button { background-color: var(--primary-color); color: white; padding: 0.8em 1.8em; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.1em; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin-top: 1.5rem; }
 .cta-button:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
 
 /* --- Content Section Styles (From your file) --- */
@@ -106,116 +106,31 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 #map-loading-message, #map-error-message { position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001; }
 #map-error-message { color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; }
 #geolocation-error { text-align: center; color: #b71c1c; margin-top: 10px; display: none; }
-
 /* React Map Container */
-#root .map-container {
-    position: relative; /* Essential for absolute positioning of children */
-    width: 100%; /* Take available width */
-    max-width: 100%; /* Ensure it respects parent width */
-    margin: 0 auto; /* Center within its parent container */
-    /* Add a min-height to ensure the container has dimension even before the map loads,
-       matching the map's initial height */
-    min-height: 70vh; /* Should match the default #root #map height */
-    /* Existing styles below */
-    padding: 0;
-    box-shadow: none;
-    border-radius: 5px; /* Apply border-radius here to the container */
-    border: 1px solid #ddd; /* Apply border here to the container */
-    background: none; /* Or set a background if needed */
-    overflow: hidden; /* Hide any potential overflow */
-}
-
-/* Loading overlay to perfectly cover the map-container */
-#root .loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; /* Cover the full width of the positioned parent (.map-container) */
-    height: 100%; /* Cover the full height of the positioned parent (.map-container) */
-    /* Ensure it's above the map but below controls if needed (controls have no explicit z-index) */
-    z-index: 10; /* A value clearly above the map (default z-index is auto/0) */
-    /* Existing styles below */
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    border-radius: 5px; /* Match container border-radius */
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s linear 0s;
-}
-#root .loading-overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-}
-
-
-/* Map element within the container */
-#root #map {
-    height: 100%; /* Make map fill the height of its container by default */
-    width: 100%; /* Make map fill the width of its container by default */
-    /* Remove border-radius and border from here if applied to the container */
-    border-radius: 0; /* Reset or remove if set on container */
-    border: none; /* Reset or remove if set on container */
-    z-index: 5; /* Ensure map is below the overlay */
-}
-
-/* Map Controls position - ensure they are above the overlay if needed */
-#root .controls {
-    position: relative; /* Set position to ensure z-index works */
-    z-index: 20; /* Higher than overlay */
-    /* Existing styles below */
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px 0;
-    margin-bottom: 10px;
-}
-
-/* Error message position - ensure it is above the overlay if needed */
-#root .error-message {
-     position: relative; /* Set position to ensure z-index works */
-     z-index: 20; /* Higher than overlay and controls */
-     /* Existing styles below */
-    background-color: #ffdddd;
-    border-left: 6px solid #f44336;
-    color: #5a0000;
-    padding: 15px;
-    margin: 15px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    max-width: 90%;
-}
-
-
-/* Desktop Adjustments */
-@media (min-width: 992px) {
-    #map-section .container {
-        display: flex;
-        flex-direction: column; /* Stack content within the container */
-        align-items: center; /* Center content */
-    }
-
-    #root .map-container {
-        max-width: 700px; /* Keep the width limited */
-        width: 100%; /* Ensure it respects max-width */
-        height: 50vh; /* Set a specific, smaller height for desktop */
-        min-height: unset; /* Remove the min-height set for smaller screens */
-        margin-top: 20px; /* Add space */
-        margin-bottom: 20px; /* Add space */
-    }
-
-    /* #root #map height and width should be 100% of container, as set above */
-    /* height: 100%; */
-    /* width: 100%; */
-}
-
+#root .map-container { margin: 0; padding: 0; box-shadow: none; border-radius: 0; max-width: none; background: none; position: relative; }
+#root #map { height: 70vh; border-radius: 5px; border: 1px solid #ddd; }
+/* Map Controls from React Structure */
+#root .controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; margin-bottom: 10px; }
+#root .controls button { padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+#root .controls button:hover { background: var(--secondary-color); transform: translateY(-1px); }
+#root .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9998; backdrop-filter: blur(4px); border-radius: 5px; opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+#root .loading-overlay.hidden { opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+#root .flame-loader { width: 50px; height: 70px; position: relative; margin-bottom: 20px; }
+#root .flame-loader::before, #root .flame-loader::after { content: ''; position: absolute; bottom: 0; width: 20px; height: 50px; background: var(--secondary-color); border-radius: 50% 50% 20% 20%; animation: flicker 1.5s infinite ease-in-out; transform-origin: bottom center; }
+#root .flame-loader::before { left: 5px; background: var(--primary-color); animation-delay: 0s; }
+#root .flame-loader::after { right: 5px; background: var(--secondary-color); animation-delay: 0.5s; }
+@keyframes flicker { 0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; } 50% { transform: scaleY(0.8) rotate(2deg); opacity: 0.8; } }
+#root .loading-overlay p { color: var(--light-text); font-family: 'Montserrat', sans-serif; margin-top: 10px; text-shadow: 1px 1px 2px black; }
+#root .error-message { background-color: #ffdddd; border-left: 6px solid #f44336; color: #5a0000; padding: 15px; margin: 15px auto; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 990; max-width: 90%; }
+#root .error-message button { background: none; border: none; font-size: 1.5rem; color: #f44336; cursor: pointer; line-height: 1; padding: 0 5px; }
+/* Map Usage Guide */
+.map-usage-guide { max-width: 700px; margin: 2rem auto 2rem auto; text-align: left; background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px; border-left: 6px solid var(--accent-color, #ffd700); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+.map-usage-guide h4 { margin-top: 0; color: var(--primary-color, #ff4500); font-family: 'Montserrat', sans-serif; margin-bottom: 1.25rem; text-align: left; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+.map-usage-guide ul { list-style: none; padding-left: 0; }
+.map-usage-guide li { margin-bottom: 1em; display: flex; align-items: flex-start; }
+.map-usage-guide li i { color: var(--primary-color, #ff4500); margin-right: 1em; width: 1.2em; text-align: center; font-size: 1.1em; flex-shrink: 0; padding-top: 0.15em; }
+.map-usage-guide li span { line-height: 1.5; }
+.data-source-note { font-size: 0.9em; color: #666; margin-top: 1rem; text-align: center; }
 
 /* --- Prevention Grid Styles (From your file) --- */
 .prevention-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
@@ -270,100 +185,4 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 .navbar .logo-link:hover .logo-container span { color: var(--secondary-color); }
 
 /* Final Nav Structure Base */
-.navbar .navbar-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; height: 100%; }
-.navbar .nav-menu { display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none; }
-.navbar .main-menu { display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch; }
-.navbar .main-menu li { position: relative; display: flex; align-items: stretch; border-bottom: none; }
-.navbar .main-menu > li > a { color: var(--light-text); text-decoration: none; padding: 0 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; height: 100%; position: relative; transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease; border-bottom: 3px solid transparent; white-space: nowrap; cursor: pointer; }
-.navbar .main-menu > li > a > i.fa-caret-down { margin-left: 0.4em; font-size: 0.8em; transition: transform 0.3s ease; }
-.navbar .main-menu > li:hover > a { color: var(--accent-color); background-color: rgba(255, 69, 0, 0.1); border-bottom-color: var(--primary-color); }
-.navbar .main-menu > li:hover > a > i.fa-caret-down { transform: rotate(180deg); }
-
-/* Final Desktop Dropdown Styles */
-.navbar .dropdown { display: none; position: absolute; top: 100%; left: 0; background: linear-gradient(to bottom, #331a00, #261300); list-style: none; padding: 0.5rem 0; margin: 0; min-width: 220px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); border-top: 2px solid var(--primary-color); border-radius: 0 0 5px 5px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; z-index: 1100; animation: subtle-fire-bg 5s infinite alternate; }
-@media (hover: hover) and (min-width: 992px) { .navbar .has-dropdown:hover > .dropdown, .navbar .has-dropdown > a:focus + .dropdown { display: block; opacity: 1; visibility: visible; transform: translateY(0); } }
-.navbar .dropdown li a { padding: 0.8rem 1.2rem; color: var(--light-text); text-decoration: none; display: block; font-family: 'Open Sans', sans-serif; font-size: 0.95rem; transition: background-color 0.2s ease, color 0.2s ease; white-space: nowrap; background: none; }
-.navbar .dropdown li strong.sub-header { display: flex; align-items: center; padding: 0.7rem 1.5rem 0.2rem 1.5rem; color: #ffcc80; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; background: none; margin-top: 0.5em; }
-/* Corrected Icon Spacing */
- .navbar .dropdown li strong i.fa-fire,
- .navbar .dropdown li strong i.fa-shield-alt,
- .navbar .dropdown li strong i.fa-info-circle,
- .navbar .dropdown li strong i.fa-map,
- .navbar .dropdown li strong i.fa-envelope { color: var(--secondary-color); margin-right: 0.6em; padding-left: 0; font-size: 0.9em; flex-shrink: 0; }
-.navbar .dropdown li a.sub-item { padding-left: 2.8rem; font-size: 0.9rem; color: #eee; }
-.navbar .dropdown li a:hover, .navbar .dropdown li a:focus { background: rgba(255, 69, 0, 0.8); color: #fff; outline: none; }
-.navbar .dropdown li a.sub-item:hover, .navbar .dropdown li a.sub-item:focus { background: rgba(255, 140, 0, 0.8); }
-
-/* Final Hamburger styles */
-.navbar .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 10px; z-index: 10001; order: 3; margin-left: 1rem; }
-.navbar .hamburger .line { display: block; width: 28px; height: 3px; background: var(--light-text); margin: 6px 0; transition: all 0.4s ease-in-out; border-radius: 2px; }
-.navbar .hamburger.active .line1 { transform: rotate(-45deg) translate(-7px, 7px); background-color: var(--primary-color); }
-.navbar .hamburger.active .line2 { opacity: 0; }
-.navbar .hamburger.active .line3 { transform: rotate(45deg) translate(-6px, -7px); background-color: var(--primary-color); }
-
-
-/* Final Mobile Navigation Styles */
-@media (max-width: 991.98px) {
-    .navbar .hamburger { display: block; }
-    /* Ensure old nav menu hidden */
-    .navbar .navbar-header .nav-menu { display: none; }
-    /* Target new nav structure */
-    .navbar .nav-menu { display: none; }
-    .navbar .navbar-container .main-menu { display: none; }
-
-    .navbar .nav-menu.active { display: block; position: fixed; left: 0; top: var(--navbar-height); width: 80%; max-width: 320px; height: calc(100vh - var(--navbar-height)); background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a); box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding-top: 1rem; overflow-y: auto; z-index: 1099; border-right: 2px solid var(--primary-color); animation: slideIn 0.4s ease-in-out forwards; }
-    @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-
-    .navbar .nav-menu.active .main-menu { display: flex; flex-direction: column; width: 100%; height: auto; gap: 0; align-items: stretch; }
-    .navbar .nav-menu.active .main-menu li { width: 100%; border-bottom: 1px solid var(--border-color); }
-    .navbar .nav-menu.active .main-menu li:last-child { border-bottom: none; }
-    .navbar .nav-menu.active .main-menu > li > a { display: flex; justify-content: space-between; padding: 1rem 1.5rem; width: 100%; height: auto; border-bottom: none; color: var(--light-text); }
-    .navbar .nav-menu.active .main-menu > li > a:hover { background-color: rgba(255, 69, 0, 0.2); color: var(--accent-color); border-bottom-color: transparent; }
-    .navbar .nav-menu.active .main-menu .has-dropdown.open > a > i.fa-caret-down { transform: rotate(180deg); }
-
-    .navbar .nav-menu.active .dropdown { display: none; position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background: rgba(0,0,0,0.2); box-shadow: none; border-top: 1px solid var(--border-color); border-radius: 0; padding: 0; margin-top: 0; transition: none; min-width: unset; }
-    .navbar .nav-menu.active .has-dropdown.open > .dropdown { display: block; }
-    .navbar .nav-menu.active .dropdown li a { padding: 0.8rem 1rem 0.8rem 2.5rem; font-size: 0.9rem; border-bottom: 1px solid rgba(68, 68, 68, 0.5); color: var(--light-text); white-space: normal; line-height: 1.4; display: block; }
-    .navbar .nav-menu.active .dropdown li:last-child a { border-bottom: none; }
-    .navbar .nav-menu.active .dropdown li a:hover, .navbar .nav-menu.active .dropdown li a:focus { background: rgba(255, 69, 0, 0.3); }
-    .navbar .nav-menu.active .dropdown li strong.sub-header { padding: 0.7rem 1.5rem 0.2rem 1.5rem; background-color: rgba(0, 0, 0, 0.1); color: #ffcc80; white-space: normal; line-height: 1.4; margin-top: 0.5em; display: flex; align-items: center; }
-
-    /* Corrected Mobile Icon Spacing */
-    .navbar .nav-menu.active .dropdown li strong i.fa-fire,
-    .navbar .nav-menu.active .dropdown li strong i.fa-shield-alt,
-    .navbar .nav-menu.active .dropdown li strong i.fa-info-circle,
-    .navbar .nav-menu.active .dropdown li strong i.fa-map,
-    .navbar .nav-menu.active .dropdown li strong i.fa-envelope { color: var(--secondary-color); margin-right: 0.6em; font-size: 0.9em; flex-shrink: 0; }
-    .navbar .nav-menu.active .dropdown li a.sub-item { padding-left: 2.8rem; padding-right: 1rem; }
-
-} /* End Mobile Media Query */
-
-/* Final Focus Styles */
-a:focus, button:focus, input:focus { outline: 2px solid var(--secondary-color, #ff8c00); outline-offset: 2px; }
-.navbar .hamburger:focus { outline: none; }
-.navbar .hamburger:focus-visible .line { outline: 1px dashed var(--accent-color, #ffd700); }
-
-/* General Layout Helpers */
-.text-center { text-align: center; }
-
-@media (min-width: 992px) {
-    #map-section .container {
-        display: flex;
-        flex-direction: column; /* Stack content within the container */
-        align-items: center; /* Center content */
-    }
-
-    #root .map-container {
-        max-width: 700px; /* Keep the width limited */
-        width: 100%; /* Ensure it respects max-width */
-        height: 50vh; /* Set a specific, smaller height for desktop */
-        min-height: unset; /* Remove the min-height set for smaller screens */
-        margin-top: 20px; /* Add space */
-        margin-bottom: 20px; /* Add space */
-    }
-
-     #root #map {
-         height: 100%; /* Make map fill the height of its container */
-         width: 100%; /* Make map fill the width of its container */
-     }
-}
+.navbar .navbar-container
