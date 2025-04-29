@@ -102,13 +102,13 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 .map-section { padding: 2rem 0; }
 .map-wrapper { position: relative; max-width: 1600px; margin: 0 auto; padding: 1rem; background: #fff; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
 .map-header { text-align: center; font-size: 1.5em; font-weight: bold; color: var(--secondary-color); margin-bottom: 1rem; font-family: 'Montserrat', sans-serif; }
-#fire-map { height: 70vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1; }
+#fire-map { height: 50vh; width: 100%; border-radius: 4px; border: 1px solid #ddd; position: relative; z-index: 1; }
 #map-loading-message, #map-error-message { position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 1.2em; color: #555; z-index: 1001; }
 #map-error-message { color: red; display: none; text-align:center; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 5px; }
 #geolocation-error { text-align: center; color: #b71c1c; margin-top: 10px; display: none; }
 /* React Map Container */
 #root .map-container { margin: 0; padding: 0; box-shadow: none; border-radius: 0; max-width: none; background: none; position: relative; }
-#root #map { height: 70vh; border-radius: 5px; border: 1px solid #ddd; }
+#root #map { height: 50vh; border-radius: 5px; border: 1px solid #ddd; }
 /* Map Controls from React Structure */
 #root .controls { display: flex; justify-content: center; gap: 10px; padding: 10px 0; margin-bottom: 10px; }
 #root .controls button { padding: 8px 15px; background: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -188,7 +188,7 @@ hr.section-divider { border: 0; height: 1px; background-image: linear-gradient(t
 .navbar .nav-menu { display: flex; align-items: stretch; height: 100%; margin-left: auto; position: static; width: auto; background: none; z-index: auto; padding-top: 0; overflow: visible; transform: none; transition: none; flex-direction: row; box-shadow: none; border-right: none; }
 .navbar .main-menu { display: flex; flex-direction: row; flex-wrap: nowrap; list-style: none; gap: 0.5rem; margin: 0; padding: 0; height: 100%; align-items: stretch; }
 .navbar .main-menu li { position: relative; display: flex; align-items: stretch; border-bottom: none; }
-.navbar .main-menu > li > a { color: var(--light-text); text-decoration: none; padding: 0 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; height: 100%; position: relative; transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease; border-bottom: 3px solid transparent; white-space: nowrap; cursor: pointer; }
+.navbar .main-menu > li > a { color: var(--light-text); text-decoration: none; padding: 0 1rem; font-family: 'Montserrata'; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; height: 100%; position: relative; transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease; border-bottom: 3px solid transparent; white-space: nowrap; cursor: pointer; }
 .navbar .main-menu > li > a > i.fa-caret-down { margin-left: 0.4em; font-size: 0.8em; transition: transform 0.3s ease; }
 .navbar .main-menu > li:hover > a { color: var(--accent-color); background-color: rgba(255, 69, 0, 0.1); border-bottom-color: var(--primary-color); }
 .navbar .main-menu > li:hover > a > i.fa-caret-down { transform: rotate(180deg); }
