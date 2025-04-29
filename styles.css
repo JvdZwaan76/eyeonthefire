@@ -1,35 +1,4 @@
-/* Reset default margins and paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Basic page styling */
-body {
-    font-family: "Inter", sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    line-height: 1.6;
-}
-
-/* Header/Navbar styling */
-header {
-    background: linear-gradient(90deg, #1a73e8 0%, #4285f4 100%);
-    padding: 1rem 2rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 10000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Main content styling */
-main {
-    padding-top: 80px;
-}
-
-/* Map container styling with position: relative fix */
+/* Base styles for map container */
 #root .map-container {
     margin: 0;
     padding: 0;
@@ -37,10 +6,10 @@ main {
     border-radius: 0;
     max-width: none;
     background: none;
-    position: relative; /* Added to contain the loading-overlay */
+    position: relative; /* Ensures loader stays within map container */
 }
 
-/* Loading overlay styling */
+/* Fire-themed loader overlay */
 #root .loading-overlay {
     position: absolute;
     top: 0;
@@ -66,66 +35,33 @@ main {
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
-/* New flame loader animation */
-#root .loading-overlay .flame-loader {
+/* Fire-themed flame loader */
+#root .flame-loader {
     width: 40px;
     height: 60px;
-    position: relative;
-    animation: flicker 1.5s infinite;
-}
-
-#root .loading-overlay .flame-loader::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, #ff4500, #ffa500, #ffff00);
+    background: linear-gradient(to top, #ff4500, #ffa500, #ffff00); /* Fire gradient: red to orange to yellow */
     border-radius: 50% 50% 20% 20%;
-    animation: flamePulse 1s infinite alternate;
+    animation: flicker 1s infinite alternate;
 }
 
-#root .loading-overlay .flame-loader::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 40%;
-    background: #ff4500;
-    top: 60%;
-    left: 20%;
-    border-radius: 50%;
-    animation: smoke 2s infinite;
-}
-
-/* Loading text styling */
-#root .loading-overlay p {
-    color: #fff;
-    font-size: 1.2rem;
-    margin-top: 10px;
-    text-shadow: 0 0 5px rgba(255, 69, 0, 0.8);
-}
-
-/* Keyframes for flame animation */
 @keyframes flicker {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 0.8; }
 }
 
-@keyframes flamePulse {
-    0% { height: 100%; opacity: 1; }
-    100% { height: 90%; opacity: 0.8; }
+/* Fire-themed map control buttons */
+#root .controls button {
+    background-color: #ff4500; /* Fire-themed base color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-@keyframes smoke {
-    0% { transform: translateY(0); opacity: 0.5; }
-    100% { transform: translateY(-20px); opacity: 0; }
-}
-
-/* Map controls styling */
-#root .controls {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 9999;
+#root .controls button:hover {
+    background-color: #ff8c00; /* Darker fire-themed color on hover */
 }
 
 /* Map styling */
