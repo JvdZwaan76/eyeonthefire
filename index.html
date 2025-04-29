@@ -405,19 +405,21 @@
             const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
             useEffect(() => {
-                if (!mapRef.current) {
-                    mapRef.current = L.map('map', { zoomControl: true }).setView(center, zoom);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                    }).addTo(mapRef.current);
-                    if (typeof L.markerClusterGroup === 'function') {
-                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                    } else {
-                        console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                        markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                setTimeout(() => {
+                    if (!mapRef.current) {
+                        mapRef.current = L.map('map', { zoomControl: true }).setView(center, zoom);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors | Eye on the Fire'
+                        }).addTo(mapRef.current);
+                        if (typeof L.markerClusterGroup === 'function') {
+                            markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                        } else {
+                            console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                            markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                        }
+                        mapRef.current.zoomControl.setPosition('topright');
                     }
-                    mapRef.current.zoomControl.setPosition('topright');
-                }
+                }, 1000); // 1 second delay
             }, []);
             useEffect(() => {
                 if (mapRef.current) {
@@ -590,5 +592,5 @@
             }
         });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93818faf2d5ab030',t:'MTc0NTk1ODY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
