@@ -1,47 +1,122 @@
-/* Reset default margins and paddings */
+/* --- EYE ON THE FIRE - STYLES --- */
+
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-color: #ff4500; /* OrangeRed - Core fire color */
+    --secondary-color: #ff8c00; /* DarkOrange */
+    --accent-color: #ffd700; /* Gold - Flame tips */
+    --dark-bg: #2c2c2c; /* Dark grey for contrast */
+    --light-text: #f5f5f5; /* Off-white text */
+    --dark-text: #333;
+    --border-color: #444;
+    --navbar-height: 70px; /* Consistent height */
+}
+
+/* Reset and Base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Basic page styling */
 body {
-    font-family: "Inter", sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    font-family: 'Open Sans', sans-serif;
     line-height: 1.6;
+    color: var(--dark-text);
+    background-color: #f0f0f0; /* Lighter background */
+    padding-top: var(--navbar-height); /* Space for fixed navbar */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* Header/Navbar styling */
-header {
-    background: linear-gradient(90deg, #1a73e8 0%, #4285f4 100%);
-    padding: 1rem 2rem;
+main {
+    flex-grow: 1;
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #b71c1c; /* Original heading color */
+    margin-bottom: 0.75em;
+}
+h1 { font-size: clamp(2.5rem, 5vw, 3rem); font-weight: 700; }
+h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 500; }
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 400; }
+p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; }
+a { color: #cc3333; text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: #b71c1c; text-decoration: underline; }
+
+/* --- Fire-themed Navbar --- */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0 1rem;
+    background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
+    color: var(--light-text);
     position: fixed;
     width: 100%;
     top: 0;
+    left: 0;
     z-index: 10000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: var(--navbar-height);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid var(--primary-color);
 }
 
-/* Main content styling */
-main {
-    padding-top: 80px;
+/* --- Map Container & Loading --- */
+.map-container {
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    max-width: 1600px;
+    margin: 1rem auto;
+    padding: 1rem;
+    overflow: hidden;
 }
 
-/* Map container styling with position: relative fix */
-#root .map-container {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border-radius: 0;
-    max-width: none;
-    background: none;
-    position: relative; /* Ensures loader stays within map container */
+#map { 
+    width: 100%; 
+    border-radius: 4px; 
+    border: 1px solid #ddd; 
+    z-index: 1; 
+    height: 70vh; 
 }
 
-/* Fire-themed loader overlay */
-#root .loading-overlay {
+/* Map controls styling */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+    position: static;
+    z-index: auto;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.controls button {
+    padding: 8px 15px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.controls button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+/* Loader styling */
+.loading-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -60,56 +135,162 @@ main {
     transition: opacity 0.3s ease, visibility 0s linear 0s;
 }
 
-#root .loading-overlay.hidden {
+.loading-overlay.hidden {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
-/* Fire-themed flame loader */
-#root .flame-loader {
-    width: 40px;
-    height: 60px;
-    background: linear-gradient(to top, #ff4500, #ffa500, #ffff00); /* Fire gradient */
+.flame-loader {
+    width: 50px;
+    height: 70px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.flame-loader::before, .flame-loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    height: 50px;
+    background: var(--secondary-color);
     border-radius: 50% 50% 20% 20%;
-    animation: flicker 1s infinite alternate;
+    animation: flicker 1.5s infinite ease-in-out;
+    transform-origin: bottom center;
+}
+
+.flame-loader::before {
+    left: 5px;
+    background: var(--primary-color);
+    animation-delay: 0s;
+}
+
+.flame-loader::after {
+    right: 5px;
+    animation-delay: 0.5s;
 }
 
 @keyframes flicker {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1.1); opacity: 0.8; }
+    0%, 100% { transform: scaleY(1) rotate(-2deg); opacity: 1; }
+    50% { transform: scaleY(1.3) scaleX(1.1) rotate(2deg); opacity: 0.8; }
 }
 
-/* Fire-themed map control buttons */
-#root .controls button {
-    background-color: #ff4500; /* Fire-themed base color */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+/* --- Footer Styling --- */
+.site-footer {
+    background: linear-gradient(to right, #3a200a, #1a1005);
+    color: #a9a9a9;
+    padding: 2.5rem 1rem 1rem;
+    margin-top: auto;
+    border-top: 4px solid var(--primary-color);
 }
 
-#root .controls button:hover {
-    background-color: #ff8c00; /* Darker fire-themed color on hover */
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
 }
 
-/* Map styling */
-#root #map {
-    height: 70vh;
-    border-radius: 5px;
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 1.5rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    #root #map {
-        height: 65vh;
-    }
+.footer-section h3 {
+    color: var(--secondary-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    font-weight: 500;
 }
 
-@media (max-width: 480px) {
-    #root #map {
-        height: 60vh;
-    }
+.footer-section.about .logo-text-footer {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    text-shadow: 1px 1px 2px var(--primary-color);
+    color: var(--light-text);
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-section.about p {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.footer-section.links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section.links li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0.8rem;
+}
+
+.footer-section.links li::before {
+    content: '•';
+    color: var(--secondary-color);
+    font-size: 1.2em;
+    margin-right: 0.7em;
+}
+
+.footer-section.links a {
+    color: #a9a9a9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.footer-section.links a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    color: #a9a9a9;
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+    transform: scale(1.2) rotate(5deg);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.footer-bottom a {
+    color: #a9a9a9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin: 0 0.3em;
+}
+
+.footer-bottom a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
