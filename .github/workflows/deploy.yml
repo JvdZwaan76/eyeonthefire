@@ -1,9 +1,7 @@
 name: Deploy NASA Worker
-
 on:
   push:
     branches: [main]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: npm install wrangler@4.14.0
       - name: Validate Wrangler config
-        run: npx wrangler deploy src/index.js --dry-run
+        run: npx wrangler deploy src/index.jsthe `wrangler.toml` file should be in the root directory of your project.
       - name: Deploy to Cloudflare
         run: npx wrangler deploy src/index.js
         env:
