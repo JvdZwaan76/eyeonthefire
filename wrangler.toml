@@ -1,15 +1,7 @@
 name = "nasa-worker"
 main = "src/index.js"
 compatibility_date = "2025-04-29"
-
-# Optional: Specify Node.js compatibility if your Worker uses Node APIs
 node_compat = true
-
-# Optional: Environment variables (e.g., for NASA API keys)
-[vars]
-NASA_API_KEY = "your-api-key-here"  # Replace with actual key or use Cloudflare secrets
-
-# Optional: Define the route for the /api/nasa/* endpoint
 [[routes]]
 pattern = "eyeonthefire.com/api/nasa/*"
 zone_name = "eyeonthefire.com"
