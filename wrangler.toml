@@ -9,3 +9,6 @@ zone_name = "eyeonthefire.com"
 
 [observability.logs]
 enabled = true
+
+[vars]
+NASA_FIRMS_MAP_KEY = "YOUR_MAP_KEY_HERE" # Placeholder; actual value set via `wrangler secret put`
