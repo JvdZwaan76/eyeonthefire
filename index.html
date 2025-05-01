@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Live US Wildfire Map | Fires near me Tracker</title>
+    <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
     <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
     <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
@@ -405,21 +405,20 @@
             const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
             useEffect(() => {
-                setTimeout(() => {
-                    if (!mapRef.current) {
-                        mapRef.current = L.map('map', { zoomControl: true }).setView(center, zoom);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                        }).addTo(mapRef.current);
-                        if (typeof L.markerClusterGroup === 'function') {
-                            markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                        } else {
-                            console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                            markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-                        }
-                        mapRef.current.zoomControl.setPosition('topright');
+                if (!mapRef.current) {
+                    mapRef.current = L.map('map', { zoomControl: true }).setView(center, zoom);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors | Eye on the Fire'
+                    }).addTo(mapRef.current);
+                    if (typeof L.markerClusterGroup === 'function') {
+                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                    } else {
+                        console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                        markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
                     }
-                }, 1000); // 1 second delay
+                    mapRef.current.zoomControl.setPosition('topright');
+                    console.log('Map initialized with center:', center, 'zoom:', zoom);
+                }
             }, []);
             useEffect(() => {
                 if (mapRef.current) {
@@ -433,12 +432,15 @@
                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
+                        console.log('API response:', data);
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
                             title: event.title || 'Active Fire'
                         }));
+                        console.log('Processed fires:', fireList);
                         setFires(fireList.slice(0, 200));
+                        console.log('Markers added:', fireList.slice(0, 200).length);
                     })
                     .catch(err => {
                         console.error('Error fetching fire data:', err.message);
@@ -592,5 +594,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93818faf2d5ab030',t:'MTc0NTk1ODY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9393162bdc00ed82',t:'MTc0NjE0MjQzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
