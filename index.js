@@ -1,6 +1,8 @@
 export default {
     async fetch(request, env) {
         const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE';
+        // Log MAP_KEY status for debugging (mask most of the key for security)
+        console.log('MAP_KEY status:', MAP_KEY === 'YOUR_MAP_KEY_HERE' ? 'Not set' : `Set (starts with: ${MAP_KEY.slice(0, 4)}...)`);
         if (MAP_KEY === 'YOUR_MAP_KEY_HERE') {
             console.error('MAP_KEY not set in environment variables');
             return new Response(JSON.stringify({ error: 'Internal server error: NASA FIRMS MAP_KEY not configured' }), {
