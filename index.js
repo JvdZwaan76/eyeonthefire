@@ -1,7 +1,6 @@
-```javascript
 export default {
     async fetch(request) {
-        const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/json/viirs-snpp/1/USA/1';
+        const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/json/viirs-snpp/1/USA/1'; // Update this
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
