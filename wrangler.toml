@@ -6,3 +6,6 @@ compatibility_flags = ["nodejs_compat"]
 [[routes]]
 pattern = "eyeonthefire.com/api/nasa/*"
 zone_name = "eyeonthefire.com"
+
+[observability.logs]
+enabled = true
