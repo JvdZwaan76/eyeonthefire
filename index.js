@@ -3,7 +3,7 @@ addEventListener('fetch', event => {
 });
 
 async function handleRequest(request) {
-    const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/v1/...'; // Update this
+    const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/json/viirs-snpp/1/USA/1';
     try {
         const response = await fetch(upstreamUrl, {
             headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
@@ -18,12 +18,12 @@ async function handleRequest(request) {
         }
         const data = await response.json();
         console.log('Upstream data:', JSON.stringify(data).slice(0, 200));
-        const normalizedData = {
-            events: Array.isArray(data) ? data.map(item => ({
-                geometry: [{ coordinates: [item.longitude, item.latitude] }],
-                title: item.name || 'Active Fire'
-            })) : []
-        };
+		const normalizedData = {
+		    events: Array.isArray(data) ? data.map(item => ({
+		        geometry: [{ coordinates: [item.longitude, item.latitude] }], // Adjust field names
+		        title: item.name || 'Active Fire'
+		    })) : []
+		};
         return new Response(JSON.stringify(normalizedData), {
             headers: {
                 'Content-Type': 'application/json',
