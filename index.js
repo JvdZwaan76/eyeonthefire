@@ -13,10 +13,11 @@ export default {
         const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/html/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
         try {
             const response = await fetch(upstreamUrl, {
-                headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
+                headers: { 'User-Agent': 'EyeOnTheFire/1.0' },
+                redirect: 'manual'
             });
             console.log('Upstream status:', response.status, 'Headers:', Object.fromEntries(response.headers));
-            // Check for redirects or non-200 status
+            // Check for redirects
             if (response.status >= 300 && response.status < 400) {
                 const location = response.headers.get('Location') || 'unknown';
                 console.error('Redirect detected:', response.status, 'Location:', location);
@@ -35,7 +36,7 @@ export default {
             }
             // Check Content-Type
             const contentType = response.headers.get('Content-Type') || '';
-            if (!contentType.includes('application/json')) {
+            if (!contentType.includes('application/json') && !contentType.includes('text/csv')) {
                 const errorText = await response.text();
                 console.error('Invalid Content-Type:', contentType, 'Response:', errorText.slice(0, 200));
                 return new Response(JSON.stringify({ error: `Invalid Content-Type from upstream API: ${contentType}` }), {
@@ -43,42 +44,56 @@ export default {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
-            // Clone the response to allow multiple reads
-            const responseClone = response.clone();
-            let data;
-            try {
-                data = await response.json();
-            } catch (jsonError) {
-                const errorText = await responseClone.text();
-                console.error('JSON parse error:', jsonError.message, 'Response:', errorText.slice(0, 200));
-                return new Response(JSON.stringify({ error: `Invalid JSON response from upstream API: ${jsonError.message} - ${errorText.slice(0, 100)}` }), {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' }
+            // Handle CSV response
+            let fireData;
+            if (contentType.includes('text/csv')) {
+                const csvText = await response.text();
+                console.log('CSV data:', csvText.slice(0, 200));
+                // Parse CSV
+                const rows = csvText.trim().split('\n').map(row => row.split(','));
+                const headers = rows[0];
+                fireData = rows.slice(1).map(row => {
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header] = row[index];
+                    });
+                    return obj;
                 });
+            } else {
+                // Handle JSON response (fallback)
+                const responseClone = response.clone();
+                try {
+                    fireData = await response.json();
+                } catch (jsonError) {
+                    const errorText = await responseClone.text();
+                    console.error('JSON parse error:', jsonError.message, 'Response:', errorText.slice(0, 200));
+                    return new Response(JSON.stringify({ error: `Invalid JSON response from upstream API: ${jsonError.message} - ${errorText.slice(0, 100)}` }), {
+                        status: 500,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                }
+                if (fireData.features) {
+                    fireData = fireData.features; // GeoJSON format
+                } else if (!Array.isArray(fireData)) {
+                    console.error('Invalid data format: Expected array or GeoJSON, got:', typeof fireData);
+                    return new Response(JSON.stringify({ error: 'Invalid data format from upstream API' }), {
+                        status: 500,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                }
             }
-            console.log('Upstream data:', JSON.stringify(data).slice(0, 200));
-            // Handle various response formats
-            let fireData = data;
-            if (data.features) {
-                fireData = data.features; // GeoJSON format
-            } else if (!Array.isArray(data)) {
-                console.error('Invalid data format: Expected array or GeoJSON, got:', typeof data);
-                return new Response(JSON.stringify({ error: 'Invalid data format from upstream API' }), {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
+            // Normalize data
             const normalizedData = {
                 events: fireData.map(item => {
-                    const lon = item.geometry?.coordinates?.[0] || item.longitude || item.lon;
-                    const lat = item.geometry?.coordinates?.[1] || item.latitude || item.lat;
+                    const lon = parseFloat(item.longitude || item.geometry?.coordinates?.[0]);
+                    const lat = parseFloat(item.latitude || item.geometry?.coordinates?.[1]);
                     if (!lon || !lat) {
                         console.warn('Skipping invalid item:', item);
                         return null;
                     }
                     return {
-                        geometry: [{ coordinates: [parseFloat(lon), parseFloat(lat)] }],
-                        title: item.properties?.name || item.name || item.acq_date || 'Active Fire'
+                        geometry: [{ coordinates: [lon, lat] }],
+                        title: item.acq_date || item.properties?.name || item.name || 'Active Fire'
                     };
                 }).filter(item => item !== null)
             };
