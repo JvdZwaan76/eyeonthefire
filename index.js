@@ -1,7 +1,7 @@
 export default {
     async fetch(request, env) {
-        const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'd152217c8391eb5b0fbd242290527ae8';
-        if (MAP_KEY === 'd152217c8391eb5b0fbd242290527ae8') {
+        const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE';
+        if (MAP_KEY === 'YOUR_MAP_KEY_HERE') {
             console.error('MAP_KEY not set in environment variables');
             return new Response(JSON.stringify({ error: 'Internal server error: NASA FIRMS MAP_KEY not configured' }), {
                 status: 500,
@@ -10,7 +10,7 @@ export default {
         }
         // Dynamic date for today
         const today = new Date().toISOString().split('T')[0];
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/VIIRS_SNPP_NRT/USA/1/${today}?map_key=${MAP_KEY}`;
+        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/html/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
