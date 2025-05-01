@@ -1,25 +1,45 @@
-```javascript
 export default {
     async fetch(request, env) {
-        const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE'; // Use env variable or fallback
-        if (MAP_KEY === 'YOUR_MAP_KEY_HERE') {
+        const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'd152217c8391eb5b0fbd242290527ae8';
+        if (MAP_KEY === 'd152217c8391eb5b0fbd242290527ae8') {
             console.error('MAP_KEY not set in environment variables');
             return new Response(JSON.stringify({ error: 'Internal server error: NASA FIRMS MAP_KEY not configured' }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' }
             });
         }
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/html/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/2025-05-01`;
+        // Dynamic date for today
+        const today = new Date().toISOString().split('T')[0];
+        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/VIIRS_SNPP_NRT/USA/1/${today}?map_key=${MAP_KEY}`;
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
             });
-            console.log('Upstream status:', response.status);
+            console.log('Upstream status:', response.status, 'Headers:', Object.fromEntries(response.headers));
+            // Check for redirects or non-200 status
+            if (response.status >= 300 && response.status < 400) {
+                const location = response.headers.get('Location') || 'unknown';
+                console.error('Redirect detected:', response.status, 'Location:', location);
+                return new Response(JSON.stringify({ error: `Upstream API redirected: ${response.status} to ${location}` }), {
+                    status: 502,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Upstream error:', errorText, 'Status:', response.status);
                 return new Response(JSON.stringify({ error: `Upstream API failed: ${response.status} ${errorText.slice(0, 100)}` }), {
                     status: 502,
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
+            // Check Content-Type
+            const contentType = response.headers.get('Content-Type') || '';
+            if (!contentType.includes('application/json')) {
+                const errorText = await response.text();
+                console.error('Invalid Content-Type:', contentType, 'Response:', errorText.slice(0, 200));
+                return new Response(JSON.stringify({ error: `Invalid Content-Type from upstream API: ${contentType}` }), {
+                    status: 500,
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
