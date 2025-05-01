@@ -10,7 +10,7 @@ export default {
         }
         // Dynamic date for today
         const today = new Date().toISOString().split('T')[0];
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/html/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
+        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/csv/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' },
@@ -36,7 +36,7 @@ export default {
             }
             // Check Content-Type
             const contentType = response.headers.get('Content-Type') || '';
-            if (!contentType.includes('application/json') && !contentType.includes('text/csv')) {
+            if (!contentType.includes('text/csv')) {
                 const errorText = await response.text();
                 console.error('Invalid Content-Type:', contentType, 'Response:', errorText.slice(0, 200));
                 return new Response(JSON.stringify({ error: `Invalid Content-Type from upstream API: ${contentType}` }), {
@@ -44,56 +44,37 @@ export default {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
-            // Handle CSV response
-            let fireData;
-            if (contentType.includes('text/csv')) {
-                const csvText = await response.text();
-                console.log('CSV data:', csvText.slice(0, 200));
-                // Parse CSV
-                const rows = csvText.trim().split('\n').map(row => row.split(','));
-                const headers = rows[0];
-                fireData = rows.slice(1).map(row => {
-                    const obj = {};
-                    headers.forEach((header, index) => {
-                        obj[header] = row[index];
-                    });
-                    return obj;
+            // Parse CSV response
+            const csvText = await response.text();
+            console.log('CSV data:', csvText.slice(0, 200));
+            const rows = csvText.trim().split('\n').map(row => row.split(','));
+            if (rows.length < 2) {
+                console.error('Empty or invalid CSV data');
+                return new Response(JSON.stringify({ error: 'Empty or invalid CSV data from upstream API' }), {
+                    status: 500,
+                    headers: { 'Content-Type': 'application/json' }
                 });
-            } else {
-                // Handle JSON response (fallback)
-                const responseClone = response.clone();
-                try {
-                    fireData = await response.json();
-                } catch (jsonError) {
-                    const errorText = await responseClone.text();
-                    console.error('JSON parse error:', jsonError.message, 'Response:', errorText.slice(0, 200));
-                    return new Response(JSON.stringify({ error: `Invalid JSON response from upstream API: ${jsonError.message} - ${errorText.slice(0, 100)}` }), {
-                        status: 500,
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                }
-                if (fireData.features) {
-                    fireData = fireData.features; // GeoJSON format
-                } else if (!Array.isArray(fireData)) {
-                    console.error('Invalid data format: Expected array or GeoJSON, got:', typeof fireData);
-                    return new Response(JSON.stringify({ error: 'Invalid data format from upstream API' }), {
-                        status: 500,
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                }
             }
+            const headers = rows[0];
+            const fireData = rows.slice(1).map(row => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = row[index];
+                });
+                return obj;
+            });
             // Normalize data
             const normalizedData = {
                 events: fireData.map(item => {
-                    const lon = parseFloat(item.longitude || item.geometry?.coordinates?.[0]);
-                    const lat = parseFloat(item.latitude || item.geometry?.coordinates?.[1]);
+                    const lon = parseFloat(item.longitude);
+                    const lat = parseFloat(item.latitude);
                     if (!lon || !lat) {
                         console.warn('Skipping invalid item:', item);
                         return null;
                     }
                     return {
                         geometry: [{ coordinates: [lon, lat] }],
-                        title: item.acq_date || item.properties?.name || item.name || 'Active Fire'
+                        title: item.acq_date || 'Active Fire'
                     };
                 }).filter(item => item !== null)
             };
