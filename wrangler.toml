@@ -1,10 +1,9 @@
 ```toml
 name = "nasa-worker"
-main = "src/index.js"
-compatibility_date = "2025-04-30"
+main = "index.js"
+compatibility_date = "2025-05-01"
 compatibility_flags = ["nodejs_compat"]
 
 [[routes]]
 pattern = "eyeonthefire.com/api/nasa/*"
 zone_name = "eyeonthefire.com"
-```
