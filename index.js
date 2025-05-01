@@ -1,7 +1,7 @@
 export default {
     async fetch(request) {
         // Replace with the correct NASA FIRMS endpoint
-        const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/active_fire/viirs-snpp?area=USA&day=1';
+        const upstreamUrl = 'https://firms.modaps.eosdis.nasa.gov/api/active_fire/viirs-snpp?area=USA&day=1'; // Replace if known
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
