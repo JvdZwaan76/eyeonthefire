@@ -1,3 +1,4 @@
+```javascript
 export default {
     async fetch(request, env) {
         const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE'; // Use env variable or fallback
@@ -8,7 +9,7 @@ export default {
                 headers: { 'Content-Type': 'application/json' }
             });
         }
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/viirs-snpp/USA/1?map_key=${MAP_KEY}`;
+        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/html/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/2025-05-01`;
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
