@@ -1,7 +1,14 @@
 export default {
     async fetch(request, env) {
         const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE'; // Use env variable or fallback
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/VIIRS_SNPP/USA/1?map_key=${MAP_KEY}`;
+        if (MAP_KEY === 'YOUR_MAP_KEY_HERE') {
+            console.error('MAP_KEY not set in environment variables');
+            return new Response(JSON.stringify({ error: 'Internal server error: NASA FIRMS MAP_KEY not configured' }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/viirs-snpp/USA/1?map_key=${MAP_KEY}`;
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' }
@@ -15,11 +22,13 @@ export default {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
+            // Clone the response to allow multiple reads
+            const responseClone = response.clone();
             let data;
             try {
                 data = await response.json();
             } catch (jsonError) {
-                const errorText = await response.text();
+                const errorText = await responseClone.text();
                 console.error('JSON parse error:', jsonError.message, 'Response:', errorText.slice(0, 200));
                 return new Response(JSON.stringify({ error: `Invalid JSON response from upstream API: ${jsonError.message} - ${errorText.slice(0, 100)}` }), {
                     status: 500,
