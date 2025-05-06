@@ -1,4 +1,4 @@
-name = "nasa-worker"
+name = "opencage-worker"
 main = "index.js"
 compatibility_date = "2025-05-01"
 # wrangler.toml (wrangler v3.88.0^)
