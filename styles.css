@@ -581,8 +581,10 @@ hr.section-divider {
     display: block;
 }
 
+/* Updated Content with Image Layout */
 .content-with-image {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 2rem;
     margin: 2rem auto;
@@ -590,34 +592,32 @@ hr.section-divider {
 }
 
 .content-with-image img {
-    width: 100%;
+    display: block;
     max-width: 400px;
+    width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin: 0 auto; /* Center the image */
 }
 
 .content-with-image .text {
-    flex: 1;
+    text-align: center;
     font-size: 1em;
     line-height: 1.7;
-    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .content-with-image .text p,
 .content-with-image .text ul {
     text-align: center;
     margin: 0 auto;
-    max-width: 600px;
 }
 
 .content-with-image .text ul {
     list-style-position: inside;
     padding: 0;
-}
-
-.content-with-image.reverse {
-    flex-direction: row-reverse;
 }
 
 /* Prevention Grid */
@@ -1103,7 +1103,6 @@ hr.section-divider {
     }
 
     .content-with-image {
-        flex-direction: column;
         gap: 1.5rem;
         margin: 1.5rem auto;
     }
