@@ -209,7 +209,7 @@
             </button>
             <nav class="nav-menu" id="main-nav">
                 <ul class="main-menu">
-                    <li><a href="#home">Home</a></li>
+                    <li><a href="#home">About</a></li>
                     <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
                         <ul class="dropdown">
                             <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
@@ -348,7 +348,7 @@
             <div class="footer-section links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#map-section">Live US Map</a></li>
+                    <li><a href="#home">About</a></li>
                     <li><a href="#prevention">Prevention Guides</a></li>
                     <li><a href="#community">Emergency Resources</a></li>
                     <li><a href="#about">About Us</a></li>
@@ -380,11 +380,10 @@
         const { useState, useEffect, useRef } = React;
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
-                let response;
                 try {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 5000);
-                    response = await fetch(url, { signal: controller.signal });
+                    const response = await fetch(url, { signal: controller.signal });
                     clearTimeout(timeoutId);
                     if (!response.ok) {
                         const errorText = await response.text();
@@ -412,30 +411,29 @@
             const loadingOverlayRef = useRef(null);
             useEffect(() => {
                 if (!showFallback && !mapRef.current) {
-                    mapRef.current = L.map('map', { zoomControl: true }).setView(center, zoom);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                    }).addTo(mapRef.current);
-                    if (typeof L.markerClusterGroup === 'function') {
-                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                    } else {
-                        console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                        markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                    const mapContainer = document.getElementById('map');
+                    if (mapContainer) {
+                        mapRef.current = L.map(mapContainer, { zoomControl: true }).setView(center, zoom);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors | Eye on the Fire'
+                        }).addTo(mapRef.current);
+                        if (typeof L.markerClusterGroup === 'function') {
+                            markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                        } else {
+                            console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                            markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
+                        }
+                        mapRef.current.zoomControl.setPosition('topright');
                     }
-                    mapRef.current.zoomControl.setPosition('topright');
                 }
                 return () => {
                     if (mapRef.current) {
                         mapRef.current.remove();
                         mapRef.current = null;
+                        markerLayerRef.current = null;
                     }
                 };
-            }, [showFallback]);
-            useEffect(() => {
-                if (mapRef.current && !showFallback) {
-                    mapRef.current.setView(center, zoom);
-                }
-            }, [center, zoom, showFallback]);
+            }, [showFallback, center, zoom]);
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
@@ -443,6 +441,7 @@
                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
+                        console.log('API fetch successful, processing data');
                         const fireList = (data.events || []).map(event => ({
                             lat: event.geometry[0].coordinates[1],
                             lon: event.geometry[0].coordinates[0],
@@ -452,17 +451,18 @@
                         setShowFallback(false);
                     })
                     .catch(err => {
-                        console.error('Error fetching fire data:', err.message);
+                        console.error('Error fetching fire data, switching to fallback:', err.message);
                         setErrorMessage('Failed to load fire data. Showing NASA FIRMS map as fallback.');
                         setShowFallback(true);
                     })
                     .finally(() => {
+                        console.log('Fetch complete, isLoading:', false, 'showFallback:', showFallback);
                         setIsLoading(false);
                         if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                     });
             }, []);
             useEffect(() => {
-                if (markerLayerRef.current && !showFallback) {
+                if (markerLayerRef.current && !showFallback && fires.length > 0) {
                     markerLayerRef.current.clearLayers();
                     const fireIcon = L.icon({
                         iconUrl: '/images/fire-icon.png',
@@ -475,16 +475,25 @@
                     });
                 }
             }, [fires, showFallback]);
-            const handleReset = () => { setCenter(initialCenter); setZoom(initialZoom); setErrorMessage(''); };
+            useEffect(() => {
+                console.log('showFallback state changed:', showFallback);
+            }, [showFallback]);
+            const handleReset = () => {
+                setCenter(initialCenter);
+                setZoom(initialZoom);
+                setErrorMessage('');
+            };
             const handleLocateMe = () => {
-                if (showFallback) return; // Disable geolocation for fallback map
-                setIsLoading(true); setErrorMessage('');
+                if (showFallback) return;
+                setIsLoading(true);
+                setErrorMessage('');
                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
-                            setCenter([latitude, longitude]); setZoom(10);
+                            setCenter([latitude, longitude]);
+                            setZoom(10);
                             setIsLoading(false);
                             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                         },
@@ -504,35 +513,33 @@
             };
             const dismissError = () => setErrorMessage('');
             return (
-                <>
-                    <div className="map-container">
-                        <div ref={loadingOverlayRef} className="loading-overlay">
-                            <div className="flame-loader"></div>
-                            <p>Loading live fire data...</p>
-                        </div>
-                        {!showFallback && (
-                            <div className="controls">
-                                <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
-                                <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
-                            </div>
-                        )}
-                        {errorMessage && (
-                            <div className="error-message">
-                                <span>{errorMessage}</span>
-                                <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                            </div>
-                        )}
-                        {showFallback ? (
-                            <iframe
-                                className="fallback-map"
-                                src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
-                                title="NASA FIRMS Fire Map"
-                            ></iframe>
-                        ) : (
-                            <div id="map"></div>
-                        )}
+                <div className="map-container">
+                    <div ref={loadingOverlayRef} className="loading-overlay">
+                        <div className="flame-loader"></div>
+                        <p>Loading live fire data...</p>
                     </div>
-                </>
+                    {!showFallback && (
+                        <div className="controls">
+                            <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
+                            <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
+                        </div>
+                    )}
+                    {errorMessage && (
+                        <div className="error-message">
+                            <span>{errorMessage}</span>
+                            <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                        </div>
+                    )}
+                    {showFallback ? (
+                        <iframe
+                            className="fallback-map"
+                            src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
+                            title="NASA FIRMS Fire Map"
+                        ></iframe>
+                    ) : (
+                        <div id="map"></div>
+                    )}
+                </div>
             );
         };
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
