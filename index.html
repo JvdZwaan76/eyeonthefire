@@ -382,13 +382,17 @@
             for (let i = 0; i < retries; i++) {
                 let response;
                 try {
-                    response = await fetch(url);
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 5000);
+                    response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
                     if (!response.ok) {
                         const errorText = await response.text();
                         throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
                     return await response.json();
                 } catch (error) {
+                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
                     if (i === retries - 1) throw error;
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
