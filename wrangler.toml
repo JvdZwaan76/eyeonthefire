@@ -1,6 +1,4 @@
-name = "nasa-worker"
-main = "index.js"
-compatibility_date = "2025-05-01"
-# wrangler.toml (wrangler v3.88.0^)
-[observability.logs]
-enabled = true
+[site]
+bucket = "./public"
+entry-point = "index.js"
+include = ["index.html", "about.html", "images/*"]
