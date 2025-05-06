@@ -620,6 +620,34 @@ hr.section-divider {
     padding: 0;
 }
 
+/* Updated Typography for About Page Body Content */
+.content-with-image .text p,
+.content-with-image .text ul {
+    font-size: 1.1em;
+    line-height: 1.8;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 600px;
+    color: #555;
+}
+
+@media (min-width: 1200px) {
+    .content-with-image .text p,
+    .content-with-image .text ul {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-with-image {
+        gap: 1.5rem;
+    }
+    .content-with-image .text p,
+    .content-with-image .text ul {
+        font-size: 1em;
+    }
+}
+
 /* Prevention Grid */
 .prevention-grid {
     display: grid;
