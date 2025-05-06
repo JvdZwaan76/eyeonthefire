@@ -1,6 +1,6 @@
-/* --- EYE ON THE FIRE - STYLES FOR INDEX AND ABOUT PAGES --- */
+/* EYE ON THE FIRE - STYLES FOR INDEX AND ABOUT PAGES */
 
-/* --- Global Styles & Variables --- */
+/* Global Styles & Variables */
 :root {
     --primary-color: #ff4500;
     --secondary-color: #ff8c00;
@@ -67,7 +67,7 @@ a:hover {
     padding: 0 1rem;
 }
 
-/* --- Navbar --- */
+/* Navbar */
 .navbar {
     background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
@@ -449,7 +449,7 @@ a:focus, button:focus, input:focus {
     outline: 1px dashed var(--accent-color);
 }
 
-/* --- Hero Section --- */
+/* Hero Section */
 .hero {
     background: url('/images/hero-bg.jpg') no-repeat center center/cover;
     color: var(--light-text);
@@ -508,7 +508,7 @@ a:focus, button:focus, input:focus {
     transform: translateY(-2px);
 }
 
-/* --- Content Section --- */
+/* Content Section */
 .content-section {
     padding: 3rem 1rem;
     border-bottom: 1px solid #e0e0e0;
@@ -534,6 +534,28 @@ a:focus, button:focus, input:focus {
     font-size: 1.1em;
 }
 
+.content-section .text {
+    text-align: center;
+}
+
+.content-section .text p,
+.content-section .text ul {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.content-section .text ul {
+    list-style-position: inside;
+    padding: 0;
+}
+
+.content-section .text ul li {
+    margin-bottom: 0.5em;
+    font-size: 1em;
+    color: #555;
+}
+
 hr.section-divider {
     border: 0;
     height: 1px;
@@ -542,7 +564,7 @@ hr.section-divider {
     width: 60%;
 }
 
-/* --- Image Layouts --- */
+/* Image Layouts */
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -579,13 +601,26 @@ hr.section-divider {
     flex: 1;
     font-size: 1em;
     line-height: 1.7;
+    text-align: center;
+}
+
+.content-with-image .text p,
+.content-with-image .text ul {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.content-with-image .text ul {
+    list-style-position: inside;
+    padding: 0;
 }
 
 .content-with-image.reverse {
     flex-direction: row-reverse;
 }
 
-/* --- Prevention Grid --- */
+/* Prevention Grid */
 .prevention-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -648,7 +683,7 @@ hr.section-divider {
     color: var(--accent-color);
 }
 
-/* --- Community Section --- */
+/* Community Section */
 .cta-banner {
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     color: white;
@@ -676,7 +711,7 @@ hr.section-divider {
     text-decoration: none;
 }
 
-/* --- Footer --- */
+/* Footer */
 .site-footer {
     background: linear-gradient(to bottom, var(--dark-bg), #1a1a1a);
     color: var(--light-text);
@@ -728,4 +763,123 @@ hr.section-divider {
 
 .footer-section p {
     color: #ccc;
-    font-size
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.footer-section.links ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    list-style-position: inside;
+}
+
+.footer-section.links ul li {
+    margin-bottom: 0.5em;
+}
+
+.footer-section.links ul li a {
+    color: var(--light-text);
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.footer-section.links ul li a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.footer-section.social .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1em;
+}
+
+.footer-section.social .social-icons a {
+    color: var(--light-text);
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.footer-section.social .social-icons a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-bottom {
+    font-size: 0.85em;
+    color: #aaa;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
+}
+
+.footer-bottom a {
+    color: #ccc;
+    margin: 0 0.5em;
+}
+
+.footer-bottom a:hover {
+    color: var(--accent-color);
+}
+
+/* Map Section */
+.map-section {
+    padding: 2rem 0;
+}
+
+.map-wrapper {
+    position: relative;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.map-header {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#fire-map {
+    height: 70vh;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    position: relative;
+    z-index: 1;
+}
+
+#map-loading-message, #map-error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    color: #555;
+    z-index: 1001;
+}
+
+#map-error-message {
+    color: red;
+    display: none;
+    text-align: center;
+    background: rgba(255,255,255,0.8);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#geolocation-error {
+    text-align: center;
+    color: #b71c1c;
+    margin-top: 10px;
+    display: none;
+}
+
+#root .map
