@@ -1,4 +1,4 @@
-/* EYE ON THE FIRE - STYLES FOR INDEX AND ABOUT PAGES */
+/* EYE ON THE FIRE - STYLES FOR ALL PAGES */
 
 /* Global Styles & Variables */
 :root {
@@ -465,6 +465,10 @@ a:focus, button:focus, input:focus {
     background: url('/images/about-hero-bg.jpg') no-repeat center center/cover;
 }
 
+#prepare-hero {
+    background: url('/images/prepare-hero-bg.jpg') no-repeat center center/cover;
+}
+
 .hero-content {
     background-color: rgba(44, 44, 44, 0.7);
     padding: 2rem;
@@ -581,7 +585,6 @@ hr.section-divider {
     display: block;
 }
 
-/* Updated Content with Image Layout */
 .content-with-image {
     display: flex;
     flex-direction: column;
@@ -598,7 +601,7 @@ hr.section-divider {
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    margin: 0 auto; /* Center the image */
+    margin: 0 auto;
 }
 
 .content-with-image .text {
@@ -618,34 +621,6 @@ hr.section-divider {
 .content-with-image .text ul {
     list-style-position: inside;
     padding: 0;
-}
-
-/* Updated Typography for About Page Body Content */
-.content-with-image .text p,
-.content-with-image .text ul {
-    font-size: 1.1em;
-    line-height: 1.8;
-    text-align: center;
-    margin: 0 auto;
-    max-width: 600px;
-    color: #555;
-}
-
-@media (min-width: 1200px) {
-    .content-with-image .text p,
-    .content-with-image .text ul {
-        font-size: 1.2em;
-    }
-}
-
-@media (max-width: 768px) {
-    .content-with-image {
-        gap: 1.5rem;
-    }
-    .content-with-image .text p,
-    .content-with-image .text ul {
-        font-size: 1em;
-    }
 }
 
 /* Prevention Grid */
@@ -1131,6 +1106,7 @@ hr.section-divider {
     }
 
     .content-with-image {
+        flex-direction: column;
         gap: 1.5rem;
         margin: 1.5rem auto;
     }
