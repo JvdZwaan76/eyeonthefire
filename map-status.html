@@ -22,12 +22,21 @@
 </head>
 <body>
     <div id="root"></div>
-    <script data-cfasync="false" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
-    <script type="text/babel" data-cfasync="false">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
+    <script type="text/babel">
+        console.log('Script tag executed');
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+            const rootElement = document.getElementById('root');
+            if (!rootElement) {
+                console.error('Root element not found');
+                return;
+            }
+            console.log('Root element found, rendering component');
+
             const { useState, useEffect, useRef } = React;
 
             const MapComponent = () => {
@@ -82,8 +91,7 @@
                     }
                 }, [fires, showFallback]);
 
-                console.log('Rendering, showFallback:', showFallback);
-
+                console.log('Rendering component, showFallback:', showFallback);
                 return (
                     <div className="map-container">
                         {showFallback ? (
@@ -99,7 +107,8 @@
                 );
             };
 
-            ReactDOM.render(<MapComponent />, document.getElementById('root'));
+            ReactDOM.render(<MapComponent />, rootElement);
+            console.log('ReactDOM.render called');
         });
     </script>
 </body>
