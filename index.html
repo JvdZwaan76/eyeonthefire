@@ -217,6 +217,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -236,6 +237,7 @@
                 }
             }
         };
+
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
             const [center, setCenter] = useState([39.8283, -98.5795]);
@@ -243,11 +245,48 @@
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const [showFallback, setShowFallback] = useState(false);
+            const [status, setStatus] = useState('loading');
             const mapRef = useRef(null);
             const markerLayerRef = useRef(null);
             const initialCenter = [39.8283, -98.5795];
             const initialZoom = 4;
             const loadingOverlayRef = useRef(null);
+
+            const loadFireData = () => {
+                setIsLoading(true);
+                setErrorMessage('');
+                if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
+                fetchWithRetry(fireApiUrl)
+                    .then(data => {
+                        const fireList = (data.events || []).map(event => ({
+                            lat: parseFloat(event.geometry[0].coordinates[1]),
+                            lon: parseFloat(event.geometry[0].coordinates[0]),
+                            title: event.title || 'Active Fire'
+                        })).filter(fire => !isNaN(fire.lat) && !isNaN(fire.lon) && fire.lat >= -90 && fire.lat <= 90 && fire.lon >= -180 && fire.lon <= 180);
+                        setFires(fireList.slice(0, 200));
+                        if (fireList.length === 0) {
+                            setStatus('no-fires');
+                        } else {
+                            setStatus('loaded');
+                        }
+                        setShowFallback(false);
+                    })
+                    .catch(err => {
+                        console.error('Error fetching fire data:', err.message);
+                        setStatus('error');
+                        setShowFallback(true);
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                        if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                    });
+            };
+
+            useEffect(() => {
+                loadFireData();
+            }, []);
+
             useEffect(() => {
                 if (!showFallback && !mapRef.current) {
                     const mapContainer = document.getElementById('map');
@@ -273,33 +312,13 @@
                     }
                 };
             }, [showFallback, center, zoom]);
+
             useEffect(() => {
-                setIsLoading(true);
-                setErrorMessage('');
-                if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-                const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
-                fetchWithRetry(fireApiUrl)
-                    .then(data => {
-                        console.log('API fetch successful, processing data');
-                        const fireList = (data.events || []).map(event => ({
-                            lat: event.geometry[0].coordinates[1],
-                            lon: event.geometry[0].coordinates[0],
-                            title: event.title || 'Active Fire'
-                        }));
-                        setFires(fireList.slice(0, 200));
-                        setShowFallback(false);
-                    })
-                    .catch(err => {
-                        console.error('Error fetching fire data, switching to fallback:', err.message);
-                        setErrorMessage('Failed to load fire data. Showing NASA FIRMS map as fallback.');
-                        setShowFallback(true);
-                    })
-                    .finally(() => {
-                        console.log('Fetch complete, isLoading:', false, 'showFallback:', showFallback);
-                        setIsLoading(false);
-                        if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-                    });
-            }, []);
+                if (mapRef.current && !showFallback) {
+                    mapRef.current.flyTo(center, zoom, { duration: 1.5 });
+                }
+            }, [center, zoom]);
+
             useEffect(() => {
                 if (markerLayerRef.current && !showFallback && fires.length > 0) {
                     markerLayerRef.current.clearLayers();
@@ -314,14 +333,13 @@
                     });
                 }
             }, [fires, showFallback]);
-            useEffect(() => {
-                console.log('showFallback state changed:', showFallback);
-            }, [showFallback]);
+
             const handleReset = () => {
                 setCenter(initialCenter);
                 setZoom(initialZoom);
                 setErrorMessage('');
             };
+
             const handleLocateMe = () => {
                 if (showFallback) return;
                 setIsLoading(true);
@@ -350,17 +368,35 @@
                     if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                 }
             };
+
             const dismissError = () => setErrorMessage('');
+
             return (
                 <div className="map-container">
                     <div ref={loadingOverlayRef} className="loading-overlay">
                         <div className="flame-loader"></div>
                         <p>Loading live fire data...</p>
                     </div>
+                    <div className="map-status">
+                        {isLoading ? (
+                            <p>Fetching fire data...</p>
+                        ) : showFallback ? (
+                            <p>Using fallback map due to data unavailability.</p>
+                        ) : fires.length === 0 ? (
+                            <p>No active fires detected at this time.</p>
+                        ) : (
+                            <p>Displaying {fires.length} active fires.</p>
+                        )}
+                    </div>
                     {!showFallback && (
                         <div className="controls">
                             <button onClick={handleReset} title="Reset Map View to US">Reset View</button>
                             <button onClick={handleLocateMe} title="Center Map on My Location">Locate Me</button>
+                        </div>
+                    )}
+                    {showFallback && (
+                        <div className="fallback-controls">
+                            <button onClick={loadFireData}>Try loading interactive map again</button>
                         </div>
                     )}
                     {errorMessage && (
@@ -374,6 +410,8 @@
                             className="fallback-map"
                             src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
                             title="NASA FIRMS Fire Map"
+                            frameBorder="0"
+                            allowFullScreen
                         ></iframe>
                     ) : (
                         <div id="map"></div>
@@ -381,6 +419,7 @@
                 </div>
             );
         };
+
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
     <script>
@@ -461,5 +500,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93b9ba012ab27ba5',t:'MTc0NjU0NzYwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93b9ba012ab27ba5',t:'MTc0NjU0NzYwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c2d35fcee4bd2f',t:'MTc0NjY0MzAxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
