@@ -10,15 +10,14 @@
     <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
+    <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg"> {/* Ensure this path is correct */}
     <link rel="canonical" href="https://eyeonthefire.com/">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Favicon Links -->
+    <link rel="stylesheet" href="styles.css"> {/* Your custom styles */}
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
@@ -37,6 +36,7 @@
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                 <div class="logo-container">
+                    {/* Ensure this image path is correct */}
                     <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
                     <span>Eye on the Fire</span>
                 </div>
@@ -48,57 +48,18 @@
             </button>
             <nav class="nav-menu" id="main-nav">
                 <ul class="main-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li class="has-dropdown">
-                        <a href="prepare.html">Prepare <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
-                            <li><a href="prepare.html#home-hardening" class="sub-item">Home Hardening</a></li>
-                            <li><a href="prepare.html#defensible-space" class="sub-item">Defensible Space</a></li>
-                            <li><a href="prepare.html#fire-smart-landscaping" class="sub-item">Fire-Smart Landscaping</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                            <li><a href="prepare.html#wildfire-action-plan" class="sub-item">Wildfire Action Plan</a></li>
-                            <li><a href="prepare.html#family-preparedness" class="sub-item">Family Preparedness</a></li>
-                            <li><a href="prepare.html#emergency-go-bag" class="sub-item">Emergency Go Bag</a></li>
-                            <li><a href="prepare.html#insurance-check-up" class="sub-item">Insurance Check-up</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                            <li><a href="prepare.html#evacuation-guide" class="sub-item">Evacuation Guide</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown">
-                        <a href="prevent.html">Prevent <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-shield-alt"></i> Prevention Topics</strong></li>
-                            <li><a href="prevent.html#equipment-vehicle-use" class="sub-item">Equipment & Vehicle Use</a></li>
-                            <li><a href="prevent.html#campfire-safety" class="sub-item">Campfire Safety</a></li>
-                            <li><a href="prevent.html#fireworks-safety" class="sub-item">Fireworks Safety</a></li>
-                            <li><a href="prevent.html#target-shooting-safety" class="sub-item">Target Shooting Safety</a></li>
-                            <li><a href="prevent.html#landowner-assistance" class="sub-item">Landowner Assistance</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown">
-                        <a href="safety-info.html">Safety Info <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-info-circle"></i> Safety Topics</strong></li>
-                            <li><a href="safety-info.html#evacuation-planning" class="sub-item">Evacuation Planning</a></li>
-                            <li><a href="safety-info.html#smoke-protection" class="sub-item">Smoke Protection</a></li>
-                            <li><a href="safety-info.html#emergency-kits" class="sub-item">Emergency Kits</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="prepare.html">Prepare</a></li>
+                    <li><a href="prevent.html">Prevent</a></li>
+                    <li><a href="safety-info.html">Safety Info</a></li>
                     <li><a href="news-resources.html">News & Resources</a></li>
-                    <li class="has-dropdown">
-                        <a href="contact.html">Contact <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-envelope"></i> Contact Options</strong></li>
-                            <li><a href="contact.html#general-contact" class="sub-item">General Contact</a></li>
-                            <li><a href="contact.html#media-inquiries" class="sub-item">Media Inquiries</a></li>
-                            <li><a href="contact.html#advertising-opportunities" class="sub-item">Advertising Opportunities</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
+
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>Monitor US Wildfires in Real-Time</h1>
@@ -106,12 +67,15 @@
             <a href="#map-section" class="cta-button">View Live US Fire Map</a>
         </div>
     </section>
+
     <section id="intro" class="content-section">
         <div class="container">
             <p class="section-intro">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
         </div>
     </section>
+
     <hr class="section-divider">
+
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
@@ -127,20 +91,24 @@
             </div>
         </div>
         <main>
-            <div id="root"></div>
+            <div id="root"></div> {/* React will render the map component here */}
         </main>
         <div class="container data-source-note">
             <small>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</small>
         </div>
     </section>
+
     <hr class="section-divider">
+
     <section id="about" class="content-section">
         <div class="container">
             <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
             <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
         </div>
     </section>
+
     <hr class="section-divider">
+
     <section id="prevention" class="content-section">
         <div class="container">
             <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
@@ -164,7 +132,9 @@
             </div>
         </div>
     </section>
+
     <hr class="section-divider">
+
     <section id="community" class="content-section">
         <div class="container">
             <h2 class="section-title">National & Local Resources</h2>
@@ -173,12 +143,14 @@
                 <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
             <div class="gallery" role="list" aria-label="Community and wildfire images">
+                {/* Ensure these image paths are correct */}
                 <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
                 <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
                 <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
+
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -212,129 +184,195 @@
             <a href="#">Privacy Policy</a>
         </div>
     </footer>
+
+    {/* External JavaScript Libraries */}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+    
+    {/* React Component for the Map with Enhanced Logging */}
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
         const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 5000);
+                    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5-second timeout
                     const response = await fetch(url, { signal: controller.signal });
                     clearTimeout(timeoutId);
                     if (!response.ok) {
                         const errorText = await response.text();
+                        // Throw an error that includes the status and potentially the response text
                         throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
                     }
                     return await response.json();
                 } catch (error) {
-                    console.error(`Fetch attempt ${i + 1} failed:`, error.message);
-                    if (i === retries - 1) throw error;
+                    console.error(`Workspace attempt ${i + 1} for ${url} failed:`, error.message);
+                    if (i === retries - 1) throw error; // Re-throw last error
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
             }
         };
+
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [center, setCenter] = useState([39.8283, -98.5795]);
+            const [center, setCenter] = useState([39.8283, -98.5795]); // US center
             const [zoom, setZoom] = useState(4);
             const [errorMessage, setErrorMessage] = useState('');
             const [isLoading, setIsLoading] = useState(true);
-            const [showFallback, setShowFallback] = useState(false);
-            const mapRef = useRef(null);
-            const markerLayerRef = useRef(null);
+            const [showFallback, setShowFallback] = useState(false); // Initialize to false
+
+            const mapRef = useRef(null); // For the Leaflet map instance
+            const markerLayerRef = useRef(null); // For the layer group holding markers
+            const mapNodeRef = useRef(null); // Ref for the map DOM element
+            const loadingOverlayRef = useRef(null); // Ref for the loading overlay element
+
             const initialCenter = [39.8283, -98.5795];
             const initialZoom = 4;
-            const loadingOverlayRef = useRef(null);
+
+            // Effect for initializing and cleaning up the Leaflet map instance
             useEffect(() => {
-                if (!showFallback && !mapRef.current) {
-                    const mapContainer = document.getElementById('map');
-                    if (mapContainer) {
-                        mapRef.current = L.map(mapContainer, { zoomControl: true }).setView(center, zoom);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                        }).addTo(mapRef.current);
-                        if (typeof L.markerClusterGroup === 'function') {
-                            markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
-                        } else {
-                            console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                            markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-                        }
-                        mapRef.current.zoomControl.setPosition('topright');
+                if (!showFallback && !mapRef.current && mapNodeRef.current) {
+                    console.log("Initializing Leaflet map.");
+                    mapRef.current = L.map(mapNodeRef.current, { zoomControl: true }).setView(center, zoom);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors | Eye on the Fire'
+                    }).addTo(mapRef.current);
+
+                    if (typeof L.markerClusterGroup === 'function') {
+                        markerLayerRef.current = L.markerClusterGroup().addTo(mapRef.current);
+                         console.log("MarkerClusterGroup initialized.");
+                    } else {
+                        console.warn('MarkerClusterGroup not available. Using LayerGroup.');
+                        markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
                     }
+                    mapRef.current.zoomControl.setPosition('topright');
                 }
+                // Cleanup function to remove map instance when component unmounts or showFallback becomes true
                 return () => {
                     if (mapRef.current) {
+                        console.log("Cleaning up Leaflet map instance.");
                         mapRef.current.remove();
                         mapRef.current = null;
-                        markerLayerRef.current = null;
+                        // markerLayerRef is managed by mapRef, so it should be cleaned up too.
+                        // Explicitly nullifying can be good practice.
+                        markerLayerRef.current = null; 
                     }
                 };
-            }, [showFallback, center, zoom]);
+            }, [showFallback]); // Only re-run this effect if showFallback changes
+
+            // Effect to update map view when center or zoom state changes
+            useEffect(() => {
+                if (mapRef.current && !showFallback) {
+                     // Only update view if map exists and not in fallback mode
+                    mapRef.current.setView(center, zoom);
+                }
+            }, [center, zoom, showFallback]);
+
+
+            // Effect for fetching fire data
             useEffect(() => {
                 setIsLoading(true);
                 setErrorMessage('');
                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                
                 const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
+                
+                console.log("Attempting to fetch fire data from:", fireApiUrl);
+
                 fetchWithRetry(fireApiUrl)
                     .then(data => {
-                        console.log('API fetch successful, processing data');
-                        const fireList = (data.events || []).map(event => ({
-                            lat: event.geometry[0].coordinates[1],
-                            lon: event.geometry[0].coordinates[0],
-                            title: event.title || 'Active Fire'
-                        }));
-                        setFires(fireList.slice(0, 200));
-                        setShowFallback(false);
+                        console.log('API fetch successful. Raw data received:', JSON.stringify(data, null, 2));
+                        
+                        const fireList = (data.events || []).map(event => {
+                            if (event && event.geometry && Array.isArray(event.geometry) && event.geometry.length > 0 &&
+                                event.geometry[0].coordinates && Array.isArray(event.geometry[0].coordinates) && event.geometry[0].coordinates.length === 2) {
+                                return {
+                                    lat: event.geometry[0].coordinates[1], 
+                                    lon: event.geometry[0].coordinates[0], 
+                                    title: event.title || 'Active Fire'
+                                };
+                            }
+                            console.warn('Skipping malformed fire event:', event);
+                            return null;
+                        }).filter(fire => fire !== null); 
+
+                        console.log('Processed fireList (first 5 entries):', JSON.stringify(fireList.slice(0,5), null, 2));
+                        console.log('Total processed fires:', fireList.length);
+
+                        setFires(fireList.slice(0, 200)); 
+                        setShowFallback(false); 
                     })
                     .catch(err => {
-                        console.error('Error fetching fire data, switching to fallback:', err.message);
-                        setErrorMessage('Failed to load fire data. Showing NASA FIRMS map as fallback.');
-                        setShowFallback(true);
+                        console.error('Error fetching or processing fire data:', err.message);
+                        if (err.cause) { // If fetchWithRetry passes underlying error
+                             console.error('Caused by:', err.cause);
+                        }
+                        setErrorMessage(`Failed to load fire data. Displaying fallback map. (Error: ${err.message})`);
+                        setShowFallback(true); 
                     })
                     .finally(() => {
-                        console.log('Fetch complete, isLoading:', false, 'showFallback:', showFallback);
                         setIsLoading(false);
                         if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
+                        // The showFallback state might not be updated immediately here due to async nature of setState
+                        // A separate useEffect watching showFallback is better for logging its final state.
                     });
-            }, []);
+            }, []); // Empty dependency array, so it runs once on mount
+
+            // Effect for updating markers on the map
             useEffect(() => {
-                if (markerLayerRef.current && !showFallback && fires.length > 0) {
+                if (markerLayerRef.current && !showFallback) { // Ensure layer group and not in fallback
                     markerLayerRef.current.clearLayers();
-                    const fireIcon = L.icon({
-                        iconUrl: '/images/fire-icon.png',
-                        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
-                    });
-                    fires.forEach(fire => {
-                        L.marker([fire.lat, fire.lon], { icon: fireIcon })
-                            .bindPopup(fire.title)
-                            .addTo(markerLayerRef.current);
-                    });
+                    if (fires.length > 0) {
+                        console.log(`Adding ${fires.length} fire markers to the map.`);
+                        const fireIcon = L.icon({
+                            iconUrl: '/images/fire-icon.png', // Ensure this path is correct & image exists
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 32],
+                            popupAnchor: [0, -32]
+                        });
+                        fires.forEach(fire => {
+                            if (typeof fire.lat === 'number' && typeof fire.lon === 'number') {
+                                L.marker([fire.lat, fire.lon], { icon: fireIcon })
+                                    .bindPopup(fire.title)
+                                    .addTo(markerLayerRef.current);
+                            } else {
+                                console.warn('Skipping marker for fire with invalid lat/lon:', fire);
+                            }
+                        });
+                    } else {
+                        console.log('No fire markers to add (fires array is empty or not in custom map mode).');
+                    }
+                } else if (showFallback && markerLayerRef.current) {
+                    // If we switched to fallback, ensure custom markers are cleared
+                    markerLayerRef.current.clearLayers();
+                    console.log("Switched to fallback, cleared custom markers.");
                 }
-            }, [fires, showFallback]);
-            useEffect(() => {
-                console.log('showFallback state changed:', showFallback);
-            }, [showFallback]);
+            }, [fires, showFallback]); // Re-run when fires data or fallback status changes
+
             const handleReset = () => {
-                setCenter(initialCenter);
-                setZoom(initialZoom);
-                setErrorMessage('');
+                if (!showFallback) { 
+                    setCenter(initialCenter);
+                    setZoom(initialZoom);
+                }
             };
+
             const handleLocateMe = () => {
-                if (showFallback) return;
-                setIsLoading(true);
-                setErrorMessage('');
+                if (showFallback) return; 
+
+                setIsLoading(true); 
                 if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
+                setErrorMessage('');
+
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
                             setCenter([latitude, longitude]);
-                            setZoom(10);
+                            setZoom(10); 
                             setIsLoading(false);
                             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                         },
@@ -352,10 +390,17 @@
                     if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                 }
             };
+
             const dismissError = () => setErrorMessage('');
+            
+            // Effect to log the final value of showFallback after all state updates
+            useEffect(() => {
+                 console.log('Current showFallback state is:', showFallback);
+            }, [showFallback]);
+
             return (
                 <div className="map-container">
-                    <div ref={loadingOverlayRef} className="loading-overlay">
+                    <div ref={loadingOverlayRef} className="loading-overlay"> {/* Assign ref here */}
                         <div className="flame-loader"></div>
                         <p>Loading live fire data...</p>
                     </div>
@@ -368,7 +413,7 @@
                     {errorMessage && (
                         <div className="error-message">
                             <span>{errorMessage}</span>
-                            <button onClick={dismissError} aria-label="Dismiss error">×</button>
+                            <button onClick={dismissError} aria-label="Dismiss error" style={{cursor: 'pointer', marginLeft: '10px', background: 'none', border: 'none', color: 'white', fontSize: '1.2em'}}>&times;</button>
                         </div>
                     )}
                     {showFallback ? (
@@ -376,26 +421,36 @@
                             className="fallback-map"
                             src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
                             title="NASA FIRMS Fire Map"
+                            style={{width: '100%', height: '500px', border: 'none'}} // Ensure fallback has dimensions
                         ></iframe>
                     ) : (
-                        <div id="map"></div>
+                        // Assign the ref to the div that will host the map
+                        // Ensure this div has dimensions via CSS or inline style for Leaflet to render into.
+                        // Your styles.css already defines #map { height: 500px; width: 100%; }
+                        <div id="map" ref={mapNodeRef}></div>
                     )}
                 </div>
             );
         };
+
         ReactDOM.render(<MapComponent />, document.getElementById('root'));
     </script>
+
+    {/* Standard JavaScript for Navbar and other non-React functionalities */}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a');
+            const mainNavLinks = document.querySelectorAll('.main-menu a'); // Used for closing menu on click
+
             if (hamburger && navMenu) {
                 hamburger.addEventListener('click', () => {
                     const isActive = navMenu.classList.contains('active');
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive);
+                    hamburger.setAttribute('aria-expanded', String(!isActive)); // Use String for boolean attribute
+
+                    // Close any open dropdowns when mobile menu is closed
                     if (!navMenu.classList.contains('active')) {
                         document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
                             openDropdown.classList.remove('open');
@@ -405,15 +460,18 @@
                     }
                 });
             }
+
             if (navMenu) {
                 const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
                 dropdownToggles.forEach(toggleLink => {
                     toggleLink.addEventListener('click', (e) => {
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault();
+                        // Logic for mobile dropdown toggle
+                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') { // Check if hamburger is visible (mobile view)
+                            e.preventDefault(); // Prevent navigation for parent link in mobile if it's just a toggle
                             const parentLi = toggleLink.closest('.has-dropdown');
                             if (parentLi) {
                                 const currentlyOpen = parentLi.classList.contains('open');
+                                // Close other open dropdowns
                                 document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
                                     if (otherLi !== parentLi) {
                                         otherLi.classList.remove('open');
@@ -428,35 +486,47 @@
                                 }
                             }
                         }
+                        // Prevent default for non-navigating links on desktop too if href is just "#"
                         else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
                             e.preventDefault();
                         }
                     });
                 });
+
+                // Close mobile nav menu when a link inside it is clicked (for same-page anchors or actual navigation)
                 mainNavLinks.forEach(link => {
-                    const isToggle = link.matches('.has-dropdown > a');
-                    const isInDropdown = link.closest('.dropdown') !== null;
-                    if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
-                        link.addEventListener('click', (e) => {
+                    // Exclude dropdown toggles that don't navigate on their own in mobile
+                    const isToggleOnlyInMobile = link.matches('.has-dropdown > a') && (window.getComputedStyle(hamburger).display !== 'none');
+                    
+                    if (!isToggleOnlyInMobile) { // If it's a direct link or a dropdown item
+                         link.addEventListener('click', (e) => {
                             const href = link.getAttribute('href');
                             let isExternal = false;
                             try {
                                 isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
-                            } catch (_) {}
-                            if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
-                                hamburger.classList.remove('active');
-                                navMenu.classList.remove('active');
-                                hamburger.setAttribute('aria-expanded', 'false');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                                    openDropdown.classList.remove('open');
-                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                                    if(caret) caret.style.transform = '';
-                                });
+                            } catch (_) { /* Not a full URL, or invalid */ }
+
+                            // Close menu if it's active (mobile) and the link is for the current page (anchor) or a non-link
+                            if (hamburger && navMenu.classList.contains('active')) {
+                                // If it's a link that navigates away, browser will handle it.
+                                // If it's an anchor on the same page, or a non-navigating item, close menu.
+                                if (!href || href === '#' || (href.startsWith('#') && !isExternal) || link.closest('.dropdown')) {
+                                    hamburger.classList.remove('active');
+                                    navMenu.classList.remove('active');
+                                    hamburger.setAttribute('aria-expanded', 'false');
+                                    // Also close all dropdowns within the mobile menu
+                                    document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                                        openDropdown.classList.remove('open');
+                                        const caret = openDropdown.querySelector('a > i.fa-caret-down');
+                                        if(caret) caret.style.transform = '';
+                                    });
+                                }
                             }
                         });
                     }
                 });
             }
+
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
