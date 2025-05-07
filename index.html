@@ -50,11 +50,52 @@
                 <ul class="main-menu">
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="prepare.html">Prepare</a></li>
-                    <li><a href="prevent.html">Prevent</a></li>
-                    <li><a href="safety-info.html">Safety Info</a></li>
-                    <li><a href="news-resources.html">News & Resources</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
+                            <li><a href="#prevention" class="sub-item">Home Hardening</a></li>
+                            <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
+                            <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
+                            <li><a href="#">Wildfire Action Plan</a></li>
+                            <li><a href="#">Family Preparedness</a></li>
+                            <li><a href="#">Emergency Go Bag</a></li>
+                            <li><a href="#">Insurance Check-up</a></li>
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
+                            <li><a href="#">Evacuation Guide</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#prevention">Prevent <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-shield-alt"></i> Prevention Topics</strong></li>
+                            <li><a href="#" class="sub-item">Equipment & Vehicle Use</a></li>
+                            <li><a href="#" class="sub-item">Campfire Safety</a></li>
+                            <li><a href="#" class="sub-item">Fireworks Safety</a></li>
+                            <li><a href="#" class="sub-item">Target Shooting Safety</a></li>
+                            <li><a href="#" class="sub-item">Landowner Assistance</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-info-circle"></i> Safety Topics</strong></li>
+                            <li><a href="#" class="sub-item">Evacuation Planning</a></li>
+                            <li><a href="#prevention" class="sub-item">Prevention Tips</a></li>
+                            <li><a href="#" class="sub-item">Emergency Kits</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#community">News & Resources</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Contact <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-envelope"></i> Contact Options</strong></li>
+                            <li><a href="#" class="sub-item">General Contact</a></li>
+                            <li><a href="#" class="sub-item">Media Inquiries</a></li>
+                            <li><a href="#" class="sub-item">Advertising Opportunities</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -149,11 +190,10 @@
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="prepare.html">Prepare</a></li>
-                    <li><a href="prevent.html">Prevent</a></li>
-                    <li><a href="safety-info.html">Safety Info</a></li>
-                    <li><a href="news-resources.html">News & Resources</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#prevention">Prevention Guides</a></li>
+                    <li><a href="#community">Emergency Resources</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
             <div class="footer-section social">
@@ -257,7 +297,6 @@
                         setShowFallback(true);
                     })
                     .finally(() => {
-                        console.log('Fetch complete, isLoading:', false, 'showFallback:', showFallback);
                         setIsLoading(false);
                         if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
                     });
@@ -276,9 +315,6 @@
                     });
                 }
             }, [fires, showFallback]);
-            useEffect(() => {
-                console.log('showFallback state changed:', showFallback);
-            }, [showFallback]);
             const handleReset = () => {
                 setCenter(initialCenter);
                 setZoom(initialZoom);
