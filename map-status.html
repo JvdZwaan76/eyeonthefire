@@ -22,14 +22,22 @@
 </head>
 <body>
     <div id="root"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
-    <script type="text/babel">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js" data-cfasync="false"></script>
+    <script type="text/babel" data-cfasync="false">
         console.log('Script tag executed');
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded and parsed');
+        window.addEventListener('load', function() {
+            console.log('Window fully loaded');
+            if (typeof L === 'undefined') {
+                console.error('Leaflet not loaded');
+                return;
+            }
+            if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+                console.error('React or ReactDOM not loaded');
+                return;
+            }
             const rootElement = document.getElementById('root');
             if (!rootElement) {
                 console.error('Root element not found');
