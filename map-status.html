@@ -45,8 +45,8 @@
                 if (!showFallback && mapContainerRef.current && !mapRef.current) {
                     try {
                         console.log('Initializing map');
-                        // Center on San Francisco with a zoom level to show both markers
-                        mapRef.current = L.map(mapContainerRef.current).setView([37.7749, -122.4194], 10);
+                        // Center between SF and LA with a zoom level to show both
+                        mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             attribution: '© OpenStreetMap contributors | Eye on the Fire'
                         }).addTo(mapRef.current);
