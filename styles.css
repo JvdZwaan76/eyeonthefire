@@ -1107,6 +1107,36 @@ hr.section-divider {
     margin-top: 1rem;
 }
 
+/* New Styles for Map Status and Fallback Controls */
+.map-status {
+    text-align: center;
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #666;
+}
+
+.fallback-controls {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.fallback-controls button {
+    padding: 8px 15px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.fallback-controls button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
 /* Mobile Viewport Adjustments */
 @media (max-width: 991.98px) {
     .hero {
