@@ -1,93 +1,101 @@
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" data-cfasync="false"></script>
-<script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" data-cfasync="false"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" data-cfasync="false"></script>
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js" data-cfasync="false"></script>
-<script type="text/babel" data-cfasync="false">
-    window.addEventListener('load', function() {
-        const { useState, useEffect, useRef } = React;
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" data-cfasync="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js" data-cfasync="false"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" data-cfasync="false">
+        window.addEventListener('load', function() {
+            const { useState, useEffect, useRef } = React;
 
-        const MapComponent = () => {
-            const [fires, setFires] = useState([]);
-            const [showFallback, setShowFallback] = useState(false);
-            const [error, setError] = useState(null);
-            const mapRef = useRef(null);
-            const mapContainerRef = useRef(null);
+            const MapComponent = () => {
+                const [fires, setFires] = useState([]);
+                const [showFallback, setShowFallback] = useState(false);
+                const [error, setError] = useState(null);
+                const mapRef = useRef(null);
+                const mapContainerRef = useRef(null);
 
-            useEffect(() => {
-                console.log('Component mounted');
-                const loadFireData = async () => {
-                    try {
-                        // Temporary mock data for testing
-                        const mockData = {
-                            events: [
-                                { geometry: [{ coordinates: [-122.4194, 37.7749] }], title: 'Test Fire 1' },
-                                { geometry: [{ coordinates: [-118.2437, 34.0522] }], title: 'Test Fire 2' },
-                            ]
-                        };
-                        const fireList = mockData.events.map(event => {
-                            const lon = event.geometry[0].coordinates[0];
-                            const lat = event.geometry[0].coordinates[1];
-                            return { lat, lon, title: event.title };
+                useEffect(() => {
+                    console.log('Component mounted');
+                    const loadFireData = async () => {
+                        try {
+                            // Temporary mock data for testing
+                            const mockData = {
+                                events: [
+                                    { geometry: [{ coordinates: [-122.4194, 37.7749] }], title: 'Test Fire 1' },
+                                    { geometry: [{ coordinates: [-118.2437, 34.0522] }], title: 'Test Fire 2' },
+                                ]
+                            };
+                            const fireList = mockData.events.map(event => {
+                                const lon = event.geometry[0].coordinates[0];
+                                const lat = event.geometry[0].coordinates[1];
+                                return { lat, lon, title: event.title };
+                            });
+                            setFires(fireList);
+                            console.log('Fires array length:', fireList.length);
+                            setShowFallback(false);
+                        } catch (error) {
+                            console.error('Error loading fire data:', error);
+                            setError('Failed to load fire data. Please try again later.');
+                            setShowFallback(true);
+                        }
+                    };
+                    loadFireData();
+                }, []);
+
+                useEffect(() => {
+                    if (!showFallback && mapContainerRef.current && !mapRef.current) {
+                        try {
+                            console.log('Initializing map');
+                            // Center between SF and LA with a zoom level to show both
+                            mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '© OpenStreetMap contributors | Eye on the Fire'
+                            }).addTo(mapRef.current);
+                            console.log('Map initialized');
+                        } catch (error) {
+                            console.error('Map initialization failed:', error);
+                            setShowFallback(true);
+                        }
+                    }
+                }, [showFallback]);
+
+                useEffect(() => {
+                    if (mapRef.current && !showFallback && fires.length > 0) {
+                        console.log('Adding markers for fires:', fires.length);
+                        const markers = fires.map(fire => {
+                            const marker = L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
+                            console.log('Adding marker at:', fire.lat, fire.lon);
+                            return marker;
                         });
-                        setFires(fireList);
-                        console.log('Fires array length:', fireList.length);
-                        setShowFallback(false);
-                    } catch (error) {
-                        console.error('Error loading fire data:', error);
-                        setError('Failed to load fire data. Please try again later.');
-                        setShowFallback(true);
+                        L.layerGroup(markers).addTo(mapRef.current);
                     }
-                };
-                loadFireData();
-            }, []);
+                }, [fires, showFallback]);
 
-            useEffect(() => {
-                if (!showFallback && mapContainerRef.current && !mapRef.current) {
-                    try {
-                        console.log('Initializing map');
-                        // Center between SF and LA with a zoom level to show both
-                        mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                        }).addTo(mapRef.current);
-                        console.log('Map initialized');
-                    } catch (error) {
-                        console.error('Map initialization failed:', error);
-                        setShowFallback(true);
-                    }
-                }
-            }, [showFallback]);
+                console.log('Rendering component, showFallback:', showFallback);
+                return (
+                    <div className="map-container">
+                        {error && <div style={{ color: 'red' }}>{error}</div>}
+                        {showFallback ? (
+                            <iframe
+                                src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
+                                title="NASA FIRMS Fire Map"
+                                style={{ height: '500px', width: '100%' }}
+                            ></iframe>
+                        ) : (
+                            <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
+                        )}
+                    </div>
+                );
+            };
 
-            useEffect(() => {
-                if (mapRef.current && !showFallback && fires.length > 0) {
-                    console.log('Adding markers for fires:', fires.length);
-                    const markers = fires.map(fire => {
-                        const marker = L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
-                        console.log('Adding marker at:', fire.lat, fire.lon);
-                        return marker;
-                    });
-                    L.layerGroup(markers).addTo(mapRef.current);
-                }
-            }, [fires, showFallback]);
-
-            console.log('Rendering component, showFallback:', showFallback);
-            return (
-                <div className="map-container">
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                    {showFallback ? (
-                        <iframe
-                            src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
-                            title="NASA FIRMS Fire Map"
-                            style={{ height: '500px', width: '100%' }}
-                        ></iframe>
-                    ) : (
-                        <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
-                    )}
-                </div>
-            );
-        };
-
-        ReactDOM.render(<MapComponent />, document.getElementById('root'));
-    });
-</script>
-<div id="root"></div>
+            ReactDOM.render(<MapComponent />, document.getElementById('root'));
+        });
+    </script>
+</body>
+</html>
