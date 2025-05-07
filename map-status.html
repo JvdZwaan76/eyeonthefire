@@ -8,19 +8,17 @@
 
         const MapComponent = () => {
             const [fires, setFires] = useState([]);
-            const [showFallback, setShowFallback] = useState(false);
             const [error, setError] = useState(null);
             const mapRef = useRef(null);
             const mapContainerRef = useRef(null);
 
-            // Mock data as a fallback
+            // Mock data as a temporary workaround
             const mockFireData = [
                 { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
                 { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
             ];
 
             useEffect(() => {
-                console.log('Component mounted');
                 const loadFireData = async () => {
                     try {
                         const response = await fetch('https://eyeonthefire.com/api/nasa/');
@@ -34,59 +32,43 @@
                             return isNaN(lat) || isNaN(lon) ? null : { lat, lon, title: event.title || 'Active Fire' };
                         }).filter(fire => fire !== null);
                         setFires(fireList);
-                        console.log('Fires array length:', fireList.length);
-                        setShowFallback(false);
+                        setError(null);
                     } catch (error) {
                         console.error('Error loading fire data:', error);
                         setError('Failed to load fire data. Using mock data temporarily.');
-                        setFires(mockFireData); // Use mock data as fallback
-                        setShowFallback(false); // Avoid iframe unless CSP is updated
+                        setFires(mockFireData); // Fallback to mock data
                     }
                 };
                 loadFireData();
             }, []);
 
             useEffect(() => {
-                if (!showFallback && mapContainerRef.current && !mapRef.current) {
+                if (mapContainerRef.current && !mapRef.current) {
                     try {
-                        console.log('Initializing map');
                         mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             attribution: '© OpenStreetMap contributors | Eye on the Fire'
                         }).addTo(mapRef.current);
-                        console.log('Map initialized');
                     } catch (error) {
                         console.error('Map initialization failed:', error);
-                        setShowFallback(true);
+                        setError('Map initialization failed.');
                     }
                 }
-            }, [showFallback]);
+            }, []);
 
             useEffect(() => {
-                if (mapRef.current && !showFallback && fires.length > 0) {
-                    console.log('Adding markers for fires:', fires.length);
+                if (mapRef.current && fires.length > 0) {
                     const markers = fires.map(fire => {
-                        const marker = L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
-                        console.log('Adding marker at:', fire.lat, fire.lon);
-                        return marker;
+                        return L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
                     });
                     L.layerGroup(markers).addTo(mapRef.current);
                 }
-            }, [fires, showFallback]);
+            }, [fires]);
 
-            console.log('Rendering component, showFallback:', showFallback);
             return (
                 <div className="map-container">
                     {error && <div style={{ color: 'red' }}>{error}</div>}
-                    {showFallback ? (
-                        <iframe
-                            src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
-                            title="NASA FIRMS Fire Map"
-                            style={{ height: '500px', width: '100%' }}
-                        ></iframe>
-                    ) : (
-                        <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
-                    )}
+                    <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
                 </div>
             );
         };
