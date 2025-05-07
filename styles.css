@@ -576,11 +576,34 @@ hr.section-divider {
     padding: 1rem 0;
 }
 
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+}
+
 .gallery-item img {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(255, 69, 0, 0.5), 0 0 20px rgba(255, 140, 0, 0.3);
+}
+
+.gallery-image:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 69, 0, 0.2), rgba(255, 140, 0, 0.2));
+    pointer-events: none;
 }
 
 /* Footer */
@@ -783,6 +806,27 @@ hr.section-divider {
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prevention-item.clickable-tile {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.prevention-item.clickable-tile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(255, 69, 0, 0.5), 0 0 20px rgba(255, 140, 0, 0.3);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 140, 0, 0.1));
+}
+
+.prevention-item.clickable-tile:hover h3 {
+    color: var(--primary-color);
+}
+
+.prevention-item.clickable-tile:hover i {
+    color: var(--secondary-color);
 }
 
 .prevention-item i {
@@ -882,5 +926,8 @@ hr.section-divider {
     }
     .prevention-grid {
         grid-template-columns: 1fr;
+    }
+    .gallery-item img {
+        height: 150px;
     }
 }
