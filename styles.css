@@ -57,7 +57,6 @@ a {
 }
 a:hover {
     color: #b71c1c;
-    text-decoration: underline;
 }
 
 /* Container */
@@ -149,7 +148,7 @@ a:hover {
     margin: 0;
     padding: 0;
     height: 100%;
-    align-items: stretch;
+   植物: stretch;
 }
 
 .navbar .main-menu li {
@@ -806,26 +805,27 @@ hr.section-divider {
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.prevention-item.clickable-tile {
+.clickable-tile {
     display: block;
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
 }
 
-.prevention-item.clickable-tile:hover {
+.clickable-tile:hover .prevention-item {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(255, 69, 0, 0.5), 0 0 20px rgba(255, 140, 0, 0.3);
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 140, 0, 0.1));
 }
 
-.prevention-item.clickable-tile:hover h3 {
+.clickable-tile:hover .prevention-item h3 {
     color: var(--primary-color);
 }
 
-.prevention-item.clickable-tile:hover i {
+.clickable-tile:hover .prevention-item i {
     color: var(--secondary-color);
 }
 
@@ -899,35 +899,3 @@ hr.section-divider {
 }
 
 .cta-banner a:hover {
-    color: white;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .hero {
-        min-height: 50vh;
-        padding: 2rem 1rem;
-    }
-    .hero h1 {
-        font-size: 2rem;
-    }
-    .hero p {
-        font-size: 1rem;
-    }
-    .content-section {
-        padding: 2rem 1rem;
-    }
-    .content-with-image {
-        flex-direction: column;
-        text-align: center;
-    }
-    .content-with-image.reverse {
-        flex-direction: column;
-    }
-    .prevention-grid {
-        grid-template-columns: 1fr;
-    }
-    .gallery-item img {
-        height: 150px;
-    }
-}
