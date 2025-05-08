@@ -9,7 +9,7 @@
     script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://static.cloudflareinsights.com;
     style-src 'self' 'unsafe-inline' https://unpkg.com;
     connect-src 'self' https://firms.modaps.eosdis.nasa.gov;
-    frame-src https://firms.modaps.eosdis.nasa.gov;
+    frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
     img-src 'self' https://*.tile.openstreetmap.org;
   ">
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" data-cfasync="false"></script>
@@ -30,7 +30,7 @@
     const { useState, useEffect, useRef } = React;
 
     function parseCSV(csvText) {
-      const rows = csvText.split('\n').slice(1); // Skip header
+      const rows = csvText.trim().split('\n').slice(1); // Skip header
       return rows.map(row => {
         const columns = row.split(',');
         const lat = parseFloat(columns[0]); // latitude
@@ -46,13 +46,16 @@
 
     async function loadFireData() {
       try {
-        const apiUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/d152217c8391eb5b0fbd242290527ae8/VIIRS_SNPP_NRT/world/1';
+        const apiKey = 'YOUR_API_KEY'; // Replace with your NASA FIRMS API key from https://firms.modaps.eosdis.nasa.gov/api/area/
+        const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/VIIRS_SNPP_NRT/world/1`;
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvText = await response.text();
-        return parseCSV(csvText);
+        const fires = parseCSV(csvText);
+        console.log('Fetched fires:', fires.length);
+        return fires;
       } catch (error) {
         console.error('Error fetching fire data:', error);
         return [
@@ -68,15 +71,19 @@
       const [error, setError] = useState(null);
       const mapRef = useRef(null);
       const mapContainerRef = useRef(null);
+      const initialized = useRef(false);
 
       useEffect(() => {
-        loadFireData().then(data => {
-          setFires(data);
-          setLoading(false);
-        }).catch(err => {
-          setError('Failed to load fire data.');
-          setLoading(false);
-        });
+        if (!initialized.current) {
+          initialized.current = true;
+          loadFireData().then(data => {
+            setFires(data);
+            setLoading(false);
+          }).catch(err => {
+            setError('Failed to load fire data.');
+            setLoading(false);
+          });
+        }
       }, []);
 
       useEffect(() => {
@@ -85,6 +92,7 @@
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(mapRef.current);
+          console.log('Map initialized');
         }
       }, []);
 
@@ -94,6 +102,7 @@
             L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
           );
           L.layerGroup(markers).addTo(mapRef.current);
+          console.log('Added markers:', fires.length);
         }
       }, [fires]);
 
