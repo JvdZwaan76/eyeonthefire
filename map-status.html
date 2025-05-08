@@ -12,10 +12,10 @@
     img-src 'self' https://*.tile.openstreetmap.org;
     frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
   ">
-  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" data-cfasync="false"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" data-cfasync="false"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" data-cfasync="false"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" data-cfasync="false"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     .map-container { position: relative; width: 100%; height: 100vh; }
@@ -26,13 +26,13 @@
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" data-cfasync="false">
+  <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
     function parseCSV(csvText) {
       const rows = csvText.trim().split('\n').slice(1); // Skip header
       const fires = rows.map(row => {
-        const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // Split on commas, handling quoted fields
+        const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // Handle commas in quoted fields
         const lat = parseFloat(columns[0]); // latitude
         const lon = parseFloat(columns[1]); // longitude
         const acqDate = columns[8]; // acq_date
@@ -48,7 +48,7 @@
 
     async function loadFireData() {
       try {
-        const apiKey = 'd152217c8391eb5b0fbd242290527ae8'; // Replace with your actual NASA FIRMS API key
+        const apiKey = 'YOUR_ACTUAL_NASA_FIRMS_API_KEY'; // Replace with your valid NASA FIRMS API key
         const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/VIIRS_SNPP_NRT/world/1`;
         const response = await fetch(apiUrl);
         if (!response.ok) {
