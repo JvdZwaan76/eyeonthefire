@@ -6,10 +6,9 @@
   <title>Fire Map</title>
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com;
-    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://static.cloudflareinsights.com;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com;
     style-src 'self' 'unsafe-inline' https://unpkg.com;
     connect-src 'self' https://firms.modaps.eosdis.nasa.gov;
-    frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
     img-src 'self' https://*.tile.openstreetmap.org;
   ">
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" data-cfasync="false"></script>
@@ -48,7 +47,7 @@
 
     async function loadFireData() {
       try {
-        const apiKey = 'd152217c8391eb5b0fbd242290527ae8'; // Your NASA FIRMS API key
+        const apiKey = 'YOUR_ACTUAL_API_KEY'; // Replace with your NASA FIRMS API key
         const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/VIIRS_SNPP_NRT/world/1`;
         const response = await fetch(apiUrl);
         if (!response.ok) {
