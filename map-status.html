@@ -2,6 +2,7 @@
 <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" data-cfasync="false"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" data-cfasync="false"></script>
 <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js" data-cfasync="false"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script type="text/babel" data-cfasync="false">
     window.addEventListener('load', function() {
         const { useState, useEffect, useRef } = React;
@@ -34,8 +35,8 @@
                         setFires(fireList);
                         setError(null);
                     } catch (error) {
-                        console.error('Error loading fire data:', error);
-                        setError('Failed to load fire data. Using mock data temporarily.');
+                        console.error('Error fetching fire data:', error);
+                        setError('Failed to load fire data from API. Displaying mock data.');
                         setFires(mockFireData); // Fallback to mock data
                     }
                 };
@@ -67,7 +68,7 @@
 
             return (
                 <div className="map-container">
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
+                    {error && <div style={{ color: 'red', padding: '10px' }}>{error}</div>}
                     <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
                 </div>
             );
