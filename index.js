@@ -13,6 +13,7 @@ export default {
         // Dynamic date for today
         const today = new Date().toISOString().split('T')[0];
         const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/csv/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
+        console.log('Constructed upstreamUrl:', upstreamUrl); // Added for debugging
         try {
             const response = await fetch(upstreamUrl, {
                 headers: { 'User-Agent': 'EyeOnTheFire/1.0' },
@@ -65,6 +66,7 @@ export default {
                 });
                 return obj;
             });
+            console.log('Parsed fireData sample:', fireData.slice(0, 2)); // Added for debugging
             // Normalize data
             const normalizedData = {
                 events: fireData.map(item => {
@@ -80,6 +82,7 @@ export default {
                     };
                 }).filter(item => item !== null)
             };
+            console.log('Normalized data sample:', normalizedData.events.slice(0, 2)); // Added for debugging
             return new Response(JSON.stringify(normalizedData), {
                 headers: {
                     'Content-Type': 'application/json',
