@@ -1,119 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-        .map-container {
-            position: relative;
-        }
-        .error {
-            color: red;
-            padding: 10px;
-        }
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5em;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Map</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    .map-container { position: relative; width: 100%; height: 100vh; }
+    .loading { position: absolute; top: 10px; left: 10px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 5px; }
+    .error { position: absolute; top: 10px; left: 10px; z-index: 1000; background: rgba(255, 0, 0, 0.8); color: white; padding: 5px; }
+    #map { height: 100%; width: 100%; }
+  </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script data-cfasync="false" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
-    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
-    <script type="text/babel" data-cfasync="false">
-        window.addEventListener('load', function() {
-            const { useState, useEffect, useRef } = React;
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
 
-            const MapComponent = () => {
-                const [fires, setFires] = useState([]);
-                const [loading, setLoading] = useState(true);
-                const [error, setError] = useState(null);
-                const mapRef = useRef(null);
-                const mapContainerRef = useRef(null);
+    // Function to parse CSV data into fire objects
+    function parseCSV(csvText) {
+      const rows = csvText.split('\n').slice(1); // Skip header
+      return rows.map(row => {
+        const columns = row.split(',');
+        const lat = parseFloat(columns[0]); // latitude
+        const lon = parseFloat(columns[1]); // longitude
+        const acqDate = columns[5]; // acq_date
+        const acqTime = columns[6]; // acq_time
+        if (!isNaN(lat) && !isNaN(lon)) {
+          return { lat, lon, title: `Fire on ${acqDate} at ${acqTime}` };
+        }
+        return null;
+      }).filter(fire => fire !== null);
+    }
 
-                useEffect(() => {
-                    const loadFireData = async () => {
-                        try {
-                            const apiUrl = window.location.origin + '/api/nasa';
-                            const response = await fetch(apiUrl);
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            const data = await response.json();
-                            const fireList = data.events.map(event => {
-                                const lat = parseFloat(event.latitude);
-                                const lon = parseFloat(event.longitude);
-                                const title = event.acq_date ? `Fire on ${event.acq_date}` : 'Active Fire';
-                                return { lat, lon, title };
-                            }).filter(fire => !isNaN(fire.lat) && !isNaN(fire.lon));
-                            setFires(fireList);
-                            setError(null);
-                        } catch (error) {
-                            console.error('Error fetching fire data:', error);
-                            setError('Failed to load fire data from API.');
-                            // Fallback to mock data
-                            const mockData = [
-                                { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
-                                { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
-                            ];
-                            setFires(mockData);
-                        } finally {
-                            setLoading(false);
-                        }
-                    };
-                    loadFireData();
-                }, []);
+    // Async function to load fire data from the NASA API
+    async function loadFireData() {
+      try {
+        const apiUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/d152217c8391eb5b0fbd242290527ae8/VIIRS_SNPP_NRT/world/1';
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const csvText = await response.text();
+        return parseCSV(csvText);
+      } catch (error) {
+        console.error('Error fetching fire data:', error);
+        // Fallback mock data
+        return [
+          { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
+          { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
+        ];
+      }
+    }
 
-                useEffect(() => {
-                    if (mapContainerRef.current && !mapRef.current) {
-                        try {
-                            mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
-                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '© OpenStreetMap contributors | Eye on the Fire'
-                            }).addTo(mapRef.current);
-                            console.log('Map initialized');
-                        } catch (error) {
-                            console.error('Map initialization failed:', error);
-                            setError('Map initialization failed.');
-                            setLoading(false);
-                        }
-                    }
-                }, []);
+    const MapComponent = () => {
+      const [fires, setFires] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const mapRef = useRef(null);
+      const mapContainerRef = useRef(null);
 
-                useEffect(() => {
-                    if (mapRef.current && fires.length > 0) {
-                        console.log('Adding markers for fires:', fires.length);
-                        const markers = fires.map(fire => {
-                            console.log('Adding marker at:', fire.lat, fire.lon);
-                            return L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
-                        });
-                        L.layerGroup(markers).addTo(mapRef.current);
-                    }
-                }, [fires]);
-
-                return (
-                    <div className="map-container">
-                        {loading && <div className="loading">Loading map...</div>}
-                        {error && <div className="error">{error}</div>}
-                        <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
-                    </div>
-                );
-            };
-
-            ReactDOM.render(<MapComponent />, document.getElementById('root'));
+      // Fetch fire data on component mount
+      useEffect(() => {
+        loadFireData().then(data => {
+          setFires(data);
+          setLoading(false);
+        }).catch(err => {
+          setError('Failed to load fire data.');
+          setLoading(false);
         });
-    </script>
+      }, []);
+
+      // Initialize the map
+      useEffect(() => {
+        if (mapContainerRef.current && !mapRef.current) {
+          mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(mapRef.current);
+        }
+      }, []);
+
+      // Add markers when fires data changes
+      useEffect(() => {
+        if (mapRef.current && fires.length > 0) {
+          const markers = fires.map(fire => 
+            L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
+          );
+          L.layerGroup(markers).addTo(mapRef.current);
+        }
+      }, [fires]);
+
+      return (
+        <div className="map-container">
+          {loading && <div className="loading">Loading map...</div>}
+          {error && <div className="error">{error}</div>}
+          <div ref={mapContainerRef} id="map"></div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<MapComponent />, document.getElementById('root'));
+  </script>
 </body>
 </html>
