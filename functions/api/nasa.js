@@ -1,8 +1,14 @@
 export async function onRequest(context) {
-     const mapKey = context.env.NASA_FIRMS_MAP_KEY;
-     const response = await fetch(`https://firms.modaps.eosdis.nasa.gov/api/area/csv/${mapKey}/VIIRS_SNPP_NRT/world/1`, {
-       method: 'GET',
-     });
-     const data = await response.text();
-     return new Response(data, { status: 200 });
-   }
+  const apiKey = context.env.NASA_FIRMS_MAP_KEY;
+  const url = `https://firms.modaps.eosdis.nasa.gov/api/some-endpoint?key=${apiKey}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return new Response(JSON.stringify(data), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response("Error fetching data", { status: 500 });
+  }
+}
