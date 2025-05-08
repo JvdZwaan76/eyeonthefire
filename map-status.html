@@ -6,9 +6,9 @@
   <title>Eye on the Fire - Real-Time US Wildfire Tracker</title>
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.googletagmanager.com https://static.cloudflareinsights.com;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.googletagmanager.com;
     style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-    connect-src 'self' https://eyeonthefire.com https://firms.modaps.eosdis.nasa.gov https://analytics.google.com https://stats.g.doubleclick.net;
+    connect-src 'self' https://eyeonthefire.com https://firms.modaps.eosdis.nasa.gov https://analytics.google.com;
     img-src 'self' https://tile.openstreetmap.org data:;
     frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
     font-src 'self' https://fonts.gstatic.com
@@ -24,10 +24,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
   <header>
@@ -89,7 +87,7 @@
     </section>
     <section id="map-section">
       <h2>Interactive Live US Wildfire Tracker</h2>
-      <p>Use our map to monitor wildfire activity nationwide. Features include real-time fire locations, zoom controls, and geolocation.</p>
+      <p>Use our map to monitor wildfire activity nationwide.</p>
       <div id="root"></div>
     </section>
     <section class="about">
@@ -103,10 +101,6 @@
     <section class="community">
       <h2>Community Resources</h2>
       <p>Access national and local resources, including the <a href="https://www.nifc.gov">National Interagency Fire Center (NIFC)</a>.</p>
-      <div class="gallery">
-        <img src="/images/fire-response.jpg" alt="Fire response team">
-        <img src="/images/community-recovery.jpg" alt="Community recovery efforts">
-      </div>
     </section>
   </main>
   <footer>
@@ -144,14 +138,10 @@
     const { useState, useEffect, useRef } = React;
 
     function parseCSV(csvText) {
-      console.log('Raw CSV data:', csvText.substring(0, 100));
       const rows = csvText.trim().split('\n').slice(1);
-      const fires = rows.map(row => {
+      return rows.map(row => {
         const columns = row.split(',');
-        if (columns.length < 10) {
-          console.warn('Invalid row format:', row);
-          return null;
-        }
+        if (columns.length < 10) return null;
         const lat = parseFloat(columns[0]);
         const lon = parseFloat(columns[1]);
         const acqDate = columns[5];
@@ -161,52 +151,34 @@
         }
         return null;
       }).filter(fire => fire !== null);
-      console.log('Parsed fires:', fires);
-      return fires;
     }
 
     async function loadFireData() {
       try {
-        const apiUrl = '/api/nasa/';
-        console.log('Fetching from:', apiUrl);
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await fetch('/api/nasa/');
+        if (!response.ok) throw new Error('Failed to fetch data');
         const csvText = await response.text();
-        const fires = parseCSV(csvText);
-        console.log('Fetched fires:', fires.length);
-        return fires;
+        return parseCSV(csvText);
       } catch (error) {
-        console.error('Error fetching fire data:', error);
-        const fallback = [
+        console.error('Error:', error);
+        return [
           { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
           { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
         ];
-        console.log('Using fallback data:', fallback);
-        return fallback;
       }
     }
 
     const MapComponent = () => {
       const [fires, setFires] = useState([]);
       const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
       const mapRef = useRef(null);
       const mapContainerRef = useRef(null);
-      const initialized = useRef(false);
 
       useEffect(() => {
-        if (!initialized.current) {
-          initialized.current = true;
-          loadFireData().then(data => {
-            setFires(data);
-            setLoading(false);
-          }).catch(err => {
-            setError('Failed to load fire data.');
-            setLoading(false);
-          });
-        }
+        loadFireData().then(data => {
+          setFires(data);
+          setLoading(false);
+        });
       }, []);
 
       useEffect(() => {
@@ -215,34 +187,22 @@
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(mapRef.current);
-          console.log('Map initialized');
         }
       }, []);
 
       useEffect(() => {
         if (mapRef.current && fires.length > 0) {
-          const markers = fires.map(fire => {
-            console.log(`Adding marker at: ${fire.lat}, ${fire.lon}`);
-            return L.marker([fire.lat, fire.lon], {
-              icon: L.icon({
-                iconUrl: '/images/fire-icon.png',
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                popupAnchor: [0, -32]
-              })
-            }).bindPopup(fire.title);
+          const markers = L.markerClusterGroup();
+          fires.forEach(fire => {
+            markers.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
           });
-          const markerGroup = L.markerClusterGroup();
-          markerGroup.addLayers(markers);
-          mapRef.current.addLayer(markerGroup);
-          console.log('Added markers:', fires.length);
+          mapRef.current.addLayer(markers);
         }
       }, [fires]);
 
       return (
         <div className="map-container">
           {loading && <div className="loading">Loading map...</div>}
-          {error && <div className="error">{error}</div>}
           <div ref={mapContainerRef} id="map"></div>
         </div>
       );
@@ -265,12 +225,9 @@
         if (dropdown && dropdown.classList.contains('dropdown-menu')) {
           e.preventDefault();
           dropdown.classList.toggle('active');
-          link.querySelector('.fa-caret-down').classList.toggle('rotate');
         }
       });
     });
   </script>
-  <script>var _0x3f3b=["\x68\x74\x74\x70\x73\x3A\x2F\x2F\x65\x79\x65\x6F\x6E\x74\x68\x65\x66\x69\x72\x65\x2E\x63\x6F\x6D\x2F\x63\x64\x6E\x2D\x63\x67\x69\x2F\x72\x75\x6D\x3F","\x50\x4F\x53\x54","\x6F\x70\x65\x6E","\x73\x65\x6E\x64"];var xhr=new XMLHttpRequest();xhr[_0x3f3b[2]](_0x3f3b[1],_0x3f3b[0]);xhr[_0x3f3b[3]]()</script>
-  <script>var _0x4e4b=["\x68\x74\x74\x70\x73\x3A\x2F\x2F\x73\x74\x61\x74\x69\x63\x2E\x63\x6C\x6F\x75\x64\x66\x6C\x61\x72\x65\x69\x6E\x73\x69\x67\x68\x74\x73\x2E\x63\x6F\x6D\x2F\x62\x65\x61\x63\x6F\x6E\x2E\x6D\x69\x6E\x2E\x6A\x73\x2F\x76\x63\x64\x31\x35\x63\x62\x65\x37\x37\x37\x32\x66\x34\x39\x63\x33\x39\x39\x63\x36\x61\x35\x62\x61\x62\x66\x32\x32\x63\x31\x32\x34\x31\x37\x31\x37\x36\x38\x39\x31\x37\x36\x30\x31\x35","\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74","\x73\x63\x72\x69\x70\x74","\x73\x72\x63","\x61\x73\x79\x6E\x63","\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64"];var script=document[_0x4e4b[1]](_0x4e4b[2]);script[_0x4e4b[3]]=_0x4e4b[0];script[_0x4e4b[4]]=true;document.body[_0x4e4b[5]](script)</script>
 </body>
 </html>
