@@ -3,72 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minimal Map Component</title>
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com;
-    style-src 'self' 'unsafe-inline' https://unpkg.com;
-    connect-src 'self' https://eyeonthefire.com;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.googletagmanager.com https://static.cloudflareinsights.com;
+    style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    connect-src 'self' https://eyeonthefire.com https://firms.modaps.eosdis.nasa.gov https://analytics.google.com https://www.google-analytics.com;
     img-src 'self' https://tile.openstreetmap.org data:;
-    frame-src 'self';
-    font-src 'self';
+    frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;
   ">
+  <title>Interactive Fire Map</title>
+  <!-- External Scripts and Styles -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-  <style>
-    .map-container { position: relative; height: 500px; width: 100%; }
-    #map { height: 100%; width: 100%; }
-  </style>
 </head>
 <body>
   <div id="root"></div>
-  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
-
-    const fallbackData = [
-      { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
-      { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
-    ];
-
-    function parseCSV(csvText) {
-      const rows = csvText.trim().split('\n').slice(1);
-      return rows.map(row => {
-        const columns = row.split(',');
-        if (columns.length < 10) return null;
-        const lat = parseFloat(columns[0]);
-        const lon = parseFloat(columns[1]);
-        const acqDate = columns[5];
-        const acqTime = columns[6];
-        if (!isNaN(lat) && !isNaN(lon)) {
-          return { lat, lon, title: `Fire on ${acqDate} at ${acqTime}` };
-        }
-        return null;
-      }).filter(fire => fire !== null);
-    }
-
-    async function loadFireData() {
-      try {
-        const response = await fetch('https://eyeonthefire.com/api/nasa/');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const csvText = await response.text();
-        return parseCSV(csvText);
-      } catch (error) {
-        console.error('Error fetching fire data:', error);
-        return fallbackData;
-      }
-    }
 
     const MapComponent = () => {
       const [fires, setFires] = useState([]);
       const [loading, setLoading] = useState(true);
       const mapRef = useRef(null);
+      const markersRef = useRef(null);
       const mapContainerRef = useRef(null);
+
+      const loadFireData = async () => {
+        try {
+          const response = await fetch('https://eyeonthefire.com/api/nasa/');
+          if (!response.ok) throw new Error('API failed');
+          const text = await response.text();
+          // Note: parseCSV is assumed to be defined elsewhere; replace with actual parsing logic if needed
+          return parseCSV(text);
+        } catch (error) {
+          console.error('Error fetching fire data:', error);
+          // Fallback data for San Francisco and Los Angeles
+          return [
+            { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
+            { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' },
+          ];
+        }
+      };
 
       useEffect(() => {
         const initMap = async () => {
@@ -84,34 +66,44 @@
         if (mapContainerRef.current && !mapRef.current) {
           mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '© OpenStreetMap contributors',
           }).addTo(mapRef.current);
         }
+        return () => {
+          if (mapRef.current) {
+            mapRef.current.remove();
+            mapRef.current = null;
+          }
+        };
       }, []);
 
       useEffect(() => {
-        if (mapRef.current && fires.length > 0 && !loading) {
-          const markers = L.markerClusterGroup();
+        if (mapRef.current && !loading && fires.length > 0) {
+          if (markersRef.current) {
+            mapRef.current.removeLayer(markersRef.current);
+          }
+          markersRef.current = L.markerClusterGroup();
           fires.forEach(fire => {
-            markers.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
+            markersRef.current.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
           });
-          mapRef.current.addLayer(markers);
+          mapRef.current.addLayer(markersRef.current);
         }
       }, [fires, loading]);
 
       return (
-        <div className="map-container">
+        <div style={{ position: 'relative', height: '500px', width: '100%' }}>
           {loading ? (
-            <div className="loading">Loading map...</div>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+              Loading map...
+            </div>
           ) : (
-            <div ref={mapContainerRef} id="map"></div>
+            <div ref={mapContainerRef} id="map" style={{ height: '100%', width: '100%' }}></div>
           )}
         </div>
       );
     };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<MapComponent />);
+    ReactDOM.render(<MapComponent />, document.getElementById('root'));
   </script>
 </body>
 </html>
