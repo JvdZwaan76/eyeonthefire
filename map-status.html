@@ -22,7 +22,6 @@
   <script type="text/babel" data-cfasync="false">
     const { useState, useEffect, useRef } = React;
 
-    // Function to parse CSV data into fire objects
     function parseCSV(csvText) {
       const rows = csvText.split('\n').slice(1); // Skip header
       return rows.map(row => {
@@ -38,11 +37,9 @@
       }).filter(fire => fire !== null);
     }
 
-    // Async function to load fire data from the NASA FIRMS API
     async function loadFireData() {
       try {
-        const apiKey = 'YOUR_API_KEY'; // Replace with your NASA FIRMS API key
-        const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/VIIRS_SNPP_NRT/world/1`;
+        const apiUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/d152217c8391eb5b0fbd242290527ae8/VIIRS_SNPP_NRT/world/1';
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +48,6 @@
         return parseCSV(csvText);
       } catch (error) {
         console.error('Error fetching fire data:', error);
-        // Fallback mock data
         return [
           { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
           { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
@@ -66,7 +62,6 @@
       const mapRef = useRef(null);
       const mapContainerRef = useRef(null);
 
-      // Fetch fire data on component mount
       useEffect(() => {
         loadFireData().then(data => {
           setFires(data);
@@ -77,7 +72,6 @@
         });
       }, []);
 
-      // Initialize the map
       useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) {
           mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
@@ -87,7 +81,6 @@
         }
       }, []);
 
-      // Add markers when fires data changes
       useEffect(() => {
         if (mapRef.current && fires.length > 0) {
           const markers = fires.map(fire => 
@@ -106,7 +99,6 @@
       );
     };
 
-    // Use createRoot for React 18
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<MapComponent />);
   </script>
