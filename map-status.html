@@ -28,10 +28,10 @@
 </head>
 <body>
     <div id="root"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" data-cfasync="false"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" data-cfasync="false"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" data-cfasync="false"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js" data-cfasync="false"></script>
+    <script data-cfasync="false" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
+    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
     <script type="text/babel" data-cfasync="false">
         window.addEventListener('load', function() {
             const { useState, useEffect, useRef } = React;
@@ -63,7 +63,12 @@
                         } catch (error) {
                             console.error('Error fetching fire data:', error);
                             setError('Failed to load fire data from API.');
-                            setFires([]);
+                            // Fallback to mock data
+                            const mockData = [
+                                { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
+                                { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
+                            ];
+                            setFires(mockData);
                         } finally {
                             setLoading(false);
                         }
@@ -78,6 +83,7 @@
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 attribution: '© OpenStreetMap contributors | Eye on the Fire'
                             }).addTo(mapRef.current);
+                            console.log('Map initialized');
                         } catch (error) {
                             console.error('Map initialization failed:', error);
                             setError('Map initialization failed.');
@@ -88,7 +94,9 @@
 
                 useEffect(() => {
                     if (mapRef.current && fires.length > 0) {
+                        console.log('Adding markers for fires:', fires.length);
                         const markers = fires.map(fire => {
+                            console.log('Adding marker at:', fire.lat, fire.lon);
                             return L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
                         });
                         L.layerGroup(markers).addTo(mapRef.current);
