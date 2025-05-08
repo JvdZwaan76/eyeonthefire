@@ -11,7 +11,7 @@
     connect-src 'self' https://eyeonthefire.com https://firms.modaps.eosdis.nasa.gov https://analytics.google.com https://www.google-analytics.com;
     img-src 'self' https://tile.openstreetmap.org data:;
     frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
-    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;
   ">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
   <script>
@@ -93,3 +93,150 @@
     <section class="about">
       <h2>Why Eye on the Fire?</h2>
       <p>Our platform provides up-to-date wildfire information to help you stay safe and informed.</p>
+    </section>
+    <section class="prevention">
+      <h2>Wildfire Prevention Guides</h2>
+      <p>Learn how to create defensible space, harden your home, and adopt fire-smart landscaping practices.</p>
+    </section>
+    <section class="community">
+      <h2>Community Resources</h2>
+      <p>Access national and local resources, including the <a href="https://www.nifc.gov">National Interagency Fire Center (NIFC)</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <div class="company-info">
+        <h3>Eye on the Fire</h3>
+        <p>Providing real-time wildfire tracking and safety resources.</p>
+      </div>
+      <div class="quick-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#map-section">Live Map</a></li>
+          <li><a href="#prevention">Prevention</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="social-media">
+        <h3>Follow Us</h3>
+        <a href="https://x.com/eyeonthefire" class="fab fa-x"></a>
+        <a href="https://facebook.com/eyeonthefire" class="fab fa-facebook"></a>
+        <a href="https://instagram.com/eyeonthefire" class="fab fa-instagram"></a>
+      </div>
+    </div>
+    <div class="legal">
+      <p>© <span id="year"></span> Eye on the Fire. All rights reserved.</p>
+      <p><a href="/terms">Terms of Use</a> | <a href="/privacy">Privacy Policy</a></p>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const fallbackData = [
+      { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
+      { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
+    ];
+
+    function parseCSV(csvText) {
+      const rows = csvText.trim().split('\n').slice(1);
+      return rows.map(row => {
+        const columns = row.split(',');
+        if (columns.length < 10) return null;
+        const lat = parseFloat(columns[0]);
+        const lon = parseFloat(columns[1]);
+        const acqDate = columns[5];
+        const acqTime = columns[6];
+        if (!isNaN(lat) && !isNaN(lon)) {
+          return { lat, lon, title: `Fire on ${acqDate} at ${acqTime}` };
+        }
+        return null;
+      }).filter(fire => fire !== null);
+    }
+
+    async function loadFireData() {
+      try {
+        const response = await fetch('/api/nasa/');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const csvText = await response.text();
+        return parseCSV(csvText);
+      } catch (error) {
+        console.error('Error fetching fire data:', error);
+        return fallbackData;
+      }
+    }
+
+    const MapComponent = () => {
+      const [fires, setFires] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const mapRef = useRef(null);
+      const mapContainerRef = useRef(null);
+
+      useEffect(() => {
+        const initMap = async () => {
+          setLoading(true);
+          const data = await loadFireData();
+          setFires(data);
+          setLoading(false);
+        };
+        initMap();
+      }, []);
+
+      useEffect(() => {
+        if (mapContainerRef.current && !mapRef.current) {
+          mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(mapRef.current);
+        }
+      }, []);
+
+      useEffect(() => {
+        if (mapRef.current && fires.length > 0 && !loading) {
+          const markers = L.markerClusterGroup();
+          fires.forEach(fire => {
+            markers.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
+          });
+          mapRef.current.addLayer(markers);
+        }
+      }, [fires, loading]);
+
+      return (
+        <div className="map-container">
+          {loading ? (
+            <div className="loading">Loading map...</div>
+          ) : (
+            <div ref={mapContainerRef} id="map" style={{ height: '500px', width: '100%' }}></div>
+          )}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<MapComponent />);
+  </script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const dropdown = link.nextElementSibling;
+        if (dropdown && dropdown.classList.contains('dropdown-menu')) {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+        }
+      });
+    });
+  </script>
+  <script src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"></script>
+</body>
+</html>
