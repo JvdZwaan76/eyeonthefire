@@ -4,107 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fire Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
   <style>
-    .map-container { position: relative; width: 100%; height: 100vh; }
-    .loading { position: absolute; top: 10px; left: 10px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 5px; }
-    .error { position: absolute; top: 10px; left: 10px; z-index: 1000; background: rgba(255, 0, 0, 0.8); color: white; padding: 5px; }
-    #map { height: 100%; width: 100%; }
+    #map { height: 100vh; width: 100%; }
+    body { margin: 0; padding: 0; }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" data-cfasync="false">
-    const { useState, useEffect, useRef } = React;
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-
-    // Function to parse CSV data into fire objects
-    function parseCSV(csvText) {
-      const rows = csvText.split('\n').slice(1); // Skip header
-      return rows.map(row => {
-        const columns = row.split(',');
-        const lat = parseFloat(columns[0]); // latitude
-        const lon = parseFloat(columns[1]); // longitude
-        const acqDate = columns[5]; // acq_date
-        const acqTime = columns[6]; // acq_time
-        if (!isNaN(lat) && !isNaN(lon)) {
-          return { lat, lon, title: `Fire on ${acqDate} at ${acqTime}` };
-        }
-        return null;
-      }).filter(fire => fire !== null);
-    }
-
-    // Async function to load fire data from the NASA API
-    async function loadFireData() {
-      try {
-        const apiUrl = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/d152217c8391eb5b0fbd242290527ae8/VIIRS_SNPP_NRT/world/1';
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const csvText = await response.text();
-        return parseCSV(csvText);
-      } catch (error) {
-        console.error('Error fetching fire data:', error);
-        // Fallback mock data
-        return [
-          { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
-          { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
-        ];
-      }
-    }
+  <script type="text/babel">
+    const { useEffect, useRef } = React;
 
     const MapComponent = () => {
-      const [fires, setFires] = useState([]);
-      const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
       const mapRef = useRef(null);
       const mapContainerRef = useRef(null);
 
-      // Fetch fire data on component mount
-      useEffect(() => {
-        loadFireData().then(data => {
-          setFires(data);
-          setLoading(false);
-        }).catch(err => {
-          setError('Failed to load fire data.');
-          setLoading(false);
-        });
-      }, []);
+      const loadFireData = async () => {
+        try {
+          const response = await fetch('https://eyeonthefire.com/api/nasa/');
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error fetching fire data:', error);
+          return [
+            { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
+            { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
+          ];
+        }
+      };
 
-      // Initialize the map
       useEffect(() => {
-        if (mapContainerRef.current && !mapRef.current) {
+        if (!mapRef.current && mapContainerRef.current) {
           mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
           }).addTo(mapRef.current);
+          console.log('Map initialized');
+          mapRef.current.invalidateSize(); // Force redraw
         }
       }, []);
 
-      // Add markers when fires data changes
       useEffect(() => {
-        if (mapRef.current && fires.length > 0) {
-          const markers = fires.map(fire => 
-            L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
-          );
-          L.layerGroup(markers).addTo(mapRef.current);
-        }
-      }, [fires]);
+        const addMarkers = async () => {
+          const fires = await loadFireData();
+          console.log('Fires array length:', fires.length);
+          if (mapRef.current && fires.length > 0) {
+            console.log('Adding markers for fires:', fires.length);
+            fires.forEach(fire => {
+              // Use circleMarker for debugging visibility
+              L.circleMarker([fire.lat, fire.lon], { radius: 5, color: 'red' })
+                .addTo(mapRef.current)
+                .bindPopup(fire.title);
+              console.log(`Adding marker at: ${fire.lat} ${fire.lon}`);
+            });
+            mapRef.current.invalidateSize(); // Ensure map updates
+          }
+        };
+        addMarkers();
+      }, []);
 
-      return (
-        <div className="map-container">
-          {loading && <div className="loading">Loading map...</div>}
-          {error && <div className="error">{error}</div>}
-          <div ref={mapContainerRef} id="map"></div>
-        </div>
-      );
+      return <div ref={mapContainerRef} id="map" />;
     };
 
+    const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<MapComponent />);
   </script>
 </body>
