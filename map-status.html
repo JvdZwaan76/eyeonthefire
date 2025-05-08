@@ -4,7 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fire Map</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://firms.modaps.eosdis.nasa.gov;">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://static.cloudflareinsights.com;
+    style-src 'self' 'unsafe-inline' https://unpkg.com;
+    connect-src 'self' https://firms.modaps.eosdis.nasa.gov;
+    frame-src https://firms.modaps.eosdis.nasa.gov;
+    img-src 'self' https://*.tile.openstreetmap.org;
+  ">
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" data-cfasync="false"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" data-cfasync="false"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" data-cfasync="false"></script>
