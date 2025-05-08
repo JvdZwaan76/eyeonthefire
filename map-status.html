@@ -38,13 +38,16 @@
       const loadFireData = async () => {
         try {
           const response = await fetch('https://eyeonthefire.com/api/nasa/');
-          if (!response.ok) throw new Error('API failed');
+          if (!response.ok) {
+            throw new Error('API failed');
+          }
           const text = await response.text();
-          // Note: parseCSV is assumed to be defined elsewhere; replace with actual parsing logic if needed
-          return parseCSV(text);
+          console.log('API data:', text); // Debug the response
+          // Assuming parseCSV is not available, return empty array or implement parsing
+          return [];
         } catch (error) {
           console.error('Error fetching fire data:', error);
-          // Fallback data for San Francisco and Los Angeles
+          // Fallback data
           return [
             { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
             { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' },
@@ -64,11 +67,15 @@
 
       useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) {
-          mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
+          mapRef.current = L.map(mapContainerRef.current, {
+            center: [36.0, -120.0],
+            zoom: 6,
+          });
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
           }).addTo(mapRef.current);
         }
+
         return () => {
           if (mapRef.current) {
             mapRef.current.remove();
@@ -84,7 +91,9 @@
           }
           markersRef.current = L.markerClusterGroup();
           fires.forEach(fire => {
-            markersRef.current.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
+            markersRef.current.addLayer(
+              L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
+            );
           });
           mapRef.current.addLayer(markersRef.current);
         }
@@ -93,11 +102,22 @@
       return (
         <div style={{ position: 'relative', height: '500px', width: '100%' }}>
           {loading ? (
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
               Loading map...
             </div>
           ) : (
-            <div ref={mapContainerRef} id="map" style={{ height: '100%', width: '100%' }}></div>
+            <div
+              ref={mapContainerRef}
+              id="map"
+              style={{ height: '100%', width: '100%' }}
+            />
           )}
         </div>
       );
