@@ -40,8 +40,8 @@
         }
         const lat = parseFloat(columns[0]);
         const lon = parseFloat(columns[1]);
-        const acqDate = columns[8];
-        const acqTime = columns[9];
+        const acqDate = columns[5];
+        const acqTime = columns[6];
         if (!isNaN(lat) && !isNaN(lon)) {
           return { lat, lon, title: `Fire on ${acqDate} at ${acqTime}` };
         }
