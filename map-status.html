@@ -31,7 +31,7 @@
 
     function parseCSV(csvText) {
       const rows = csvText.trim().split('\n').slice(1); // Skip header
-      return rows.map(row => {
+      const fires = rows.map(row => {
         const columns = row.split(',');
         const lat = parseFloat(columns[0]); // latitude
         const lon = parseFloat(columns[1]); // longitude
@@ -42,11 +42,13 @@
         }
         return null;
       }).filter(fire => fire !== null);
+      console.log('Parsed fires:', fires);
+      return fires;
     }
 
     async function loadFireData() {
       try {
-        const apiKey = 'YOUR_API_KEY'; // Replace with your NASA FIRMS API key from https://firms.modaps.eosdis.nasa.gov/api/area/
+        const apiKey = 'd152217c8391eb5b0fbd242290527ae8'; // Your NASA FIRMS API key
         const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${apiKey}/VIIRS_SNPP_NRT/world/1`;
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -58,10 +60,12 @@
         return fires;
       } catch (error) {
         console.error('Error fetching fire data:', error);
-        return [
+        const fallback = [
           { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
           { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
         ];
+        console.log('Using fallback data:', fallback);
+        return fallback;
       }
     }
 
@@ -98,9 +102,10 @@
 
       useEffect(() => {
         if (mapRef.current && fires.length > 0) {
-          const markers = fires.map(fire => 
-            L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
-          );
+          const markers = fires.map(fire => {
+            console.log(`Adding marker at: ${fire.lat}, ${fire.lon}`);
+            return L.marker([fire.lat, fire.lon]).bindPopup(fire.title);
+          });
           L.layerGroup(markers).addTo(mapRef.current);
           console.log('Added markers:', fires.length);
         }
