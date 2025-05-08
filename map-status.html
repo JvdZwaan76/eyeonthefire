@@ -154,56 +154,60 @@
     }
 
     async function loadFireData() {
-      try {
-        const response = await fetch('/api/nasa/');
-        if (!response.ok) throw new Error('Failed to fetch data');
-        const csvText = await response.text();
-        return parseCSV(csvText);
-      } catch (error) {
-        console.error('Error:', error);
-        return [
-          { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
-          { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' }
-        ];
-      }
+      const response = await fetch('/api/nasa/');
+      if (!response.ok) throw new Error('Failed to fetch data');
+      const csvText = await response.text();
+      return parseCSV(csvText);
     }
 
     const MapComponent = () => {
       const [fires, setFires] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [showFallback, setShowFallback] = useState(false);
       const mapRef = useRef(null);
       const mapContainerRef = useRef(null);
 
       useEffect(() => {
-        loadFireData().then(data => {
-          setFires(data);
-          setLoading(false);
-        });
+        const initMap = async () => {
+          setLoading(true);
+          try {
+            const data = await loadFireData();
+            setFires(data);
+            if (mapContainerRef.current && !mapRef.current) {
+              mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+              }).addTo(mapRef.current);
+              const markers = L.markerClusterGroup();
+              data.forEach(fire => {
+                markers.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
+              });
+              mapRef.current.addLayer(markers);
+            }
+          } catch (error) {
+            console.error('Error loading fire data:', error);
+            setShowFallback(true);
+          } finally {
+            setLoading(false);
+          }
+        };
+        initMap();
       }, []);
-
-      useEffect(() => {
-        if (mapContainerRef.current && !mapRef.current) {
-          mapRef.current = L.map(mapContainerRef.current).setView([36.0, -120.0], 6);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-          }).addTo(mapRef.current);
-        }
-      }, []);
-
-      useEffect(() => {
-        if (mapRef.current && fires.length > 0) {
-          const markers = L.markerClusterGroup();
-          fires.forEach(fire => {
-            markers.addLayer(L.marker([fire.lat, fire.lon]).bindPopup(fire.title));
-          });
-          mapRef.current.addLayer(markers);
-        }
-      }, [fires]);
 
       return (
         <div className="map-container">
-          {loading && <div className="loading">Loading map...</div>}
-          <div ref={mapContainerRef} id="map"></div>
+          {loading ? (
+            <div className="loading">Loading map...</div>
+          ) : showFallback ? (
+            <iframe
+              src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
+              title="NASA FIRMS Fire Map"
+              className="fallback-map"
+              style={{ width: '100%', height: '70vh', border: 'none' }}
+            ></iframe>
+          ) : (
+            <div ref={mapContainerRef} id="map"></div>
+          )}
         </div>
       );
     };
