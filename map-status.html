@@ -1,506 +1,542 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eye On The Fire - NASA FIRMS Data</title>
-  
-  <!-- External Dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
-  
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
+    <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
+    <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
+    <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
+    <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eyeonthefire.com/">
+    <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
+    <link rel="canonical" href="https://eyeonthefire.com/">
     
-    #map {
-      height: 100%;
-      width: 100%;
-    }
+    <!-- External Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
-    .status-bar {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-      z-index: 1000;
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     
-    .error {
-      color: #d9534f;
-      font-weight: bold;
-    }
+    <!-- Favicon Links -->
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="/favicon/site.webmanifest">
     
-    .loading {
-      color: #5bc0de;
-    }
-    
-    .success {
-      color: #5cb85c;
-    }
-    
-    .warning {
-      color: #f0ad4e;
-    }
-    
-    .retry-button {
-      background-color: #5bc0de;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    
-    .control-panel {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-      z-index: 1000;
-      max-width: 300px;
-    }
-    
-    .form-group {
-      margin-bottom: 10px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    
-    .form-group select, .form-group input {
-      width: 100%;
-      padding: 5px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-    }
-    
-    .form-submit {
-      background-color: #5cb85c;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 3px;
-      cursor: pointer;
-      width: 100%;
-    }
-    
-    /* Legend styles */
-    .legend {
-      position: absolute;
-      bottom: 30px;
-      right: 10px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-      z-index: 1000;
-    }
-    
-    .legend-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-    }
-    
-    .legend-color {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-  </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW');
+    </script>
 </head>
 <body>
-  <div id="map"></div>
-  <div id="status" class="status-bar">Loading map...</div>
-  
-  <div class="control-panel">
-    <h3>Fire Data Controls</h3>
-    <div class="form-group">
-      <label for="days">Past Days:</label>
-      <select id="days">
-        <option value="1">1 day</option>
-        <option value="2" selected>2 days</option>
-        <option value="3">3 days</option>
-        <option value="7">7 days</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="satellite">Satellite Source:</label>
-      <select id="satellite">
-        <option value="MODIS">MODIS (Terra/Aqua)</option>
-        <option value="VIIRS" selected>VIIRS (NOAA-20)</option>
-        <option value="VIIRS_SNPP">VIIRS (Suomi NPP)</option>
-      </select>
-    </div>
-    <button id="refresh-btn" class="form-submit">Refresh Data</button>
-  </div>
-  
-  <div class="legend">
-    <h4 style="margin-top: 0;">Fire Confidence</h4>
-    <div class="legend-item">
-      <div class="legend-color" style="background-color: red;"></div>
-      <span>High (80-100%)</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-color" style="background-color: orange;"></div>
-      <span>Nominal (30-79%)</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-color" style="background-color: yellow;"></div>
-      <span>Low (0-29%)</span>
-    </div>
-  </div>
-
-  <script>
-    // Main app
-    document.addEventListener('DOMContentLoaded', function() {
-      // DOM elements
-      const mapElement = document.getElementById('map');
-      const statusElement = document.getElementById('status');
-      const daysSelect = document.getElementById('days');
-      const satelliteSelect = document.getElementById('satellite');
-      const refreshBtn = document.getElementById('refresh-btn');
-      
-      // Constants
-      const DEFAULT_CENTER = [36.0, -120.0]; // California
-      const DEFAULT_ZOOM = 5;
-      
-      // Initialize map
-      const map = L.map('map').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
-      
-      // Add base map layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors | Fire data: NASA FIRMS',
-        maxZoom: 19
-      }).addTo(map);
-      
-      // Initialize marker cluster group
-      const markers = L.markerClusterGroup();
-      map.addLayer(markers);
-      
-      // Set status
-      function setStatus(message, type = 'loading') {
-        statusElement.innerHTML = message;
-        statusElement.className = 'status-bar ' + type;
-      }
-      
-      // Add retry button to status
-      function addRetryButton() {
-        const button = document.createElement('button');
-        button.innerText = 'Retry';
-        button.className = 'retry-button';
-        button.onclick = loadFireData;
-        statusElement.appendChild(button);
-      }
-      
-      // Create a custom icon for the fire markers based on confidence
-      function createFireIcon(confidence) {
-        // Set color based on confidence
-        let markerColor = 'red'; // Default
-        
-        if (confidence < 30) {
-          markerColor = 'yellow';
-        } else if (confidence < 80) {
-          markerColor = 'orange';
-        }
-        
-        return L.divIcon({
-          html: `<div style="background-color: ${markerColor}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #fff;"></div>`,
-          className: '',
-          iconSize: [12, 12]
-        });
-      }
-      
-      // Display fire data on map
-      function displayFires(fires) {
-        // Clear existing markers
-        markers.clearLayers();
-        
-        if (!fires || fires.length === 0) {
-          setStatus('No fire data available', 'warning');
-          return;
-        }
-        
-        // Track valid points for bounds
-        const validPoints = [];
-        let count = 0;
-        
-        // Add markers for each fire
-        fires.forEach(fire => {
-          // Extract coordinates - handle different possible property names
-          const lat = parseFloat(fire.latitude || fire.lat || '');
-          const lng = parseFloat(fire.longitude || fire.lon || '');
-          
-          // Skip invalid coordinates
-          if (isNaN(lat) || isNaN(lng)) {
-            console.warn('Invalid coordinates:', fire);
-            return;
-          }
-          
-          // Get confidence level
-          const confidence = parseFloat(fire.confidence || 0);
-          
-          // Create marker with appropriate icon
-          const marker = L.marker([lat, lng], {
-            icon: createFireIcon(confidence)
-          });
-          
-          // Build popup content
-          let popupContent = '<div style="max-height: 200px; overflow-y: auto;">';
-          popupContent += '<h4>Fire Detection</h4>';
-          
-          // Format acquisition date/time if available
-          if (fire.acq_date && fire.acq_time) {
-            const dateStr = fire.acq_date;
-            const timeStr = String(fire.acq_time).padStart(4, '0');
-            const hours = timeStr.slice(0, 2);
-            const minutes = timeStr.slice(2, 4);
-            popupContent += `<strong>Date:</strong> ${dateStr}<br>`;
-            popupContent += `<strong>Time:</strong> ${hours}:${minutes} UTC<br>`;
-          }
-          
-          // Add confidence
-          if (fire.confidence) {
-            popupContent += `<strong>Confidence:</strong> ${fire.confidence}%<br>`;
-          }
-          
-          // Add brightness if available
-          if (fire.brightness || fire.bright_t31) {
-            const brightness = fire.brightness || fire.bright_t31;
-            popupContent += `<strong>Brightness:</strong> ${brightness} K<br>`;
-          }
-          
-          // Add satellite info
-          if (fire.satellite) {
-            popupContent += `<strong>Satellite:</strong> ${fire.satellite}<br>`;
-          }
-          
-          // Add coordinates
-          popupContent += `<strong>Latitude:</strong> ${lat.toFixed(6)}<br>`;
-          popupContent += `<strong>Longitude:</strong> ${lng.toFixed(6)}<br>`;
-          
-          popupContent += '</div>';
-          marker.bindPopup(popupContent);
-          markers.addLayer(marker);
-          validPoints.push([lat, lng]);
-          count++;
-        });
-        
-        // Fit map to bounds if we have points
-        if (validPoints.length > 0) {
-          const bounds = L.latLngBounds(validPoints);
-          map.fitBounds(bounds);
-          setStatus(`Showing ${count} fire detections`, 'success');
-        } else {
-          setStatus('No fire detections found in this region', 'warning');
-        }
-      }
-      
-      // Function to get NASA FIRMS data directly
-      async function fetchNASAData() {
-        const days = daysSelect.value;
-        const satellite = satelliteSelect.value;
-        
-        // Use NASA FIRMS API directly - Note: In production, you would need to use a proxy
-        // This is a demo URL that would work with a proper API key
-        const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/abcdefghijklmnopqrstuvwxyz123456/CONTIGUOUS_US/${days}/${satellite}`;
-        
-        // Since we can't actually call the NASA API without a key in this example,
-        // we'll use some sample data instead
-        console.log(`In production, would fetch: ${apiUrl}`);
-        
-        // Return sample data for demonstration
-        return getSampleFireData();
-      }
-      
-      // Get sample fire data
-      function getSampleFireData() {
-        // Create a realistic sample based on actual FIRMS data format
-        const sampleData = [];
-        const satellites = ['MODIS', 'VIIRS', 'VIIRS_SNPP'];
-        const satellite = satelliteSelect.value || satellites[Math.floor(Math.random() * satellites.length)];
-        
-        // Generate California fires
-        const basePoints = [
-          {lat: 34.05, lng: -118.24, name: "Los Angeles Area"}, // LA
-          {lat: 37.77, lng: -122.41, name: "San Francisco Area"}, // SF
-          {lat: 38.58, lng: -121.49, name: "Sacramento Area"}, // Sacramento
-          {lat: 36.77, lng: -119.77, name: "Fresno Area"}, // Fresno
-          {lat: 32.71, lng: -117.16, name: "San Diego Area"}, // San Diego
-          {lat: 35.37, lng: -119.01, name: "Bakersfield Area"}, // Bakersfield
-          {lat: 33.83, lng: -116.53, name: "Palm Springs Area"}, // Palm Springs
-          {lat: 39.52, lng: -121.55, name: "Chico Area"}, // Chico
-          {lat: 40.58, lng: -124.15, name: "Eureka Area"}, // Eureka
-          {lat: 41.71, lng: -122.64, name: "Mount Shasta Area"} // Mt Shasta
-        ];
-        
-        // Get current date
-        const currentDate = new Date();
-        
-        // Generate several fire points for each base location
-        basePoints.forEach(base => {
-          // Randomly determine how many fires in this area (0-5)
-          const fireCount = Math.floor(Math.random() * 6);
-          
-          for (let i = 0; i < fireCount; i++) {
-            // Create some variation in location
-            const latOffset = (Math.random() - 0.5) * 0.5;
-            const lngOffset = (Math.random() - 0.5) * 0.5;
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-container">
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
+                    <span>Eye on the Fire</span>
+                </div>
+            </a>
+            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </button>
+            <nav class="nav-menu" id="main-nav">
+                <ul class="main-menu">
+                    <li><a href="about.html">About</a></li>
+                    <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
+                            <li><a href="#prevention" class="sub-item">Home Hardening</a></li>
+                            <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
+                            <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
+                            <li><a href="#">Wildfire Action Plan</a></li>
+                            <li><a href="#">Family Preparedness</a></li>
+                            <li><a href="#">Emergency Go Bag</a></li>
+                            <li><a href="#">Insurance Check-up</a></li>
+                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
+                            <li><a href="#">Evacuation Guide</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#prevention">Prevent <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-shield-alt"></i> Prevention Topics</strong></li>
+                            <li><a href="#" class="sub-item">Equipment & Vehicle Use</a></li>
+                            <li><a href="#" class="sub-item">Campfire Safety</a></li>
+                            <li><a href="#" class="sub-item">Fireworks Safety</a></li>
+                            <li><a href="#" class="sub-item">Target Shooting Safety</a></li>
+                            <li><a href="#" class="sub-item">Landowner Assistance</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-info-circle"></i> Safety Topics</strong></li>
+                            <li><a href="#" class="sub-item">Evacuation Planning</a></li>
+                            <li><a href="#prevention" class="sub-item">Prevention Tips</a></li>
+                            <li><a href="#" class="sub-item">Emergency Kits</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#community">News & Resources</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Contact <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><strong class="sub-header"><i class="fas fa-envelope"></i> Contact Options</strong></li>
+                            <li><a href="#" class="sub-item">General Contact</a></li>
+                            <li><a href="#" class="sub-item">Media Inquiries</a></li>
+                            <li><a href="#" class="sub-item">Advertising Opportunities</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Monitor US Wildfires in Real-Time</h1>
+            <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
+            <a href="#map-section" class="cta-button">View Live US Fire Map</a>
+        </div>
+    </section>
+    
+    <section id="intro" class="content-section">
+        <div class="container">
+            <p class="section-intro">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
+        </div>
+    </section>
+    
+    <hr class="section-divider">
+    
+    <section id="map-section" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
             
-            // Generate random time in the past 48 hours
-            const hoursAgo = Math.floor(Math.random() * 48);
-            const fireDate = new Date(currentDate);
-            fireDate.setHours(fireDate.getHours() - hoursAgo);
+            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
+                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i> How to Use the Map:</h4>
+                <ul>
+                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
+                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
+                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
+                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
+                </ul>
+            </div>
             
-            // Format date as YYYY-MM-DD
-            const acq_date = fireDate.toISOString().split('T')[0];
+            <!-- Map Container -->
+            <div id="map-container">
+                <!-- Map Controls -->
+                <div class="map-controls">
+                    <button id="reset-view-btn" class="map-control-button"><i class="fas fa-globe-americas"></i> Reset View</button>
+                    <button id="locate-me-btn" class="map-control-button"><i class="fas fa-location-crosshairs"></i> Locate Me</button>
+                </div>
+                
+                <!-- Map Element -->
+                <div id="map"></div>
+                
+                <!-- Status Bar -->
+                <div id="status" class="status-bar loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading fire data...
+                </div>
+                
+                <!-- Fire Legend -->
+                <div class="legend">
+                    <h4>Fire Confidence</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: red;"></div>
+                        <span>High (80-100%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: orange;"></div>
+                        <span>Nominal (30-79%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: yellow;"></div>
+                        <span>Low (0-29%)</span>
+                    </div>
+                </div>
+                
+                <!-- Loading Overlay -->
+                <div id="loading-overlay" class="loading-overlay">
+                    <div class="flame-loader"></div>
+                    <p>Loading live fire data...</p>
+                </div>
+            </div>
             
-            // Format time as HHMM
-            const hours = fireDate.getHours().toString().padStart(2, '0');
-            const minutes = fireDate.getMinutes().toString().padStart(2, '0');
-            const acq_time = hours + minutes;
-            
-            // Generate random confidence level
-            const confidence = Math.floor(Math.random() * 100) + 1;
-            
-            // Generate random brightness temperature
-            const brightness = 300 + Math.floor(Math.random() * 100);
-            
-            // Add to sample data
-            sampleData.push({
-              latitude: base.lat + latOffset,
-              longitude: base.lng + lngOffset,
-              brightness: brightness,
-              scan: 0.5 + Math.random(),
-              track: 0.5 + Math.random(),
-              acq_date: acq_date,
-              acq_time: acq_time,
-              satellite: satellite,
-              confidence: confidence,
-              version: '1.0',
-              bright_t31: brightness - 10,
-              frp: Math.random() * 50
-            });
-          }
-        });
+            <div class="data-source-note">
+                <small>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</small>
+            </div>
+        </div>
+    </section>
+    
+    <hr class="section-divider">
+    
+    <section id="about" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
+            <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
+        </div>
+    </section>
+    
+    <hr class="section-divider">
+    
+    <section id="prevention" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
+            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
+            <div class="prevention-grid">
+                <div class="prevention-item">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <h3>Defensible Space Zones</h3>
+                    <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
+                </div>
+                <div class="prevention-item">
+                    <i class="fas fa-tools" aria-hidden="true"></i>
+                    <h3>Home Hardening Techniques</h3>
+                    <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
+                </div>
+                <div class="prevention-item">
+                    <i class="fas fa-seedling" aria-hidden="true"></i>
+                    <h3>Fire-Smart Landscaping</h3>
+                    <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <hr class="section-divider">
+    
+    <section id="community" class="content-section">
+        <div class="container">
+            <h2 class="section-title">National & Local Resources</h2>
+            <p class="section-intro">Access official resources for emergency alerts, evacuation status, and support during wildfire events across the United States.</p>
+            <div class="cta-banner">
+                <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
+            </div>
+            <div class="gallery" role="list" aria-label="Community and wildfire images">
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 class="logo-text-footer">Eye on the Fire</h3>
+                <p>Providing critical real-time wildfire monitoring and fire safety resources for the United States. Our interactive map helps you stay informed and prepared.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#prevention">Prevention Guides</a></li>
+                    <li><a href="#community">Emergency Resources</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="RSS Feed"><i class="fas fa-rss"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © <span id="year"></span> Eye on the Fire | All Rights Reserved | Data provided "as is" without warranty |
+            <a href="#">Terms of Use</a> |
+            <a href="#">Privacy Policy</a>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
         
-        return sampleData;
-      }
-      
-      // Parse CSV data from NASA FIRMS
-      function parseCSV(text) {
-        // Use PapaParse library for robust CSV parsing
-        const results = Papa.parse(text, {
-          header: true,
-          dynamicTyping: true,
-          skipEmptyLines: true
-        });
-        
-        if (results.errors && results.errors.length > 0) {
-          console.warn('CSV parsing had errors:', results.errors);
-        }
-        
-        return results.data;
-      }
-      
-      // Function to determine data format and parse accordingly
-      function parseData(responseText) {
-        // Try to parse as JSON first
-        try {
-          return JSON.parse(responseText);
-        } catch (e) {
-          // If not JSON, try CSV
-          console.log('Response is not JSON, trying CSV format');
-          return parseCSV(responseText);
-        }
-      }
-      
-      // Load fire data
-      async function loadFireData() {
-        setStatus('Loading fire data...');
-        
-        try {
-          // For demo purposes, we'll use sample data
-          // In production, replace this with actual API call
-          const data = await fetchNASAData();
-          
-          if (!data || data.length === 0) {
-            setStatus('No fire data returned', 'warning');
-          } else {
-            displayFires(data);
-          }
-        } catch (error) {
-          console.error('Error loading fire data:', error);
-          setStatus(`Error: ${error.message}`, 'error');
-          addRetryButton();
-          
-          // Use fallback data as a last resort
-          const fallbackData = [
-            {
-              latitude: 37.7749, longitude: -122.4194, 
-              confidence: 95, brightness: 350,
-              acq_date: '2023-07-01', acq_time: '2230',
-              satellite: 'VIIRS'
-            },
-            {
-              latitude: 34.0522, longitude: -118.2437,
-              confidence: 60, brightness: 320,
-              acq_date: '2023-07-01', acq_time: '2230',
-              satellite: 'VIIRS'
-            },
-            {
-              latitude: 38.5816, longitude: -121.4944,
-              confidence: 30, brightness: 310,
-              acq_date: '2023-07-01', acq_time: '2245',
-              satellite: 'VIIRS'
+        // Mobile Navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    const isActive = navMenu.classList.contains('active');
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    hamburger.setAttribute('aria-expanded', !isActive);
+                    
+                    if (!navMenu.classList.contains('active')) {
+                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                            openDropdown.classList.remove('open');
+                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
+                            if(caret) caret.style.transform = '';
+                        });
+                    }
+                });
             }
-          ];
-          
-          displayFires(fallbackData);
-        }
-      }
-      
-      // Set up event handlers
-      refreshBtn.addEventListener('click', loadFireData);
-      
-      // Debug feature - click map to see coordinates
-      map.on('click', function(e) {
-        const coord = e.latlng;
-        const lat = coord.lat.toFixed(6);
-        const lng = coord.lng.toFixed(6);
-        console.log(`Clicked at: ${lat}, ${lng}`);
+            
+            if (navMenu) {
+                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+                dropdownToggles.forEach(toggleLink => {
+                    toggleLink.addEventListener('click', (e) => {
+                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                            e.preventDefault();
+                            const parentLi = toggleLink.closest('.has-dropdown');
+                            if (parentLi) {
+                                const currentlyOpen = parentLi.classList.contains('open');
+                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
+                                    if (otherLi !== parentLi) {
+                                        otherLi.classList.remove('open');
+                                        const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
+                                        if(otherCaret) otherCaret.style.transform = '';
+                                    }
+                                });
+                                parentLi.classList.toggle('open', !currentlyOpen);
+                                const caret = toggleLink.querySelector('i.fa-caret-down');
+                                if (caret) {
+                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
+                                }
+                            }
+                        }
+                        else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
+                            e.preventDefault();
+                        }
+                    });
+                });
+            }
+        });
         
-        L.popup()
-          .setLatLng(coord)
-          .setContent(`<strong>Coordinates:</strong><br>${lat}, ${lng}`)
-          .openOn(map);
-      });
-      
-      // Initial load
-      loadFireData();
-    });
-  </script>
-</body>
-</html>
+        // Fire Map Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Constants
+            const DEFAULT_CENTER = [39.8283, -98.5795]; // Center of US
+            const DEFAULT_ZOOM = 4;
+            
+            // DOM Elements
+            const mapElement = document.getElementById('map');
+            const statusElement = document.getElementById('status');
+            const resetViewBtn = document.getElementById('reset-view-btn');
+            const locateMeBtn = document.getElementById('locate-me-btn');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            
+            // Initialize map
+            const map = L.map('map').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+            
+            // Add base map layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors | Fire data: NASA FIRMS',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Initialize marker cluster group
+            const markers = L.markerClusterGroup();
+            map.addLayer(markers);
+            
+            // Set status
+            function setStatus(message, type = 'loading') {
+                statusElement.className = 'status-bar ' + type;
+                
+                let icon = '<i class="fas fa-spinner fa-spin"></i>';
+                if (type === 'success') {
+                    icon = '<i class="fas fa-check-circle"></i>';
+                } else if (type === 'warning') {
+                    icon = '<i class="fas fa-exclamation-triangle"></i>';
+                } else if (type === 'error') {
+                    icon = '<i class="fas fa-times-circle"></i>';
+                }
+                
+                statusElement.innerHTML = icon + ' ' + message;
+            }
+            
+            // Create a custom icon for the fire markers based on confidence
+            function createFireIcon(confidence) {
+                // Set color based on confidence
+                let markerColor = 'red'; // Default
+                
+                if (confidence < 30) {
+                    markerColor = 'yellow';
+                } else if (confidence < 80) {
+                    markerColor = 'orange';
+                }
+                
+                return L.divIcon({
+                    html: `<div style="background-color: ${markerColor}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #fff;"></div>`,
+                    className: '',
+                    iconSize: [12, 12]
+                });
+            }
+            
+            // Display fire data on map
+            function displayFires(fires) {
+                // Clear existing markers
+                markers.clearLayers();
+                
+                if (!fires || fires.length === 0) {
+                    setStatus('No fire data available', 'warning');
+                    return;
+                }
+                
+                // Track valid points for bounds
+                const validPoints = [];
+                let count = 0;
+                
+                // Add markers for each fire
+                fires.forEach(fire => {
+                    // Extract coordinates - handle different possible property names
+                    const lat = parseFloat(fire.latitude || fire.lat || '');
+                    const lng = parseFloat(fire.longitude || fire.lon || '');
+                    
+                    // Skip invalid coordinates
+                    if (isNaN(lat) || isNaN(lng)) {
+                        console.warn('Invalid coordinates:', fire);
+                        return;
+                    }
+                    
+                    // Get confidence level
+                    const confidence = parseFloat(fire.confidence || 0);
+                    
+                    // Create marker with appropriate icon
+                    const marker = L.marker([lat, lng], {
+                        icon: createFireIcon(confidence)
+                    });
+                    
+                    // Build popup content
+                    let popupContent = '<div style="max-height: 200px; overflow-y: auto;">';
+                    popupContent += '<h4>Fire Detection</h4>';
+                    
+                    // Format acquisition date/time if available
+                    if (fire.acq_date && fire.acq_time) {
+                        const dateStr = fire.acq_date;
+                        const timeStr = String(fire.acq_time).padStart(4, '0');
+                        const hours = timeStr.slice(0, 2);
+                        const minutes = timeStr.slice(2, 4);
+                        popupContent += `<strong>Date:</strong> ${dateStr}<br>`;
+                        popupContent += `<strong>Time:</strong> ${hours}:${minutes} UTC<br>`;
+                    }
+                    
+                    // Add confidence
+                    if (fire.confidence) {
+                        popupContent += `<strong>Confidence:</strong> ${fire.confidence}%<br>`;
+                    }
+                    
+                    // Add brightness if available
+                    if (fire.brightness || fire.bright_t31) {
+                        const brightness = fire.brightness || fire.bright_t31;
+                        popupContent += `<strong>Brightness:</strong> ${brightness} K<br>`;
+                    }
+                    
+                    // Add satellite info
+                    if (fire.satellite) {
+                        popupContent += `<strong>Satellite:</strong> ${fire.satellite}<br>`;
+                    }
+                    
+                    // Add coordinates
+                    popupContent += `<strong>Latitude:</strong> ${lat.toFixed(6)}<br>`;
+                    popupContent += `<strong>Longitude:</strong> ${lng.toFixed(6)}<br>`;
+                    
+                    popupContent += '</div>';
+                    marker.bindPopup(popupContent);
+                    markers.addLayer(marker);
+                    validPoints.push([lat, lng]);
+                    count++;
+                });
+                
+                // Fit map to bounds if we have points
+                if (validPoints.length > 0) {
+                    const bounds = L.latLngBounds(validPoints);
+                    map.fitBounds(bounds);
+                    setStatus(`Showing ${count} fire detections`, 'success');
+                } else {
+                    setStatus('No fire detections found in this region', 'warning');
+                }
+            }
+            
+            // Get sample fire data - simulated for demo
+            function getSampleFireData() {
+                // Create a realistic sample based on actual FIRMS data format
+                const sampleData = [];
+                const satellites = ['MODIS', 'VIIRS', 'VIIRS_SNPP'];
+                const satellite = satellites[Math.floor(Math.random() * satellites.length)];
+                
+                // Generate US fires
+                const basePoints = [
+                    {lat: 34.05, lng: -118.24, name: "Los Angeles Area"}, // LA
+                    {lat: 37.77, lng: -122.41, name: "San Francisco Area"}, // SF
+                    {lat: 38.58, lng: -121.49, name: "Sacramento Area"}, // Sacramento
+                    {lat: 36.77, lng: -119.77, name: "Fresno Area"}, // Fresno
+                    {lat: 32.71, lng: -117.16, name: "San Diego Area"}, // San Diego
+                    {lat: 35.37, lng: -119.01, name: "Bakersfield Area"}, // Bakersfield
+                    {lat: 33.83, lng: -116.53, name: "Palm Springs Area"}, // Palm Springs
+                    {lat: 39.52, lng: -121.55, name: "Chico Area"}, // Chico
+                    {lat: 40.58, lng: -124.15, name: "Eureka Area"}, // Eureka
+                    {lat: 41.71, lng: -122.64, name: "Mount Shasta Area"}, // Mt Shasta
+                    {lat: 46.87, lng: -113.99, name: "Montana Mountains"}, // Montana
+                    {lat: 43.61, lng: -116.21, name: "Boise Area"}, // Boise, Idaho
+                    {lat: 35.68, lng: -105.94, name: "Santa Fe Area"}, // Santa Fe, NM
+                    {lat: 38.47, lng: -106.04, name: "Colorado Mountains"}, // Colorado
+                    {lat: 44.06, lng: -121.32, name: "Bend, Oregon"}, // Bend, OR
+                    {lat: 47.60, lng: -122.33, name: "Seattle Area"} // Seattle, WA
+                ];
+                
+                // Get current date
+                const currentDate = new Date();
+                
+                // Generate fire points for each base location
+                basePoints.forEach(base => {
+                    // Randomly determine how many fires in this area (0-5)
+                    const fireCount = Math.floor(Math.random() * 6);
+                    
+                    for (let i = 0; i < fireCount; i++) {
+                        // Create some variation in location
+                        const latOffset = (Math.random() - 0.5) * 0.5;
+                        const lngOffset = (Math.random() - 0.5) * 0.5;
+                        
+                        // Generate random time in the past 48 hours
+                        const hoursAgo = Math.floor(Math.random() * 48);
+                        const fireDate = new Date(currentDate);
+                        fireDate.setHours(fireDate.getHours() - hoursAgo);
+                        
+                        // Format date as YYYY-MM-DD
+                        const acq_date = fireDate.toISOString().split('T')[0];
+                        
+                        // Format time as HHMM
+                        const hours = fireDate.getHours().toString().padStart(2, '0');
+                        const minutes = fireDate.getMinutes().toString().padStart(2, '0');
+                        const acq_time = hours + minutes;
+                        
+                        // Generate random confidence level
+                        const confidence = Math.floor(Math.random() * 100) + 1;
+                        
+                        // Generate random brightness temperature
+                        const brightness = 300 + Math.floor(Math.random() * 100);
+                        
+                        // Add to sample data
+                        sampleData.push({
+                            latitude: base.lat + latOffset,
+                            longitude: base.lng + lngOffset,
+                            brightness: brightness,
+                            scan: 0.5 + Math.random(),
+                            track: 0.5 + Math.random(),
+                            acq_
