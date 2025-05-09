@@ -3,76 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Fire Map | Active Fires Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>NASA FIRMS Fire Map</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         
-        #fire-map {
+        #map {
             width: 100%;
             height: 100%;
+        }
+        
+        #controls {
             position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .map-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .map-title {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-        
-        .map-subtitle {
-            margin: 0;
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
-        .map-control {
-            margin: 5px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .map-control button {
+            top: 10px;
+            left: 10px;
+            background: white;
             padding: 10px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
         }
         
-        .map-control button:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .map-footer {
+        #status-panel {
             position: absolute;
-            bottom: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 5px 10px;
-            font-size: 0.7rem;
-            border-top-left-radius: 4px;
+            bottom: 30px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+            font-size: 14px;
+            max-width: 300px;
+            display: none;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 20;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        button {
+            margin: 5px 0;
+            padding: 8px 12px;
+            background: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #3367D6;
+        }
+        
+        select, input {
+            padding: 6px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
         }
         
         .legend {
@@ -82,9 +100,9 @@
             background: white;
             padding: 10px;
             border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            font-size: 0.8rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+            font-size: 12px;
         }
         
         .legend-item {
@@ -94,116 +112,85 @@
         }
         
         .legend-color {
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             margin-right: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid rgba(0,0,0,0.2);
         }
         
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            flex-direction: column;
+        .option-group {
+            margin: 10px 0;
         }
         
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .about-panel {
-            position: absolute;
-            top: 60px;
-            left: 10px;
-            background: white;
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            max-width: 300px;
-            display: none;
-        }
-        
-        .about-toggle {
-            position: absolute;
-            top: 60px;
-            left: 10px;
-            z-index: 100;
-            background: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            .map-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .map-title {
-                font-size: 1rem;
-            }
-            
-            .legend {
-                bottom: 10px;
-                right: 10px;
-                font-size: 0.7rem;
-                padding: 5px;
-            }
+        label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: bold;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
     <!-- Map container -->
-    <div id="fire-map"></div>
+    <div id="map"></div>
     
-    <!-- Header -->
-    <div class="map-header">
-        <div>
-            <h1 class="map-title">Real-Time Fire Map</h1>
-            <p class="map-subtitle">Tracking active fires from NASA FIRMS satellite data</p>
+    <!-- Controls panel -->
+    <div id="controls">
+        <h3 style="margin-top: 0;">NASA FIRMS Fire Map</h3>
+        
+        <div class="option-group">
+            <label for="source">Data Source:</label>
+            <select id="source">
+                <option value="MODIS_NRT">MODIS (Near Real-Time)</option>
+                <option value="VIIRS_NOAA20_NRT">VIIRS NOAA-20 (Near Real-Time)</option>
+                <option value="VIIRS_SNPP_NRT">VIIRS Suomi NPP (Near Real-Time)</option>
+            </select>
         </div>
+        
+        <div class="option-group">
+            <label for="days">Time Range (Days):</label>
+            <select id="days">
+                <option value="1">Last 24 hours</option>
+                <option value="2">Last 48 hours</option>
+                <option value="3">Last 3 days</option>
+                <option value="7">Last 7 days</option>
+                <option value="10">Last 10 days</option>
+            </select>
+        </div>
+        
+        <div class="option-group">
+            <label>Map Area:</label>
+            <select id="area-preset">
+                <option value="custom">Custom Area</option>
+                <option value="-125,25,-65,49" selected>Continental US</option>
+                <option value="-170,10,-50,70">North America</option>
+                <option value="-20,35,40,70">Europe</option>
+                <option value="100,-40,155,-10">Australia</option>
+                <option value="world">Worldwide</option>
+            </select>
+        </div>
+        
+        <div id="custom-area" style="display: none;">
+            <div class="option-group">
+                <label>Custom Bounds:</label>
+                <input type="text" id="west" placeholder="West" size="6"> 
+                <input type="text" id="south" placeholder="South" size="6"><br>
+                <input type="text" id="east" placeholder="East" size="6"> 
+                <input type="text" id="north" placeholder="North" size="6">
+            </div>
+        </div>
+        
+        <button id="load-fires">Load Fire Data</button>
+        <button id="clear-fires">Clear Fire Data</button>
     </div>
     
-    <!-- About panel toggle -->
-    <button class="about-toggle" id="about-toggle">
-        <i class="fas fa-info-circle"></i> About
-    </button>
-    
-    <!-- About panel -->
-    <div class="about-panel" id="about-panel">
-        <h3>About This Fire Map</h3>
-        <p>This map displays near real-time active fire data from NASA's Fire Information for Resource Management System (FIRMS).</p>
-        <p>The data comes from the VIIRS and MODIS instruments aboard NASA's satellites, which detect thermal anomalies that indicate active fires.</p>
-        <p>Data is refreshed automatically every 5 minutes.</p>
-        <button id="close-about">Close</button>
-    </div>
+    <!-- Status panel -->
+    <div id="status-panel"></div>
     
     <!-- Legend -->
     <div class="legend">
-        <h4 style="margin-top: 0; margin-bottom: 8px;">Fire Confidence</h4>
+        <h3 style="margin-top: 0; font-size: 14px;">Fire Confidence</h3>
         <div class="legend-item">
             <div class="legend-color" style="background-color: #FF0000;"></div>
             <span>High (80-100%)</span>
@@ -220,65 +207,382 @@
             <div class="legend-color" style="background-color: #FFCC00;"></div>
             <span>Very Low (<30%)</span>
         </div>
-        <div style="margin-top: 5px; font-size: 0.7rem; opacity: 0.7;">
-            *Circle size indicates fire intensity
+        <div style="margin-top: 5px; font-size: 11px; opacity: 0.7;">
+            Circle size indicates fire intensity (FRP)
         </div>
     </div>
     
-    <!-- Footer -->
-    <div class="map-footer">
-        Data source: NASA FIRMS | Last updated: <span id="last-update">Loading...</span>
-    </div>
-    
     <!-- Loading overlay -->
-    <div class="loading-overlay" id="loading-overlay">
+    <div id="loading">
         <div class="spinner"></div>
-        <p>Loading fire data...</p>
+        <p id="loading-message">Initializing map...</p>
     </div>
     
-    <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization"></script>
-    
-    <!-- Custom Fire Map JS -->
-    <script src="fire-map.js"></script>
-    
-    <!-- UI Functionality -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Handle About panel
-            const aboutToggle = document.getElementById('about-toggle');
-            const aboutPanel = document.getElementById('about-panel');
-            const closeAbout = document.getElementById('close-about');
+        // Configuration
+        const config = {
+            // Your Cloudflare proxy endpoint - update this to your worker URL
+            apiEndpoint: 'https://eyeonthefire.com/api/nasa/firms',
+            // Default map center (United States)
+            defaultCenter: { lat: 39.8283, lng: -98.5795 },
+            // Default zoom level
+            defaultZoom: 4,
+            // Maximum number of fetch attempts
+            maxFetchAttempts: 3,
+            // Sample data in case API fails
+            sampleData: [
+                { latitude: 37.7749, longitude: -122.4194, confidence: 80, frp: 15.2 },
+                { latitude: 34.0522, longitude: -118.2437, confidence: 70, frp: 8.7 },
+                { latitude: 40.7128, longitude: -74.0060, confidence: 90, frp: 22.3 }
+            ]
+        };
+        
+        // Global variables
+        let map;
+        let markers = [];
+        let infoWindow;
+        
+        // Initialize the map
+        function initMap() {
+            console.log('Map initialization started');
+            showStatus('Initializing map...');
             
-            aboutToggle.addEventListener('click', () => {
-                aboutPanel.style.display = 'block';
-                aboutToggle.style.display = 'none';
-            });
+            try {
+                // Create the map
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: config.defaultCenter,
+                    zoom: config.defaultZoom,
+                    mapTypeId: 'terrain'
+                });
+                
+                // Create info window for markers
+                infoWindow = new google.maps.InfoWindow();
+                
+                console.log('Map created successfully');
+                showStatus('Map initialized successfully. Use the controls to load fire data.');
+                
+                // Hide loading screen
+                document.getElementById('loading').style.display = 'none';
+                
+                // Set up event listeners
+                document.getElementById('load-fires').addEventListener('click', loadFireData);
+                document.getElementById('clear-fires').addEventListener('click', clearMarkers);
+                document.getElementById('area-preset').addEventListener('change', toggleCustomArea);
+                
+                // Initialize custom area toggle
+                toggleCustomArea();
+                
+                return true;
+            } catch (error) {
+                console.error('Error initializing map:', error);
+                showStatus('Error initializing map: ' + error.message, true);
+                return false;
+            }
+        }
+        
+        // Toggle custom area input fields
+        function toggleCustomArea() {
+            const areaPreset = document.getElementById('area-preset').value;
+            const customAreaDiv = document.getElementById('custom-area');
             
-            closeAbout.addEventListener('click', () => {
-                aboutPanel.style.display = 'none';
-                aboutToggle.style.display = 'block';
-            });
+            if (areaPreset === 'custom') {
+                customAreaDiv.style.display = 'block';
+            } else {
+                customAreaDiv.style.display = 'none';
+            }
+        }
+        
+        // Get current area value
+        function getAreaValue() {
+            const areaPreset = document.getElementById('area-preset').value;
             
-            // Hide loading overlay when map loads
-            const loadingOverlay = document.getElementById('loading-overlay');
+            if (areaPreset !== 'custom') {
+                return areaPreset;
+            }
             
-            // This will be called when the map is initialized
-            window.onMapInitialized = () => {
-                loadingOverlay.style.display = 'none';
-            };
+            const west = document.getElementById('west').value;
+            const south = document.getElementById('south').value;
+            const east = document.getElementById('east').value;
+            const north = document.getElementById('north').value;
             
-            // Update the last-update span
-            window.updateLastUpdateTime = (timestamp) => {
-                const lastUpdateSpan = document.getElementById('last-update');
-                if (timestamp) {
-                    const date = new Date(timestamp);
-                    lastUpdateSpan.textContent = date.toLocaleString();
+            if (!west || !south || !east || !north) {
+                showStatus('Please fill in all custom area bounds or select a preset', true);
+                return null;
+            }
+            
+            return `${west},${south},${east},${north}`;
+        }
+        
+        // Show status message
+        function showStatus(message, isError = false) {
+            const statusPanel = document.getElementById('status-panel');
+            statusPanel.textContent = message;
+            statusPanel.style.color = isError ? 'red' : 'black';
+            statusPanel.style.display = 'block';
+            
+            // Auto-hide non-error messages after 5 seconds
+            if (!isError) {
+                setTimeout(() => {
+                    statusPanel.style.display = 'none';
+                }, 5000);
+            }
+            
+            console.log(isError ? `ERROR: ${message}` : `STATUS: ${message}`);
+        }
+        
+        // Set loading message
+        function setLoadingMessage(message) {
+            const loadingMessage = document.getElementById('loading-message');
+            if (loadingMessage) loadingMessage.textContent = message;
+        }
+        
+        // Show loading indicator
+        function showLoading(message) {
+            const loading = document.getElementById('loading');
+            setLoadingMessage(message);
+            loading.style.display = 'block';
+        }
+        
+        // Hide loading indicator
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        }
+        
+        // Load fire data from API
+        async function loadFireData() {
+            clearMarkers();
+            showStatus('Loading fire data...');
+            showLoading('Fetching fire data...');
+            
+            // Get parameters
+            const source = document.getElementById('source').value;
+            const days = document.getElementById('days').value;
+            const area = getAreaValue();
+            
+            if (!area) {
+                hideLoading();
+                return;
+            }
+            
+            try {
+                // Fetch data
+                const apiData = await fetchFireData(source, area, days);
+                
+                if (apiData && apiData.length > 0) {
+                    // Add markers for each fire
+                    addFireMarkers(apiData);
+                    showStatus(`Loaded ${apiData.length} fire data points`);
+                    
+                    // Fit map to markers if not worldwide
+                    if (area !== 'world' && apiData.length > 0) {
+                        fitMapToBounds(apiData);
+                    }
                 } else {
-                    lastUpdateSpan.textContent = 'Never';
+                    showStatus('No fire data found for the selected parameters.', true);
                 }
-            };
-        });
+            } catch (error) {
+                console.error('Error loading fire data:', error);
+                showStatus('Error loading fire data: ' + error.message, true);
+                
+                // Use sample data as fallback
+                showStatus('Using sample data as fallback', true);
+                addFireMarkers(config.sampleData);
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // Fit map to data bounds
+        function fitMapToBounds(fireData) {
+            if (!fireData || fireData.length === 0) return;
+            
+            const bounds = new google.maps.LatLngBounds();
+            
+            fireData.forEach(fire => {
+                if (fire.latitude && fire.longitude) {
+                    bounds.extend(new google.maps.LatLng(
+                        parseFloat(fire.latitude),
+                        parseFloat(fire.longitude)
+                    ));
+                }
+            });
+            
+            map.fitBounds(bounds);
+            
+            // Don't zoom in too far
+            const listener = google.maps.event.addListener(map, 'idle', function() {
+                if (map.getZoom() > 10) {
+                    map.setZoom(10);
+                }
+                google.maps.event.removeListener(listener);
+            });
+        }
+        
+        // Fetch fire data from API
+        async function fetchFireData(source, area, days) {
+            showStatus(`Fetching fire data: Source=${source}, Area=${area}, Days=${days}`);
+            
+            let attempt = 0;
+            
+            while (attempt < config.maxFetchAttempts) {
+                attempt++;
+                console.log(`Fetch attempt ${attempt}/${config.maxFetchAttempts}`);
+                
+                try {
+                    // Build the URL with parameters
+                    const url = `${config.apiEndpoint}?source=${encodeURIComponent(source)}&area=${encodeURIComponent(area)}&days=${days}`;
+                    console.log(`Fetching from: ${url}`);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        cache: 'no-cache'
+                    });
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`API responded with status ${response.status}: ${errorText}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.error === true) {
+                        throw new Error(data.message || 'Unknown API error');
+                    }
+                    
+                    console.log(`Fetched ${data.length} fire data points`);
+                    return data;
+                } catch (error) {
+                    console.error(`Fetch attempt ${attempt} failed:`, error);
+                    
+                    if (attempt >= config.maxFetchAttempts) {
+                        throw error;
+                    }
+                    
+                    // Wait before retrying (1s, 2s, 4s, etc.)
+                    await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, attempt - 1)));
+                }
+            }
+        }
+        
+        // Clear all markers from the map
+        function clearMarkers() {
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+            showStatus('Cleared fire data');
+        }
+        
+        // Add fire markers to the map
+        function addFireMarkers(fireData) {
+            fireData.forEach(fire => {
+                // Skip if missing critical data
+                if (!fire.latitude || !fire.longitude) return;
+                
+                // Parse coordinates to ensure they're numbers
+                const lat = parseFloat(fire.latitude);
+                const lng = parseFloat(fire.longitude);
+                
+                if (isNaN(lat) || isNaN(lng)) return;
+                
+                // Create icon based on confidence or FRP
+                const icon = {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: getFireColor(fire.confidence),
+                    fillOpacity: 0.7,
+                    strokeColor: '#FFFFFF',
+                    strokeWeight: 1,
+                    scale: getFireSize(fire.frp)
+                };
+                
+                // Create marker
+                const marker = new google.maps.Marker({
+                    position: { lat, lng },
+                    map: map,
+                    icon: icon,
+                    title: `Fire at ${lat}, ${lng}`
+                });
+                
+                // Add click listener
+                marker.addListener('click', () => {
+                    showFireInfo(marker, fire);
+                });
+                
+                // Store marker
+                markers.push(marker);
+            });
+            
+            showStatus(`Added ${markers.length} fire markers to map`);
+        }
+        
+        // Get color based on confidence
+        function getFireColor(confidence) {
+            // Default to orange if no confidence
+            if (!confidence) return '#FFA500';
+            
+            // Parse confidence to ensure it's a number
+            const conf = parseInt(confidence);
+            
+            if (isNaN(conf)) return '#FFA500';
+            
+            if (conf >= 80) return '#FF0000'; // High confidence = red
+            if (conf >= 60) return '#FF4500'; // Medium confidence = orange-red
+            if (conf < 30) return '#FFCC00'; // Low confidence = yellow
+            
+            return '#FFA500'; // Default orange
+        }
+        
+        // Get size based on FRP (Fire Radiative Power)
+        function getFireSize(frp) {
+            if (!frp) return 8; // Default size
+            
+            const power = parseFloat(frp);
+            
+            if (isNaN(power)) return 8;
+            
+            if (power > 50) return 14;
+            if (power > 20) return 12;
+            if (power > 10) return 10;
+            
+            return 8;
+        }
+        
+        // Show fire information in an info window
+        function showFireInfo(marker, fire) {
+            // Format acquisition date and time if present
+            let dateTimeInfo = '';
+            if (fire.acq_date) {
+                dateTimeInfo += `<p><strong>Detection Date:</strong> ${fire.acq_date}</p>`;
+                
+                if (fire.acq_time) {
+                    // Format time from HHMM to HH:MM
+                    const timeStr = fire.acq_time.toString().padStart(4, '0');
+                    const hours = timeStr.substring(0, 2);
+                    const minutes = timeStr.substring(2, 4);
+                    dateTimeInfo += `<p><strong>Detection Time:</strong> ${hours}:${minutes} UTC</p>`;
+                }
+            }
+            
+            const content = `
+                <div style="padding: 8px; max-width: 240px;">
+                    <h3 style="margin-top: 0;">Fire Data</h3>
+                    <p><strong>Location:</strong> ${fire.latitude}, ${fire.longitude}</p>
+                    <p><strong>Confidence:</strong> ${fire.confidence || 'Unknown'}%</p>
+                    <p><strong>Fire Power:</strong> ${fire.frp || 'Unknown'} MW</p>
+                    ${dateTimeInfo}
+                </div>
+            `;
+            
+            infoWindow.setContent(content);
+            infoWindow.open(map, marker);
+        }
+    </script>
+    
+    <!-- Load Google Maps API with the correct key and callback -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&callback=initMap">
     </script>
 </body>
 </html>
