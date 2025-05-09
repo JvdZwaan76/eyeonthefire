@@ -97,17 +97,29 @@
       width: 100%;
     }
     
-    /* Different fire confidence levels */
-    .marker-low {
-      background-color: yellow;
+    /* Legend styles */
+    .legend {
+      position: absolute;
+      bottom: 30px;
+      right: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+      z-index: 1000;
     }
     
-    .marker-nominal {
-      background-color: orange;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
     }
     
-    .marker-high {
-      background-color: red;
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 8px;
     }
   </style>
 </head>
@@ -129,12 +141,28 @@
     <div class="form-group">
       <label for="satellite">Satellite Source:</label>
       <select id="satellite">
-        <option value="MODIS_NRT">MODIS (Terra/Aqua)</option>
-        <option value="VIIRS_NOAA20_NRT" selected>VIIRS (NOAA-20)</option>
-        <option value="VIIRS_SNPP_NRT">VIIRS (Suomi NPP)</option>
+        <option value="MODIS">MODIS (Terra/Aqua)</option>
+        <option value="VIIRS" selected>VIIRS (NOAA-20)</option>
+        <option value="VIIRS_SNPP">VIIRS (Suomi NPP)</option>
       </select>
     </div>
     <button id="refresh-btn" class="form-submit">Refresh Data</button>
+  </div>
+  
+  <div class="legend">
+    <h4 style="margin-top: 0;">Fire Confidence</h4>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: red;"></div>
+      <span>High (80-100%)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: orange;"></div>
+      <span>Nominal (30-79%)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background-color: yellow;"></div>
+      <span>Low (0-29%)</span>
+    </div>
   </div>
 
   <!-- Load libraries -->
@@ -213,12 +241,13 @@
         
         // Track valid points for bounds
         const validPoints = [];
+        let count = 0;
         
         // Add markers for each fire
         fires.forEach(fire => {
-          // Extract coordinates
-          const lat = parseFloat(fire.latitude);
-          const lng = parseFloat(fire.longitude);
+          // Extract coordinates - handle different possible property names
+          const lat = parseFloat(fire.latitude || fire.lat || '');
+          const lng = parseFloat(fire.longitude || fire.lon || '');
           
           // Skip invalid coordinates
           if (isNaN(lat) || isNaN(lng)) {
@@ -234,45 +263,63 @@
             icon: createFireIcon(confidence)
           });
           
-          // Build popup content with all attributes
+          // Build popup content
           let popupContent = '<div style="max-height: 200px; overflow-y: auto;">';
           popupContent += '<h4>Fire Detection</h4>';
           
-          // Add all data to popup
-          Object.keys(fire).forEach(key => {
-            if (fire[key]) {
-              // Format the label with proper casing
-              const label = key.split('_')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                .join(' ');
-              
-              popupContent += `<strong>${label}:</strong> ${fire[key]}<br>`;
-            }
-          });
+          // Format acquisition date/time if available
+          if (fire.acq_date && fire.acq_time) {
+            const dateStr = fire.acq_date;
+            const timeStr = fire.acq_time.padStart(4, '0');
+            const hours = timeStr.slice(0, 2);
+            const minutes = timeStr.slice(2, 4);
+            popupContent += `<strong>Date:</strong> ${dateStr}<br>`;
+            popupContent += `<strong>Time:</strong> ${hours}:${minutes} UTC<br>`;
+          }
+          
+          // Add confidence
+          if (fire.confidence) {
+            popupContent += `<strong>Confidence:</strong> ${fire.confidence}%<br>`;
+          }
+          
+          // Add brightness if available
+          if (fire.brightness || fire.bright_t31) {
+            const brightness = fire.brightness || fire.bright_t31;
+            popupContent += `<strong>Brightness:</strong> ${brightness} K<br>`;
+          }
+          
+          // Add satellite info
+          if (fire.satellite) {
+            popupContent += `<strong>Satellite:</strong> ${fire.satellite}<br>`;
+          }
+          
+          // Add coordinates
+          popupContent += `<strong>Latitude:</strong> ${lat.toFixed(6)}<br>`;
+          popupContent += `<strong>Longitude:</strong> ${lng.toFixed(6)}<br>`;
           
           popupContent += '</div>';
           marker.bindPopup(popupContent);
           markers.addLayer(marker);
           validPoints.push([lat, lng]);
+          count++;
         });
         
         // Fit map to bounds if we have points
         if (validPoints.length > 0) {
           map.fitBounds(validPoints);
-          setStatus(`Showing ${validPoints.length} fire detections`, 'success');
+          setStatus(`Showing ${count} fire detections`, 'success');
         } else {
           setStatus('No fire detections found in this region', 'warning');
         }
       }
       
-      // Function to construct the NASA FIRMS API URL
-      function getNasaFirmsURL() {
+      // Function to get API URL using your Cloudflare proxy
+      function getFireAPIUrl() {
         const days = daysSelect.value;
         const satellite = satelliteSelect.value;
         
-        // NASA FIRMS provides a CSV endpoint
-        // We're using a CORS proxy since FIRMS doesn't support CORS directly
-        return `https://firms.modaps.eosdis.nasa.gov/api/country/csv/${satellite}/USA/${days}`;
+        // Use your existing API endpoint with query parameters
+        return `/api/nasa/?days=${days}&source=${satellite}`;
       }
       
       // Parse CSV data from NASA FIRMS
@@ -317,53 +364,69 @@
         }
       }
       
+      // Function to determine data format and parse accordingly
+      function parseData(responseText) {
+        // Try to parse as JSON first
+        try {
+          return JSON.parse(responseText);
+        } catch (e) {
+          // If not JSON, try CSV
+          console.log('Response is not JSON, trying CSV format');
+          return parseCSV(responseText);
+        }
+      }
+      
       // Load fire data
       function loadFireData() {
-        setStatus('Loading fire data from NASA FIRMS...');
+        setStatus('Loading fire data...');
         
-        // Show URL being fetched for debugging
-        const url = getNasaFirmsURL();
+        // Get API URL based on current selections
+        const url = getFireAPIUrl();
         console.log('Fetching:', url);
         
-        // Fetch data from FIRMS
+        // Fetch data
         fetch(url)
           .then(response => {
             if (!response.ok) {
-              throw new Error(`NASA FIRMS API returned status ${response.status}`);
+              throw new Error(`API returned status ${response.status}`);
             }
             return response.text();
           })
           .then(text => {
-            // Parse CSV data
-            const data = parseCSV(text);
+            // Parse data based on format
+            const data = parseData(text);
             console.log('Parsed data:', data);
-            displayFires(data);
+            
+            if (data.length === 0) {
+              setStatus('No fire data returned from API', 'warning');
+            } else {
+              displayFires(data);
+            }
           })
           .catch(error => {
             console.error('Error loading fire data:', error);
-            setStatus(`Error: ${error.message}. Using fallback data.`, 'error');
+            setStatus(`Error: ${error.message}`, 'error');
             addRetryButton();
             
-            // Use fallback data since the NASA API might be inaccessible directly
-            // This is a sample of what FIRMS data looks like
+            // Use fallback data
             const fallbackData = [
               {
                 latitude: 37.7749, longitude: -122.4194, 
-                confidence: 95, brightness: 350, scan: 1.0, track: 1.0,
-                acq_date: '2023-07-01', acq_time: '22:30',
-                satellite: 'VIIRS', instrument: 'VIIRS', version: '1.0'
+                confidence: 95, brightness: 350,
+                acq_date: '2023-07-01', acq_time: '2230',
+                satellite: 'VIIRS'
               },
               {
                 latitude: 34.0522, longitude: -118.2437,
-                confidence: 60, brightness: 320, scan: 1.0, track: 1.0,
-                acq_date: '2023-07-01', acq_time: '22:30',
-                satellite: 'VIIRS', instrument: 'VIIRS', version: '1.0'
+                confidence: 60, brightness: 320,
+                acq_date: '2023-07-01', acq_time: '2230',
+                satellite: 'VIIRS'
               },
               {
                 latitude: 38.5816, longitude: -121.4944,
-                confidence: 30, brightness: 310, scan: 1.0, track: 1.0,
-                acq_date: '2023-07-01', acq_time: '22:45',
-                satellite: 'VIIRS', instrument: 'VIIRS', version: '1.0'
+                confidence: 30, brightness: 310,
+                acq_date: '2023-07-01', acq_time: '2245',
+                satellite: 'VIIRS'
               }
             ];
             
