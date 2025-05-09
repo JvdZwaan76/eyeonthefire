@@ -3,253 +3,248 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://www.googletagmanager.com https://static.cloudflareinsights.com;
-    style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-    connect-src 'self' https://eyeonthefire.com https://firms.modaps.eosdis.nasa.gov https://analytics.google.com https://www.google-analytics.com;
-    img-src 'self' https://tile.openstreetmap.org data:;
-    frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
-    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-  ">
   <title>Interactive Fire Map</title>
-  <!-- External Scripts and Styles -->
-  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  
+  <!-- External Dependencies -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+  
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
+      font-family: Arial, sans-serif;
     }
-    #root {
+    
+    #map {
       height: 100%;
       width: 100%;
     }
-    .error-message {
-      background-color: #ffeeee;
-      color: #cc0000;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 10px;
-      text-align: center;
-    }
-    .loading-overlay {
+    
+    .status-bar {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(255, 255, 255, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      bottom: 10px;
+      left: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
       z-index: 1000;
     }
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 4px solid #3498db;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
+    
+    .error {
+      color: #d9534f;
+      font-weight: bold;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    
+    .loading {
+      color: #5bc0de;
+    }
+    
+    .success {
+      color: #5cb85c;
+    }
+    
+    .retry-button {
+      background-color: #5bc0de;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-left: 10px;
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+  <div id="map"></div>
+  <div id="status" class="status-bar">Loading map...</div>
 
-    // Helper function to parse CSV data
-    const parseCSV = (text) => {
-      const lines = text.trim().split('\n');
-      const headers = lines[0].split(',');
+  <!-- Load libraries -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  
+  <script>
+    // Main app
+    document.addEventListener('DOMContentLoaded', function() {
+      // Constants
+      const API_URL = 'https://eyeonthefire.com/api/nasa/';
+      const DEFAULT_CENTER = [36.0, -120.0];
+      const DEFAULT_ZOOM = 5;
       
-      return lines.slice(1).map(line => {
-        const values = line.split(',');
-        const entry = {};
-        
-        headers.forEach((header, index) => {
-          entry[header.trim()] = values[index] ? values[index].trim() : '';
-        });
-        
-        return entry;
-      });
-    };
-
-    const MapComponent = () => {
-      const [fires, setFires] = useState([]);
-      const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
-      const mapRef = useRef(null);
-      const markersRef = useRef(null);
-      const mapContainerRef = useRef(null);
-
-      const loadFireData = async () => {
+      // DOM elements
+      const mapElement = document.getElementById('map');
+      const statusElement = document.getElementById('status');
+      
+      // Initialize map
+      const map = L.map('map').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+      
+      // Add base map layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+      }).addTo(map);
+      
+      // Initialize marker cluster group
+      const markers = L.markerClusterGroup();
+      map.addLayer(markers);
+      
+      // Set status
+      function setStatus(message, type = 'loading') {
+        statusElement.innerHTML = message;
+        statusElement.className = 'status-bar ' + type;
+      }
+      
+      // Add retry button to status
+      function addRetryButton() {
+        const button = document.createElement('button');
+        button.innerText = 'Retry';
+        button.className = 'retry-button';
+        button.onclick = loadFireData;
+        statusElement.appendChild(button);
+      }
+      
+      // Parse CSV helper
+      function parseCSV(text) {
         try {
-          setError(null);
-          const response = await fetch('https://eyeonthefire.com/api/nasa/');
-          
-          if (!response.ok) {
-            throw new Error(`API failed with status: ${response.status}`);
+          const lines = text.trim().split('\n');
+          if (lines.length < 2) {
+            console.warn('CSV has too few lines:', lines);
+            return [];
           }
           
-          const text = await response.text();
+          const headers = lines[0].split(',').map(h => h.trim());
           
-          // Try to parse as JSON first
-          try {
-            const jsonData = JSON.parse(text);
-            return jsonData.map(item => ({
-              lat: parseFloat(item.latitude || item.lat),
-              lon: parseFloat(item.longitude || item.lon),
-              title: item.title || `Fire detected at ${item.latitude}, ${item.longitude}`
-            }));
-          } catch (jsonError) {
-            // If not JSON, try parsing as CSV
-            try {
-              const csvData = parseCSV(text);
-              return csvData.map(item => ({
-                lat: parseFloat(item.latitude || item.lat),
-                lon: parseFloat(item.longitude || item.lon),
-                title: `Fire detected at ${item.latitude || item.lat}, ${item.longitude || item.lon}`
-              }));
-            } catch (csvError) {
-              console.error('Error parsing data:', csvError);
-              throw new Error('Could not parse API response');
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching fire data:', error);
-          setError(`Failed to load fire data: ${error.message}`);
-          
-          // Return empty array instead of fallback data
+          return lines.slice(1).map(line => {
+            const values = line.split(',');
+            const item = {};
+            
+            headers.forEach((header, i) => {
+              item[header] = values[i] ? values[i].trim() : '';
+            });
+            
+            return item;
+          });
+        } catch (e) {
+          console.error('CSV parse error:', e);
           return [];
         }
-      };
-
-      useEffect(() => {
-        const initMap = async () => {
-          setLoading(true);
-          try {
-            const data = await loadFireData();
-            setFires(data);
-          } catch (err) {
-            console.error('Error initializing map:', err);
-          } finally {
-            setLoading(false);
-          }
-        };
+      }
+      
+      // Display fire data on map
+      function displayFires(fires) {
+        // Clear existing markers
+        markers.clearLayers();
         
-        initMap();
-      }, []);
-
-      useEffect(() => {
-        if (mapContainerRef.current && !mapRef.current) {
-          // Initialize map only once
-          mapRef.current = L.map(mapContainerRef.current, {
-            center: [36.0, -120.0],
-            zoom: 6,
-          });
-          
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
-          }).addTo(mapRef.current);
-          
-          // Initialize marker cluster group
-          markersRef.current = L.markerClusterGroup();
-          mapRef.current.addLayer(markersRef.current);
+        if (!fires || fires.length === 0) {
+          setStatus('No fire data available', 'warning');
+          return;
         }
-
-        return () => {
-          if (mapRef.current) {
-            mapRef.current.remove();
-            mapRef.current = null;
-          }
-        };
-      }, []);
-
-      useEffect(() => {
-        if (mapRef.current && !loading && markersRef.current) {
-          // Clear existing markers
-          markersRef.current.clearLayers();
+        
+        // Track valid points for bounds
+        const validPoints = [];
+        
+        // Add markers for each fire
+        fires.forEach(fire => {
+          // Extract coordinates - handle different possible property names
+          const lat = parseFloat(fire.latitude || fire.lat || fire.LATITUDE || '');
+          const lng = parseFloat(fire.longitude || fire.lon || fire.lng || fire.LONGITUDE || '');
           
-          // Add new markers
-          fires.forEach(fire => {
-            if (fire.lat && fire.lon && !isNaN(fire.lat) && !isNaN(fire.lon)) {
-              const marker = L.marker([fire.lat, fire.lon])
-                .bindPopup(fire.title || 'Fire location');
-              markersRef.current.addLayer(marker);
+          // Skip invalid coordinates
+          if (isNaN(lat) || isNaN(lng)) {
+            console.warn('Invalid coordinates:', fire);
+            return;
+          }
+          
+          // Create marker
+          const marker = L.marker([lat, lng]);
+          
+          // Create popup content
+          let popupContent = '<strong>Fire Alert</strong><br>';
+          
+          // Add any available data to popup
+          Object.keys(fire).forEach(key => {
+            if (fire[key] && key !== 'latitude' && key !== 'longitude' && 
+                key !== 'lat' && key !== 'lng') {
+              popupContent += `${key}: ${fire[key]}<br>`;
             }
           });
           
-          // If we have fires, fit bounds
-          if (fires.length > 0) {
-            const validFires = fires.filter(f => f.lat && f.lon && !isNaN(f.lat) && !isNaN(f.lon));
-            if (validFires.length > 0) {
-              try {
-                const bounds = L.latLngBounds(validFires.map(f => [f.lat, f.lon]));
-                mapRef.current.fitBounds(bounds, { padding: [50, 50] });
-              } catch (err) {
-                console.error('Error fitting bounds:', err);
-              }
-            }
-          }
+          marker.bindPopup(popupContent);
+          markers.addLayer(marker);
+          validPoints.push([lat, lng]);
+        });
+        
+        // Fit map to bounds if we have points
+        if (validPoints.length > 0) {
+          map.fitBounds(validPoints);
+          setStatus(`Showing ${validPoints.length} fire locations`, 'success');
+        } else {
+          setStatus('No valid fire locations found', 'warning');
         }
-      }, [fires, loading]);
-
-      return (
-        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-          {error && (
-            <div className="error-message">
-              {error}
-              <button 
-                onClick={() => {
-                  setError(null);
-                  setLoading(true);
-                  loadFireData().then(data => {
-                    setFires(data);
-                    setLoading(false);
-                  });
-                }}
-                style={{ marginLeft: '10px' }}
-              >
-                Retry
-              </button>
-            </div>
-          )}
-          
-          <div
-            ref={mapContainerRef}
-            id="map"
-            style={{ height: 'calc(100% - ' + (error ? '40px' : '0px') + ')', width: '100%' }}
-          />
-          
-          {loading && (
-            <div className="loading-overlay">
-              <div>
-                <div className="spinner"></div>
-                <div style={{ marginTop: '10px' }}>Loading fire data...</div>
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    };
-
-    ReactDOM.render(<MapComponent />, document.getElementById('root'));
+      }
+      
+      // Load fire data from API
+      function loadFireData() {
+        setStatus('Loading fire data...');
+        
+        fetch(API_URL)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`API returned status ${response.status}`);
+            }
+            return response.text();
+          })
+          .then(text => {
+            // First try to parse as JSON
+            try {
+              const data = JSON.parse(text);
+              return data;
+            } catch (e) {
+              // If not JSON, try CSV
+              console.info('Not JSON, trying CSV format');
+              return parseCSV(text);
+            }
+          })
+          .then(data => {
+            // Log data for debugging
+            console.log('Parsed data:', data);
+            
+            // Display fire data
+            displayFires(data);
+          })
+          .catch(error => {
+            console.error('Error loading fire data:', error);
+            setStatus(`Error: ${error.message}`, 'error');
+            addRetryButton();
+            
+            // Add fallback data if available
+            displayFires([
+              { latitude: 37.7749, longitude: -122.4194, title: 'San Francisco' },
+              { latitude: 34.0522, longitude: -118.2437, title: 'Los Angeles' }
+            ]);
+          });
+      }
+      
+      // Start loading data
+      loadFireData();
+      
+      // Add debug feature - click map to see coordinates
+      map.on('click', function(e) {
+        const coord = e.latlng;
+        const lat = coord.lat.toFixed(6);
+        const lng = coord.lng.toFixed(6);
+        console.log(`Clicked at: ${lat}, ${lng}`);
+        
+        L.popup()
+          .setLatLng(coord)
+          .setContent(`<strong>Coordinates:</strong><br>${lat}, ${lng}`)
+          .openOn(map);
+      });
+    });
   </script>
 </body>
 </html>
