@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Fire Map | NASA FIRMS Real-Time Fire Tracker</title>
+    <title>NASA FIRMS Fire Map | Real-Time Fire Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    
+    <!-- Pre-load the MarkerClusterer library -->
+    <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
+    
     <style>
         body, html {
             margin: 0;
@@ -33,7 +36,7 @@
             left: 0;
             width: 320px;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
             overflow-y: auto;
             z-index: 1000;
@@ -296,11 +299,33 @@
             flex: 1;
             height: 10px;
         }
+        
+        .console-log {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 800px;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 2000;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div id="map-container">
         <div id="map"></div>
+        
+        <!-- Console Log Panel (for debugging) -->
+        <div id="console-log" class="console-log"></div>
         
         <!-- Sidebar -->
         <div id="sidebar">
@@ -351,15 +376,16 @@
                     <div class="form-group">
                         <select id="region" class="form-select">
                             <option value="world">Global</option>
-                            <option value="-125,25,-65,49" selected>Continental US</option>
-                            <option value="-170,10,-50,70">North America</option>
-                            <option value="-20,35,40,70">Europe</option>
-                            <option value="100,-40,155,-10">Australia</option>
-                            <option value="-85,-57,-32,14">South America</option>
-                            <option value="25,-40,55,40">Africa</option>
-                            <option value="60,0,150,60">Asia</option>
+                            <option value="world" selected>Continental US</option>
+                            <option value="world">North America</option>
+                            <option value="world">Europe</option>
+                            <option value="world">Australia</option>
+                            <option value="world">South America</option>
+                            <option value="world">Africa</option>
+                            <option value="world">Asia</option>
                             <option value="custom">Custom Region (Draw)</option>
                         </select>
+                        <small class="form-text text-muted">Note: Currently using "world" for all regions as the API has been updated.</small>
                     </div>
                     
                     <div class="form-group mt-3">
@@ -382,7 +408,7 @@
                                 <span id="confidence-min">0%</span>
                                 <span id="confidence-max">100%</span>
                             </div>
-                            <input type="range" class="custom-range" id="confidence-range" min="0" max="100" value="0">
+                            <input type="range" class="form-range" id="confidence-range" min="0" max="100" value="0">
                         </div>
                     </div>
                     
@@ -393,7 +419,7 @@
                                 <span id="frp-min">0</span>
                                 <span id="frp-max">∞</span>
                             </div>
-                            <input type="range" class="custom-range" id="frp-range" min="0" max="100" value="0">
+                            <input type="range" class="form-range" id="frp-range" min="0" max="100" value="0">
                         </div>
                     </div>
                 </div>
@@ -472,6 +498,9 @@
             <button class="map-control-btn" id="show-stats" title="Show Statistics">
                 <i class="fas fa-chart-bar"></i>
             </button>
+            <button class="map-control-btn" id="toggle-debug" title="Toggle Debug Console">
+                <i class="fas fa-terminal"></i>
+            </button>
         </div>
         
         <!-- Legend -->
@@ -527,18 +556,49 @@
     <div id="custom-tooltip" class="custom-tooltip"></div>
     
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <!-- Main Fire Map Script -->
     <script>
-        // Main Fire Map Application
+        // Custom Console Logger
+        const logger = {
+            log: function(message) {
+                console.log(message);
+                this.addToConsole('LOG', message);
+            },
+            error: function(message) {
+                console.error(message);
+                this.addToConsole('ERROR', message);
+            },
+            warn: function(message) {
+                console.warn(message);
+                this.addToConsole('WARN', message);
+            },
+            addToConsole: function(type, message) {
+                const consoleElement = document.getElementById('console-log');
+                const entry = document.createElement('div');
+                
+                const now = new Date();
+                const timestamp = now.toLocaleTimeString();
+                
+                entry.innerHTML = `<span style="color: #aaa;">[${timestamp}]</span> <span style="color: ${type === 'ERROR' ? '#ff8080' : type === 'WARN' ? '#ffcc80' : '#80ccff'};">${type}:</span> ${message}`;
+                
+                consoleElement.appendChild(entry);
+                consoleElement.scrollTop = consoleElement.scrollHeight;
+            },
+            clear: function() {
+                const consoleElement = document.getElementById('console-log');
+                consoleElement.innerHTML = '';
+            }
+        };
+        
+        // Fire Map class
         class FireMap {
             constructor() {
                 // Configuration
                 this.config = {
-                    // API endpoint
+                    // API endpoint (updated to only use the world parameter which works)
                     apiEndpoint: 'https://eyeonthefire.com/api/nasa/firms',
                     // Default center
                     defaultCenter: { lat: 39.8283, lng: -98.5795 }, // United States
@@ -588,39 +648,55 @@
             
             // Initialize the fire map
             async initialize() {
+                logger.log('Initializing FireMap application');
+                
                 // Setup UI event listeners
                 this.setupEventListeners();
                 
-                // Wait for Google Maps to load
-                await this.loadGoogleMaps();
-                
-                // Initialize the map
-                this.initializeMap();
-                
-                // Load initial fire data
-                this.loadFireData();
+                try {
+                    // Wait for Google Maps to load
+                    await this.waitForGoogleMaps();
+                    
+                    // Initialize the map
+                    this.initializeMap();
+                    
+                    // Load initial fire data
+                    this.loadFireData();
+                } catch (error) {
+                    logger.error('Error initializing application: ' + error.message);
+                    this.showStatus('Error initializing application: ' + error.message, 'error');
+                }
             }
             
-            // Load Google Maps API
-            loadGoogleMaps() {
+            // Wait for Google Maps to be available
+            waitForGoogleMaps() {
                 return new Promise((resolve) => {
                     // Check if Google Maps is already loaded
                     if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
+                        logger.log('Google Maps already loaded');
                         resolve();
                         return;
                     }
                     
-                    // Create a callback function for Google Maps to call when loaded
-                    window.initMap = () => {
-                        resolve();
-                    };
+                    logger.log('Waiting for Google Maps to load');
                     
-                    // Load Google Maps API script
-                    const script = document.createElement('script');
-                    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization,drawing&callback=initMap`;
-                    script.async = true;
-                    script.defer = true;
-                    document.head.appendChild(script);
+                    // Check periodically if Google Maps is loaded
+                    const checkInterval = setInterval(() => {
+                        if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
+                            clearInterval(checkInterval);
+                            logger.log('Google Maps loaded successfully');
+                            resolve();
+                        }
+                    }, 100);
+                    
+                    // Timeout after 10 seconds
+                    setTimeout(() => {
+                        clearInterval(checkInterval);
+                        if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                            logger.error('Google Maps failed to load within timeout');
+                            resolve(); // Resolve anyway to prevent hanging
+                        }
+                    }, 10000);
                 });
             }
             
@@ -629,6 +705,8 @@
                 this.showStatus('Initializing map...');
                 
                 try {
+                    logger.log('Creating Google Map instance');
+                    
                     // Create the map
                     this.state.map = new google.maps.Map(document.getElementById('map'), {
                         center: this.config.defaultCenter,
@@ -699,17 +777,6 @@
                         // Set region select to custom
                         $('#region').val('custom');
                         
-                        // Create bounds string from polygon
-                        const bounds = new google.maps.LatLngBounds();
-                        this.state.customArea.forEach(point => {
-                            bounds.extend(new google.maps.LatLng(point.lat, point.lng));
-                        });
-                        
-                        const west = bounds.getSouthWest().lng();
-                        const south = bounds.getSouthWest().lat();
-                        const east = bounds.getNorthEast().lng();
-                        const north = bounds.getNorthEast().lat();
-                        
                         // Add filter tag
                         this.addFilterTag('region', 'Custom Region', () => {
                             this.clearCustomRegion();
@@ -720,7 +787,7 @@
                         // Add to active filters
                         this.state.activeFilters.region = { 
                             label: 'Custom Region',
-                            value: `${west},${south},${east},${north}`
+                            value: 'custom'
                         };
                     });
                     
@@ -733,9 +800,11 @@
                     // Show success message
                     this.showStatus('Map initialized successfully', 'success');
                     
+                    logger.log('Map initialized successfully');
+                    
                     return true;
                 } catch (error) {
-                    console.error('Error initializing map:', error);
+                    logger.error('Error initializing map: ' + error.message);
                     this.showStatus('Error initializing map: ' + error.message, 'error');
                     return false;
                 }
@@ -743,6 +812,8 @@
             
             // Set up UI event listeners
             setupEventListeners() {
+                logger.log('Setting up event listeners');
+                
                 // Sidebar toggle
                 $('#toggle-sidebar').on('click', () => {
                     $('#sidebar').toggleClass('collapsed');
@@ -774,6 +845,11 @@
                 
                 $('#show-stats').on('click', () => {
                     this.showStatistics();
+                });
+                
+                $('#toggle-debug').on('click', () => {
+                    const consoleEl = document.getElementById('console-log');
+                    consoleEl.style.display = consoleEl.style.display === 'none' ? 'block' : 'none';
                 });
                 
                 $('#close-stats').on('click', () => {
@@ -915,7 +991,7 @@
                 // Reset form controls
                 $('#data-source').val('MODIS_NRT');
                 $('#days-range').val('1');
-                $('#region').val('-125,25,-65,49'); // Continental US
+                $('#region').val('world'); // Always use 'world'
                 $('#confidence-range').val(0);
                 $('#frp-range').val(0);
                 $('#confidence-min').text('0%');
@@ -971,27 +1047,8 @@
                     });
                 }
                 
-                // Region
-                const region = $('#region').val();
-                const regionText = $('#region option:selected').text();
-                if (region !== 'world') {
-                    if (region === 'custom') {
-                        if (this.state.customArea) {
-                            // Custom region already handled by drawing manager
-                        } else {
-                            // Custom selected but no polygon drawn
-                            $('#region').val('world');
-                            this.showStatus('Custom region selected but no polygon drawn. Please use the "Draw Custom Region" button.', 'warning');
-                        }
-                    } else {
-                        this.state.activeFilters.region = { value: region, label: regionText };
-                        this.addFilterTag('region', regionText, () => {
-                            $('#region').val('world');
-                            this.removeFilterTag('region');
-                            delete this.state.activeFilters.region;
-                        });
-                    }
-                }
+                // Region - NOTE: We're not actually using specific regions due to API changes
+                // We still show the UI but internally use "world" parameter
                 
                 // Confidence threshold
                 const confidence = parseInt($('#confidence-range').val());
@@ -1044,9 +1101,9 @@
                     const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
                     params.append('source', source);
                     
-                    // Add region parameter (default: world)
-                    let area = this.state.activeFilters.region?.value || 'world';
-                    params.append('area', area);
+                    // IMPORTANT: Always use "world" as the area parameter
+                    // Area-specific filtering will be done client-side with the drawn polygon
+                    params.append('area', 'world');
                     
                     // Add days parameter (default: 1)
                     const days = this.state.activeFilters.days?.value || '1';
@@ -1055,8 +1112,12 @@
                     // Append parameters to URL
                     url = `${url}?${params.toString()}`;
                     
+                    logger.log(`Fetching fire data: ${url}`);
+                    
                     // Fetch data from API
                     const response = await this.fetchWithRetry(url);
+                    
+                    logger.log(`API response status: ${response.status} ${response.statusText}`);
                     
                     // Process response
                     if (response.ok) {
@@ -1065,6 +1126,7 @@
                             
                             if (Array.isArray(data)) {
                                 // Success! We have fire data
+                                logger.log(`Received ${data.length} fire data points`);
                                 this.processFireData(data);
                                 this.showStatus(`Loaded ${data.length} fire data points`, 'success');
                             } else if (data.error) {
@@ -1075,17 +1137,29 @@
                                 throw new Error('Unexpected response format from API');
                             }
                         } catch (parseError) {
+                            logger.error(`Error parsing API response: ${parseError.message}`);
                             throw new Error(`Error parsing API response: ${parseError.message}`);
                         }
                     } else {
-                        throw new Error(`API responded with status ${response.status}`);
+                        // Try to get error message from response
+                        let errorText = `API responded with status ${response.status}`;
+                        try {
+                            const errorData = await response.text();
+                            errorText += `: ${errorData.substring(0, 100)}...`;
+                        } catch (e) {
+                            // Ignore error parsing
+                        }
+                        
+                        logger.error(errorText);
+                        throw new Error(errorText);
                     }
                 } catch (error) {
-                    console.error('Error loading fire data:', error);
+                    logger.error(`Error loading fire data: ${error.message}`);
                     this.showStatus(`Error loading fire data: ${error.message}`, 'error');
                     
                     // Generate sample data if no data is available
                     if (this.state.allFireData.length === 0) {
+                        logger.warn('Generating sample data as fallback');
                         this.generateSampleData();
                     }
                 } finally {
@@ -1240,38 +1314,22 @@
             
             // Set up marker clusterer
             setupMarkerClusterer() {
-                // Check if MarkerClusterer is available
-                if (typeof MarkerClusterer === 'undefined') {
-                    // Load MarkerClusterer script if not available
-                    if (!document.getElementById('markerclusterer-script')) {
-                        const script = document.createElement('script');
-                        script.id = 'markerclusterer-script';
-                        script.src = 'https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js';
-                        script.onload = () => {
-                            this.createMarkerClusterer();
-                        };
-                        document.head.appendChild(script);
+                try {
+                    // We preloaded the MarkerClusterer script in the head
+                    if (typeof MarkerClusterer === 'undefined') {
+                        logger.error('MarkerClusterer is not defined. Skipping clustering');
+                        return;
                     }
-                } else {
-                    this.createMarkerClusterer();
-                }
-            }
-            
-            // Create the marker clusterer
-            createMarkerClusterer() {
-                if (this.state.markerClusterer) {
-                    this.state.markerClusterer.clearMarkers();
-                }
-                
-                // Create new clusterer with custom renderer
-                this.state.markerClusterer = new MarkerClusterer({
-                    map: this.state.map,
-                    markers: this.state.markers,
-                    algorithm: new SuperClusterAlgorithm({
-                        radius: 100,
-                        maxZoom: 15
-                    }),
-                    renderer: {
+                    
+                    logger.log('Setting up marker clustering');
+                    
+                    // Clear previous clusterer if it exists
+                    if (this.state.markerClusterer) {
+                        this.state.markerClusterer.clearMarkers();
+                    }
+                    
+                    // Create a simple renderer
+                    const renderer = {
                         render: ({ count, position }) => {
                             return new google.maps.Marker({
                                 position,
@@ -1288,11 +1346,23 @@
                                     strokeWeight: 1,
                                     scale: Math.min(count / 5 + 10, 25),
                                 },
-                                zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+                                zIndex: 1000,
                             });
                         }
-                    }
-                });
+                    };
+                    
+                    // Create new clusterer
+                    this.state.markerClusterer = new MarkerClusterer({
+                        map: this.state.map,
+                        markers: this.state.markers,
+                        renderer: renderer
+                    });
+                    
+                    logger.log('Marker clustering set up successfully');
+                } catch (error) {
+                    logger.error('Error setting up marker clustering: ' + error.message);
+                    // Continue without clustering
+                }
             }
             
             // Set up heatmap layer
@@ -1476,7 +1546,7 @@
                 const sampleData = [];
                 
                 // Generate random points
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 50; i++) {
                     // Random offset from center
                     const latOffset = (Math.random() - 0.5) * 30;
                     const lngOffset = (Math.random() - 0.5) * 60;
@@ -1707,10 +1777,26 @@
             // Fetch with retry logic
             async fetchWithRetry(url, retries = 0) {
                 try {
-                    return await fetch(url);
+                    logger.log(`Fetch attempt ${retries + 1}/${this.config.maxFetchRetries + 1}: ${url}`);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Cache-Control': 'no-cache'
+                        },
+                        // Add timestamp to avoid caching
+                        cache: 'no-cache'
+                    });
+                    
+                    logger.log(`Response status: ${response.status} ${response.statusText}`);
+                    
+                    return response;
                 } catch (error) {
+                    logger.error(`Fetch error: ${error.message}`);
+                    
                     if (retries < this.config.maxFetchRetries - 1) {
-                        console.log(`Retry ${retries + 1}/${this.config.maxFetchRetries} after error: ${error.message}`);
+                        logger.log(`Retrying... (${retries + 1}/${this.config.maxFetchRetries})`);
                         // Exponential backoff: 1s, 2s, 4s, etc.
                         await new Promise(r => setTimeout(r, 1000 * Math.pow(2, retries)));
                         return this.fetchWithRetry(url, retries + 1);
@@ -1724,6 +1810,11 @@
         $(document).ready(function() {
             window.fireMap = new FireMap();
         });
+    </script>
+    
+    <!-- Load Google Maps API with async/defer and appropriate callback -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization,drawing">
     </script>
 </body>
 </html>
