@@ -1,4 +1,28 @@
-<section id="faq" class="content-section faq-section">
+// Enhanced animations for page elements
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.content-with-image, .testimonial-item, .stat-item, .faq-item');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.15
+                });
+                
+                elements.forEach(element => {
+                    element.classList.add('animate-element');
+                    observer.observe(element);
+                });
+            }
+            
+            // Run animations
+            if ('IntersectionObserver' in window) {
+                window.addEventListener('load', animateOnScroll);
+            }    <section id="faq" class="content-section faq-section">
         <div class="container">
             <h2 class="ember-text">Frequently Asked Questions</h2>
             <p class="section-intro">Find answers to common questions about Eye on the Fire and our wildfire tracking services.</p>
@@ -499,11 +523,13 @@
                 });
             });
             
-            // FAQ Accordion functionality
+            // FAQ Accordion functionality (fixed)
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
-                    const parentItem = question.parentElement;
+                    const parentItem = question.closest('.faq-item');
+                    if (!parentItem) return;
+                    
                     const isActive = parentItem.classList.contains('active');
                     
                     // Close all other open FAQs
@@ -523,6 +549,16 @@
             if (firstFaqItem) {
                 firstFaqItem.classList.add('active');
             }
+            
+            // Shrink header on scroll
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
         });
     </script>
 </body>
