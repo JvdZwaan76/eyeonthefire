@@ -557,7 +557,7 @@
             }
         });
         
-        // Fire Map Script
+        // Fire Map Script - Direct Implementation
         document.addEventListener('DOMContentLoaded', function() {
             // Constants
             const DEFAULT_CENTER = [39.8283, -98.5795]; // Center of US
@@ -702,14 +702,67 @@
                 }
             }
             
-            // Get sample fire data
+            // Hard-coded sample fire data
+            function getDefaultFireData() {
+                return [
+                    {
+                        latitude: 37.7749, longitude: -122.4194, 
+                        confidence: 95, brightness: 350,
+                        acq_date: '2025-05-08', acq_time: '2230',
+                        satellite: 'VIIRS'
+                    },
+                    {
+                        latitude: 34.0522, longitude: -118.2437,
+                        confidence: 60, brightness: 320,
+                        acq_date: '2025-05-08', acq_time: '2230',
+                        satellite: 'VIIRS'
+                    },
+                    {
+                        latitude: 38.5816, longitude: -121.4944,
+                        confidence: 30, brightness: 310,
+                        acq_date: '2025-05-08', acq_time: '2245',
+                        satellite: 'VIIRS'
+                    },
+                    {
+                        latitude: 39.7392, longitude: -104.9903,
+                        confidence: 85, brightness: 340,
+                        acq_date: '2025-05-08', acq_time: '2300',
+                        satellite: 'MODIS'
+                    },
+                    {
+                        latitude: 43.6166, longitude: -116.2023,
+                        confidence: 40, brightness: 315,
+                        acq_date: '2025-05-08', acq_time: '2330',
+                        satellite: 'MODIS'
+                    },
+                    {
+                        latitude: 33.4484, longitude: -112.0740,
+                        confidence: 75, brightness: 330,
+                        acq_date: '2025-05-08', acq_time: '2315',
+                        satellite: 'VIIRS'
+                    },
+                    {
+                        latitude: 47.6062, longitude: -122.3321,
+                        confidence: 20, brightness: 305,
+                        acq_date: '2025-05-08', acq_time: '2245',
+                        satellite: 'MODIS'
+                    },
+                    {
+                        latitude: 35.6870, longitude: -105.9378,
+                        confidence: 90, brightness: 345,
+                        acq_date: '2025-05-08', acq_time: '2200',
+                        satellite: 'VIIRS'
+                    }
+                ];
+            }
+            
+            // Generate more realistic fire data across the western US
             function getSampleFireData() {
                 // Create a realistic sample based on actual FIRMS data format
                 const sampleData = [];
                 const satellites = ['MODIS', 'VIIRS', 'VIIRS_SNPP'];
-                const satellite = satellites[Math.floor(Math.random() * satellites.length)];
                 
-                // Generate US fires
+                // Western US fire-prone areas
                 const basePoints = [
                     {lat: 34.05, lng: -118.24, name: "Los Angeles Area"}, // LA
                     {lat: 37.77, lng: -122.41, name: "San Francisco Area"}, // SF
@@ -736,6 +789,7 @@
                 basePoints.forEach(base => {
                     // Randomly determine how many fires in this area (0-5)
                     const fireCount = Math.floor(Math.random() * 6);
+                    const satellite = satellites[Math.floor(Math.random() * satellites.length)];
                     
                     for (let i = 0; i < fireCount; i++) {
                         // Create some variation in location
@@ -779,7 +833,67 @@
                     }
                 });
                 
-                return sampleData;
+                return sampleData.length > 0 ? sampleData : getDefaultFireData();
+            }
+            
+            // Parse CSV response from NASA FIRMS API
+            function parseCSVData(csvText) {
+                // Split the CSV text into lines
+                const lines = csvText.trim().split('\n');
+                if (lines.length < 2) return [];
+                
+                // Get headers from the first line
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                // Parse each data line
+                return lines.slice(1).map(line => {
+                    // Split the line by commas, but handle quoted values
+                    const values = [];
+                    let inQuotes = false;
+                    let currentValue = '';
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        if (char === '"' && (i === 0 || line[i-1] !== '\\')) {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            values.push(currentValue);
+                            currentValue = '';
+                        } else {
+                            currentValue += char;
+                        }
+                    }
+                    values.push(currentValue); // Add the last field
+                    
+                    // Create object with headers as keys
+                    const item = {};
+                    headers.forEach((header, i) => {
+                        item[header] = values[i] ? values[i].replace(/"/g, '') : '';
+                    });
+                    
+                    return item;
+                });
+            }
+            
+            // Determine data format and parse accordingly
+            function parseData(responseText) {
+                // If it starts with { or [, try to parse as JSON
+                if ((responseText.trim().startsWith('{') || responseText.trim().startsWith('['))) {
+                    try {
+                        return JSON.parse(responseText);
+                    } catch (e) {
+                        console.warn('Failed to parse as JSON, trying CSV');
+                    }
+                }
+                
+                // Try to parse as CSV
+                try {
+                    return parseCSVData(responseText);
+                } catch (e) {
+                    console.error('Failed to parse response as CSV');
+                    return [];
+                }
             }
             
             // Load fire data
@@ -789,67 +903,44 @@
                     setStatus('Loading fire data...');
                     loadingOverlay.classList.remove('hidden');
                     
-                    // In a production environment, you would fetch data from your API
-                    // Commented out since it's currently returning errors
-                    /*
+                    // Generate sample data for demo purposes
+                    // In a real environment, this would fetch from your API
+                    const sampleData = getSampleFireData();
+                    
+                    /* Uncomment this to fetch data from your actual API
                     try {
                         const response = await fetch('/api/nasa/');
                         if (!response.ok) {
                             throw new Error(`API returned status ${response.status}`);
                         }
-                        const data = await response.json();
-                        // Process and display the data
-                        displayFires(data);
-                    } catch (error) {
-                        console.error('Error fetching NASA FIRMS data:', error);
-                        // Fall back to sample data
-                        const sampleData = getSampleFireData();
-                        displayFires(sampleData);
+                        const responseText = await response.text();
+                        const parsedData = parseData(responseText);
+                        if (parsedData && parsedData.length > 0) {
+                            displayFires(parsedData);
+                            loadingOverlay.classList.add('hidden');
+                            return;
+                        } else {
+                            throw new Error('No data returned from API');
+                        }
+                    } catch (apiError) {
+                        console.warn('API error, using sample data:', apiError);
+                        // Continue with sample data
                     }
                     */
                     
-                    // For this demo, we'll use sample data
-                    // Small delay to simulate API request
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    const data = getSampleFireData();
+                    // Simulate a short delay like a real API request
+                    await new Promise(resolve => setTimeout(resolve, 500));
                     
-                    // Hide loading overlay
                     loadingOverlay.classList.add('hidden');
+                    displayFires(sampleData);
                     
-                    if (!data || data.length === 0) {
-                        setStatus('No fire data available', 'warning');
-                    } else {
-                        // Display the fire data
-                        displayFires(data);
-                    }
                 } catch (error) {
                     console.error('Error loading fire data:', error);
                     setStatus('Error loading fire data', 'error');
                     loadingOverlay.classList.add('hidden');
                     
-                    // Use fallback data as a last resort
-                    const fallbackData = [
-                        {
-                            latitude: 37.7749, longitude: -122.4194, 
-                            confidence: 95, brightness: 350,
-                            acq_date: '2025-05-07', acq_time: '2230',
-                            satellite: 'VIIRS'
-                        },
-                        {
-                            latitude: 34.0522, longitude: -118.2437,
-                            confidence: 60, brightness: 320,
-                            acq_date: '2025-05-07', acq_time: '2230',
-                            satellite: 'VIIRS'
-                        },
-                        {
-                            latitude: 38.5816, longitude: -121.4944,
-                            confidence: 30, brightness: 310,
-                            acq_date: '2025-05-07', acq_time: '2245',
-                            satellite: 'VIIRS'
-                        }
-                    ];
-                    
-                    displayFires(fallbackData);
+                    // Use fallback data in case of error
+                    displayFires(getDefaultFireData());
                 }
             }
             
