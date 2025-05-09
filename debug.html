@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Map API Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        
+        input[type="text"] {
+            padding: 8px;
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        h2 {
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fire Map API Connection Test</h1>
+    
+    <p>This tool helps diagnose connection issues with your NASA FIRMS API setup.</p>
+    
+    <h2>1. Test Cloudflare Worker</h2>
+    <p>Enter your Cloudflare Worker URL:</p>
+    <input type="text" id="worker-url" value="https://eyeonthefire.com/api/nasa/firms" />
+    <button onclick="testWorker()">Test Cloudflare Worker</button>
+    
+    <h2>2. Test NASA FIRMS API Directly</h2>
+    <p>Enter your NASA FIRMS API Key:</p>
+    <input type="text" id="nasa-key" placeholder="Your NASA FIRMS API Key" />
+    <button onclick="testNasaAPI()">Test NASA API Directly</button>
+    
+    <h2>3. Test Google Maps API</h2>
+    <button onclick="testGoogleMaps()">Test Google Maps</button>
+    
+    <div id="status" class="status"></div>
+    
+    <pre id="results">Results will appear here...</pre>
+    
+    <div id="map-container" style="height: 300px; width: 100%; display: none; margin-top: 20px;"></div>
+    
+    <script>
+        // Show status message
+        function showStatus(message, isError = false) {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            statusElement.className = isError ? 'status error' : 'status success';
+        }
+        
+        // Update results
+        function updateResults(text) {
+            document.getElementById('results').textContent = text;
+        }
+        
+        // Test Cloudflare Worker
+        async function testWorker() {
+            showStatus('Testing Cloudflare Worker...');
+            updateResults('Connecting to worker...');
+            
+            const workerUrl = document.getElementById('worker-url').value.trim();
+            
+            if (!workerUrl) {
+                showStatus('Please enter a Cloudflare Worker URL', true);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${workerUrl}?format=json&days=1`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    cache: 'no-cache'
+                });
+                
+                const status = response.status;
+                const headers = Object.fromEntries([...response.headers.entries()]);
+                
+                let results = `Status: ${status} ${response.statusText}\n\n`;
+                results += `Headers:\n${JSON.stringify(headers, null, 2)}\n\n`;
+                
+                if (response.ok) {
+                    try {
+                        const data = await response.json();
+                        results += `Received ${Array.isArray(data) ? data.length : 'unknown'} data points\n`;
+                        results += `First few items:\n${JSON.stringify(Array.isArray(data) ? data.slice(0, 3) : data, null, 2)}`;
+                        showStatus('Cloudflare Worker test successful!');
+                    } catch (parseError) {
+                        const text = await response.text();
+                        results += `Response is not valid JSON. Raw response (first 500 chars):\n${text.substring(0, 500)}`;
+                        showStatus('Worker returned invalid JSON', true);
+                    }
+                } else {
+                    const text = await response.text();
+                    results += `Error response (first 500 chars):\n${text.substring(0, 500)}`;
+                    showStatus(`Cloudflare Worker returned status ${status}`, true);
+                }
+                
+                updateResults(results);
+            } catch (error) {
+                showStatus(`Error connecting to Cloudflare Worker: ${error.message}`, true);
+                updateResults(`Error: ${error.message}\n\nPossible causes:\n1. Worker URL is incorrect\n2. CORS is not configured\n3. Network connectivity issue`);
+            }
+        }
+        
+        // Test NASA FIRMS API directly
+        async function testNasaAPI() {
+            showStatus('Testing NASA FIRMS API directly...');
+            updateResults('Connecting to NASA FIRMS API...');
+            
+            const apiKey = document.getElementById('nasa-key').value.trim();
+            
+            if (!apiKey) {
+                showStatus('Please enter your NASA FIRMS API Key', true);
+                return;
+            }
+            
+            try {
+                // We create a proxy test URL to avoid CORS issues
+                const proxyUrl = `https://cors-anywhere.herokuapp.com/https://firms.modaps.eosdis.nasa.gov/api/area/json/${apiKey}/world/1`;
+                
+                updateResults('Note: Due to browser security restrictions, we need to use a CORS proxy for direct API testing. This might fail if the proxy service is unavailable.\n\nConnecting via proxy...');
+                
+                const response = await fetch(proxyUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Origin': window.location.origin
+                    }
+                });
+                
+                const status = response.status;
+                
+                let results = `Status: ${status} ${response.statusText}\n\n`;
+                
+                if (response.ok) {
+                    try {
+                        const data = await response.json();
+                        results += `Received ${Array.isArray(data) ? data.length : 'unknown'} data points\n`;
+                        results += `First few items:\n${JSON.stringify(Array.isArray(data) ? data.slice(0, 3) : data, null, 2)}`;
+                        showStatus('NASA FIRMS API test successful!');
+                    } catch (parseError) {
+                        const text = await response.text();
+                        results += `Response is not valid JSON. Raw response (first 500 chars):\n${text.substring(0, 500)}`;
+                        showStatus('NASA API returned invalid response', true);
+                    }
+                } else {
+                    const text = await response.text();
+                    results += `Error response (first 500 chars):\n${text.substring(0, 500)}`;
+                    showStatus(`NASA API returned status ${status}`, true);
+                }
+                
+                updateResults(results);
+            } catch (error) {
+                showStatus(`Error connecting to NASA API: ${error.message}`, true);
+                updateResults(`Error: ${error.message}\n\nNote: Direct testing from browser may fail due to CORS restrictions. This doesn't necessarily mean your API key is invalid.`);
+            }
+        }
+        
+        // Test Google Maps API
+        function testGoogleMaps() {
+            showStatus('Testing Google Maps API...');
+            updateResults('Initializing Google Maps...');
+            
+            // Display the map container
+            const mapContainer = document.getElementById('map-container');
+            mapContainer.style.display = 'block';
+            
+            try {
+                // Check if Google Maps is loaded
+                if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                    loadGoogleMapsScript();
+                    updateResults('Google Maps API is not loaded yet. Loading script...');
+                    return;
+                }
+                
+                // Create map
+                const map = new google.maps.Map(mapContainer, {
+                    center: { lat: 39.8283, lng: -98.5795 },
+                    zoom: 4
+                });
+                
+                // Add a marker
+                const marker = new google.maps.Marker({
+                    position: { lat: 39.8283, lng: -98.5795 },
+                    map: map,
+                    title: 'Test Marker'
+                });
+                
+                showStatus('Google Maps loaded successfully!');
+                updateResults('Google Maps API is working correctly. A test map has been displayed below.');
+            } catch (error) {
+                showStatus(`Error initializing Google Maps: ${error.message}`, true);
+                updateResults(`Error: ${error.message}\n\nPossible causes:\n1. API key is invalid\n2. API key has domain restrictions\n3. API has not been enabled in Google Cloud Console`);
+            }
+        }
+        
+        // Load Google Maps script
+        function loadGoogleMapsScript() {
+            showStatus('Loading Google Maps script...');
+            
+            const script = document.createElement('script');
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&callback=googleMapsLoaded';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+        
+        // Callback when Google Maps is loaded
+        window.googleMapsLoaded = function() {
+            showStatus('Google Maps script loaded!');
+            testGoogleMaps();
+        };
+    </script>
+</body>
+</html>
