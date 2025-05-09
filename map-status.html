@@ -3,1483 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
-    <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
-    <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
-    <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
-    <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
-    <link rel="canonical" href="https://eyeonthefire.com/">
-    
-    <!-- Map Dependencies -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-    
-    <!-- Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Favicon Links -->
-    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
-    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-T8RE6KDBEW');
-    </script>
-    
-    <!-- Fire Map Specific Styles -->
+    <title>Real-Time Fire Map | Active Fires Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Map Container Styles */
-        #map-container {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #fire-map {
             width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        #map {
-            height: 70vh;
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            background-color: #f9f9f9;
-            z-index: 1;
-        }
-
-        .map-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .map-control-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .map-control-button i {
-            margin-right: 0.5rem;
-        }
-
-        .map-control-button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .status-bar {
+            height: 100%;
             position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background-color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 80%;
-            font-size: 0.9rem;
+            top: 0;
+            left: 0;
+        }
+        
+        .map-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            z-index: 100;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
         
-        .status-bar i {
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
+        .map-title {
+            margin: 0;
+            font-size: 1.2rem;
         }
-
-        .loading {
-            color: var(--secondary-color);
+        
+        .map-subtitle {
+            margin: 0;
+            font-size: 0.8rem;
+            opacity: 0.8;
         }
-
-        .success {
-            color: #28a745;
+        
+        .map-control {
+            margin: 5px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
-
-        .warning {
-            color: #ffc107;
+        
+        .map-control button {
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
-
-        .error {
-            color: #dc3545;
-            font-weight: bold;
+        
+        .map-control button:hover {
+            background-color: #f5f5f5;
         }
-
+        
+        .map-footer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            border-top-left-radius: 4px;
+        }
+        
         .legend {
             position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background-color: white;
-            padding: 12px;
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            z-index: 1000;
+            bottom: 30px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            font-size: 0.8rem;
         }
-
-        .legend h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1rem;
-            color: var(--dark-text);
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-
+        
         .legend-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
+            margin: 5px 0;
         }
-
-        .legend-item:last-child {
-            margin-bottom: 0;
-        }
-
+        
         .legend-color {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
             margin-right: 8px;
-            border: 1px solid rgba(0,0,0,0.2);
+            border: 1px solid #ccc;
         }
-
+        
         .loading-overlay {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            border-radius: 5px;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .loading-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .flame-loader {
-            width: 60px;
-            height: 80px;
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .flame-loader:before, 
-        .flame-loader:after {
-            content: '';
-            position: absolute;
+            right: 0;
             bottom: 0;
-            width: 25px;
-            height: 60px;
-            border-radius: 50% 50% 30% 30%;
-            background: var(--primary-color);
-            animation: flame 1.5s infinite alternate;
-        }
-
-        .flame-loader:before {
-            left: 10px;
-            animation-delay: 0.2s;
-            background: var(--secondary-color);
-        }
-
-        .flame-loader:after {
-            right: 10px;
-            animation-delay: 0s;
-        }
-
-        @keyframes flame {
-            0%, 100% { height: 60px; opacity: 1; }
-            50% { height: 40px; opacity: 0.8; }
-        }
-
-        .loading-overlay p {
-            color: white;
-            font-size: 1.1rem;
-            font-family: 'Montserrat', sans-serif;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-
-        @media (max-width: 991.98px) {
-            #map {
-                height: 50vh;
-            }
-
-            .legend {
-                padding: 8px;
-                max-width: 130px;
-            }
-
-            .legend h4 {
-                font-size: 0.9rem;
-            }
-
-            .legend-item {
-                font-size: 0.75rem;
-            }
-
-            .map-controls {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .map-control-button {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .status-bar {
-                max-width: 90%;
-                font-size: 0.8rem;
-                bottom: 10px;
-                left: 10px;
-            }
-
-            .legend {
-                max-width: 120px;
-                right: 10px;
-                bottom: 10px;
-            }
-        }
-        
-        /* Fire popup styles */
-        .fire-popup .high {
-            color: #d32f2f;
-            font-weight: bold;
-        }
-        
-        .fire-popup .medium {
-            color: #ff8f00;
-            font-weight: bold;
-        }
-        
-        .fire-popup .low {
-            color: #ffc107;
-        }
-        
-        /* React Map Component Styles */
-        .map-container {
-            position: relative;
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto 1.5rem;
-        }
-        
-        .fallback-map {
-            height: 70vh;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-        
-        .controls {
+            background: rgba(255, 255, 255, 0.8);
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .controls button {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: flex;
             align-items: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .controls button:hover {
-            background-color: #b71c1c;
-            transform: translateY(-2px);
-        }
-        
-        .error-message {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
             z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #d32f2f;
-            padding: 8px 16px;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .about-panel {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            background: white;
+            padding: 15px;
             border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            max-width: 80%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            max-width: 300px;
+            display: none;
         }
         
-        .error-message span {
-            flex: 1;
-            margin-right: 8px;
-        }
-        
-        .error-message button {
-            background: none;
+        .about-toggle {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            z-index: 100;
+            background: white;
             border: none;
-            color: #666;
-            font-size: 18px;
+            border-radius: 4px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            padding: 0 4px;
         }
         
         @media (max-width: 768px) {
-            .fallback-map {
-                height: 50vh;
-            }
-            
-            .controls {
+            .map-header {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }
             
-            .controls button {
-                width: 100%;
-                max-width: 220px;
+            .map-title {
+                font-size: 1rem;
             }
             
-            .error-message {
-                max-width: 95%;
-                padding: 6px 12px;
-                font-size: 14px;
+            .legend {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.7rem;
+                padding: 5px;
             }
         }
     </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="navbar-container">
-            <a href="index.html" class="logo-link">
-                <div class="logo-container">
-                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
-                    <span>Eye on the Fire</span>
-                </div>
-            </a>
-            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
-            </button>
-            <nav class="nav-menu" id="main-nav">
-                <ul class="main-menu">
-                    <li><a href="about.html">About</a></li>
-                    <li class="has-dropdown"> <a href="#">Prepare <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Ready</strong></li>
-                            <li><a href="#prevention" class="sub-item">Home Hardening</a></li>
-                            <li><a href="#prevention" class="sub-item">Defensible Space</a></li>
-                            <li><a href="#prevention" class="sub-item">Fire-Smart Landscaping</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Get Set</strong></li>
-                            <li><a href="#">Wildfire Action Plan</a></li>
-                            <li><a href="#">Family Preparedness</a></li>
-                            <li><a href="#">Emergency Go Bag</a></li>
-                            <li><a href="#">Insurance Check-up</a></li>
-                            <li><strong class="sub-header"><i class="fas fa-fire"></i> Go!</strong></li>
-                            <li><a href="#">Evacuation Guide</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown">
-                        <a href="#prevention">Prevent <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-shield-alt"></i> Prevention Topics</strong></li>
-                            <li><a href="#" class="sub-item">Equipment & Vehicle Use</a></li>
-                            <li><a href="#" class="sub-item">Campfire Safety</a></li>
-                            <li><a href="#" class="sub-item">Fireworks Safety</a></li>
-                            <li><a href="#" class="sub-item">Target Shooting Safety</a></li>
-                            <li><a href="#" class="sub-item">Landowner Assistance</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown">
-                        <a href="#">Safety Info <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-info-circle"></i> Safety Topics</strong></li>
-                            <li><a href="#" class="sub-item">Evacuation Planning</a></li>
-                            <li><a href="#prevention" class="sub-item">Prevention Tips</a></li>
-                            <li><a href="#" class="sub-item">Emergency Kits</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#community">News & Resources</a></li>
-                    <li class="has-dropdown">
-                        <a href="#">Contact <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><strong class="sub-header"><i class="fas fa-envelope"></i> Contact Options</strong></li>
-                            <li><a href="#" class="sub-item">General Contact</a></li>
-                            <li><a href="#" class="sub-item">Media Inquiries</a></li>
-                            <li><a href="#" class="sub-item">Advertising Opportunities</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
+    <!-- Map container -->
+    <div id="fire-map"></div>
+    
+    <!-- Header -->
+    <div class="map-header">
+        <div>
+            <h1 class="map-title">Real-Time Fire Map</h1>
+            <p class="map-subtitle">Tracking active fires from NASA FIRMS satellite data</p>
         </div>
-    </header>
+    </div>
     
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Monitor US Wildfires in Real-Time</h1>
-            <p>Track active fires across the United States with our live interactive map. Get critical updates, safety alerts, and preparedness resources.</p>
-            <a href="#map-section" class="cta-button">View Live US Fire Map</a>
+    <!-- About panel toggle -->
+    <button class="about-toggle" id="about-toggle">
+        <i class="fas fa-info-circle"></i> About
+    </button>
+    
+    <!-- About panel -->
+    <div class="about-panel" id="about-panel">
+        <h3>About This Fire Map</h3>
+        <p>This map displays near real-time active fire data from NASA's Fire Information for Resource Management System (FIRMS).</p>
+        <p>The data comes from the VIIRS and MODIS instruments aboard NASA's satellites, which detect thermal anomalies that indicate active fires.</p>
+        <p>Data is refreshed automatically every 5 minutes.</p>
+        <button id="close-about">Close</button>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <h4 style="margin-top: 0; margin-bottom: 8px;">Fire Confidence</h4>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF0000;"></div>
+            <span>High (80-100%)</span>
         </div>
-    </section>
-    
-    <section id="intro" class="content-section">
-        <div class="container">
-            <p class="section-intro">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FF4500;"></div>
+            <span>Medium (60-79%)</span>
         </div>
-    </section>
-    
-    <hr class="section-divider">
-    
-    <section id="map-section" class="content-section">
-        <div class="container">
-            <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
-            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
-            
-            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
-                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i> How to Use the Map:</h4>
-                <ul>
-                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
-                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
-                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
-                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
-                </ul>
-            </div>
-            
-            <!-- React Map Component Container -->
-            <div id="root"></div>
-            
-            <div class="data-source-note">
-                <small>Map data sourced from NASA FIRMS, NIFC, and other official US channels. Updates occur periodically. Always follow guidance from local emergency management officials.</small>
-            </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FFA500;"></div>
+            <span>Low (30-59%)</span>
         </div>
-    </section>
-    
-    <hr class="section-divider">
-    
-    <section id="about" class="content-section">
-        <div class="container">
-            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
-            <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FFCC00;"></div>
+            <span>Very Low (<30%)</span>
         </div>
-    </section>
-    
-    <hr class="section-divider">
-    
-    <section id="prevention" class="content-section">
-        <div class="container">
-            <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
-            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
-            <div class="prevention-grid">
-                <div class="prevention-item">
-                    <i class="fas fa-home" aria-hidden="true"></i>
-                    <h3>Defensible Space Zones</h3>
-                    <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
-                </div>
-                <div class="prevention-item">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
-                    <h3>Home Hardening Techniques</h3>
-                    <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
-                </div>
-                <div class="prevention-item">
-                    <i class="fas fa-seedling" aria-hidden="true"></i>
-                    <h3>Fire-Smart Landscaping</h3>
-                    <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
-                </div>
-            </div>
+        <div style="margin-top: 5px; font-size: 0.7rem; opacity: 0.7;">
+            *Circle size indicates fire intensity
         </div>
-    </section>
+    </div>
     
-    <hr class="section-divider">
+    <!-- Footer -->
+    <div class="map-footer">
+        Data source: NASA FIRMS | Last updated: <span id="last-update">Loading...</span>
+    </div>
     
-    <section id="community" class="content-section">
-        <div class="container">
-            <h2 class="section-title">National & Local Resources</h2>
-            <p class="section-intro">Access official resources for emergency alerts, evacuation status, and support during wildfire events across the United States.</p>
-            <div class="cta-banner">
-                <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
-            </div>
-            <div class="gallery" role="list" aria-label="Community and wildfire images">
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
-            </div>
-        </div>
-    </section>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading fire data...</p>
+    </div>
     
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3 class="logo-text-footer">Eye on the Fire</h3>
-                <p>Providing critical real-time wildfire monitoring and fire safety resources for the United States. Our interactive map helps you stay informed and prepared.</p>
-            </div>
-            <div class="footer-section links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="#prevention">Prevention Guides</a></li>
-                    <li><a href="#community">Emergency Resources</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section social">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="RSS Feed"><i class="fas fa-rss"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            © <span id="year"></span> Eye on the Fire | All Rights Reserved | Data provided "as is" without warranty |
-            <a href="#">Terms of Use</a> |
-            <a href="#">Privacy Policy</a>
-        </div>
-    </footer>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=visualization"></script>
     
-    <!-- JavaScript Dependencies -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+    <!-- Custom Fire Map JS -->
+    <script src="fire-map.js"></script>
     
-    <!-- Updated React Fire Map Component with NASA FIRMS API Integration -->
-    <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback } = React;
-
-        // NASA FIRMS API Integration
-        // Enhanced fetch with NASA FIRMS API support
-        const fetchFireData = async (retries = 3, delay = 1000) => {
-          // NASA FIRMS specific configurations
-          const today = new Date();
-          const yesterday = new Date(today);
-          yesterday.setDate(yesterday.getDate() - 1);
-          
-          // Format date as YYYY-MM-DD
-          const formatDate = (date) => {
-            return date.toISOString().split('T')[0];
-          };
-          
-          // NASA FIRMS endpoints - try both methods
-          // 1. First try Cloudflare-proxied endpoint that should have the API key configured
-          const cfEndpoint = '/api/nasa/firms';
-          
-          for (let i = 0; i < retries; i++) {
-            try {
-              // First try the Cloudflare-proxied endpoint
-              console.log(`Attempting to fetch fire data via Cloudflare proxy (attempt ${i + 1})`);
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
-              
-              const response = await fetch(cfEndpoint, { 
-                signal: controller.signal,
-                headers: {
-                  'Accept': 'application/json, text/csv',
-                  'Cache-Control': 'no-cache'
-                }
-              });
-              
-              clearTimeout(timeoutId);
-              
-              if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
-              }
-              
-              // Check the content type to determine how to parse
-              const contentType = response.headers.get('content-type');
-              let data;
-              
-              if (contentType && contentType.includes('application/json')) {
-                data = await response.json();
-              } else {
-                // Assume CSV or text format
-                const text = await response.text();
-                data = parseFireData(text);
-              }
-              
-              return data;
-            } catch (error) {
-              console.error(`Fetch attempt ${i + 1} failed:`, error.message);
-              
-              if (i === retries - 1) {
-                console.error('All fetch attempts failed. Returning sample data as fallback.');
-                throw error;
-              }
-              
-              // Exponential backoff
-              await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-            }
-          }
-        };
-
-        // Parse various data formats from NASA FIRMS
-        const parseFireData = (data) => {
-          // If data is already an object, handle it accordingly
-          if (typeof data === 'object' && data !== null) {
-            // Case 1: Standard JSON array of fire points
-            if (Array.isArray(data)) {
-              return data.map(item => normalizeFirePoint(item));
-            }
-            
-            // Case 2: GeoJSON format
-            if (data.type === 'FeatureCollection' && Array.isArray(data.features)) {
-              return data.features.map(feature => {
-                const properties = feature.properties || {};
-                const coordinates = feature.geometry?.coordinates || [];
-                
-                return normalizeFirePoint({
-                  ...properties,
-                  longitude: coordinates[0],
-                  latitude: coordinates[1]
-                });
-              });
-            }
-            
-            // Case 3: Object with events array (like in the provided example)
-            if (data.events && Array.isArray(data.events)) {
-              return data.events.map(event => {
-                // Handle the specifically structured data from the example
-                if (event.geometry && Array.isArray(event.geometry) && event.geometry[0]?.coordinates) {
-                  return normalizeFirePoint({
-                    latitude: event.geometry[0].coordinates[1],
-                    longitude: event.geometry[0].coordinates[0],
-                    title: event.title || 'Active Fire',
-                    confidence: event.confidence || 50
-                  });
-                }
-                return normalizeFirePoint(event);
-              });
-            }
-            
-            // Case 4: Look for a data property containing the fire array
-            if (data.data && Array.isArray(data.data)) {
-              return data.data.map(item => normalizeFirePoint(item));
-            }
-            
-            // Unknown object format, log and return empty
-            console.error('Unknown data format:', data);
-            return [];
-          }
-          
-          // Handle string data (likely CSV)
-          if (typeof data === 'string') {
-            return parseCSVFireData(data);
-          }
-          
-          // Fallback
-          console.error('Unable to parse data:', data);
-          return [];
-        };
-
-        // Parse CSV data specifically from NASA FIRMS format
-        const parseCSVFireData = (csvText) => {
-          if (!csvText || typeof csvText !== 'string' || csvText.trim() === '') {
-            console.warn('Empty CSV data');
-            return [];
-          }
-          
-          // Split the CSV text into lines
-          const lines = csvText.trim().split('\n');
-          if (lines.length < 2) {
-            console.warn('Not enough lines in CSV data');
-            return [];
-          }
-          
-          // Get headers from the first line
-          const headers = lines[0].split(',').map(h => h.trim());
-          
-          // NASA FIRMS CSV typically has these columns:
-          // latitude,longitude,brightness,scan,track,acq_date,acq_time,satellite,confidence,version,bright_t31,frp,daynight
-          
-          // Parse each data line
-          const data = [];
-          
-          for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-            
-            // Handle quoted values properly
-            const values = [];
-            let inQuotes = false;
-            let currentValue = '';
-            
-            for (let j = 0; j < line.length; j++) {
-              const char = line[j];
-              
-              if (char === '"' && (j === 0 || line[j-1] !== '\\')) {
-                inQuotes = !inQuotes;
-              } else if (char === ',' && !inQuotes) {
-                values.push(currentValue);
-                currentValue = '';
-              } else {
-                currentValue += char;
-              }
-            }
-            
-            // Add the last field
-            values.push(currentValue);
-            
-            // Create object with headers as keys
-            const item = {};
-            headers.forEach((header, index) => {
-              if (index < values.length) {
-                item[header] = values[index] ? values[index].replace(/"/g, '') : '';
-              }
-            });
-            
-            // Add to data array if it has valid coordinates
-            if (item.latitude && item.longitude) {
-              data.push(normalizeFirePoint(item));
-            }
-          }
-          
-          return data;
-        };
-
-        // Normalize fire point data to a consistent format
-        const normalizeFirePoint = (point) => {
-          if (!point) return null;
-          
-          // Extract coordinates ensuring we handle different property names
-          const lat = parseFloat(point.latitude || point.lat || 0);
-          const lon = parseFloat(point.longitude || point.lon || 0);
-          
-          // Skip invalid coordinates
-          if (isNaN(lat) || isNaN(lon) || lat === 0 || lon === 0) {
-            return null;
-          }
-          
-          // Validate coordinates are within reasonable bounds
-          if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-            return null;
-          }
-          
-          // Normalize confidence
-          let confidence = parseInt(point.confidence || 0);
-          if (isNaN(confidence)) confidence = 50; // Default confidence
-          
-          // Basic required properties
-          const firePoint = {
-            lat: lat,
-            lon: lon,
-            confidence: confidence,
-            title: point.title || 'Fire Detection'
-          };
-          
-          // Add extra properties if available
-          if (point.brightness) {
-            firePoint.brightness = parseFloat(point.brightness);
-          }
-          
-          if (point.acq_date) {
-            firePoint.acq_date = point.acq_date;
-          } else {
-            // Default to today's date if not available
-            const today = new Date();
-            firePoint.acq_date = today.toISOString().split('T')[0];
-          }
-          
-          if (point.acq_time) {
-            firePoint.acq_time = point.acq_time;
-          } else {
-            // Default to current time if not available
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            firePoint.acq_time = hours + minutes;
-          }
-          
-          if (point.satellite) {
-            firePoint.satellite = point.satellite;
-          }
-          
-          if (point.frp) {
-            firePoint.frp = parseFloat(point.frp);
-          }
-          
-          if (point.daynight) {
-            firePoint.daynight = point.daynight;
-          }
-          
-          return firePoint;
-        };
-
-        // Get fallback fire data for demo/testing purposes
-        const getSampleFireData = () => {
-          // Create sample fire data for west coast states
-          const basePoints = [
-            {lat: 34.05, lng: -118.24, title: "Los Angeles Area Fire"}, 
-            {lat: 37.77, lng: -122.41, title: "San Francisco Area Fire"}, 
-            {lat: 38.58, lng: -121.49, title: "Sacramento Area Fire"}, 
-            {lat: 36.77, lng: -119.77, title: "Central California Fire"}, 
-            {lat: 32.71, lng: -117.16, title: "San Diego Area Fire"}, 
-            {lat: 35.37, lng: -119.01, title: "Bakersfield Area Fire"}, 
-            {lat: 33.83, lng: -116.53, title: "Palm Springs Area Fire"}, 
-            {lat: 39.52, lng: -121.55, title: "Northern California Fire"},
-            {lat: 43.61, lng: -116.21, title: "Boise Area Fire"},
-            {lat: 47.60, lng: -122.33, title: "Seattle Area Fire"}
-          ];
-          
-          // Create variations of each base point (1-3 fires near each location)
-          return basePoints.flatMap(base => {
-            const fireCount = 1 + Math.floor(Math.random() * 3);
-            const fires = [];
-            
-            for (let i = 0; i < fireCount; i++) {
-              // Add some randomness to coordinates
-              const latOffset = (Math.random() - 0.5) * 0.5;
-              const lngOffset = (Math.random() - 0.5) * 0.5;
-              
-              fires.push({
-                lat: base.lat + latOffset,
-                lon: base.lng + lngOffset,
-                title: `${base.title} #${i+1}`,
-                confidence: Math.round(30 + Math.random() * 70),
-                brightness: 300 + Math.floor(Math.random() * 100),
-                acq_date: new Date().toISOString().split('T')[0],
-                acq_time: new Date().toTimeString().substring(0, 5).replace(':', '')
-              });
-            }
-            
-            return fires;
-          });
-        };
-
-        // Improved fire icon creator function
-        const createFireIcon = (confidence) => {
-          // Set color based on confidence
-          let markerColor = 'red'; // Default for high confidence
-          let size = 10;
-          
-          if (confidence < 30) {
-            markerColor = 'yellow';
-            size = 8;
-          } else if (confidence < 80) {
-            markerColor = 'orange';
-            size = 9;
-          } else {
-            size = 10;
-          }
-          
-          return L.divIcon({
-            html: `<div style="background-color: ${markerColor}; width: ${size}px; height: ${size}px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.8); box-shadow: 0 0 3px rgba(0,0,0,0.3);"></div>`,
-            className: '',
-            iconSize: [size + 3, size + 3],
-            iconAnchor: [(size + 3)/2, (size + 3)/2]
-          });
-        };
-
-        // Fire popup creator function
-        const createFirePopup = (fire) => {
-          let popupContent = '<div class="fire-popup" style="max-width: 250px; max-height: 250px; overflow-y: auto; padding: 5px;">';
-          popupContent += '<h4 style="margin-top: 0; margin-bottom: 10px; color: #d32f2f; border-bottom: 1px solid #eee; padding-bottom: 5px;">Fire Detection</h4>';
-          
-          // Format acquisition date/time if available
-          if (fire.acq_date && fire.acq_time) {
-            try {
-              const dateStr = fire.acq_date;
-              const timeStr = String(fire.acq_time).padStart(4, '0');
-              const hours = timeStr.slice(0, 2);
-              const minutes = timeStr.slice(2, 4);
-              
-              // Convert to local time
-              const fireDate = new Date(`${dateStr}T${hours}:${minutes}:00Z`);
-              const localDateStr = fireDate.toLocaleDateString();
-              const localTimeStr = fireDate.toLocaleTimeString();
-              
-              popupContent += `<strong>Detected:</strong> ${localDateStr} at ${localTimeStr}<br>`;
-              popupContent += `<strong>UTC Time:</strong> ${dateStr} ${hours}:${minutes}<br>`;
-            } catch (e) {
-              // Fallback if date parsing fails
-              popupContent += `<strong>Date:</strong> ${fire.acq_date}<br>`;
-              popupContent += `<strong>Time:</strong> ${fire.acq_time}<br>`;
-            }
-          }
-          
-          // Add confidence with visual indicator
-          if (fire.confidence) {
-            const confidenceValue = parseInt(fire.confidence);
-            let confidenceClass = 'low';
-            
-            if (confidenceValue >= 80) confidenceClass = 'high';
-            else if (confidenceValue >= 30) confidenceClass = 'medium';
-            
-            popupContent += `<strong>Confidence:</strong> <span class="${confidenceClass}">${fire.confidence}%</span><br>`;
-          }
-          
-          // Add brightness if available
-          if (fire.brightness) {
-            popupContent += `<strong>Brightness:</strong> ${parseFloat(fire.brightness).toFixed(1)} K<br>`;
-          }
-          
-          // Add FRP if available
-          if (fire.frp) {
-            popupContent += `<strong>Fire Radiative Power:</strong> ${parseFloat(fire.frp).toFixed(1)} MW<br>`;
-          }
-          
-          // Add satellite if available
-          if (fire.satellite) {
-            popupContent += `<strong>Satellite:</strong> ${fire.satellite}<br>`;
-          }
-          
-          // Add title/name
-          if (fire.title) {
-            popupContent += `<strong>Name:</strong> ${fire.title}<br>`;
-          }
-          
-          // Add coordinates with copy button
-          const lat = parseFloat(fire.lat).toFixed(6);
-          const lng = parseFloat(fire.lon).toFixed(6);
-          
-          popupContent += `<div class="coordinates">`;
-          popupContent += `<strong>Coordinates:</strong><br>`;
-          popupContent += `<span>${lat}, ${lng}</span>`;
-          popupContent += `</div>`;
-          
-          // Add links to other services
-          popupContent += `<div class="external-links" style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">`;
-          popupContent += `<small><a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" rel="noopener noreferrer">View in Google Maps</a></small>`;
-          popupContent += `</div>`;
-          
-          popupContent += '</div>';
-          return popupContent;
-        };
-
-        // Main Map Component
-        const MapComponent = () => {
-          // State for the component
-          const [fires, setFires] = useState([]);
-          const [center, setCenter] = useState([39.8283, -98.5795]); // US center
-          const [zoom, setZoom] = useState(4);
-          const [errorMessage, setErrorMessage] = useState('');
-          const [isLoading, setIsLoading] = useState(true);
-          const [showFallback, setShowFallback] = useState(false);
-          const [usingSampleData, setUsingSampleData] = useState(false);
-          
-          // Refs for accessing DOM and maintaining object references
-          const mapRef = useRef(null);
-          const markerLayerRef = useRef(null);
-          const tilesLayerRef = useRef(null);
-          const loadingOverlayRef = useRef(null);
-          const userMarkerRef = useRef(null);
-          const legendRef = useRef(null);
-          
-          // Constants
-          const initialCenter = [39.8283, -98.5795];
-          const initialZoom = 4;
-          
-          // Initialize the map
-          useEffect(() => {
-            if (showFallback || mapRef.current) return;
-            
-            const mapContainer = document.getElementById('map');
-            if (!mapContainer) {
-              console.error('Map container not found');
-              return;
-            }
-            
-            // Create the map instance
-            try {
-              mapRef.current = L.map(mapContainer, {
-                center: center,
-                zoom: zoom,
-                zoomControl: true,
-                minZoom: 3,
-                maxZoom: 18,
-                maxBoundsViscosity: 1.0,
-                scrollWheelZoom: true,
-                attributionControl: true
-              });
-              
-              // Add basemap tiles
-              tilesLayerRef.current = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors | <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank">NASA FIRMS</a> | Eye on the Fire',
-                maxZoom: 19
-              }).addTo(mapRef.current);
-              
-              // Create marker cluster layer
-              if (typeof L.markerClusterGroup === 'function') {
-                markerLayerRef.current = L.markerClusterGroup({
-                  disableClusteringAtZoom: 10,
-                  spiderfyOnMaxZoom: true,
-                  showCoverageOnHover: false,
-                  zoomToBoundsOnClick: true,
-                  maxClusterRadius: 50
-                }).addTo(mapRef.current);
-              } else {
-                console.warn('MarkerClusterGroup not available. Using LayerGroup.');
-                markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-              }
-              
-              // Set zoom control position
-              mapRef.current.zoomControl.setPosition('topright');
-              
-              // Add legend
-              legendRef.current = L.control({position: 'bottomright'});
-              legendRef.current.onAdd = function() {
-                const div = L.DomUtil.create('div', 'legend');
-                div.innerHTML = `
-                  <h4>Fire Confidence</h4>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background-color: red;"></div>
-                    <span>High (80-100%)</span>
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background-color: orange;"></div>
-                    <span>Medium (30-79%)</span>
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background-color: yellow;"></div>
-                    <span>Low (0-29%)</span>
-                  </div>
-                `;
-                return div;
-              };
-              legendRef.current.addTo(mapRef.current);
-              
-              // Add event listeners
-              mapRef.current.on('moveend', () => {
-                const newCenter = mapRef.current.getCenter();
-                const newZoom = mapRef.current.getZoom();
-                setCenter([newCenter.lat, newCenter.lng]);
-                setZoom(newZoom);
-              });
-              
-              // Debug click handler - show coordinates on click
-              mapRef.current.on('click', (e) => {
-                console.log(`Map clicked at: ${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`);
-              });
-            } catch (error) {
-              console.error('Error initializing map:', error);
-              setErrorMessage(`Error initializing map: ${error.message}`);
-            }
-            
-            // Cleanup function
-            return () => {
-              if (userMarkerRef.current && mapRef.current) {
-                mapRef.current.removeLayer(userMarkerRef.current);
-                userMarkerRef.current = null;
-              }
-              
-              if (legendRef.current && mapRef.current) {
-                mapRef.current.removeControl(legendRef.current);
-              }
-            };
-          }, [showFallback, center, zoom]);
-          
-          // Fetch fire data from the API
-          useEffect(() => {
-            setIsLoading(true);
-            setErrorMessage('');
-            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-            
-            fetchFireData()
-              .then(data => {
-                console.log('API fetch successful, processing data');
-                
-                try {
-                  // Filter out null values and normalize data
-                  const fireList = data
-                    .filter(point => point !== null)
-                    .map(point => normalizeFirePoint(point))
-                    .filter(point => point !== null);
-                  
-                  if (fireList.length > 0) {
-                    console.log(`Processed ${fireList.length} fire points from API`);
-                    setFires(fireList);
-                    setUsingSampleData(false);
-                    setShowFallback(false);
-                  } else {
-                    throw new Error('No valid fire data points in API response');
-                  }
-                } catch (parseError) {
-                  console.error('Error processing API response:', parseError);
-                  throw new Error(`Failed to process API data: ${parseError.message}`);
-                }
-              })
-              .catch(err => {
-                console.error('Error fetching fire data:', err.message);
-                
-                // First try sample data before falling back to iframe
-                try {
-                  const sampleData = getSampleFireData();
-                  if (sampleData && sampleData.length > 0) {
-                    console.log(`Using ${sampleData.length} sample fire data points`);
-                    setFires(sampleData);
-                    setUsingSampleData(true);
-                    setErrorMessage('Using demo fire data - API connection failed. Please check your NASA FIRMS API key configuration.');
-                    setShowFallback(false);
-                  } else {
-                    throw new Error('Sample data unavailable');
-                  }
-                } catch (sampleError) {
-                  console.error('Sample data failed, using NASA FIRMS iframe:', sampleError);
-                  setErrorMessage('Failed to load fire data. Showing NASA FIRMS map as fallback.');
-                  setShowFallback(true);
-                }
-              })
-              .finally(() => {
-                setIsLoading(false);
-                if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-              });
-          }, []);
-          
-          // Update markers when fire data changes
-          useEffect(() => {
-            if (!mapRef.current || !markerLayerRef.current || showFallback || fires.length === 0) return;
-            
-            try {
-              // Clear existing markers
-              markerLayerRef.current.clearLayers();
-              
-              // Add markers for each fire
-              const validPoints = [];
-              
-              fires.forEach(fire => {
-                // Skip invalid coordinates
-                if (
-                  !fire.lat || !fire.lon || 
-                  isNaN(fire.lat) || isNaN(fire.lon) || 
-                  fire.lat === 0 || fire.lon === 0 ||
-                  fire.lat < -90 || fire.lat > 90 || 
-                  fire.lon < -180 || fire.lon > 180
-                ) {
-                  return;
-                }
-                
-                try {
-                  // Get confidence level with fallback
-                  const confidence = parseInt(fire.confidence) || 50;
-                  
-                  // Create marker with appropriate icon
-                  const marker = L.marker([fire.lat, fire.lon], {
-                    icon: fire.customIcon || createFireIcon(confidence),
-                    title: fire.title || 'Fire Detection'
-                  });
-                  
-                  // Build popup content
-                  const popupContent = createFirePopup(fire);
-                  marker.bindPopup(popupContent);
-                  
-                  // Store the fire data in the marker for potential later use
-                  marker.fireData = fire;
-                  
-                  // Add to cluster layer
-                  markerLayerRef.current.addLayer(marker);
-                  validPoints.push([fire.lat, fire.lon]);
-                } catch (markerError) {
-                  console.warn('Error creating marker:', markerError);
-                }
-              });
-              
-              // Fit map to bounds if we have points
-              if (validPoints.length > 0) {
-                try {
-                  const bounds = L.latLngBounds(validPoints);
-                  if (bounds.isValid()) {
-                    mapRef.current.fitBounds(bounds, {
-                      padding: [50, 50],
-                      maxZoom: 8
-                    });
-                  }
-                } catch (boundsError) {
-                  console.error('Error setting map bounds:', boundsError);
-                  // Fallback to default view if bounds calculation fails
-                  mapRef.current.setView(initialCenter, initialZoom);
-                }
-              }
-            } catch (error) {
-              console.error('Error updating markers:', error);
-            }
-          }, [fires, showFallback]);
-          
-          // Handle map resizing on window resize
-          useEffect(() => {
-            if (!mapRef.current || showFallback) return;
-            
-            const handleResize = () => {
-              if (mapRef.current) {
-                mapRef.current.invalidateSize();
-              }
-            };
-            
-            window.addEventListener('resize', handleResize);
-            
-            return () => {
-              window.removeEventListener('resize', handleResize);
-            };
-          }, [showFallback]);
-          
-          // Function to reset map view
-          const handleReset = useCallback(() => {
-            if (mapRef.current && !showFallback) {
-              mapRef.current.setView(initialCenter, initialZoom);
-              setCenter(initialCenter);
-              setZoom(initialZoom);
-            }
-          }, [showFallback]);
-          
-          // Function to locate user
-          const handleLocateMe = useCallback(() => {
-            if (showFallback) return;
-            
-            setIsLoading(true);
-            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
-            
-            // Clear previous user marker if exists
-            if (userMarkerRef.current && mapRef.current) {
-              mapRef.current.removeLayer(userMarkerRef.current);
-              userMarkerRef.current = null;
-            }
-            
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                // Success callback
-                position => {
-                  if (!mapRef.current) return;
-                  
-                  try {
-                    const { latitude, longitude } = position.coords;
-                    
-                    // Fly to user location
-                    mapRef.current.flyTo([latitude, longitude], 10, {
-                      animate: true,
-                      duration: 1.5
-                    });
-                    
-                    // Add a temporary marker for user location
-                    userMarkerRef.current = L.marker([latitude, longitude], {
-                      icon: L.divIcon({
-                        html: '<div style="background-color: #2196F3; border: 2px solid white; border-radius: 50%; width: 12px; height: 12px; box-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>',
-                        className: '',
-                        iconSize: [16, 16],
-                        iconAnchor: [8, 8]
-                      })
-                    }).addTo(mapRef.current);
-                    
-                    userMarkerRef.current.bindPopup('Your location').openPopup();
-                    setCenter([latitude, longitude]);
-                    setZoom(10);
-                    setErrorMessage('');
-                  } catch (error) {
-                    console.error('Error processing location:', error);
-                    setErrorMessage(`Error processing your location: ${error.message}`);
-                  }
-                },
-                // Error callback
-                err => {
-                  console.error('Geolocation error:', err);
-                  
-                  let errorMsg = 'Could not get your location';
-                  switch(err.code) {
-                    case err.PERMISSION_DENIED:
-                      errorMsg = 'Location access denied. Please enable location services in your browser.';
-                      break;
-                    case err.POSITION_UNAVAILABLE:
-                      errorMsg = 'Location information is unavailable.';
-                      break;
-                    case err.TIMEOUT:
-                      errorMsg = 'Location request timed out.';
-                      break;
-                    default:
-                      errorMsg = `Location error: ${err.message}`;
-                  }
-                  
-                  setErrorMessage(errorMsg);
-                },
-                // Options
-                { 
-                  enableHighAccuracy: true, 
-                  timeout: 10000, 
-                  maximumAge: 0 
-                }
-              );
-            } else {
-              setErrorMessage('Geolocation is not supported by this browser.');
-            }
-            
-            setIsLoading(false);
-            if (loadingOverlayRef.current) loadingOverlayRef.current.classList.add('hidden');
-          }, [showFallback]);
-          
-          // Function to dismiss error messages
-          const dismissError = () => setErrorMessage('');
-          
-          return (
-            <div className="map-container">
-              <div ref={loadingOverlayRef} className="loading-overlay">
-                <div className="flame-loader"></div>
-                <p>Loading live fire data...</p>
-              </div>
-              
-              {!showFallback && (
-                <div className="controls">
-                  <button onClick={handleReset} title="Reset Map View to US">
-                    <i className="fas fa-globe-americas" style={{marginRight: '8px'}}></i> Reset View
-                  </button>
-                  <button onClick={handleLocateMe} title="Center Map on My Location">
-                    <i className="fas fa-location-crosshairs" style={{marginRight: '8px'}}></i> Locate Me
-                  </button>
-                </div>
-              )}
-              
-              {errorMessage && (
-                <div className="error-message">
-                  <span>{errorMessage}</span>
-                  <button onClick={dismissError} aria-label="Dismiss error">×</button>
-                </div>
-              )}
-              
-              {showFallback ? (
-                <iframe
-                  className="fallback-map"
-                  src="https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;@0.0,0.0,3z"
-                  title="NASA FIRMS Fire Map"
-                  sandbox="allow-scripts allow-same-origin"
-                ></iframe>
-              ) : (
-                <div id="map"></div>
-              )}
-              
-              {usingSampleData && (
-                <div style={{textAlign: 'center', margin: '8px 0', color: '#666', fontSize: '14px'}}>
-                  <em>Note: Displaying demo data. Live fire data connection is currently unavailable.</em>
-                </div>
-              )}
-            </div>
-          );
-        };
-
-        ReactDOM.render(<MapComponent />, document.getElementById('root'));
-    </script>
-    
-    <!-- Navigation Script -->
+    <!-- UI Functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a');
+            // Handle About panel
+            const aboutToggle = document.getElementById('about-toggle');
+            const aboutPanel = document.getElementById('about-panel');
+            const closeAbout = document.getElementById('close-about');
             
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
-                    const isActive = navMenu.classList.contains('active');
-                    hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive);
-                    
-                    if (!navMenu.classList.contains('active')) {
-                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                            openDropdown.classList.remove('open');
-                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                            if(caret) caret.style.transform = '';
-                        });
-                    }
-                });
-            }
+            aboutToggle.addEventListener('click', () => {
+                aboutPanel.style.display = 'block';
+                aboutToggle.style.display = 'none';
+            });
             
-            if (navMenu) {
-                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
-                dropdownToggles.forEach(toggleLink => {
-                    toggleLink.addEventListener('click', (e) => {
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault();
-                            const parentLi = toggleLink.closest('.has-dropdown');
-                            if (parentLi) {
-                                const currentlyOpen = parentLi.classList.contains('open');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                    if (otherLi !== parentLi) {
-                                        otherLi.classList.remove('open');
-                                        const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
-                                        if(otherCaret) otherCaret.style.transform = '';
-                                    }
-                                });
-                                parentLi.classList.toggle('open', !currentlyOpen);
-                                const caret = toggleLink.querySelector('i.fa-caret-down');
-                                if (caret) {
-                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
-                                }
-                            }
-                        }
-                        else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
-                            e.preventDefault();
-                        }
-                    });
-                });
-                
-                mainNavLinks.forEach(link => {
-                    const isToggle = link.matches('.has-dropdown > a');
-                    const isInDropdown = link.closest('.dropdown') !== null;
-                    if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
-                        link.addEventListener('click', (e) => {
-                            const href = link.getAttribute('href');
-                            let isExternal = false;
-                            try {
-                                isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
-                            } catch (_) {}
-                            if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
-                                hamburger.classList.remove('active');
-                                navMenu.classList.remove('active');
-                                hamburger.setAttribute('aria-expanded', 'false');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                                    openDropdown.classList.remove('open');
-                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                                    if(caret) caret.style.transform = '';
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+            closeAbout.addEventListener('click', () => {
+                aboutPanel.style.display = 'none';
+                aboutToggle.style.display = 'block';
+            });
             
-            // Set current year in footer
-            const yearSpan = document.getElementById('year');
-            if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
-            }
+            // Hide loading overlay when map loads
+            const loadingOverlay = document.getElementById('loading-overlay');
+            
+            // This will be called when the map is initialized
+            window.onMapInitialized = () => {
+                loadingOverlay.style.display = 'none';
+            };
+            
+            // Update the last-update span
+            window.updateLastUpdateTime = (timestamp) => {
+                const lastUpdateSpan = document.getElementById('last-update');
+                if (timestamp) {
+                    const date = new Date(timestamp);
+                    lastUpdateSpan.textContent = date.toLocaleString();
+                } else {
+                    lastUpdateSpan.textContent = 'Never';
+                }
+            };
         });
     </script>
 </body>
