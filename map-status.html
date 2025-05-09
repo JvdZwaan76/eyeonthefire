@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Fire Map</title>
+  <title>Eye On The Fire - Live Fire Map</title>
   
   <!-- External Dependencies -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -57,11 +57,74 @@
       cursor: pointer;
       margin-left: 10px;
     }
+    
+    .filter-panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+    
+    .filter-panel select {
+      margin: 5px 0;
+      padding: 5px;
+      width: 100%;
+    }
+    
+    .filter-panel button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      background-color: #5bc0de;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    .fire-icon {
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      opacity: 0.7;
+    }
+    
+    .high-confidence {
+      background-color: #d9534f;
+    }
+    
+    .medium-confidence {
+      background-color: #f0ad4e;
+    }
+    
+    .low-confidence {
+      background-color: #5bc0de;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
   <div id="status" class="status-bar">Loading map...</div>
+  
+  <div class="filter-panel">
+    <h4 style="margin-top: 0;">Fire Data Filters</h4>
+    <select id="days-filter">
+      <option value="1">Last 24 hours</option>
+      <option value="2">Last 48 hours</option>
+      <option value="7" selected>Last 7 days</option>
+    </select>
+    <select id="confidence-filter">
+      <option value="all" selected>All confidence levels</option>
+      <option value="high">High confidence only</option>
+      <option value="medium">Medium and high confidence</option>
+    </select>
+    <button id="refresh-btn">Refresh Data</button>
+  </div>
 
   <!-- Load libraries -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -72,12 +135,24 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Constants
       const API_URL = 'https://eyeonthefire.com/api/nasa/';
-      const DEFAULT_CENTER = [36.0, -120.0];
-      const DEFAULT_ZOOM = 5;
+      
+      // IMPORTANT: Direct NASA FIRMS API URL as a fallback
+      // This will be used if your server endpoint fails
+      const FALLBACK_NASA_URL = 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/';
+      
+      // You can replace this with your actual NASA FIRMS API key if available
+      // If not, the map will still work with some sample data
+      const NASA_API_KEY = 'YOUR_NASA_API_KEY';
+      
+      const DEFAULT_CENTER = [39.8283, -98.5795]; // Center of US
+      const DEFAULT_ZOOM = 4;
       
       // DOM elements
       const mapElement = document.getElementById('map');
       const statusElement = document.getElementById('status');
+      const daysFilter = document.getElementById('days-filter');
+      const confidenceFilter = document.getElementById('confidence-filter');
+      const refreshBtn = document.getElementById('refresh-btn');
       
       // Initialize map
       const map = L.map('map').setView(DEFAULT_CENTER, DEFAULT_ZOOM);
@@ -134,6 +209,75 @@
         }
       }
       
+      // Get fallback sample data when all APIs fail
+      function getSampleData() {
+        // Return some recent sample fire data
+        return [
+          { latitude: 34.0522, longitude: -118.2437, confidence: "high", acq_date: "2025-05-07", frp: 45.2 },
+          { latitude: 36.7783, longitude: -119.4179, confidence: "nominal", acq_date: "2025-05-06", frp: 12.7 },
+          { latitude: 37.7749, longitude: -122.4194, confidence: "high", acq_date: "2025-05-07", frp: 23.5 },
+          { latitude: 32.7157, longitude: -117.1611, confidence: "nominal", acq_date: "2025-05-05", frp: 8.3 },
+          { latitude: 38.5816, longitude: -121.4944, confidence: "high", acq_date: "2025-05-06", frp: 19.6 },
+          { latitude: 39.5296, longitude: -119.8138, confidence: "low", acq_date: "2025-05-04", frp: 5.1 },
+          { latitude: 47.6062, longitude: -122.3321, confidence: "nominal", acq_date: "2025-05-05", frp: 7.2 },
+          { latitude: 45.5152, longitude: -122.6784, confidence: "high", acq_date: "2025-05-07", frp: 28.9 },
+          { latitude: 44.0521, longitude: -123.0868, confidence: "low", acq_date: "2025-05-03", frp: 3.8 },
+          { latitude: 48.7519, longitude: -122.4787, confidence: "nominal", acq_date: "2025-05-06", frp: 9.4 }
+        ];
+      }
+      
+      // Create custom fire icon based on confidence
+      function createFireIcon(confidence) {
+        let cssClass = 'fire-icon ';
+        
+        if (confidence === 'high' || confidence === 'h') {
+          cssClass += 'high-confidence';
+        } else if (confidence === 'nominal' || confidence === 'n' || confidence === 'medium' || confidence === 'm') {
+          cssClass += 'medium-confidence';
+        } else {
+          cssClass += 'low-confidence';
+        }
+        
+        return L.divIcon({
+          className: cssClass,
+          iconSize: [10, 10]
+        });
+      }
+      
+      // Filter fires based on user selections
+      function filterFires(fires) {
+        const days = parseInt(daysFilter.value);
+        const confidenceLevel = confidenceFilter.value;
+        
+        // Calculate cutoff date
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - days);
+        
+        return fires.filter(fire => {
+          // Filter by date if available
+          let passesDateFilter = true;
+          if (fire.acq_date) {
+            const fireDate = new Date(fire.acq_date);
+            passesDateFilter = fireDate >= cutoffDate;
+          }
+          
+          // Filter by confidence if available
+          let passesConfidenceFilter = true;
+          if (confidenceLevel !== 'all' && fire.confidence) {
+            const conf = fire.confidence.toLowerCase();
+            if (confidenceLevel === 'high') {
+              passesConfidenceFilter = (conf === 'high' || conf === 'h');
+            } else if (confidenceLevel === 'medium') {
+              passesConfidenceFilter = (conf === 'high' || conf === 'h' || 
+                                        conf === 'nominal' || conf === 'n' || 
+                                        conf === 'medium' || conf === 'm');
+            }
+          }
+          
+          return passesDateFilter && passesConfidenceFilter;
+        });
+      }
+      
       // Display fire data on map
       function displayFires(fires) {
         // Clear existing markers
@@ -144,11 +288,19 @@
           return;
         }
         
+        // Filter fires based on user selections
+        const filteredFires = filterFires(fires);
+        
+        if (filteredFires.length === 0) {
+          setStatus('No fires match your filter criteria', 'warning');
+          return;
+        }
+        
         // Track valid points for bounds
         const validPoints = [];
         
         // Add markers for each fire
-        fires.forEach(fire => {
+        filteredFires.forEach(fire => {
           // Extract coordinates - handle different possible property names
           const lat = parseFloat(fire.latitude || fire.lat || fire.LATITUDE || '');
           const lng = parseFloat(fire.longitude || fire.lon || fire.lng || fire.LONGITUDE || '');
@@ -159,16 +311,36 @@
             return;
           }
           
-          // Create marker
-          const marker = L.marker([lat, lng]);
+          // Create marker with custom icon based on confidence
+          const marker = L.marker([lat, lng], {
+            icon: createFireIcon(fire.confidence || 'low')
+          });
           
           // Create popup content
           let popupContent = '<strong>Fire Alert</strong><br>';
+          popupContent += `Location: ${lat.toFixed(4)}, ${lng.toFixed(4)}<br>`;
           
-          // Add any available data to popup
+          // Add date if available
+          if (fire.acq_date) {
+            popupContent += `Date: ${fire.acq_date}<br>`;
+          }
+          
+          // Add confidence if available
+          if (fire.confidence) {
+            popupContent += `Confidence: ${fire.confidence}<br>`;
+          }
+          
+          // Add FRP (Fire Radiative Power) if available
+          if (fire.frp) {
+            popupContent += `Fire Radiative Power: ${fire.frp} MW<br>`;
+          }
+          
+          // Add any other available attributes
           Object.keys(fire).forEach(key => {
-            if (fire[key] && key !== 'latitude' && key !== 'longitude' && 
-                key !== 'lat' && key !== 'lng') {
+            if (fire[key] && 
+                key !== 'latitude' && key !== 'longitude' && 
+                key !== 'lat' && key !== 'lng' &&
+                key !== 'confidence' && key !== 'acq_date' && key !== 'frp') {
               popupContent += `${key}: ${fire[key]}<br>`;
             }
           });
@@ -187,10 +359,30 @@
         }
       }
       
-      // Load fire data from API
+      // Attempt to load from direct NASA FIRMS API
+      function loadFromNASA() {
+        if (!NASA_API_KEY || NASA_API_KEY === 'YOUR_NASA_API_KEY') {
+          console.warn('No NASA API key provided for fallback');
+          return Promise.reject(new Error('No NASA API key configured'));
+        }
+        
+        // This would use the NASA FIRMS API directly
+        // You would need to replace with your actual API key and parameters
+        return fetch(`${FALLBACK_NASA_URL}${NASA_API_KEY}/USA/7/csv`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`NASA API returned status ${response.status}`);
+            }
+            return response.text();
+          })
+          .then(text => parseCSV(text));
+      }
+      
+      // Load fire data from API with fallbacks
       function loadFireData() {
         setStatus('Loading fire data...');
         
+        // First try your own API
         fetch(API_URL)
           .then(response => {
             if (!response.ok) {
@@ -199,7 +391,7 @@
             return response.text();
           })
           .then(text => {
-            // First try to parse as JSON
+            // Try to parse as JSON first
             try {
               const data = JSON.parse(text);
               return data;
@@ -210,24 +402,31 @@
             }
           })
           .then(data => {
-            // Log data for debugging
-            console.log('Parsed data:', data);
-            
             // Display fire data
             displayFires(data);
           })
           .catch(error => {
-            console.error('Error loading fire data:', error);
-            setStatus(`Error: ${error.message}`, 'error');
-            addRetryButton();
+            console.error('Error with primary API:', error);
+            setStatus('Primary API failed. Trying alternate source...', 'loading');
             
-            // Add fallback data if available
-            displayFires([
-              { latitude: 37.7749, longitude: -122.4194, title: 'San Francisco' },
-              { latitude: 34.0522, longitude: -118.2437, title: 'Los Angeles' }
-            ]);
+            // Try NASA FIRMS API directly as fallback
+            loadFromNASA()
+              .then(data => {
+                displayFires(data);
+              })
+              .catch(nasaError => {
+                console.error('NASA API also failed:', nasaError);
+                setStatus('Could not load live fire data. Using sample data.', 'error');
+                
+                // As a last resort, use sample data
+                displayFires(getSampleData());
+                addRetryButton();
+              });
           });
       }
+      
+      // Event listeners for filters
+      refreshBtn.addEventListener('click', loadFireData);
       
       // Start loading data
       loadFireData();
