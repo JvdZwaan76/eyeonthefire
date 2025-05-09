@@ -22,58 +22,155 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+    .error-message {
+      background-color: #ffeeee;
+      color: #cc0000;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px;
+      text-align: center;
+    }
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 4px solid #3498db;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
+    // Helper function to parse CSV data
+    const parseCSV = (text) => {
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',');
+      
+      return lines.slice(1).map(line => {
+        const values = line.split(',');
+        const entry = {};
+        
+        headers.forEach((header, index) => {
+          entry[header.trim()] = values[index] ? values[index].trim() : '';
+        });
+        
+        return entry;
+      });
+    };
+
     const MapComponent = () => {
       const [fires, setFires] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
       const mapRef = useRef(null);
       const markersRef = useRef(null);
       const mapContainerRef = useRef(null);
 
       const loadFireData = async () => {
         try {
+          setError(null);
           const response = await fetch('https://eyeonthefire.com/api/nasa/');
+          
           if (!response.ok) {
-            throw new Error('API failed');
+            throw new Error(`API failed with status: ${response.status}`);
           }
+          
           const text = await response.text();
-          console.log('API data:', text); // Debug the response
-          // Assuming parseCSV is not available, return empty array or implement parsing
-          return [];
+          
+          // Try to parse as JSON first
+          try {
+            const jsonData = JSON.parse(text);
+            return jsonData.map(item => ({
+              lat: parseFloat(item.latitude || item.lat),
+              lon: parseFloat(item.longitude || item.lon),
+              title: item.title || `Fire detected at ${item.latitude}, ${item.longitude}`
+            }));
+          } catch (jsonError) {
+            // If not JSON, try parsing as CSV
+            try {
+              const csvData = parseCSV(text);
+              return csvData.map(item => ({
+                lat: parseFloat(item.latitude || item.lat),
+                lon: parseFloat(item.longitude || item.lon),
+                title: `Fire detected at ${item.latitude || item.lat}, ${item.longitude || item.lon}`
+              }));
+            } catch (csvError) {
+              console.error('Error parsing data:', csvError);
+              throw new Error('Could not parse API response');
+            }
+          }
         } catch (error) {
           console.error('Error fetching fire data:', error);
-          // Fallback data
-          return [
-            { lat: 37.7749, lon: -122.4194, title: 'San Francisco Fire' },
-            { lat: 34.0522, lon: -118.2437, title: 'Los Angeles Fire' },
-          ];
+          setError(`Failed to load fire data: ${error.message}`);
+          
+          // Return empty array instead of fallback data
+          return [];
         }
       };
 
       useEffect(() => {
         const initMap = async () => {
           setLoading(true);
-          const data = await loadFireData();
-          setFires(data);
-          setLoading(false);
+          try {
+            const data = await loadFireData();
+            setFires(data);
+          } catch (err) {
+            console.error('Error initializing map:', err);
+          } finally {
+            setLoading(false);
+          }
         };
+        
         initMap();
       }, []);
 
       useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) {
+          // Initialize map only once
           mapRef.current = L.map(mapContainerRef.current, {
             center: [36.0, -120.0],
             zoom: 6,
           });
+          
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
           }).addTo(mapRef.current);
+          
+          // Initialize marker cluster group
+          markersRef.current = L.markerClusterGroup();
+          mapRef.current.addLayer(markersRef.current);
         }
 
         return () => {
@@ -85,39 +182,68 @@
       }, []);
 
       useEffect(() => {
-        if (mapRef.current && !loading && fires.length > 0) {
-          if (markersRef.current) {
-            mapRef.current.removeLayer(markersRef.current);
-          }
-          markersRef.current = L.markerClusterGroup();
+        if (mapRef.current && !loading && markersRef.current) {
+          // Clear existing markers
+          markersRef.current.clearLayers();
+          
+          // Add new markers
           fires.forEach(fire => {
-            markersRef.current.addLayer(
-              L.marker([fire.lat, fire.lon]).bindPopup(fire.title)
-            );
+            if (fire.lat && fire.lon && !isNaN(fire.lat) && !isNaN(fire.lon)) {
+              const marker = L.marker([fire.lat, fire.lon])
+                .bindPopup(fire.title || 'Fire location');
+              markersRef.current.addLayer(marker);
+            }
           });
-          mapRef.current.addLayer(markersRef.current);
+          
+          // If we have fires, fit bounds
+          if (fires.length > 0) {
+            const validFires = fires.filter(f => f.lat && f.lon && !isNaN(f.lat) && !isNaN(f.lon));
+            if (validFires.length > 0) {
+              try {
+                const bounds = L.latLngBounds(validFires.map(f => [f.lat, f.lon]));
+                mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+              } catch (err) {
+                console.error('Error fitting bounds:', err);
+              }
+            }
+          }
         }
       }, [fires, loading]);
 
       return (
-        <div style={{ position: 'relative', height: '500px', width: '100%' }}>
-          {loading ? (
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              Loading map...
+        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+          {error && (
+            <div className="error-message">
+              {error}
+              <button 
+                onClick={() => {
+                  setError(null);
+                  setLoading(true);
+                  loadFireData().then(data => {
+                    setFires(data);
+                    setLoading(false);
+                  });
+                }}
+                style={{ marginLeft: '10px' }}
+              >
+                Retry
+              </button>
             </div>
-          ) : (
-            <div
-              ref={mapContainerRef}
-              id="map"
-              style={{ height: '100%', width: '100%' }}
-            />
+          )}
+          
+          <div
+            ref={mapContainerRef}
+            id="map"
+            style={{ height: 'calc(100% - ' + (error ? '40px' : '0px') + ')', width: '100%' }}
+          />
+          
+          {loading && (
+            <div className="loading-overlay">
+              <div>
+                <div className="spinner"></div>
+                <div style={{ marginTop: '10px' }}>Loading fire data...</div>
+              </div>
+            </div>
           )}
         </div>
       );
