@@ -30,6 +30,9 @@
     </script>
 </head>
 <body>
+    <div class="page-transition">
+        <div class="flame-animation"></div>
+    </div>
     <header class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
@@ -47,9 +50,31 @@
                 <ul class="main-menu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html" class="active">About</a></li>
-                    <li><a href="prepare.html">Prepare</a></li>
-                    <li><a href="prevent.html">Prevent</a></li>
-                    <li><a href="safety-info.html">Safety Info</a></li>
+                    <li class="has-dropdown">
+                        <a href="prepare.html">Prepare <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="prepare.html#home-hardening">Home Hardening</a></li>
+                            <li><a href="prepare.html#defensible-space">Defensible Space</a></li>
+                            <li><a href="prepare.html#emergency-plan">Emergency Plan</a></li>
+                            <li><a href="prepare.html#evacuation">Evacuation Guide</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="prevent.html">Prevent <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="prevent.html#fire-safety">Fire Safety Basics</a></li>
+                            <li><a href="prevent.html#outdoor-safety">Outdoor Safety</a></li>
+                            <li><a href="prevent.html#community">Community Preparedness</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="safety-info.html">Safety Info <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="safety-info.html#smoke">Smoke Health Effects</a></li>
+                            <li><a href="safety-info.html#alerts">Alert Systems</a></li>
+                            <li><a href="safety-info.html#resources">Emergency Resources</a></li>
+                        </ul>
+                    </li>
                     <li><a href="news-resources.html">News & Resources</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -226,6 +251,16 @@
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
+            }
+            
+            // Page transition effect
+            const pageTransition = document.querySelector('.page-transition');
+            if (pageTransition) {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        pageTransition.classList.add('loaded');
+                    }, 800);
+                });
             }
             
             // Enhanced fire theme functionality
