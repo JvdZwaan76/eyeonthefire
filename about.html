@@ -1,143 +1,4 @@
-// Enhanced animations for page elements
-            function animateOnScroll() {
-                const elements = document.querySelectorAll('.content-with-image, .testimonial-item, .stat-item, .faq-item');
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-in');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, {
-                    threshold: 0.15
-                });
-                
-                elements.forEach(element => {
-                    element.classList.add('animate-element');
-                    observer.observe(element);
-                });
-            }
-            
-            // Run animations
-            if ('IntersectionObserver' in window) {
-                window.addEventListener('load', animateOnScroll);
-            }    <section id="faq" class="content-section faq-section">
-        <div class="container">
-            <h2 class="ember-text">Frequently Asked Questions</h2>
-            <p class="section-intro">Find answers to common questions about Eye on the Fire and our wildfire tracking services.</p>
-            
-            <div class="faq-item">
-                <div class="faq-question">How often is your wildfire map updated?</div>
-                <div class="faq-answer">
-                    <p>Our wildfire map is updated every 15 minutes with the latest satellite data from NASA FIRMS (Fire Information for Resource Management System). Active fire information is collected by MODIS (Moderate Resolution Imaging Spectroradiometer) and VIIRS (Visible Infrared Imaging Radiometer Suite) thermal sensors aboard NASA satellites. Additionally, we incorporate data from NIFC (National Interagency Fire Center) and local fire agencies for comprehensive coverage of wildfires across the United States.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Is Eye on the Fire available as a mobile app?</div>
-                <div class="faq-answer">
-                    <p>While we don't currently offer a native mobile app, our website is fully optimized for mobile devices. You can access all of our features, including the interactive wildfire map, preparation guides, and emergency resources, from any smartphone or tablet. Simply bookmark our website for quick access. We're exploring the development of native mobile applications for iOS and Android in the future.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">How accurate is your wildfire tracking data?</div>
-                <div class="faq-answer">
-                    <p>Eye on the Fire uses multiple trusted data sources to ensure high accuracy. Our primary data comes from NASA FIRMS satellite detection, which has a global accuracy of approximately 80% for active fire detection. We enhance this with ground-truth data from NIFC and local fire agencies. While all remote sensing systems have limitations due to factors like cloud cover and satellite orbital patterns, we employ verification algorithms and multiple data sources to provide the most reliable information possible.</p>
-                    <p>It's important to note that our service is designed to be informational and should be used alongside official evacuation notices and emergency alerts from your local authorities.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Do you offer wildfire tracking outside the United States?</div>
-                <div class="faq-answer">
-                    <p>Currently, Eye on the Fire focuses exclusively on wildfire tracking and preparedness resources for the United States, including all 50 states and territories. This allows us to provide highly specialized, localized information and integrate with US-specific emergency management systems. We're continually evaluating opportunities to expand our coverage to other countries in the future.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">How can I contribute to Eye on the Fire?</div>
-                <div class="faq-answer">
-                    <p>There are several ways to contribute to our mission:</p>
-                    <ul>
-                        <li>Share our resources with your community, especially in fire-prone regions</li>
-                        <li>Participate in our community forums and share your wildfire preparedness experiences</li>
-                        <li>Report any data discrepancies or satellite detection errors you notice</li>
-                        <li>If you're a fire professional or emergency manager, contact us about partnership opportunities</li>
-                        <li>Support our work through donations that help us maintain and improve our tracking systems</li>
-                    </ul>
-                    <p>Visit our <a href="contact.html">Contact page</a> to learn more about getting involved.</p>
-                </div>
-            </div>
-        </div>
-    </section>    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <h2 class="ember-text">What People Are Saying</h2>
-            <p class="section-intro">Hear from individuals and communities who have benefited from our wildfire tracking and preparedness resources.</p>
-            <div class="testimonial-grid">
-                <div class="testimonial-item">
-                    <div class="testimonial-content">
-                        Eye on the Fire's real-time alerts helped our family evacuate safely during the Pine Ridge Fire. The preparation guides made all the difference in having our emergency kit ready.
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="/images/testimonial-1.jpg" alt="Sarah M. from Colorado">
-                        <div class="author-details">
-                            <div class="author-name">Sarah M.</div>
-                            <div class="author-location">Colorado Springs, CO</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item">
-                    <div class="testimonial-content">
-                        As a fire chief, I recommend Eye on the Fire to everyone in our community. Their defensible space guides have improved property protection throughout our district.
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="/images/testimonial-2.jpg" alt="Chief James T. from California">
-                        <div class="author-details">
-                            <div class="author-name">Chief James T.</div>
-                            <div class="author-location">Santa Rosa, CA</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item">
-                    <div class="testimonial-content">
-                        Our neighborhood association uses Eye on the Fire's community preparedness resources for our annual fire safety workshops. The interactive map is an invaluable educational tool.
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="/images/testimonial-3.jpg" alt="Elena R. from Arizona">
-                        <div class="author-details">
-                            <div class="author-name">Elena R.</div>
-                            <div class="author-location">Flagstaff, AZ</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>    <section id="stats" class="stats-section">
-        <div class="container">
-            <h2 class="ember-text">Our Impact</h2>
-            <p class="section-intro">Eye on the Fire has helped communities across America stay informed and prepared during wildfire season.</p>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">150,000+</div>
-                    <div class="stat-description">Monthly Users</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">2,500+</div>
-                    <div class="stat-description">Wildfires Tracked</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">48</div>
-                    <div class="stat-description">States Covered</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">12,000+</div>
-                    <div class="stat-description">Safety Guides Downloaded</div>
-                </div>
-            </div>
-        </div>
-    </section><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -209,19 +70,15 @@
       }]
     }
     </script>
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/about">
-    <meta property="og:image" content="https://eyeonthefire.com/images/about-hero-bg.jpg">
-    <link rel="canonical" href="https://eyeonthefire.com/about">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon Links -->
-    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
-    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
-    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="favicon/site.webmanifest">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -229,6 +86,112 @@
         gtag('js', new Date());
         gtag('config', 'G-T8RE6KDBEW');
     </script>
+    <!-- Production Fix Styles -->
+    <style>
+        /* Fix potential path issues with background images */
+        .hero {
+            background: url('images/about-hero-bg.jpg') no-repeat center center/cover;
+        }
+        
+        /* Fix for image paths */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Fix for content layout */
+        .content-with-image {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            overflow: hidden;
+            position: relative;
+            max-width: 900px;
+        }
+        
+        /* Ensure proper image sizing */
+        .content-with-image img {
+            width: 100%;
+            max-width: 280px;
+            height: 210px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .content-with-image.reverse {
+            grid-template-columns: 2fr 1fr;
+        }
+        
+        /* Fix for mobile layouts */
+        @media (max-width: 768px) {
+            .content-with-image,
+            .content-with-image.reverse {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .content-with-image img {
+                margin: 0 auto 1.5rem;
+            }
+            
+            .content-with-image .text {
+                text-align: left;
+            }
+        }
+        
+        /* Ensure FAQ functionality */
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: block;
+            position: relative;
+            border-left: 4px solid #ff4500;
+        }
+        
+        .faq-question:after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-question:after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            background-color: #fff;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 1rem;
+            max-height: 1000px;
+        }
+    </style>
 </head>
 <body>
     <div class="page-transition">
@@ -238,7 +201,7 @@
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                 <div class="logo-container">
-                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
                     <span class="ember-text">Eye on the Fire</span>
                 </div>
             </a>
@@ -294,7 +257,7 @@
             <h2 class="ember-text">Our Mission</h2>
             <p class="section-intro">Eye on the Fire is dedicated to providing real-time wildfire monitoring and comprehensive fire safety resources to communities across the United States.</p>
             <div class="content-with-image">
-                <img src="/images/mission-image.jpg" alt="Firefighter monitoring real-time US wildfire data on tablet">
+                <img src="images/mission-image.jpg" alt="Firefighter monitoring real-time US wildfire data on tablet">
                 <div class="text">
                     <p>At Eye on the Fire, our mission is to provide accurate, real-time wildfire tracking across the United States, empowering individuals and communities to stay informed and safe. By consolidating data from trusted sources like NASA FIRMS and NIFC, we deliver an interactive US wildfire map that helps you monitor fires near you and access critical safety resources.</p>
                     <p>We are committed to enhancing wildfire preparedness through comprehensive guides on home hardening, defensible space, and emergency planning, ensuring you have the tools to protect what matters most.</p>
@@ -304,12 +267,36 @@
         </div>
     </section>
     <hr class="section-divider">
+    <section id="stats" class="stats-section">
+        <div class="container">
+            <h2 class="ember-text">Our Impact</h2>
+            <p class="section-intro">Eye on the Fire has helped communities across America stay informed and prepared during wildfire season.</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">150,000+</div>
+                    <div class="stat-description">Monthly Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2,500+</div>
+                    <div class="stat-description">Wildfires Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">48</div>
+                    <div class="stat-description">States Covered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12,000+</div>
+                    <div class="stat-description">Safety Guides Downloaded</div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="why-choose-us" class="content-section">
         <div class="container">
             <h2 class="ember-text">Why Choose Eye on the Fire?</h2>
             <p class="section-intro">Our platform combines cutting-edge technology with expert knowledge to create the most comprehensive wildfire monitoring and safety resource available.</p>
             <div class="content-with-image reverse">
-                <img src="/images/why-choose-us-image.jpg" alt="Family preparing wildfire emergency go-bag with safety resources">
+                <img src="images/why-choose-us-image.jpg" alt="Family preparing wildfire emergency go-bag with safety resources">
                 <div class="text">
                     <ul class="fire-list">
                         <li><strong>Real-Time Wildfire Monitoring:</strong> Our interactive map provides up-to-date wildfire data, helping you track fires near you anywhere in the US. We update every 15 minutes from NASA FIRMS satellite data.</li>
@@ -329,7 +316,7 @@
             <h2 class="ember-text">Our Community</h2>
             <p class="section-intro">Eye on the Fire is built on a foundation of collaboration with firefighters, emergency managers, and community leaders across the United States.</p>
             <div class="content-with-image reverse">
-                <img src="/images/community-image.jpg" alt="Community volunteers in US wildfire prevention effort">
+                <img src="images/community-image.jpg" alt="Community volunteers in US wildfire prevention effort">
                 <div class="text">
                     <p>Eye on the Fire is more than a platform—it's a community dedicated to wildfire safety and resilience. We collaborate with firefighters, emergency managers, and volunteers across the US to provide resources that make a difference.</p>
                     <p>Our network includes partnerships with over 200 fire departments, 50 emergency management agencies, and numerous community organizations focused on wildfire preparedness and response. Together, we're building a more fire-resilient America through education, technology, and community engagement.</p>
@@ -338,7 +325,100 @@
             </div>
         </div>
     </section>
-    <hr class="section-divider">
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="ember-text">What People Are Saying</h2>
+            <p class="section-intro">Hear from individuals and communities who have benefited from our wildfire tracking and preparedness resources.</p>
+            <div class="testimonial-grid">
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        Eye on the Fire's real-time alerts helped our family evacuate safely during the Pine Ridge Fire. The preparation guides made all the difference in having our emergency kit ready.
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-1.jpg" alt="Sarah M. from Colorado">
+                        <div class="author-details">
+                            <div class="author-name">Sarah M.</div>
+                            <div class="author-location">Colorado Springs, CO</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        As a fire chief, I recommend Eye on the Fire to everyone in our community. Their defensible space guides have improved property protection throughout our district.
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-2.jpg" alt="Chief James T. from California">
+                        <div class="author-details">
+                            <div class="author-name">Chief James T.</div>
+                            <div class="author-location">Santa Rosa, CA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        Our neighborhood association uses Eye on the Fire's community preparedness resources for our annual fire safety workshops. The interactive map is an invaluable educational tool.
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonial-3.jpg" alt="Elena R. from Arizona">
+                        <div class="author-details">
+                            <div class="author-name">Elena R.</div>
+                            <div class="author-location">Flagstaff, AZ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="faq" class="content-section faq-section">
+        <div class="container">
+            <h2 class="ember-text">Frequently Asked Questions</h2>
+            <p class="section-intro">Find answers to common questions about Eye on the Fire and our wildfire tracking services.</p>
+            
+            <div class="faq-item">
+                <div class="faq-question">How often is your wildfire map updated?</div>
+                <div class="faq-answer">
+                    <p>Our wildfire map is updated every 15 minutes with the latest satellite data from NASA FIRMS (Fire Information for Resource Management System). Active fire information is collected by MODIS (Moderate Resolution Imaging Spectroradiometer) and VIIRS (Visible Infrared Imaging Radiometer Suite) thermal sensors aboard NASA satellites. Additionally, we incorporate data from NIFC (National Interagency Fire Center) and local fire agencies for comprehensive coverage of wildfires across the United States.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is Eye on the Fire available as a mobile app?</div>
+                <div class="faq-answer">
+                    <p>While we don't currently offer a native mobile app, our website is fully optimized for mobile devices. You can access all of our features, including the interactive wildfire map, preparation guides, and emergency resources, from any smartphone or tablet. Simply bookmark our website for quick access. We're exploring the development of native mobile applications for iOS and Android in the future.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How accurate is your wildfire tracking data?</div>
+                <div class="faq-answer">
+                    <p>Eye on the Fire uses multiple trusted data sources to ensure high accuracy. Our primary data comes from NASA FIRMS satellite detection, which has a global accuracy of approximately 80% for active fire detection. We enhance this with ground-truth data from NIFC and local fire agencies. While all remote sensing systems have limitations due to factors like cloud cover and satellite orbital patterns, we employ verification algorithms and multiple data sources to provide the most reliable information possible.</p>
+                    <p>It's important to note that our service is designed to be informational and should be used alongside official evacuation notices and emergency alerts from your local authorities.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do you offer wildfire tracking outside the United States?</div>
+                <div class="faq-answer">
+                    <p>Currently, Eye on the Fire focuses exclusively on wildfire tracking and preparedness resources for the United States, including all 50 states and territories. This allows us to provide highly specialized, localized information and integrate with US-specific emergency management systems. We're continually evaluating opportunities to expand our coverage to other countries in the future.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How can I contribute to Eye on the Fire?</div>
+                <div class="faq-answer">
+                    <p>There are several ways to contribute to our mission:</p>
+                    <ul>
+                        <li>Share our resources with your community, especially in fire-prone regions</li>
+                        <li>Participate in our community forums and share your wildfire preparedness experiences</li>
+                        <li>Report any data discrepancies or satellite detection errors you notice</li>
+                        <li>If you're a fire professional or emergency manager, contact us about partnership opportunities</li>
+                        <li>Support our work through donations that help us maintain and improve our tracking systems</li>
+                    </ul>
+                    <p>Visit our <a href="contact.html">Contact page</a> to learn more about getting involved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="cta" class="content-section">
         <div class="container">
             <div class="cta-banner">
@@ -380,80 +460,10 @@
             <a href="#">Privacy Policy</a>
         </div>
     </footer>
+    
+    <!-- Production-ready JavaScript with fixes -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Existing navigation functionality
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a');
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
-                    const isActive = navMenu.classList.contains('active');
-                    hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive);
-                    if (!navMenu.classList.contains('active')) {
-                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                            openDropdown.classList.remove('open');
-                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                            if(caret) caret.style.transform = '';
-                        });
-                    }
-                });
-            }
-            if (navMenu) {
-                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
-                dropdownToggles.forEach(toggleLink => {
-                    toggleLink.addEventListener('click', (e) => {
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault();
-                            const parentLi = toggleLink.closest('.has-dropdown');
-                            if (parentLi) {
-                                const currentlyOpen = parentLi.classList.contains('open');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                    if (otherLi !== parentLi) {
-                                        otherLi.classList.remove('open');
-                                        const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
-                                        if(otherCaret) otherCaret.style.transform = '';
-                                    }
-                                });
-                                parentLi.classList.toggle('open', !currentlyOpen);
-                                const caret = toggleLink.querySelector('i.fa-caret-down');
-                                if (caret) {
-                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
-                                }
-                            }
-                        }
-                        else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
-                            e.preventDefault();
-                        }
-                    });
-                });
-                mainNavLinks.forEach(link => {
-                    const isToggle = link.matches('.has-dropdown > a');
-                    const isInDropdown = link.closest('.dropdown') !== null;
-                    if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
-                        link.addEventListener('click', (e) => {
-                            const href = link.getAttribute('href');
-                            let isExternal = false;
-                            try {
-                                isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
-                            } catch (_) {}
-                            if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
-                                hamburger.classList.remove('active');
-                                navMenu.classList.remove('active');
-                                hamburger.setAttribute('aria-expanded', 'false');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                                    openDropdown.classList.remove('open');
-                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                                    if(caret) caret.style.transform = '';
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            
+        document.addEventListener('DOMContentLoaded', function() {
             // Set the current year
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
@@ -463,101 +473,85 @@
             // Page transition effect
             const pageTransition = document.querySelector('.page-transition');
             if (pageTransition) {
-                window.addEventListener('load', () => {
-                    setTimeout(() => {
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
                         pageTransition.classList.add('loaded');
                     }, 800);
                 });
             }
             
-            // Enhanced fire theme functionality
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    hamburger.setAttribute('aria-expanded', 
+                        hamburger.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+                });
+            }
             
-            // Add ember effect to headings
-            const headings = document.querySelectorAll('h1, h2, h3');
-            headings.forEach(heading => {
-                if (!heading.classList.contains('ember-text')) {
-                    heading.classList.add('ember-text');
+            // Dropdown functionality
+            const dropdownToggles = document.querySelectorAll('.has-dropdown > a');
+            dropdownToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    if (window.innerWidth < 992) {
+                        e.preventDefault();
+                        const parent = this.parentElement;
+                        
+                        // Close other dropdowns
+                        document.querySelectorAll('.has-dropdown').forEach(function(item) {
+                            if (item !== parent && item.classList.contains('open')) {
+                                item.classList.remove('open');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        parent.classList.toggle('open');
+                    }
+                });
+            });
+            
+            // FAQ functionality (production fix version)
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(function(item) {
+                const question = item.querySelector('.faq-question');
+                if (question) {
+                    question.addEventListener('click', function() {
+                        // Close other items
+                        faqItems.forEach(function(otherItem) {
+                            if (otherItem !== item && otherItem.classList.contains('active')) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current item
+                        item.classList.toggle('active');
+                    });
                 }
             });
             
-            // Smooth scroll for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
+            // Initialize first FAQ item as active
+            if (faqItems.length > 0) {
+                faqItems[0].classList.add('active');
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
+                    if (targetId === '#') return;
                     
                     const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
+                    if (targetElement) {
+                        e.preventDefault();
                         window.scrollTo({
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
                 });
-            });
-            
-            // Add active class to current nav item based on scroll position
-            const navLinks = document.querySelectorAll('.main-menu a');
-            const sections = document.querySelectorAll('section[id]');
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                const scrollPosition = window.scrollY + 100;
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.offsetHeight;
-                    
-                    if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if(link.getAttribute('href') === `#${current}` || 
-                       link.getAttribute('href').includes(`#${current}`)) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-            
-            // FAQ Accordion functionality (fixed)
-            const faqQuestions = document.querySelectorAll('.faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const parentItem = question.closest('.faq-item');
-                    if (!parentItem) return;
-                    
-                    const isActive = parentItem.classList.contains('active');
-                    
-                    // Close all other open FAQs
-                    document.querySelectorAll('.faq-item.active').forEach(item => {
-                        if (item !== parentItem) {
-                            item.classList.remove('active');
-                        }
-                    });
-                    
-                    // Toggle the clicked FAQ
-                    parentItem.classList.toggle('active', !isActive);
-                });
-            });
-            
-            // Initialize the first FAQ item as active
-            const firstFaqItem = document.querySelector('.faq-item');
-            if (firstFaqItem) {
-                firstFaqItem.classList.add('active');
-            }
-            
-            // Shrink header on scroll
-            const navbar = document.querySelector('.navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
             });
         });
     </script>
