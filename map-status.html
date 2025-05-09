@@ -587,21 +587,38 @@
     <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
     
-    <!-- Updated React Fire Map Component -->
+    <!-- Updated React Fire Map Component with NASA FIRMS API Integration -->
     <script type="text/babel">
         const { useState, useEffect, useRef, useCallback } = React;
 
-        // Enhanced fetch with better error handling and retry logic
-        const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+        // NASA FIRMS API Integration
+        // Enhanced fetch with NASA FIRMS API support
+        const fetchFireData = async (retries = 3, delay = 1000) => {
+          // NASA FIRMS specific configurations
+          const today = new Date();
+          const yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+          
+          // Format date as YYYY-MM-DD
+          const formatDate = (date) => {
+            return date.toISOString().split('T')[0];
+          };
+          
+          // NASA FIRMS endpoints - try both methods
+          // 1. First try Cloudflare-proxied endpoint that should have the API key configured
+          const cfEndpoint = '/api/nasa/firms';
+          
           for (let i = 0; i < retries; i++) {
             try {
+              // First try the Cloudflare-proxied endpoint
+              console.log(`Attempting to fetch fire data via Cloudflare proxy (attempt ${i + 1})`);
               const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 10000); // Longer timeout (10s)
+              const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
               
-              const response = await fetch(url, { 
+              const response = await fetch(cfEndpoint, { 
                 signal: controller.signal,
                 headers: {
-                  'Accept': 'application/json',
+                  'Accept': 'application/json, text/csv',
                   'Cache-Control': 'no-cache'
                 }
               });
@@ -609,19 +626,226 @@
               clearTimeout(timeoutId);
               
               if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`HTTP error ${response.status}: ${errorText || response.statusText}`);
+                throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
               }
               
-              return await response.json();
+              // Check the content type to determine how to parse
+              const contentType = response.headers.get('content-type');
+              let data;
+              
+              if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+              } else {
+                // Assume CSV or text format
+                const text = await response.text();
+                data = parseFireData(text);
+              }
+              
+              return data;
             } catch (error) {
               console.error(`Fetch attempt ${i + 1} failed:`, error.message);
-              if (i === retries - 1) throw error;
+              
+              if (i === retries - 1) {
+                console.error('All fetch attempts failed. Returning sample data as fallback.');
+                throw error;
+              }
               
               // Exponential backoff
               await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
             }
           }
+        };
+
+        // Parse various data formats from NASA FIRMS
+        const parseFireData = (data) => {
+          // If data is already an object, handle it accordingly
+          if (typeof data === 'object' && data !== null) {
+            // Case 1: Standard JSON array of fire points
+            if (Array.isArray(data)) {
+              return data.map(item => normalizeFirePoint(item));
+            }
+            
+            // Case 2: GeoJSON format
+            if (data.type === 'FeatureCollection' && Array.isArray(data.features)) {
+              return data.features.map(feature => {
+                const properties = feature.properties || {};
+                const coordinates = feature.geometry?.coordinates || [];
+                
+                return normalizeFirePoint({
+                  ...properties,
+                  longitude: coordinates[0],
+                  latitude: coordinates[1]
+                });
+              });
+            }
+            
+            // Case 3: Object with events array (like in the provided example)
+            if (data.events && Array.isArray(data.events)) {
+              return data.events.map(event => {
+                // Handle the specifically structured data from the example
+                if (event.geometry && Array.isArray(event.geometry) && event.geometry[0]?.coordinates) {
+                  return normalizeFirePoint({
+                    latitude: event.geometry[0].coordinates[1],
+                    longitude: event.geometry[0].coordinates[0],
+                    title: event.title || 'Active Fire',
+                    confidence: event.confidence || 50
+                  });
+                }
+                return normalizeFirePoint(event);
+              });
+            }
+            
+            // Case 4: Look for a data property containing the fire array
+            if (data.data && Array.isArray(data.data)) {
+              return data.data.map(item => normalizeFirePoint(item));
+            }
+            
+            // Unknown object format, log and return empty
+            console.error('Unknown data format:', data);
+            return [];
+          }
+          
+          // Handle string data (likely CSV)
+          if (typeof data === 'string') {
+            return parseCSVFireData(data);
+          }
+          
+          // Fallback
+          console.error('Unable to parse data:', data);
+          return [];
+        };
+
+        // Parse CSV data specifically from NASA FIRMS format
+        const parseCSVFireData = (csvText) => {
+          if (!csvText || typeof csvText !== 'string' || csvText.trim() === '') {
+            console.warn('Empty CSV data');
+            return [];
+          }
+          
+          // Split the CSV text into lines
+          const lines = csvText.trim().split('\n');
+          if (lines.length < 2) {
+            console.warn('Not enough lines in CSV data');
+            return [];
+          }
+          
+          // Get headers from the first line
+          const headers = lines[0].split(',').map(h => h.trim());
+          
+          // NASA FIRMS CSV typically has these columns:
+          // latitude,longitude,brightness,scan,track,acq_date,acq_time,satellite,confidence,version,bright_t31,frp,daynight
+          
+          // Parse each data line
+          const data = [];
+          
+          for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            
+            // Handle quoted values properly
+            const values = [];
+            let inQuotes = false;
+            let currentValue = '';
+            
+            for (let j = 0; j < line.length; j++) {
+              const char = line[j];
+              
+              if (char === '"' && (j === 0 || line[j-1] !== '\\')) {
+                inQuotes = !inQuotes;
+              } else if (char === ',' && !inQuotes) {
+                values.push(currentValue);
+                currentValue = '';
+              } else {
+                currentValue += char;
+              }
+            }
+            
+            // Add the last field
+            values.push(currentValue);
+            
+            // Create object with headers as keys
+            const item = {};
+            headers.forEach((header, index) => {
+              if (index < values.length) {
+                item[header] = values[index] ? values[index].replace(/"/g, '') : '';
+              }
+            });
+            
+            // Add to data array if it has valid coordinates
+            if (item.latitude && item.longitude) {
+              data.push(normalizeFirePoint(item));
+            }
+          }
+          
+          return data;
+        };
+
+        // Normalize fire point data to a consistent format
+        const normalizeFirePoint = (point) => {
+          if (!point) return null;
+          
+          // Extract coordinates ensuring we handle different property names
+          const lat = parseFloat(point.latitude || point.lat || 0);
+          const lon = parseFloat(point.longitude || point.lon || 0);
+          
+          // Skip invalid coordinates
+          if (isNaN(lat) || isNaN(lon) || lat === 0 || lon === 0) {
+            return null;
+          }
+          
+          // Validate coordinates are within reasonable bounds
+          if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+            return null;
+          }
+          
+          // Normalize confidence
+          let confidence = parseInt(point.confidence || 0);
+          if (isNaN(confidence)) confidence = 50; // Default confidence
+          
+          // Basic required properties
+          const firePoint = {
+            lat: lat,
+            lon: lon,
+            confidence: confidence,
+            title: point.title || 'Fire Detection'
+          };
+          
+          // Add extra properties if available
+          if (point.brightness) {
+            firePoint.brightness = parseFloat(point.brightness);
+          }
+          
+          if (point.acq_date) {
+            firePoint.acq_date = point.acq_date;
+          } else {
+            // Default to today's date if not available
+            const today = new Date();
+            firePoint.acq_date = today.toISOString().split('T')[0];
+          }
+          
+          if (point.acq_time) {
+            firePoint.acq_time = point.acq_time;
+          } else {
+            // Default to current time if not available
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            firePoint.acq_time = hours + minutes;
+          }
+          
+          if (point.satellite) {
+            firePoint.satellite = point.satellite;
+          }
+          
+          if (point.frp) {
+            firePoint.frp = parseFloat(point.frp);
+          }
+          
+          if (point.daynight) {
+            firePoint.daynight = point.daynight;
+          }
+          
+          return firePoint;
         };
 
         // Get fallback fire data for demo/testing purposes
@@ -732,6 +956,16 @@
             popupContent += `<strong>Brightness:</strong> ${parseFloat(fire.brightness).toFixed(1)} K<br>`;
           }
           
+          // Add FRP if available
+          if (fire.frp) {
+            popupContent += `<strong>Fire Radiative Power:</strong> ${parseFloat(fire.frp).toFixed(1)} MW<br>`;
+          }
+          
+          // Add satellite if available
+          if (fire.satellite) {
+            popupContent += `<strong>Satellite:</strong> ${fire.satellite}<br>`;
+          }
+          
           // Add title/name
           if (fire.title) {
             popupContent += `<strong>Name:</strong> ${fire.title}<br>`;
@@ -772,6 +1006,7 @@
           const tilesLayerRef = useRef(null);
           const loadingOverlayRef = useRef(null);
           const userMarkerRef = useRef(null);
+          const legendRef = useRef(null);
           
           // Constants
           const initialCenter = [39.8283, -98.5795];
@@ -823,6 +1058,29 @@
               // Set zoom control position
               mapRef.current.zoomControl.setPosition('topright');
               
+              // Add legend
+              legendRef.current = L.control({position: 'bottomright'});
+              legendRef.current.onAdd = function() {
+                const div = L.DomUtil.create('div', 'legend');
+                div.innerHTML = `
+                  <h4>Fire Confidence</h4>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: red;"></div>
+                    <span>High (80-100%)</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: orange;"></div>
+                    <span>Medium (30-79%)</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: yellow;"></div>
+                    <span>Low (0-29%)</span>
+                  </div>
+                `;
+                return div;
+              };
+              legendRef.current.addTo(mapRef.current);
+              
               // Add event listeners
               mapRef.current.on('moveend', () => {
                 const newCenter = mapRef.current.getCenter();
@@ -846,8 +1104,12 @@
                 mapRef.current.removeLayer(userMarkerRef.current);
                 userMarkerRef.current = null;
               }
+              
+              if (legendRef.current && mapRef.current) {
+                mapRef.current.removeControl(legendRef.current);
+              }
             };
-          }, [showFallback]);
+          }, [showFallback, center, zoom]);
           
           // Fetch fire data from the API
           useEffect(() => {
@@ -855,54 +1117,16 @@
             setErrorMessage('');
             if (loadingOverlayRef.current) loadingOverlayRef.current.classList.remove('hidden');
             
-            // API endpoint
-            const fireApiUrl = 'https://eyeonthefire.com/api/nasa/';
-            
-            fetchWithRetry(fireApiUrl)
+            fetchFireData()
               .then(data => {
                 console.log('API fetch successful, processing data');
                 
                 try {
-                  // Handle different possible data formats
-                  let fireList = [];
-                  
-                  if (data.events && Array.isArray(data.events)) {
-                    // Format from the index.html example
-                    fireList = data.events.map(event => ({
-                      lat: event.geometry[0].coordinates[1],
-                      lon: event.geometry[0].coordinates[0],
-                      title: event.title || 'Active Fire'
-                    }));
-                  } else if (Array.isArray(data)) {
-                    // Direct array of fire data
-                    fireList = data.map(item => ({
-                      lat: item.latitude || item.lat,
-                      lon: item.longitude || item.lon,
-                      title: item.title || 'Active Fire',
-                      confidence: item.confidence,
-                      brightness: item.brightness
-                    }));
-                  } else if (data.features && Array.isArray(data.features)) {
-                    // GeoJSON format
-                    fireList = data.features.map(feature => {
-                      const coords = feature.geometry?.coordinates || [];
-                      return {
-                        lat: coords[1],
-                        lon: coords[0],
-                        title: feature.properties?.title || 'Active Fire',
-                        confidence: feature.properties?.confidence,
-                        brightness: feature.properties?.brightness
-                      };
-                    });
-                  }
-                  
-                  // Filter out fires with invalid coordinates
-                  fireList = fireList.filter(fire => 
-                    !isNaN(fire.lat) && !isNaN(fire.lon) && 
-                    fire.lat !== 0 && fire.lon !== 0 &&
-                    fire.lat >= -90 && fire.lat <= 90 && 
-                    fire.lon >= -180 && fire.lon <= 180
-                  );
+                  // Filter out null values and normalize data
+                  const fireList = data
+                    .filter(point => point !== null)
+                    .map(point => normalizeFirePoint(point))
+                    .filter(point => point !== null);
                   
                   if (fireList.length > 0) {
                     console.log(`Processed ${fireList.length} fire points from API`);
@@ -913,8 +1137,8 @@
                     throw new Error('No valid fire data points in API response');
                   }
                 } catch (parseError) {
-                  console.error('Error parsing API response:', parseError);
-                  throw new Error(`Failed to parse API data: ${parseError.message}`);
+                  console.error('Error processing API response:', parseError);
+                  throw new Error(`Failed to process API data: ${parseError.message}`);
                 }
               })
               .catch(err => {
@@ -927,7 +1151,7 @@
                     console.log(`Using ${sampleData.length} sample fire data points`);
                     setFires(sampleData);
                     setUsingSampleData(true);
-                    setErrorMessage('Using demo fire data - API connection failed');
+                    setErrorMessage('Using demo fire data - API connection failed. Please check your NASA FIRMS API key configuration.');
                     setShowFallback(false);
                   } else {
                     throw new Error('Sample data unavailable');
