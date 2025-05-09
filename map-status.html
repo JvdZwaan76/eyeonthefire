@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NASA FIRMS Fire Map | Real-Time Fire Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>USA Fire Map | Real-Time Fire Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     
@@ -16,6 +16,7 @@
             padding: 0;
             height: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
         }
         
         #map-container {
@@ -34,7 +35,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 320px;
+            width: 300px;
             height: 100%;
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
@@ -44,12 +45,12 @@
         }
         
         #sidebar.collapsed {
-            transform: translateX(-320px);
+            transform: translateX(-300px);
         }
         
         #toggle-sidebar {
             position: absolute;
-            left: 320px;
+            left: 300px;
             top: 10px;
             background: white;
             padding: 8px 12px;
@@ -66,6 +67,7 @@
         
         .sidebar-content {
             padding: 15px;
+            font-size: 0.9rem;
         }
         
         .sidebar-header {
@@ -75,18 +77,19 @@
         }
         
         .sidebar-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
         }
         
         .sidebar-section h5 {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: #333;
+            font-size: 1rem;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         label {
@@ -99,17 +102,14 @@
         .slider-container {
             display: flex;
             flex-direction: column;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .slider-info {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-        }
-        
-        .custom-range {
-            width: 100%;
+            font-size: 0.8rem;
         }
         
         .map-controls {
@@ -148,28 +148,53 @@
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             z-index: 900;
-            max-width: 250px;
-            font-size: 12px;
+            max-width: 240px;
+            font-size: 11px;
+        }
+        
+        @media (max-width: 640px) {
+            #legend {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px;
+                max-width: 180px;
+                font-size: 10px;
+            }
+            
+            #sidebar {
+                width: 260px;
+            }
+            
+            #toggle-sidebar {
+                left: 260px;
+            }
+            
+            .map-control-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+                margin-bottom: 4px;
+            }
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            margin: 5px 0;
+            margin: 4px 0;
         }
         
         .legend-color {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 8px;
             border: 1px solid #ddd;
         }
         
         #status-panel {
             position: absolute;
             bottom: 30px;
-            left: 330px;
+            left: 310px;
             background: white;
             padding: 10px 15px;
             border-radius: 4px;
@@ -235,9 +260,36 @@
             100% { transform: rotate(360deg); }
         }
         
+        .region-loading {
+            position: absolute;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 900;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+        
+        .region-loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
         .pagination-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .pagination {
@@ -245,51 +297,42 @@
             justify-content: center;
         }
         
-        #draw-control-info {
-            display: none;
-            padding: 10px 15px;
-            background-color: #f8d7da;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            color: #721c24;
-        }
-        
         .filter-tag {
             display: inline-block;
             background-color: #e9ecef;
             padding: 3px 8px;
             border-radius: 12px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            font-size: 12px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            font-size: 11px;
         }
         
         .filter-tag .remove-filter {
-            margin-left: 5px;
+            margin-left: 4px;
             cursor: pointer;
             font-weight: bold;
         }
         
         #active-filters {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .custom-tooltip {
             position: absolute;
             background: white;
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             display: none;
             font-size: 12px;
-            max-width: 250px;
+            max-width: 180px;
         }
         
         .color-scale {
             display: flex;
             margin-top: 5px;
-            height: 10px;
+            height: 8px;
             width: 100%;
             border-radius: 4px;
             overflow: hidden;
@@ -297,26 +340,83 @@
         
         .color-scale div {
             flex: 1;
-            height: 10px;
+            height: 8px;
         }
         
-        .console-log {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            max-width: 800px;
-            max-height: 200px;
-            overflow-y: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-family: monospace;
-            font-size: 12px;
-            padding: 10px;
+        .region-button {
+            display: inline-block;
+            margin: 4px;
+            padding: 5px 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            z-index: 2000;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .region-button:hover {
+            background-color: #e9ecef;
+        }
+        
+        .region-button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .region-buttons {
+            margin-bottom: 10px;
+        }
+        
+        #view-mode-toggle {
+            position: absolute;
+            bottom: 30px;
+            left: 310px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 900;
+            font-size: 13px;
+            transition: left 0.3s ease;
+        }
+        
+        #view-mode-toggle.sidebar-collapsed {
+            left: 10px;
+        }
+        
+        .btn-xs {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 0.2rem;
+        }
+        
+        .loading-data-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             display: none;
+            z-index: 1001;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .loading-data-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -324,35 +424,36 @@
     <div id="map-container">
         <div id="map"></div>
         
-        <!-- Console Log Panel (for debugging) -->
-        <div id="console-log" class="console-log"></div>
-        
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="sidebar-header">
-                <h4><i class="fas fa-fire"></i> Fire Map</h4>
+                <h4><i class="fas fa-fire-flame-curved"></i> USA Fire Map</h4>
                 <p class="text-muted mb-0" style="font-size: 12px;">NASA FIRMS Real-Time Fire Data</p>
             </div>
             
             <div class="sidebar-content">
                 <div id="active-filters"></div>
                 
-                <div id="draw-control-info">
-                    <i class="fas fa-info-circle"></i> Draw a polygon on the map to filter fires by area.
-                    <button id="cancel-draw" class="btn btn-sm btn-light mt-2">Cancel Drawing</button>
+                <div class="sidebar-section">
+                    <h5>Quick View</h5>
+                    <div class="region-buttons">
+                        <div id="usa-button" class="region-button active" data-bounds="-125,24,-66,49">USA</div>
+                        <div id="west-button" class="region-button" data-bounds="-125,31,-107,49">West</div>
+                        <div id="central-button" class="region-button" data-bounds="-107,31,-90,49">Central</div>
+                        <div id="east-button" class="region-button" data-bounds="-90,24,-66,49">East</div>
+                        <div id="alaska-button" class="region-button" data-bounds="-170,51,-130,71">Alaska</div>
+                        <div id="hawaii-button" class="region-button" data-bounds="-160,18,-154,23">Hawaii</div>
+                    </div>
                 </div>
                 
                 <div class="sidebar-section">
                     <h5>Data Source</h5>
                     <div class="form-group">
-                        <select id="data-source" class="form-select">
+                        <select id="data-source" class="form-select form-select-sm">
                             <option value="MODIS_NRT">MODIS (Near Real-Time)</option>
                             <option value="VIIRS_NOAA20_NRT">VIIRS NOAA-20 (Near Real-Time)</option>
                             <option value="VIIRS_SNPP_NRT">VIIRS Suomi NPP (Near Real-Time)</option>
                             <option value="VIIRS_NOAA21_NRT">VIIRS NOAA-21 (Near Real-Time)</option>
-                            <option value="MODIS_SP">MODIS (Standard Processing)</option>
-                            <option value="VIIRS_NOAA20_SP">VIIRS NOAA-20 (Standard)</option>
-                            <option value="VIIRS_SNPP_SP">VIIRS Suomi NPP (Standard)</option>
                         </select>
                     </div>
                 </div>
@@ -360,8 +461,7 @@
                 <div class="sidebar-section">
                     <h5>Time Range</h5>
                     <div class="form-group">
-                        <label for="days-range">Past Days</label>
-                        <select id="days-range" class="form-select">
+                        <select id="days-range" class="form-select form-select-sm">
                             <option value="1">Last 24 hours</option>
                             <option value="2">Last 2 days</option>
                             <option value="3">Last 3 days</option>
@@ -372,55 +472,16 @@
                 </div>
                 
                 <div class="sidebar-section">
-                    <h5>Regions</h5>
-                    <div class="form-group">
-                        <select id="region" class="form-select">
-                            <option value="world">Global</option>
-                            <option value="world" selected>Continental US</option>
-                            <option value="world">North America</option>
-                            <option value="world">Europe</option>
-                            <option value="world">Australia</option>
-                            <option value="world">South America</option>
-                            <option value="world">Africa</option>
-                            <option value="world">Asia</option>
-                            <option value="custom">Custom Region (Draw)</option>
-                        </select>
-                        <small class="form-text text-muted">Note: Currently using "world" for all regions as the API has been updated.</small>
-                    </div>
-                    
-                    <div class="form-group mt-3">
-                        <button id="draw-region" class="btn btn-sm btn-outline-primary">
-                            <i class="fas fa-draw-polygon"></i> Draw Custom Region
-                        </button>
-                        <button id="clear-region" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-times"></i> Clear Custom
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="sidebar-section">
                     <h5>Fire Filters</h5>
                     
                     <div class="form-group">
-                        <label for="confidence-range">Confidence Level</label>
-                        <div class="slider-container">
-                            <div class="slider-info">
-                                <span id="confidence-min">0%</span>
-                                <span id="confidence-max">100%</span>
-                            </div>
-                            <input type="range" class="form-range" id="confidence-range" min="0" max="100" value="0">
-                        </div>
+                        <label for="confidence-range">Confidence Level: <span id="confidence-min">0%</span></label>
+                        <input type="range" class="form-range" id="confidence-range" min="0" max="100" value="0">
                     </div>
                     
                     <div class="form-group">
-                        <label for="frp-range">Fire Radiative Power (MW)</label>
-                        <div class="slider-container">
-                            <div class="slider-info">
-                                <span id="frp-min">0</span>
-                                <span id="frp-max">∞</span>
-                            </div>
-                            <input type="range" class="form-range" id="frp-range" min="0" max="100" value="0">
-                        </div>
+                        <label for="frp-range">Fire Power (MW): <span id="frp-min">0</span></label>
+                        <input type="range" class="form-range" id="frp-range" min="0" max="100" value="0">
                     </div>
                 </div>
                 
@@ -441,25 +502,33 @@
                         </label>
                     </div>
                     
-                    <div class="form-group mt-3">
-                        <label for="markers-per-page">Markers Per Load</label>
-                        <select id="markers-per-page" class="form-select">
-                            <option value="500">500</option>
-                            <option value="1000" selected>1,000</option>
-                            <option value="2500">2,500</option>
-                            <option value="5000">5,000</option>
-                            <option value="10000">10,000</option>
-                            <option value="all">All Data</option>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="lazy-loading" checked>
+                        <label class="form-check-label" for="lazy-loading">
+                            Lazy Load Data (Recommended)
+                        </label>
+                        <small class="form-text text-muted d-block">
+                            Only loads data for visible map area
+                        </small>
+                    </div>
+                    
+                    <div class="form-group mt-2">
+                        <label for="markers-per-page">Max Visible Markers</label>
+                        <select id="markers-per-page" class="form-select form-select-sm">
+                            <option value="500">500 (Fast)</option>
+                            <option value="1000" selected>1,000 (Balanced)</option>
+                            <option value="3000">3,000 (Detailed)</option>
+                            <option value="10000">10,000 (Full)</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="sidebar-section">
-                    <button id="apply-filters" class="btn btn-primary w-100">
+                    <button id="apply-filters" class="btn btn-primary btn-sm w-100">
                         <i class="fas fa-filter"></i> Apply Filters
                     </button>
                     
-                    <button id="reset-filters" class="btn btn-outline-secondary w-100 mt-2">
+                    <button id="reset-filters" class="btn btn-outline-secondary btn-sm w-100 mt-2">
                         <i class="fas fa-sync"></i> Reset Filters
                     </button>
                 </div>
@@ -470,7 +539,7 @@
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <span id="page-info" class="btn btn-sm btn-outline-secondary disabled">
-                            Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+                            <span id="current-page">1</span>/<span id="total-pages">1</span>
                         </span>
                         <button id="next-page" class="btn btn-sm btn-outline-secondary">
                             <i class="fas fa-chevron-right"></i>
@@ -493,19 +562,16 @@
                 <i class="fas fa-minus"></i>
             </button>
             <button class="map-control-btn" id="recenter" title="Recenter Map">
-                <i class="fas fa-expand"></i>
+                <i class="fas fa-location-crosshairs"></i>
             </button>
             <button class="map-control-btn" id="show-stats" title="Show Statistics">
-                <i class="fas fa-chart-bar"></i>
-            </button>
-            <button class="map-control-btn" id="toggle-debug" title="Toggle Debug Console">
-                <i class="fas fa-terminal"></i>
+                <i class="fas fa-chart-simple"></i>
             </button>
         </div>
         
         <!-- Legend -->
         <div id="legend">
-            <h6>Fire Confidence</h6>
+            <h6 style="font-size: 12px; margin-top: 0;">Fire Confidence</h6>
             <div class="legend-item">
                 <div class="legend-color" style="background-color: #FF0000;"></div>
                 <span>High (80-100%)</span>
@@ -522,8 +588,8 @@
                 <div class="legend-color" style="background-color: #FFCC00;"></div>
                 <span>Very Low (0-29%)</span>
             </div>
-            <div style="margin-top: 8px; font-size: 11px;">
-                <strong>Circle Size:</strong> Fire Radiative Power (MW)
+            <div style="margin-top: 6px; font-size: 10px;">
+                <strong>Circle Size:</strong> Fire Power (MW)
             </div>
             <div class="color-scale">
                 <div style="background-color: #FFCC00;"></div>
@@ -536,10 +602,32 @@
         <!-- Status Panel -->
         <div id="status-panel"></div>
         
+        <!-- View Mode Toggle -->
+        <div id="view-mode-toggle">
+            <button id="global-mode" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-globe"></i> Global View
+            </button>
+            <button id="usa-mode" class="btn btn-sm btn-primary">
+                <i class="fas fa-flag-usa"></i> USA Only
+            </button>
+        </div>
+        
+        <!-- Region Loading Indicator -->
+        <div id="region-loading" class="region-loading">
+            <span class="region-loading-spinner"></span>
+            Loading fire data for this region...
+        </div>
+        
+        <!-- Loading Data Message -->
+        <div id="loading-data-message" class="loading-data-message">
+            <span class="loading-data-spinner"></span>
+            Loading USA fire data...
+        </div>
+        
         <!-- Stats Panel -->
         <div id="stats-panel">
             <div class="stats-title">
-                <i class="fas fa-chart-bar"></i> Fire Statistics
+                <i class="fas fa-chart-simple"></i> Fire Statistics
                 <button type="button" class="btn-close float-end" id="close-stats" aria-label="Close"></button>
             </div>
             <div id="stats-content"></div>
@@ -561,38 +649,6 @@
     
     <!-- Main Fire Map Script -->
     <script>
-        // Custom Console Logger
-        const logger = {
-            log: function(message) {
-                console.log(message);
-                this.addToConsole('LOG', message);
-            },
-            error: function(message) {
-                console.error(message);
-                this.addToConsole('ERROR', message);
-            },
-            warn: function(message) {
-                console.warn(message);
-                this.addToConsole('WARN', message);
-            },
-            addToConsole: function(type, message) {
-                const consoleElement = document.getElementById('console-log');
-                const entry = document.createElement('div');
-                
-                const now = new Date();
-                const timestamp = now.toLocaleTimeString();
-                
-                entry.innerHTML = `<span style="color: #aaa;">[${timestamp}]</span> <span style="color: ${type === 'ERROR' ? '#ff8080' : type === 'WARN' ? '#ffcc80' : '#80ccff'};">${type}:</span> ${message}`;
-                
-                consoleElement.appendChild(entry);
-                consoleElement.scrollTop = consoleElement.scrollHeight;
-            },
-            clear: function() {
-                const consoleElement = document.getElementById('console-log');
-                consoleElement.innerHTML = '';
-            }
-        };
-        
         // Fire Map class
         class FireMap {
             constructor() {
@@ -600,28 +656,38 @@
                 this.config = {
                     // API endpoint (updated to only use the world parameter which works)
                     apiEndpoint: 'https://eyeonthefire.com/api/nasa/firms',
-                    // Default center
-                    defaultCenter: { lat: 39.8283, lng: -98.5795 }, // United States
+                    // Default center (center of contiguous USA)
+                    defaultCenter: { lat: 39.5, lng: -98.35 },
                     // Default zoom level
                     defaultZoom: 4,
+                    // US boundary
+                    usBounds: {
+                        west: -125,
+                        south: 24,
+                        east: -66,
+                        north: 49
+                    },
                     // Maximum retries for API fetching
-                    maxFetchRetries: 3
+                    maxFetchRetries: 3,
+                    // Mobile breakpoint
+                    mobileBreakpoint: 768
                 };
                 
                 // State management
                 this.state = {
                     // Google Map instance
                     map: null,
+                    // Current viewport
+                    viewport: {
+                        north: 0,
+                        south: 0,
+                        east: 0,
+                        west: 0
+                    },
                     // Map bounds
                     mapBounds: null,
                     // Markers
                     markers: [],
-                    // Drawing manager
-                    drawingManager: null,
-                    // Currently drawn polygon
-                    customPolygon: null,
-                    // Custom area coordinates
-                    customArea: null,
                     // Marker clusterer
                     markerClusterer: null,
                     // Heatmap layer
@@ -639,7 +705,19 @@
                     // Active filters
                     activeFilters: {},
                     // Map info window
-                    infoWindow: null
+                    infoWindow: null,
+                    // Region data cache
+                    regionDataCache: new Map(),
+                    // View mode (usa or global)
+                    viewMode: 'usa',
+                    // Lazy loading enabled
+                    lazyLoading: true,
+                    // Currently loading regions
+                    loadingRegions: new Set(),
+                    // Mobile detection
+                    isMobile: window.innerWidth < 768,
+                    // Map loaded
+                    mapLoaded: false
                 };
                 
                 // Initialize the application
@@ -648,7 +726,10 @@
             
             // Initialize the fire map
             async initialize() {
-                logger.log('Initializing FireMap application');
+                console.log('Initializing FireMap application');
+                
+                // Check if we're on mobile
+                this.checkMobile();
                 
                 // Setup UI event listeners
                 this.setupEventListeners();
@@ -660,11 +741,34 @@
                     // Initialize the map
                     this.initializeMap();
                     
-                    // Load initial fire data
-                    this.loadFireData();
+                    // Load initial USA fire data
+                    this.showLoadingMessage('Loading USA fire data...');
+                    await this.loadUSAFireData();
+                    this.hideLoadingMessage();
+                    
+                    // Mark map as loaded
+                    this.state.mapLoaded = true;
                 } catch (error) {
-                    logger.error('Error initializing application: ' + error.message);
+                    console.error('Error initializing application:', error);
                     this.showStatus('Error initializing application: ' + error.message, 'error');
+                    this.hideLoadingMessage();
+                }
+            }
+            
+            // Check if device is mobile
+            checkMobile() {
+                this.state.isMobile = window.innerWidth < this.config.mobileBreakpoint;
+                
+                // Adjust UI for mobile if needed
+                if (this.state.isMobile) {
+                    // If mobile, start with sidebar collapsed
+                    setTimeout(() => {
+                        $('#sidebar').addClass('collapsed');
+                        $('#toggle-sidebar').addClass('collapsed');
+                        $('#toggle-sidebar i').removeClass('fa-chevron-left').addClass('fa-chevron-right');
+                        $('#status-panel').addClass('sidebar-collapsed');
+                        $('#view-mode-toggle').addClass('sidebar-collapsed');
+                    }, 500);
                 }
             }
             
@@ -673,18 +777,18 @@
                 return new Promise((resolve) => {
                     // Check if Google Maps is already loaded
                     if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
-                        logger.log('Google Maps already loaded');
+                        console.log('Google Maps already loaded');
                         resolve();
                         return;
                     }
                     
-                    logger.log('Waiting for Google Maps to load');
+                    console.log('Waiting for Google Maps to load');
                     
                     // Check periodically if Google Maps is loaded
                     const checkInterval = setInterval(() => {
                         if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
                             clearInterval(checkInterval);
-                            logger.log('Google Maps loaded successfully');
+                            console.log('Google Maps loaded successfully');
                             resolve();
                         }
                     }, 100);
@@ -693,7 +797,7 @@
                     setTimeout(() => {
                         clearInterval(checkInterval);
                         if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-                            logger.error('Google Maps failed to load within timeout');
+                            console.error('Google Maps failed to load within timeout');
                             resolve(); // Resolve anyway to prevent hanging
                         }
                     }, 10000);
@@ -705,7 +809,7 @@
                 this.showStatus('Initializing map...');
                 
                 try {
-                    logger.log('Creating Google Map instance');
+                    console.log('Creating Google Map instance');
                     
                     // Create the map
                     this.state.map = new google.maps.Map(document.getElementById('map'), {
@@ -721,78 +825,44 @@
                         streetViewControl: false,
                         zoomControlOptions: {
                             position: google.maps.ControlPosition.RIGHT_BOTTOM
+                        },
+                        restriction: {
+                            latLngBounds: {
+                                north: 85,
+                                south: -85,
+                                west: -180,
+                                east: 180
+                            }
                         }
                     });
                     
                     // Create info window
                     this.state.infoWindow = new google.maps.InfoWindow();
                     
-                    // Set up the drawing manager
-                    this.state.drawingManager = new google.maps.drawing.DrawingManager({
-                        drawingMode: null,
-                        drawingControl: false,
-                        drawingControlOptions: {
-                            position: google.maps.ControlPosition.TOP_CENTER,
-                            drawingModes: [google.maps.drawing.OverlayType.POLYGON]
-                        },
-                        polygonOptions: {
-                            fillColor: '#5cb85c',
-                            fillOpacity: 0.2,
-                            strokeWeight: 2,
-                            strokeColor: '#5cb85c',
-                            clickable: false,
-                            editable: true,
-                            zIndex: 1
+                    // Add idle event listener to detect viewport changes
+                    google.maps.event.addListener(this.state.map, 'idle', () => {
+                        // Get current viewport
+                        const bounds = this.state.map.getBounds();
+                        if (bounds) {
+                            const ne = bounds.getNorthEast();
+                            const sw = bounds.getSouthWest();
+                            
+                            this.state.viewport = {
+                                north: ne.lat(),
+                                east: ne.lng(),
+                                south: sw.lat(),
+                                west: sw.lng()
+                            };
+                            
+                            // If lazy loading is enabled, load data for the current viewport
+                            if (this.state.lazyLoading && this.state.mapLoaded) {
+                                this.loadDataForViewport();
+                            }
                         }
                     });
                     
-                    // Add drawing complete listener
-                    google.maps.event.addListener(this.state.drawingManager, 'overlaycomplete', (event) => {
-                        // Only allow one polygon at a time
-                        if (this.state.customPolygon) {
-                            this.state.customPolygon.setMap(null);
-                        }
-                        
-                        // Get the drawn polygon
-                        this.state.customPolygon = event.overlay;
-                        
-                        // Save polygon path (convert to array of lat/lng objects for easier processing)
-                        const path = this.state.customPolygon.getPath();
-                        this.state.customArea = [];
-                        
-                        for (let i = 0; i < path.getLength(); i++) {
-                            const latLng = path.getAt(i);
-                            this.state.customArea.push({
-                                lat: latLng.lat(),
-                                lng: latLng.lng()
-                            });
-                        }
-                        
-                        // Switch back to hand tool
-                        this.state.drawingManager.setDrawingMode(null);
-                        
-                        // Hide drawing info
-                        $('#draw-control-info').hide();
-                        
-                        // Set region select to custom
-                        $('#region').val('custom');
-                        
-                        // Add filter tag
-                        this.addFilterTag('region', 'Custom Region', () => {
-                            this.clearCustomRegion();
-                            $('#region').val('world');
-                            this.removeFilterTag('region');
-                        });
-                        
-                        // Add to active filters
-                        this.state.activeFilters.region = { 
-                            label: 'Custom Region',
-                            value: 'custom'
-                        };
-                    });
-                    
-                    // Set the drawing manager on the map
-                    this.state.drawingManager.setMap(this.state.map);
+                    // Initially set bounds to USA
+                    this.focusOnUSA();
                     
                     // Hide loading overlay
                     this.hideLoading();
@@ -800,11 +870,11 @@
                     // Show success message
                     this.showStatus('Map initialized successfully', 'success');
                     
-                    logger.log('Map initialized successfully');
+                    console.log('Map initialized successfully');
                     
                     return true;
                 } catch (error) {
-                    logger.error('Error initializing map: ' + error.message);
+                    console.error('Error initializing map:', error);
                     this.showStatus('Error initializing map: ' + error.message, 'error');
                     return false;
                 }
@@ -812,13 +882,14 @@
             
             // Set up UI event listeners
             setupEventListeners() {
-                logger.log('Setting up event listeners');
+                console.log('Setting up event listeners');
                 
                 // Sidebar toggle
                 $('#toggle-sidebar').on('click', () => {
                     $('#sidebar').toggleClass('collapsed');
                     $('#toggle-sidebar').toggleClass('collapsed');
                     $('#status-panel').toggleClass('sidebar-collapsed');
+                    $('#view-mode-toggle').toggleClass('sidebar-collapsed');
                     
                     // Update the toggle icon
                     if ($('#sidebar').hasClass('collapsed')) {
@@ -847,11 +918,6 @@
                     this.showStatistics();
                 });
                 
-                $('#toggle-debug').on('click', () => {
-                    const consoleEl = document.getElementById('console-log');
-                    consoleEl.style.display = consoleEl.style.display === 'none' ? 'block' : 'none';
-                });
-                
                 $('#close-stats').on('click', () => {
                     $('#stats-panel').hide();
                 });
@@ -866,19 +932,31 @@
                     this.resetFilters();
                 });
                 
-                // Draw region button
-                $('#draw-region').on('click', () => {
-                    this.enableDrawingMode();
+                // Region buttons
+                $('.region-button').on('click', (e) => {
+                    const $btn = $(e.currentTarget);
+                    $('.region-button').removeClass('active');
+                    $btn.addClass('active');
+                    
+                    const bounds = $btn.data('bounds');
+                    if (bounds) {
+                        const [west, south, east, north] = bounds.split(',').map(Number);
+                        this.focusOnRegion(north, south, east, west);
+                    }
                 });
                 
-                // Clear region button
-                $('#clear-region').on('click', () => {
-                    this.clearCustomRegion();
+                // View mode toggle buttons
+                $('#usa-mode').on('click', () => {
+                    this.setViewMode('usa');
+                    $('#usa-mode').removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#global-mode').removeClass('btn-primary').addClass('btn-outline-primary');
+                    this.focusOnUSA();
                 });
                 
-                // Cancel draw button
-                $('#cancel-draw').on('click', () => {
-                    this.cancelDrawing();
+                $('#global-mode').on('click', () => {
+                    this.setViewMode('global');
+                    $('#global-mode').removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#usa-mode').removeClass('btn-primary').addClass('btn-outline-primary');
                 });
                 
                 // Pagination buttons
@@ -907,11 +985,24 @@
                     this.updateMarkers();
                 });
                 
+                // Change lazy loading option
+                $('#lazy-loading').on('change', () => {
+                    this.state.lazyLoading = $('#lazy-loading').is(':checked');
+                    
+                    if (!this.state.lazyLoading) {
+                        // If turning off lazy loading, load all data for the current view mode
+                        if (this.state.viewMode === 'usa') {
+                            this.loadUSAFireData();
+                        } else {
+                            // In global mode without lazy loading, load world data
+                            this.loadWorldFireData();
+                        }
+                    }
+                });
+                
                 // Change markers per page
                 $('#markers-per-page').on('change', () => {
-                    this.state.markersPerPage = $('#markers-per-page').val() === 'all' 
-                        ? Number.MAX_SAFE_INTEGER 
-                        : parseInt($('#markers-per-page').val());
+                    this.state.markersPerPage = parseInt($('#markers-per-page').val());
                     this.state.currentPage = 1;
                     this.updateMarkers();
                 });
@@ -930,38 +1021,396 @@
                         $('#frp-min').text(value);
                     }
                 });
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    this.checkMobile();
+                });
             }
             
-            // Enable drawing mode for custom region
-            enableDrawingMode() {
-                this.state.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-                $('#draw-control-info').show();
+            // Set the view mode (usa or global)
+            setViewMode(mode) {
+                this.state.viewMode = mode;
+                
+                if (mode === 'usa') {
+                    this.focusOnUSA();
+                    this.loadUSAFireData();
+                }
             }
             
-            // Cancel drawing
-            cancelDrawing() {
-                this.state.drawingManager.setDrawingMode(null);
-                $('#draw-control-info').hide();
+            // Focus map on USA
+            focusOnUSA() {
+                const bounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(this.config.usBounds.south, this.config.usBounds.west),
+                    new google.maps.LatLng(this.config.usBounds.north, this.config.usBounds.east)
+                );
+                
+                this.state.map.fitBounds(bounds);
             }
             
-            // Clear custom region
-            clearCustomRegion() {
-                if (this.state.customPolygon) {
-                    this.state.customPolygon.setMap(null);
-                    this.state.customPolygon = null;
-                    this.state.customArea = null;
+            // Focus on a specific region
+            focusOnRegion(north, south, east, west) {
+                const bounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(south, west),
+                    new google.maps.LatLng(north, east)
+                );
+                
+                this.state.map.fitBounds(bounds);
+            }
+            
+            // Load data for the current viewport (for lazy loading)
+            async loadDataForViewport() {
+                // Skip if we're already loading data for this viewport
+                const viewportString = JSON.stringify(this.state.viewport);
+                if (this.state.loadingRegions.has(viewportString)) {
+                    return;
                 }
                 
-                // Remove from active filters
-                delete this.state.activeFilters.region;
+                // Check if this is a USA viewport
+                const isUSAViewport = this.isViewportInUSA();
                 
-                // Hide drawing info
-                $('#draw-control-info').hide();
+                // In USA mode, only load data for USA viewports
+                if (this.state.viewMode === 'usa' && !isUSAViewport) {
+                    return;
+                }
+                
+                // Check if we have cached data for this viewport
+                if (this.state.regionDataCache.has(viewportString)) {
+                    console.log('Using cached data for viewport:', this.state.viewport);
+                    return;
+                }
+                
+                // Mark this viewport as loading
+                this.state.loadingRegions.add(viewportString);
+                
+                // Show loading indicator
+                this.showRegionLoading();
+                
+                try {
+                    // Build request URL with parameters
+                    let url = this.config.apiEndpoint;
+                    const params = new URLSearchParams();
+                    
+                    // Add source parameter (default: MODIS_NRT)
+                    const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
+                    params.append('source', source);
+                    
+                    // Always use "world" as the area parameter
+                    params.append('area', 'world');
+                    
+                    // Add days parameter (default: 1)
+                    const days = this.state.activeFilters.days?.value || '1';
+                    params.append('days', days);
+                    
+                    // Append parameters to URL
+                    url = `${url}?${params.toString()}`;
+                    
+                    console.log(`Fetching fire data for viewport:`, this.state.viewport);
+                    
+                    // Fetch data from API
+                    const response = await this.fetchWithRetry(url);
+                    
+                    // Process response
+                    if (response.ok) {
+                        try {
+                            const data = await response.json();
+                            
+                            if (Array.isArray(data)) {
+                                // Success! We have fire data
+                                console.log(`Received ${data.length} fire data points`);
+                                
+                                // Filter data to current viewport
+                                const viewportData = this.filterDataToViewport(data, this.state.viewport);
+                                console.log(`${viewportData.length} points are in current viewport`);
+                                
+                                // Cache the viewport data
+                                this.state.regionDataCache.set(viewportString, viewportData);
+                                
+                                // Merge with existing data
+                                this.mergeFireData(viewportData);
+                                
+                                // Update markers
+                                this.filterData();
+                                this.updateMarkers();
+                                
+                                this.showStatus(`Loaded ${viewportData.length} fire data points for this area`, 'success');
+                            }
+                        } catch (error) {
+                            console.error('Error processing viewport data:', error);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading viewport data:', error);
+                } finally {
+                    // Remove this viewport from loading regions
+                    this.state.loadingRegions.delete(viewportString);
+                    
+                    // Hide loading indicator if no more regions are loading
+                    if (this.state.loadingRegions.size === 0) {
+                        this.hideRegionLoading();
+                    }
+                }
+            }
+            
+            // Merge new fire data with existing data
+            mergeFireData(newData) {
+                // If we have no existing data, just use the new data
+                if (this.state.allFireData.length === 0) {
+                    this.state.allFireData = [...newData];
+                    return;
+                }
+                
+                // Create a set of existing IDs
+                const existingIds = new Set();
+                this.state.allFireData.forEach(point => {
+                    // Use a combination of coordinates, date, and time as a unique ID
+                    const id = `${point.latitude},${point.longitude},${point.acq_date || ''},${point.acq_time || ''}`;
+                    existingIds.add(id);
+                });
+                
+                // Filter out duplicates and add new points
+                const uniqueNewData = newData.filter(point => {
+                    const id = `${point.latitude},${point.longitude},${point.acq_date || ''},${point.acq_time || ''}`;
+                    return !existingIds.has(id);
+                });
+                
+                // Merge with existing data
+                this.state.allFireData = [...this.state.allFireData, ...uniqueNewData];
+                console.log(`Added ${uniqueNewData.length} new unique fire points`);
+            }
+            
+            // Filter data to a specific viewport
+            filterDataToViewport(data, viewport) {
+                return data.filter(point => {
+                    const lat = parseFloat(point.latitude);
+                    const lng = parseFloat(point.longitude);
+                    
+                    return (
+                        lat >= viewport.south &&
+                        lat <= viewport.north &&
+                        lng >= viewport.west &&
+                        lng <= viewport.east
+                    );
+                });
+            }
+            
+            // Check if the current viewport is within the USA
+            isViewportInUSA() {
+                const viewport = this.state.viewport;
+                const usBounds = this.config.usBounds;
+                
+                // Check if the viewport overlaps with the USA bounds
+                return !(
+                    viewport.north < usBounds.south ||
+                    viewport.south > usBounds.north ||
+                    viewport.east < usBounds.west ||
+                    viewport.west > usBounds.east
+                );
+            }
+            
+            // Load USA fire data
+            async loadUSAFireData() {
+                this.showStatus('Loading USA fire data...');
+                
+                try {
+                    // Build request URL with parameters
+                    let url = this.config.apiEndpoint;
+                    const params = new URLSearchParams();
+                    
+                    // Add source parameter (default: MODIS_NRT)
+                    const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
+                    params.append('source', source);
+                    
+                    // Always use "world" as the area parameter
+                    params.append('area', 'world');
+                    
+                    // Add days parameter (default: 1)
+                    const days = this.state.activeFilters.days?.value || '1';
+                    params.append('days', days);
+                    
+                    // Append parameters to URL
+                    url = `${url}?${params.toString()}`;
+                    
+                    console.log(`Fetching USA fire data: ${url}`);
+                    
+                    // Fetch data from API
+                    const response = await this.fetchWithRetry(url);
+                    
+                    // Process response
+                    if (response.ok) {
+                        try {
+                            const data = await response.json();
+                            
+                            if (Array.isArray(data)) {
+                                // Success! We have fire data
+                                console.log(`Received ${data.length} global fire data points`);
+                                
+                                // Filter to USA only
+                                const usaData = this.filterDataToUSA(data);
+                                console.log(`${usaData.length} fire points are in the USA`);
+                                
+                                // Store and process the data
+                                this.processFireData(usaData);
+                                
+                                this.showStatus(`Loaded ${usaData.length} USA fire data points`, 'success');
+                            } else if (data.error) {
+                                // API returned an error
+                                throw new Error(data.message || 'Unknown API error');
+                            } else {
+                                // Unexpected response format
+                                throw new Error('Unexpected response format from API');
+                            }
+                        } catch (error) {
+                            console.error(`Error parsing API response: ${error.message}`);
+                            throw error;
+                        }
+                    } else {
+                        throw new Error(`API responded with status ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error(`Error loading USA fire data: ${error.message}`);
+                    this.showStatus(`Error loading USA fire data: ${error.message}`, 'error');
+                    
+                    // Generate sample data if no data is available
+                    if (this.state.allFireData.length === 0) {
+                        console.warn('Generating sample data as fallback');
+                        this.generateSampleData();
+                    }
+                }
+            }
+            
+            // Filter data to USA boundaries
+            filterDataToUSA(data) {
+                const usBounds = this.config.usBounds;
+                
+                // Add Alaska
+                const alaskaBounds = {
+                    west: -170,
+                    south: 51,
+                    east: -130,
+                    north: 71
+                };
+                
+                // Add Hawaii
+                const hawaiiBounds = {
+                    west: -160,
+                    south: 18,
+                    east: -154,
+                    north: 23
+                };
+                
+                return data.filter(point => {
+                    const lat = parseFloat(point.latitude);
+                    const lng = parseFloat(point.longitude);
+                    
+                    // Check continental US
+                    const inContUS = (
+                        lat >= usBounds.south &&
+                        lat <= usBounds.north &&
+                        lng >= usBounds.west &&
+                        lng <= usBounds.east
+                    );
+                    
+                    // Check Alaska
+                    const inAlaska = (
+                        lat >= alaskaBounds.south &&
+                        lat <= alaskaBounds.north &&
+                        lng >= alaskaBounds.west &&
+                        lng <= alaskaBounds.east
+                    );
+                    
+                    // Check Hawaii
+                    const inHawaii = (
+                        lat >= hawaiiBounds.south &&
+                        lat <= hawaiiBounds.north &&
+                        lng >= hawaiiBounds.west &&
+                        lng <= hawaiiBounds.east
+                    );
+                    
+                    return inContUS || inAlaska || inHawaii;
+                });
+            }
+            
+            // Load global fire data
+            async loadWorldFireData() {
+                if (!this.state.lazyLoading) {
+                    this.showLoadingMessage('Loading global fire data...');
+                }
+                
+                this.showStatus('Loading global fire data...');
+                
+                try {
+                    // Build request URL with parameters
+                    let url = this.config.apiEndpoint;
+                    const params = new URLSearchParams();
+                    
+                    // Add source parameter (default: MODIS_NRT)
+                    const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
+                    params.append('source', source);
+                    
+                    // Always use "world" as the area parameter
+                    params.append('area', 'world');
+                    
+                    // Add days parameter (default: 1)
+                    const days = this.state.activeFilters.days?.value || '1';
+                    params.append('days', days);
+                    
+                    // Append parameters to URL
+                    url = `${url}?${params.toString()}`;
+                    
+                    console.log(`Fetching global fire data: ${url}`);
+                    
+                    // Fetch data from API
+                    const response = await this.fetchWithRetry(url);
+                    
+                    // Process response
+                    if (response.ok) {
+                        try {
+                            const data = await response.json();
+                            
+                            if (Array.isArray(data)) {
+                                // Success! We have fire data
+                                console.log(`Received ${data.length} global fire data points`);
+                                
+                                // Store and process the data
+                                this.processFireData(data);
+                                
+                                this.showStatus(`Loaded ${data.length} global fire data points`, 'success');
+                            } else if (data.error) {
+                                // API returned an error
+                                throw new Error(data.message || 'Unknown API error');
+                            } else {
+                                // Unexpected response format
+                                throw new Error('Unexpected response format from API');
+                            }
+                        } catch (error) {
+                            console.error(`Error parsing API response: ${error.message}`);
+                            throw error;
+                        }
+                    } else {
+                        throw new Error(`API responded with status ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error(`Error loading global fire data: ${error.message}`);
+                    this.showStatus(`Error loading global fire data: ${error.message}`, 'error');
+                    
+                    // Generate sample data if no data is available
+                    if (this.state.allFireData.length === 0) {
+                        console.warn('Generating sample data as fallback');
+                        this.generateSampleData();
+                    }
+                } finally {
+                    if (!this.state.lazyLoading) {
+                        this.hideLoadingMessage();
+                    }
+                }
             }
             
             // Recenter the map
             recenterMap() {
-                if (this.state.filteredData.length > 0) {
+                if (this.state.viewMode === 'usa') {
+                    this.focusOnUSA();
+                } else if (this.state.filteredData.length > 0) {
                     // Create bounds from filtered data
                     const bounds = new google.maps.LatLngBounds();
                     this.state.filteredData.forEach(point => {
@@ -982,8 +1431,26 @@
                 // Update active filters
                 this.updateActiveFilters();
                 
-                // Load fire data with updated filters
-                this.loadFireData();
+                // If source or days changed, reload data
+                if (this.state.activeFilters.source || this.state.activeFilters.days) {
+                    // Clear data cache
+                    this.state.regionDataCache.clear();
+                    
+                    // Reload data based on view mode
+                    if (this.state.viewMode === 'usa') {
+                        this.loadUSAFireData();
+                    } else if (this.state.lazyLoading) {
+                        // In global lazy loading mode, load for current viewport
+                        this.loadDataForViewport();
+                    } else {
+                        // In global non-lazy mode, load all data
+                        this.loadWorldFireData();
+                    }
+                } else {
+                    // Just apply client-side filters
+                    this.filterData();
+                    this.updateMarkers();
+                }
             }
             
             // Reset all filters
@@ -991,7 +1458,6 @@
                 // Reset form controls
                 $('#data-source').val('MODIS_NRT');
                 $('#days-range').val('1');
-                $('#region').val('world'); // Always use 'world'
                 $('#confidence-range').val(0);
                 $('#frp-range').val(0);
                 $('#confidence-min').text('0%');
@@ -1005,14 +1471,18 @@
                 this.state.currentPage = 1;
                 this.state.activeFilters = {};
                 
-                // Clear custom polygon
-                this.clearCustomRegion();
-                
                 // Clear filter tags
                 $('#active-filters').empty();
                 
-                // Reset and load data
-                this.loadFireData();
+                // Clear data cache
+                this.state.regionDataCache.clear();
+                
+                // Reset and load data based on view mode
+                if (this.state.viewMode === 'usa') {
+                    this.loadUSAFireData();
+                } else {
+                    this.loadWorldFireData();
+                }
             }
             
             // Update active filters based on form inputs
@@ -1046,9 +1516,6 @@
                         delete this.state.activeFilters.days;
                     });
                 }
-                
-                // Region - NOTE: We're not actually using specific regions due to API changes
-                // We still show the UI but internally use "world" parameter
                 
                 // Confidence threshold
                 const confidence = parseInt($('#confidence-range').val());
@@ -1087,86 +1554,6 @@
                 $(`.filter-tag[data-filter-id="${id}"]`).remove();
             }
             
-            // Load fire data with current filter settings
-            async loadFireData() {
-                this.showLoading('Fetching fire data...');
-                this.showStatus('Loading fire data...');
-                
-                try {
-                    // Build request URL with parameters
-                    let url = this.config.apiEndpoint;
-                    const params = new URLSearchParams();
-                    
-                    // Add source parameter (default: MODIS_NRT)
-                    const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
-                    params.append('source', source);
-                    
-                    // IMPORTANT: Always use "world" as the area parameter
-                    // Area-specific filtering will be done client-side with the drawn polygon
-                    params.append('area', 'world');
-                    
-                    // Add days parameter (default: 1)
-                    const days = this.state.activeFilters.days?.value || '1';
-                    params.append('days', days);
-                    
-                    // Append parameters to URL
-                    url = `${url}?${params.toString()}`;
-                    
-                    logger.log(`Fetching fire data: ${url}`);
-                    
-                    // Fetch data from API
-                    const response = await this.fetchWithRetry(url);
-                    
-                    logger.log(`API response status: ${response.status} ${response.statusText}`);
-                    
-                    // Process response
-                    if (response.ok) {
-                        try {
-                            const data = await response.json();
-                            
-                            if (Array.isArray(data)) {
-                                // Success! We have fire data
-                                logger.log(`Received ${data.length} fire data points`);
-                                this.processFireData(data);
-                                this.showStatus(`Loaded ${data.length} fire data points`, 'success');
-                            } else if (data.error) {
-                                // API returned an error
-                                throw new Error(data.message || 'Unknown API error');
-                            } else {
-                                // Unexpected response format
-                                throw new Error('Unexpected response format from API');
-                            }
-                        } catch (parseError) {
-                            logger.error(`Error parsing API response: ${parseError.message}`);
-                            throw new Error(`Error parsing API response: ${parseError.message}`);
-                        }
-                    } else {
-                        // Try to get error message from response
-                        let errorText = `API responded with status ${response.status}`;
-                        try {
-                            const errorData = await response.text();
-                            errorText += `: ${errorData.substring(0, 100)}...`;
-                        } catch (e) {
-                            // Ignore error parsing
-                        }
-                        
-                        logger.error(errorText);
-                        throw new Error(errorText);
-                    }
-                } catch (error) {
-                    logger.error(`Error loading fire data: ${error.message}`);
-                    this.showStatus(`Error loading fire data: ${error.message}`, 'error');
-                    
-                    // Generate sample data if no data is available
-                    if (this.state.allFireData.length === 0) {
-                        logger.warn('Generating sample data as fallback');
-                        this.generateSampleData();
-                    }
-                } finally {
-                    this.hideLoading();
-                }
-            }
-            
             // Process fire data and update the map
             processFireData(data) {
                 // Store the original full dataset
@@ -1178,11 +1565,6 @@
                 
                 // Update the markers on the map
                 this.updateMarkers();
-                
-                // Fit map to data bounds if needed
-                if (this.state.filteredData.length > 0) {
-                    this.recenterMap();
-                }
             }
             
             // Apply client-side filters to the data
@@ -1205,16 +1587,6 @@
                     filtered = filtered.filter(point => {
                         const frp = parseFloat(point.frp) || 0;
                         return frp >= minFrp;
-                    });
-                }
-                
-                // Apply polygon filter if a custom region is drawn
-                if (this.state.customArea) {
-                    filtered = filtered.filter(point => {
-                        return this.isPointInPolygon(
-                            { lat: parseFloat(point.latitude), lng: parseFloat(point.longitude) },
-                            this.state.customArea
-                        );
                     });
                 }
                 
@@ -1317,11 +1689,11 @@
                 try {
                     // We preloaded the MarkerClusterer script in the head
                     if (typeof MarkerClusterer === 'undefined') {
-                        logger.error('MarkerClusterer is not defined. Skipping clustering');
+                        console.error('MarkerClusterer is not defined. Skipping clustering');
                         return;
                     }
                     
-                    logger.log('Setting up marker clustering');
+                    console.log('Setting up marker clustering');
                     
                     // Clear previous clusterer if it exists
                     if (this.state.markerClusterer) {
@@ -1358,9 +1730,9 @@
                         renderer: renderer
                     });
                     
-                    logger.log('Marker clustering set up successfully');
+                    console.log('Marker clustering set up successfully');
                 } catch (error) {
-                    logger.error('Error setting up marker clustering: ' + error.message);
+                    console.error('Error setting up marker clustering:', error);
                     // Continue without clustering
                 }
             }
@@ -1541,15 +1913,15 @@
             generateSampleData() {
                 this.showStatus('Using sample data as fallback', 'warning');
                 
-                // Sample data centered around Continental US
+                // Sample data centered around USA
                 const center = this.config.defaultCenter;
                 const sampleData = [];
                 
-                // Generate random points
+                // Generate random points in the USA
                 for (let i = 0; i < 50; i++) {
                     // Random offset from center
-                    const latOffset = (Math.random() - 0.5) * 30;
-                    const lngOffset = (Math.random() - 0.5) * 60;
+                    const latOffset = (Math.random() - 0.5) * 20;
+                    const lngOffset = (Math.random() - 0.5) * 50;
                     
                     // Random values for properties
                     const confidence = Math.floor(Math.random() * 100);
@@ -1563,7 +1935,6 @@
                         frp: frp,
                         acq_date: '2025-05-09',
                         acq_time: '1200',
-                        // Add other properties as needed
                     });
                 }
                 
@@ -1580,6 +1951,28 @@
             // Hide loading overlay
             hideLoading() {
                 document.getElementById('loading-overlay').style.display = 'none';
+            }
+            
+            // Show region loading indicator
+            showRegionLoading() {
+                document.getElementById('region-loading').style.display = 'block';
+            }
+            
+            // Hide region loading indicator
+            hideRegionLoading() {
+                document.getElementById('region-loading').style.display = 'none';
+            }
+            
+            // Show loading data message
+            showLoadingMessage(message) {
+                const loadingMessage = document.getElementById('loading-data-message');
+                loadingMessage.innerHTML = `<span class="loading-data-spinner"></span> ${message}`;
+                loadingMessage.style.display = 'block';
+            }
+            
+            // Hide loading data message
+            hideLoadingMessage() {
+                document.getElementById('loading-data-message').style.display = 'none';
             }
             
             // Show status message
@@ -1638,7 +2031,7 @@
                 $('#next-page').prop('disabled', this.state.currentPage >= totalPages);
                 
                 // Update visibility of pagination controls
-                if (this.state.markersPerPage === Number.MAX_SAFE_INTEGER || totalPages <= 1) {
+                if (totalPages <= 1) {
                     $('.pagination-container').hide();
                 } else {
                     $('.pagination-container').show();
@@ -1647,28 +2040,7 @@
             
             // Calculate total pages
             getTotalPages() {
-                if (this.state.markersPerPage === Number.MAX_SAFE_INTEGER) {
-                    return 1;
-                }
-                
                 return Math.ceil(this.state.filteredData.length / this.state.markersPerPage);
-            }
-            
-            // Check if a point is inside a polygon
-            isPointInPolygon(point, polygon) {
-                // Ray casting algorithm
-                let inside = false;
-                for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-                    const xi = polygon[i].lng, yi = polygon[i].lat;
-                    const xj = polygon[j].lng, yj = polygon[j].lat;
-                    
-                    const intersect = ((yi > point.lat) !== (yj > point.lat)) &&
-                        (point.lng < (xj - xi) * (point.lat - yi) / (yj - yi) + xi);
-                    
-                    if (intersect) inside = !inside;
-                }
-                
-                return inside;
             }
             
             // Show fire statistics
@@ -1736,7 +2108,8 @@
                     <div class="mb-3">
                         <strong>Total Fire Points:</strong> ${totalFires}<br>
                         <strong>Data Source:</strong> ${$('#data-source option:selected').text()}<br>
-                        <strong>Time Range:</strong> ${$('#days-range option:selected').text()}
+                        <strong>Time Range:</strong> ${$('#days-range option:selected').text()}<br>
+                        <strong>Region:</strong> ${this.state.viewMode === 'usa' ? 'USA' : 'Global'}
                     </div>
                     
                     <div class="mb-3">
@@ -1777,7 +2150,7 @@
             // Fetch with retry logic
             async fetchWithRetry(url, retries = 0) {
                 try {
-                    logger.log(`Fetch attempt ${retries + 1}/${this.config.maxFetchRetries + 1}: ${url}`);
+                    console.log(`Fetch attempt ${retries + 1}/${this.config.maxFetchRetries + 1}: ${url}`);
                     
                     const response = await fetch(url, {
                         method: 'GET',
@@ -1789,14 +2162,14 @@
                         cache: 'no-cache'
                     });
                     
-                    logger.log(`Response status: ${response.status} ${response.statusText}`);
+                    console.log(`Response status: ${response.status} ${response.statusText}`);
                     
                     return response;
                 } catch (error) {
-                    logger.error(`Fetch error: ${error.message}`);
+                    console.error(`Fetch error: ${error.message}`);
                     
                     if (retries < this.config.maxFetchRetries - 1) {
-                        logger.log(`Retrying... (${retries + 1}/${this.config.maxFetchRetries})`);
+                        console.log(`Retrying... (${retries + 1}/${this.config.maxFetchRetries})`);
                         // Exponential backoff: 1s, 2s, 4s, etc.
                         await new Promise(r => setTimeout(r, 1000 * Math.pow(2, retries)));
                         return this.fetchWithRetry(url, retries + 1);
