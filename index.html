@@ -30,21 +30,64 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
     <style>
+        /* Mobile-first styles */
+        :root {
+            --sidebar-width-mobile: 260px;
+            --sidebar-width-desktop: 300px;
+            --primary-color: #ff4500;
+            --secondary-color: #555;
+            --light-bg: #f8f9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom tooltip for hover */
+        #custom-tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10000;
+            pointer-events: none;
+            display: none;
+        }
+        
+        /* Map Styles */
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
         .map-wrapper #map-container {
             position: relative;
-            height: 600px;
+            height: 70vh; /* Responsive height */
             width: 100%;
             overflow: hidden;
         }
+        
         .map-wrapper #map {
             height: 100%;
             width: 100%;
+            touch-action: manipulation; /* Improves touch interaction */
         }
+        
+        /* Sidebar styles */
         .map-wrapper #sidebar {
             position: absolute;
             top: 0;
             left: 0;
-            width: 300px;
+            width: var(--sidebar-width-mobile);
             height: 100%;
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
@@ -52,114 +95,130 @@
             z-index: 1000;
             transition: transform 0.3s ease;
         }
+        
         .map-wrapper #sidebar.collapsed {
-            transform: translateX(-300px);
+            transform: translateX(calc(-1 * var(--sidebar-width-mobile)));
         }
+        
         .map-wrapper #toggle-sidebar {
             position: absolute;
-            left: 300px;
+            left: var(--sidebar-width-mobile);
             top: 10px;
             background: white;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 0 4px 4px 0;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             z-index: 1000;
             transition: left 0.3s ease;
         }
+        
         .map-wrapper #toggle-sidebar.collapsed {
             left: 0;
         }
+        
         .map-wrapper .sidebar-content {
             padding: 15px;
             font-size: 0.9rem;
         }
+        
         .map-wrapper .sidebar-header {
             padding: 15px;
             border-bottom: 1px solid #ddd;
-            background-color: #f8f9fa;
+            background-color: var(--light-bg);
         }
+        
         .map-wrapper .sidebar-section {
             margin-bottom: 15px;
             border-bottom: 1px solid #eee;
             padding-bottom: 15px;
         }
+        
         .map-wrapper .sidebar-section h5 {
             margin-bottom: 10px;
             color: #333;
             font-size: 1rem;
         }
+        
+        /* Form elements - more touch-friendly */
         .map-wrapper .form-group {
             margin-bottom: 12px;
         }
+        
         .map-wrapper label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: #555;
         }
+        
+        .map-wrapper select.form-select {
+            height: 38px; /* Larger for touch */
+        }
+        
+        .map-wrapper input[type="range"] {
+            height: 30px; /* Larger for touch */
+        }
+        
+        .map-wrapper .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+        
+        .map-wrapper .form-check-label {
+            padding-left: 5px;
+        }
+        
+        /* Map controls - Enhanced for mobile */
         .map-wrapper .map-controls {
             position: absolute;
             top: 10px;
             right: 10px;
             z-index: 900;
         }
+        
         .map-wrapper .map-control-btn {
             background: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 44px; /* Larger touch target */
+            height: 44px;
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            color: #555;
+            color: var(--secondary-color);
         }
-        .map-wrapper .map-control-btn:hover {
+        
+        .map-wrapper .map-control-btn:hover,
+        .map-wrapper .map-control-btn:active {
             background: #f0f0f0;
         }
+        
+        /* Legend - Responsive positioning */
         .map-wrapper #legend {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             right: 10px;
             background: white;
             padding: 10px;
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             z-index: 900;
-            max-width: 240px;
+            max-width: 180px;
             font-size: 11px;
         }
-        @media (max-width: 640px) {
-            .map-wrapper #legend {
-                bottom: 10px;
-                right: 10px;
-                padding: 8px;
-                max-width: 180px;
-                font-size: 10px;
-            }
-            .map-wrapper #sidebar {
-                width: 260px;
-            }
-            .map-wrapper #toggle-sidebar {
-                left: 260px;
-            }
-            .map-wrapper .map-control-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
-                margin-bottom: 4px;
-            }
-        }
+        
         .map-wrapper .legend-item {
             display: flex;
             align-items: center;
             margin: 4px 0;
         }
+        
         .map-wrapper .legend-color {
             width: 16px;
             height: 16px;
@@ -167,57 +226,273 @@
             margin-right: 8px;
             border: 1px solid #ddd;
         }
+        
+        /* Status panel - Responsive positioning */
         .map-wrapper #status-panel {
             position: absolute;
-            bottom: 30px;
-            left: 310px;
+            bottom: 20px;
+            left: calc(var(--sidebar-width-mobile) + 10px);
             background: white;
             padding: 10px 15px;
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             z-index: 900;
-            max-width: 400px;
+            max-width: calc(100% - var(--sidebar-width-mobile) - 30px);
             font-size: 14px;
             display: none;
             transition: left 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+        
         .map-wrapper #status-panel.sidebar-collapsed {
             left: 10px;
+            max-width: calc(100% - 20px);
         }
+        
+        /* Loading indicators - Enhanced visibility */
         .map-wrapper .loading-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
         }
+        
         .map-wrapper .spinner {
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+            border-top: 5px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Quick view region buttons - Enhanced for mobile */
+        .region-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .region-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1 0 calc(33% - 8px);
+            min-width: 60px;
+            transition: all 0.2s ease;
+        }
+        
+        .region-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Filter tags */
+        .filter-tag {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 4px 8px;
+            margin: 4px 4px 8px 0;
+            border-radius: 16px;
+            font-size: 12px;
+        }
+        
+        .remove-filter {
+            cursor: pointer;
+            margin-left: 4px;
+            font-weight: bold;
+        }
+        
+        /* Loading indicators */
+        .region-loading, .loading-data-message {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            z-index: 990;
+            text-align: center;
+        }
+        
+        .region-loading-spinner, .loading-data-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: text-bottom;
+        }
+        
+        /* Stats panel */
+        #stats-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90%;
+            overflow-y: auto;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1010;
+            display: none;
+        }
+        
+        #stats-panel .stats-title {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            background-color: var(--light-bg);
+        }
+        
+        #stats-panel #stats-content {
+            padding: 15px;
+        }
+        
+        /* Color scale */
+        .color-scale {
+            height: 8px;
+            margin-top: 4px;
+            display: flex;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .color-scale div {
+            flex: 1;
+            height: 100%;
+        }
+        
+        /* View mode toggle */
+        #view-mode-toggle {
+            position: absolute;
+            bottom: 20px;
+            left: calc(var(--sidebar-width-mobile) + 10px);
+            z-index: 900;
+            transition: left 0.3s ease;
+        }
+        
+        #view-mode-toggle.sidebar-collapsed {
+            left: 10px;
+        }
+        
+        /* Pagination */
+        .pagination-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .pagination button {
+            height: 36px;
+        }
+        
+        /* Image optimization and gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 16/9;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Larger screens */
+        @media (min-width: 768px) {
+            .map-wrapper #map-container {
+                height: 75vh;
+            }
+            
+            .map-wrapper #sidebar {
+                width: var(--sidebar-width-desktop);
+            }
+            
+            .map-wrapper #toggle-sidebar {
+                left: var(--sidebar-width-desktop);
+            }
+            
+            .map-wrapper #sidebar.collapsed {
+                transform: translateX(calc(-1 * var(--sidebar-width-desktop)));
+            }
+            
+            .map-wrapper #legend {
+                max-width: 240px;
+                bottom: 30px;
+                font-size: 12px;
+            }
+            
+            .map-wrapper #status-panel {
+                left: calc(var(--sidebar-width-desktop) + 10px);
+                max-width: calc(100% - var(--sidebar-width-desktop) - 30px);
+                bottom: 30px;
+            }
+            
+            #view-mode-toggle {
+                left: calc(var(--sidebar-width-desktop) + 10px);
+            }
+            
+            .region-button {
+                flex: 1 0 calc(16.66% - 8px);
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Custom tooltip container for marker hover -->
+    <div id="custom-tooltip"></div>
+    
     <header class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo-link">
                 <div class="logo-container">
-                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo">
+                    <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" id="navbar-logo" width="40" height="40" loading="eager">
                     <span>Eye on the Fire</span>
                 </div>
             </a>
@@ -230,22 +505,8 @@
                 <ul class="main-menu">
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li class="has-dropdown">
-                        <a href="prepare.html">Prepare <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="prepare.html#emergency-kit">Emergency Kit</a></li>
-                            <li><a href="prepare.html#evacuation-plan">Evacuation Plan</a></li>
-                            <li><a href="prepare.html#home-hardening">Home Hardening</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-dropdown">
-                        <a href="prevent.html">Prevent <i class="fas fa-caret-down"></i></a>
-                        <ul class="dropdown">
-                            <li><a href="prevent.html#landscaping">Fire-Smart Landscaping</a></li>
-                            <li><a href="prevent.html#campfire">Safe Campfire Practices</a></li>
-                            <li><a href="prevent.html#community">Community Efforts</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="prepare.html">Prepare</a></li>
+                    <li><a href="prevent.html">Prevent</a></li>
                     <li><a href="safety-info.html">Safety Info</a></li>
                     <li><a href="news-resources.html">News & Resources</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -270,15 +531,6 @@
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
             <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
-            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
-                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i> How to Use the Map:</h4>
-                <ul>
-                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
-                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
-                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
-                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
-                </ul>
-            </div>
         </div>
         <main>
             <div class="map-wrapper">
@@ -306,7 +558,7 @@
                             <div class="sidebar-section">
                                 <h5>Data Source</h5>
                                 <div class="form-group">
-                                    <select id="data-source" class="form-select form-select-sm">
+                                    <select id="data-source" class="form-select">
                                         <option value="MODIS_NRT">MODIS (Near Real-Time)</option>
                                         <option value="VIIRS_NOAA20_NRT">VIIRS NOAA-20 (Near Real-Time)</option>
                                         <option value="VIIRS_SNPP_NRT">VIIRS Suomi NPP (Near Real-Time)</option>
@@ -317,7 +569,7 @@
                             <div class="sidebar-section">
                                 <h5>Time Range</h5>
                                 <div class="form-group">
-                                    <select id="days-range" class="form-select form-select-sm">
+                                    <select id="days-range" class="form-select">
                                         <option value="1">Last 24 hours</option>
                                         <option value="2">Last 2 days</option>
                                         <option value="3">Last 3 days</option>
@@ -354,7 +606,7 @@
                                 </div>
                                 <div class="form-group mt-2">
                                     <label for="markers-per-page">Max Visible Markers</label>
-                                    <select id="markers-per-page" class="form-select form-select-sm">
+                                    <select id="markers-per-page" class="form-select">
                                         <option value="500">500 (Fast)</option>
                                         <option value="1000" selected>1,000 (Balanced)</option>
                                         <option value="3000">3,000 (Detailed)</option>
@@ -363,22 +615,22 @@
                                 </div>
                             </div>
                             <div class="sidebar-section">
-                                <button id="apply-filters" class="btn btn-primary btn-sm w-100">
+                                <button id="apply-filters" class="btn btn-primary w-100">
                                     <i class="fas fa-filter"></i> Apply Filters
                                 </button>
-                                <button id="reset-filters" class="btn btn-outline-secondary btn-sm w-100 mt-2">
+                                <button id="reset-filters" class="btn btn-outline-secondary w-100 mt-2">
                                     <i class="fas fa-sync"></i> Reset Filters
                                 </button>
                             </div>
                             <div class="pagination-container">
                                 <div class="btn-group pagination">
-                                    <button id="prev-page" class="btn btn-sm btn-outline-secondary">
+                                    <button id="prev-page" class="btn btn-outline-secondary">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
-                                    <span id="page-info" class="btn btn-sm btn-outline-secondary disabled">
+                                    <span id="page-info" class="btn btn-outline-secondary disabled">
                                         <span id="current-page">1</span>/<span id="total-pages">1</span>
                                     </span>
-                                    <button id="next-page" class="btn btn-sm btn-outline-secondary">
+                                    <button id="next-page" class="btn btn-outline-secondary">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
                                 </div>
@@ -513,9 +765,15 @@
                 <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
             <div class="gallery" role="list" aria-label="Community and wildfire images">
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+                <div class="gallery-item" role="listitem">
+                    <img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood" width="400" height="225" loading="lazy">
+                </div>
+                <div class="gallery-item" role="listitem">
+                    <img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area" width="400" height="225" loading="lazy">
+                </div>
+                <div class="gallery-item" role="listitem">
+                    <img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire" width="400" height="225" loading="lazy">
+                </div>
             </div>
         </div>
     </section>
@@ -662,7 +920,8 @@
                         },
                         restriction: {
                             latLngBounds: { north: 85, south: -85, west: -180, east: 180 }
-                        }
+                        },
+                        gestureHandling: 'greedy' // Improves mobile map handling
                     });
                     this.state.infoWindow = new google.maps.InfoWindow();
                     google.maps.event.addListener(this.state.map, 'idle', () => {
@@ -1619,5 +1878,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d3984949c34593',t:'MTc0NjgxODg1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d3e902b9b76761',t:'MTc0NjgyMjE1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
