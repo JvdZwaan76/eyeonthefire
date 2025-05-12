@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
-    <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
-    <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
-    <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
-    <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
+    <title>About Eye on the Fire - Real-Time US Wildfire Tracking & Safety</title>
+    <meta name="description" content="Learn about Eye on the Fire, your trusted source for real-time US wildfire tracking, interactive maps, and comprehensive fire safety resources.">
+    <meta name="keywords" content="about eye on the fire, wildfire tracking, US wildfire map, fire safety resources, real-time wildfire monitoring, wildfire preparedness">
+    <meta property="og:title" content="About Eye on the Fire - Real-Time US Wildfire Tracking">
+    <meta property="og:description" content="Discover Eye on the Fire's mission to provide real-time wildfire tracking and safety resources across the US with our interactive map and guides.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/">
-    <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
-    <link rel="canonical" href="https://eyeonthefire.com/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <meta property="og:url" content="https://eyeonthefire.com/about">
+    <meta property="og:image" content="https://eyeonthefire.com/images/about-hero-bg.jpg">
+    <link rel="canonical" href="https://eyeonthefire.com/about">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon Links -->
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
@@ -22,424 +21,13 @@
     <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/favicon/site.webmanifest">
-    
-    <!-- Enhanced Styles for New Components -->
-    <style>
-        /* Base Styles */
-        :root {
-            --primary-color: #d43300;
-            --primary-dark: #9e2500;
-            --primary-light: #ff5a33;
-            --secondary-color: #d46500;
-            --accent-color: #ffc000;
-            --dark-bg: #1a0f00;
-            --dark-text: #333333;
-            --medium-text: #595959;
-            --light-text: #ffffff;
-            --ember-glow: 0 0 15px rgba(212, 51, 0, 0.5);
-            --flame-gradient: linear-gradient(to bottom, #d43300, #d46500, #ffc000);
-        }
-        
-        body {
-            font-family: 'Open Sans', sans-serif;
-            color: var(--dark-text);
-            line-height: 1.6;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        /* Animation Keyframes */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Parallax Hero Section */
-        .parallax-hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;
-            background-color: #000;
-        }
-        
-        .parallax-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background-image: url('/images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            transform-origin: center center;
-            will-change: transform;
-            filter: brightness(0.4);
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .fire-particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #ff4500;
-            box-shadow: 0 0 10px #ff7800, 0 0 20px #ff9d00;
-            z-index: 5;
-            opacity: 0.7;
-            will-change: transform;
-            animation: pulse 3s infinite;
-        }
-        
-        /* Animated Stats */
-        .stats-container {
-            background: linear-gradient(to right, #1a0f00, #331a00);
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stats-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('/images/fire-texture.png');
-            opacity: 0.05;
-            pointer-events: none;
-        }
-        
-        .stat-card {
-            background: rgba(255,255,255,0.08);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-top: 3px solid var(--primary-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            line-height: 1;
-            font-family: 'Montserrat', sans-serif;
-            text-shadow: 0 0 15px rgba(255,192,0,0.3);
-        }
-        
-        .stat-label {
-            color: white;
-            font-size: 1.1rem;
-        }
-        
-        /* Enhanced FAQ Section */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .faq-item {
-            margin-bottom: 16px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .faq-item.active {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        .faq-question {
-            padding: 20px;
-            background-color: #f8f8f8;
-            font-weight: 600;
-            cursor: pointer;
-            position: relative;
-            border-left: 4px solid var(--primary-color);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .faq-question:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .faq-item.active .faq-question {
-            background-color: #f0f0f0;
-            color: var(--primary-dark);
-        }
-        
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-icon::before,
-        .faq-icon::after {
-            content: '';
-            position: absolute;
-            background-color: var(--primary-color);
-            transition: all 0.3s ease;
-        }
-        
-        .faq-icon::before {
-            width: 100%;
-            height: 2px;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-        
-        .faq-icon::after {
-            width: 2px;
-            height: 100%;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-        }
-        
-        .faq-item.active .faq-icon::after {
-            transform: translateX(-50%) scaleY(0);
-        }
-        
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            background-color: white;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 1000px;
-        }
-        
-        .faq-content {
-            padding: 20px;
-            color: #333;
-        }
-        
-        /* Testimonials Carousel */
-        .testimonials-section {
-            background-color: #f8f8f8;
-            padding: 80px 0;
-        }
-        
-        .testimonial-carousel {
-            position: relative;
-            overflow: hidden;
-            margin-top: 40px;
-        }
-        
-        .testimonial-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .testimonial-slide {
-            flex: 0 0 100%;
-            width: 100%;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
-        
-        .testimonial-card {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            position: relative;
-            height: 100%;
-        }
-        
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 60px;
-            color: var(--primary-light);
-            opacity: 0.2;
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-        
-        .testimonial-content {
-            font-style: italic;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-            padding-left: 10px;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .testimonial-author-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-            border: 3px solid var(--primary-color);
-        }
-        
-        .testimonial-author-info h5 {
-            margin: 0;
-            font-weight: 600;
-            color: var(--dark-text);
-        }
-        
-        .testimonial-author-info p {
-            margin: 5px 0 0;
-            font-size: 0.875rem;
-            color: var(--medium-text);
-        }
-        
-        .testimonial-nav {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        
-        .testimonial-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #ccc;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .testimonial-dot.active {
-            background-color: var(--primary-color);
-            width: 24px;
-            border-radius: 12px;
-        }
-        
-        /* Scroll-Triggered Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Enhanced Map Section */
-        .map-preview-container {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            position: relative;
-            height: 500px;
-            margin: 40px 0;
-        }
-        
-        .map-overlay-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-            padding: 20px;
-            color: white;
-            z-index: 10;
-        }
-        
-        .map-overlay-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-            padding: 20px;
-            color: white;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .map-legend-item {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-            font-size: 0.875rem;
-        }
-        
-        .map-legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        
-        .map-cta-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .map-cta-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW');
+    </script>
 </head>
 <body>
     <header class="navbar">
@@ -457,8 +45,8 @@
             </button>
             <nav class="nav-menu" id="main-nav">
                 <ul class="main-menu">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="about.html">About</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
                     <li><a href="prepare.html">Prepare</a></li>
                     <li><a href="prevent.html">Prevent</a></li>
                     <li><a href="safety-info.html">Safety Info</a></li>
@@ -468,293 +56,65 @@
             </nav>
         </div>
     </header>
-
-    <!-- Immersive Hero Section with Parallax -->
-    <section class="parallax-hero" id="hero">
-        <div class="parallax-bg" id="parallax-bg"></div>
-        
-        <!-- Fire Particles -->
-        <div id="particles-container"></div>
-        
-        <div class="flex items-center justify-center h-full">
-            <div class="hero-content">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-on-scroll" data-animation="fade-in">
-                    Monitor US Wildfires in Real-Time
-                </h1>
-                <p class="text-xl mb-8 animate-on-scroll" data-animation="fade-in" data-delay="short">
-                    Track active fires across the United States with our live interactive map. 
-                    Get critical updates, safety alerts, and preparedness resources.
-                </p>
-                <a href="#map-section" class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-8 rounded-full hover:shadow-lg transition transform hover:-translate-y-1 animate-on-scroll" data-animation="fade-in" data-delay="medium">
-                    View Live US Fire Map
-                </a>
-            </div>
-        </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
+    <section class="hero" id="about-hero">
+        <div class="hero-content">
+            <h1>About Eye on the Fire</h1>
+            <p>Your trusted resource for real-time US wildfire tracking and fire safety. Learn how we empower communities with interactive maps and preparedness guides.</p>
+            <a href="index.html#map-section" class="cta-button">Explore Live Wildfire Map</a>
         </div>
     </section>
-
-    <section id="intro" class="content-section py-16">
-        <div class="container mx-auto px-4">
-            <p class="section-intro text-center max-w-4xl mx-auto text-lg animate-on-scroll" data-animation="fade-in">
-                Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.
-            </p>
-        </div>
-    </section>
-
-    <!-- Enhanced Map Section -->
-    <section id="map-section" class="content-section bg-gray-50 py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title text-3xl font-bold text-center mb-6 animate-on-scroll" data-animation="fade-in">
-                Interactive Live US Wildfire Tracker
-            </h2>
-            <p class="section-intro text-center max-w-4xl mx-auto mb-8 animate-on-scroll" data-animation="fade-in" data-delay="short">
-                Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.
-            </p>
-            
-            <div class="map-usage-guide bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mb-8 animate-on-scroll" data-animation="fade-in" data-delay="medium">
-                <h4 class="text-xl font-semibold mb-4 flex items-center">
-                    <i class="fas fa-map-marked-alt mr-2 text-orange-600"></i>
-                    How to Use the Map:
-                </h4>
-                <ul class="space-y-3">
-                    <li class="flex items-start">
-                        <i class="fas fa-location-crosshairs mt-1 mr-3 text-orange-600"></i>
-                        <span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-search-plus mt-1 mr-3 text-orange-600"></i>
-                        <span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-undo mt-1 mr-3 text-orange-600"></i>
-                        <span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-fire mt-1 mr-3 text-orange-600"></i>
-                        <span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <!-- Interactive Map Container -->
-            <div class="map-preview-container animate-on-scroll" data-animation="fade-in" data-delay="long">
-                <div id="map"></div>
-                
-                <!-- Map Overlay Elements -->
-                <div class="map-overlay-top">
-                    <h3 class="text-xl font-bold mb-1">USA Wildfire Map</h3>
-                    <p class="text-sm opacity-80">NASA FIRMS Real-Time Fire Data</p>
-                </div>
-                
-                <div class="map-overlay-bottom">
-                    <div class="flex items-center">
-                        <div class="map-legend-item">
-                            <div class="map-legend-color" style="background-color: #FF0000;"></div>
-                            <span>High Confidence</span>
-                        </div>
-                        <div class="map-legend-item">
-                            <div class="map-legend-color" style="background-color: #FFA500;"></div>
-                            <span>Medium Confidence</span>
-                        </div>
-                    </div>
-                    <a href="#map-controls" class="map-cta-button">
-                        Show Controls
-                    </a>
-                </div>
-            </div>
-            
-            <div class="flex justify-center mt-8">
-                <a href="#map-section" class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg hover:shadow-lg transition">
-                    <i class="fas fa-expand-alt mr-2"></i>
-                    View Full Map
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Animated Stats Section -->
-    <section id="stats" class="stats-container">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-white mb-4 animate-on-scroll" data-animation="fade-in">Our Impact</h2>
-            
-            <p class="text-center text-gray-300 max-w-2xl mx-auto mb-12 animate-on-scroll" data-animation="fade-in" data-delay="short">
-                Eye on the Fire has helped communities across America stay informed and prepared during wildfire season.
-            </p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-animation-group data-animation="slide-up" data-stagger="100">
-                <div class="stat-card animate-item">
-                    <div class="text-5xl mb-4 text-orange-400">👥</div>
-                    <div class="stat-number" id="stat-users" data-target="150000">0</div>
-                    <div class="stat-label">Monthly Users</div>
-                </div>
-                
-                <div class="stat-card animate-item">
-                    <div class="text-5xl mb-4 text-orange-400">🔥</div>
-                    <div class="stat-number" id="stat-fires" data-target="2500">0</div>
-                    <div class="stat-label">Wildfires Tracked</div>
-                </div>
-                
-                <div class="stat-card animate-item">
-                    <div class="text-5xl mb-4 text-orange-400">🗺️</div>
-                    <div class="stat-number" id="stat-states" data-target="48">0</div>
-                    <div class="stat-label">States Covered</div>
-                </div>
-                
-                <div class="stat-card animate-item">
-                    <div class="text-5xl mb-4 text-orange-400">📋</div>
-                    <div class="stat-number" id="stat-guides" data-target="12000">0</div>
-                    <div class="stat-label">Safety Guides Downloaded</div>
+    <section id="mission" class="content-section">
+        <div class="container">
+            <h2>Our Mission</h2>
+            <div class="content-with-image">
+                <img src="/images/mission-image.jpg" alt="Firefighter monitoring real-time US wildfire data on tablet">
+                <div class="text">
+                    <p>At Eye on the Fire, our mission is to provide accurate, real-time wildfire tracking across the United States, empowering individuals and communities to stay informed and safe. By consolidating data from trusted sources like NASA FIRMS and NIFC, we deliver an interactive US wildfire map that helps you monitor fires near you and access critical safety resources.</p>
+                    <p>We are committed to enhancing wildfire preparedness through comprehensive guides on home hardening, defensible space, and emergency planning, ensuring you have the tools to protect what matters most.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Enhanced FAQ Section -->
-    <section id="faq" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-2 animate-on-scroll" data-animation="fade-in">Frequently Asked Questions</h2>
-            
-            <div class="h-1 w-24 bg-orange-600 mx-auto mb-10 animate-on-scroll" data-animation="fade-in" data-delay="short"></div>
-            
-            <div class="faq-container animate-on-scroll" data-animation="fade-in" data-delay="medium">
-                <div class="faq-item active" data-faq="1">
-                    <div class="faq-question">
-                        <span>How often is your wildfire map updated?</span>
-                        <div class="faq-icon"></div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-content">
-                            <p>Our wildfire map is updated every 15 minutes with the latest satellite data from NASA FIRMS (Fire Information for Resource Management System). Active fire information is collected by MODIS and VIIRS thermal sensors aboard NASA satellites.</p>
-                            <p>Additionally, we incorporate data from NIFC (National Interagency Fire Center) and local fire agencies for comprehensive coverage of wildfires across the United States.</p>
-                            
-                            <div class="mt-4 flex justify-center">
-                                <div class="flex items-center text-orange-600">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-sm font-medium">Updates every 15 minutes</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="faq-item" data-faq="2">
-                    <div class="faq-question">
-                        <span>Is Eye on the Fire available as a mobile app?</span>
-                        <div class="faq-icon"></div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-content">
-                            <p>While we don't currently offer a native mobile app, our website is fully optimized for mobile devices. You can access all of our features, including the interactive wildfire map, preparation guides, and emergency resources, from any smartphone or tablet.</p>
-                            <p>Simply bookmark our website for quick access. We're exploring the development of native mobile applications for iOS and Android in the future.</p>
-                            
-                            <div class="mt-4 flex justify-center">
-                                <div class="flex items-center text-orange-600">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                                    </svg>
-                                    <span class="text-sm font-medium">Mobile-optimized experience</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="faq-item" data-faq="3">
-                    <div class="faq-question">
-                        <span>How accurate is your wildfire tracking data?</span>
-                        <div class="faq-icon"></div>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-content">
-                            <p>Eye on the Fire uses multiple trusted data sources to ensure high accuracy. Our primary data comes from NASA FIRMS satellite detection, which has a global accuracy of approximately 80% for active fire detection. We enhance this with ground-truth data from NIFC and local fire agencies.</p>
-                            <p>While all remote sensing systems have limitations due to factors like cloud cover and satellite orbital patterns, we employ verification algorithms and multiple data sources to provide the most reliable information possible.</p>
-                            <p>It's important to note that our service is designed to be informational and should be used alongside official evacuation notices and emergency alerts from your local authorities.</p>
-                            
-                            <div class="mt-4 flex justify-center">
-                                <div class="flex items-center text-orange-600">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-sm font-medium">80% accuracy with FIRMS data</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <hr class="section-divider">
+    <section id="why-choose-us" class="content-section">
+        <div class="container">
+            <h2>Why Choose Eye on the Fire?</h2>
+            <div class="content-with-image reverse">
+                <img src="/images/why-choose-us-image.jpg" alt="Family preparing wildfire emergency go-bag with safety resources">
+                <div class="text">
+                    <ul>
+                        <li><strong>Real-Time Wildfire Monitoring:</strong> Our interactive map provides up-to-date wildfire data, helping you track fires near you anywhere in the US.</li>
+                        <li><strong>User-Friendly Interface:</strong> Easily navigate our map with controls to locate your position, zoom into regions, and explore fire details.</li>
+                        <li><strong>Comprehensive Safety Resources:</strong> Access expert guides on wildfire prevention, home safety, and emergency preparedness to protect your family and property.</li>
+                        <li><strong>Trusted Data Sources:</strong> We partner with NASA FIRMS, NIFC, and other official channels to ensure reliable information.</li>
+                    </ul>
+                    <p>Join thousands of users who rely on Eye on the Fire for situational awareness during the US fire season.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Testimonials Carousel -->
-    <section id="testimonials" class="testimonials-section">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-2 animate-on-scroll" data-animation="fade-in">
-                What People Are Saying
-            </h2>
-            
-            <div class="h-1 w-24 bg-orange-600 mx-auto mb-10 animate-on-scroll" data-animation="fade-in" data-delay="short"></div>
-            
-            <div class="testimonial-carousel animate-on-scroll" data-animation="fade-in" data-delay="medium">
-                <div class="testimonial-track" id="testimonial-track">
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                Eye on the Fire's real-time alerts helped our family evacuate safely during the Pine Ridge Fire. The preparation guides made all the difference in having our emergency kit ready.
-                            </div>
-                            <div class="testimonial-author">
-                                <img src="/images/testimonial-1.jpg" alt="Sarah M." class="testimonial-author-img">
-                                <div class="testimonial-author-info">
-                                    <h5>Sarah M.</h5>
-                                    <p>Colorado Springs, CO</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                As a fire chief, I recommend Eye on the Fire to everyone in our community. Their defensible space guides have improved property protection throughout our district.
-                            </div>
-                            <div class="testimonial-author">
-                                <img src="/images/testimonial-2.jpg" alt="Chief James T." class="testimonial-author-img">
-                                <div class="testimonial-author-info">
-                                    <h5>Chief James T.</h5>
-                                    <p>Santa Rosa, CA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                Our neighborhood association uses Eye on the Fire's community preparedness resources for our annual fire safety workshops. The interactive map is an invaluable educational tool.
-                            </div>
-                            <div class="testimonial-author">
-                                <img src="/images/testimonial-3.jpg" alt="Elena R." class="testimonial-author-img">
-                                <div class="testimonial-author-info">
-                                    <h5>Elena R.</h5>
-                                    <p>Flagstaff, AZ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <hr class="section-divider">
+    <section id="community" class="content-section">
+        <div class="container">
+            <h2>Our Community</h2>
+            <div class="content-with-image">
+                <img src="/images/community-image.jpg" alt="Community volunteers in US wildfire prevention effort">
+                <div class="text">
+                    <p>Eye on the Fire is more than a platform—it's a community dedicated to wildfire safety and resilience. We collaborate with firefighters, emergency managers, and volunteers across the US to provide resources that make a difference.</p>
+                    <p>Whether you're a homeowner, a community leader, or a concerned citizen, we invite you to join us in promoting fire-smart practices and supporting wildfire-affected areas. <a href="index.html#community">Explore our resources</a> to get involved.</p>
                 </div>
-                
-                <div class="testimonial-nav" id="testimonial-nav"></div>
             </div>
         </div>
     </section>
-
+    <hr class="section-divider">
+    <section id="cta" class="content-section">
+        <div class="container">
+            <div class="cta-banner">
+                <h3>Stay Prepared with Eye on the Fire</h3>
+                <p>Track wildfires in real-time and access expert safety guides to protect your home and family. <a href="index.html#map-section">View the Live Map</a> or <a href="prepare.html">Explore Preparedness Tips</a> now.</p>
+            </div>
+        </div>
+    </section>
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section about">
@@ -788,415 +148,83 @@
             <a href="#">Privacy Policy</a>
         </div>
     </footer>
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
-    <!-- Enhanced Features Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize all components
-            initParallaxHero();
-            initAnimatedStats();
-            initFAQ();
-            initTestimonialsCarousel();
-            initScrollAnimations();
-            
-            // Set current year in footer
-            document.getElementById('year').textContent = new Date().getFullYear();
-            
-            // Initialize navigation
-            initNavigation();
-        });
-        
-        // Parallax Hero with Fire Particles
-        function initParallaxHero() {
-            const parallaxBg = document.getElementById('parallax-bg');
-            const particlesContainer = document.getElementById('particles-container');
-            
-            // Create fire particles
-            for (let i = 0; i < 50; i++) {
-                createFireParticle(particlesContainer);
-            }
-            
-            // Parallax effect on scroll
-            window.addEventListener('scroll', function() {
-                const scrollY = window.pageYOffset;
-                parallaxBg.style.transform = `translateY(${scrollY * 0.4}px) scale(1.1)`;
-            });
-        }
-        
-        function createFireParticle(container) {
-            const particle = document.createElement('div');
-            particle.classList.add('fire-particle');
-            
-            // Random positioning and size
-            const size = 2 + Math.random() * 8;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.bottom = `${Math.random() * 30}%`;
-            
-            // Random color variations (fire colors)
-            const hue = 20 - Math.random() * 20;
-            particle.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
-            particle.style.boxShadow = `0 0 ${size * 2}px hsl(${hue + 10}, 100%, 60%)`;
-            
-            // Animation
-            particle.style.animation = `float ${3 + Math.random() * 4}s infinite ease-in-out, pulse ${2 + Math.random() * 3}s infinite ease-in-out`;
-            
-            container.appendChild(particle);
-            
-            // Start moving upward
-            let posY = parseInt(particle.style.bottom);
-            let speed = 0.1 + Math.random() * 0.3;
-            
-            function animateParticle() {
-                posY += speed;
-                particle.style.bottom = `${posY}%`;
-                
-                // Reset when out of view
-                if (posY > 120) {
-                    posY = -10;
-                    particle.style.left = `${Math.random() * 100}%`;
-                    particle.style.opacity = 0.3 + Math.random() * 0.7;
-                }
-                
-                requestAnimationFrame(animateParticle);
-            }
-            
-            animateParticle();
-        }
-        
-        // Animated Stats
-        function initAnimatedStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            let animated = false;
-            
-            const observer = new IntersectionObserver(entries => {
-                if (entries[0].isIntersecting && !animated) {
-                    animated = true;
-                    stats.forEach(stat => {
-                        animateCounter(stat);
-                    });
-                }
-            }, {
-                threshold: 0.5
-            });
-            
-            if (stats.length > 0) {
-                observer.observe(document.querySelector('.stats-container'));
-            }
-        }
-        
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000;
-            const startTime = performance.now();
-            const startValue = 0;
-            
-            function updateCounter(currentTime) {
-                const elapsedTime = currentTime - startTime;
-                const progress = Math.min(elapsedTime / duration, 1);
-                
-                // Easing function for smoother animation
-                const easedProgress = 1 - Math.pow(1 - progress, 4);
-                
-                const currentValue = Math.floor(startValue + (target - startValue) * easedProgress);
-                element.textContent = currentValue.toLocaleString() + (target >= 1000 ? '+' : '');
-                
-                if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
-                }
-            }
-            
-            requestAnimationFrame(updateCounter);
-        }
-        
-        // Enhanced FAQ
-        function initFAQ() {
-            const faqItems = document.querySelectorAll('.faq-item');
-            
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
-                
-                question.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    
-                    // Close other items
-                    faqItems.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                            const otherAnswer = otherItem.querySelector('.faq-answer');
-                            otherAnswer.style.maxHeight = '0';
-                        }
-                    });
-                    
-                    // Toggle current item
-                    item.classList.toggle('active', !isActive);
-                    
-                    if (!isActive) {
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                    } else {
-                        answer.style.maxHeight = '0';
-                    }
-                });
-            });
-        }
-        
-        // Testimonials Carousel
-        function initTestimonialsCarousel() {
-            const track = document.getElementById('testimonial-track');
-            const navContainer = document.getElementById('testimonial-nav');
-            const slides = document.querySelectorAll('.testimonial-slide');
-            let currentIndex = 0;
-            
-            // Create navigation dots
-            slides.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('testimonial-dot');
-                if (index === 0) dot.classList.add('active');
-                
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
-                });
-                
-                navContainer.appendChild(dot);
-            });
-            
-            function goToSlide(index) {
-                currentIndex = index;
-                track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                
-                // Update active dot
-                document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                });
-            }
-            
-            // Auto rotation
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                goToSlide(currentIndex);
-            }, 6000);
-            
-            // Add touch support
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            track.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            track.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            
-            function handleSwipe() {
-                const diff = touchStartX - touchEndX;
-                
-                if (Math.abs(diff) < 50) return; // Ignore small movements
-                
-                if (diff > 0) {
-                    // Swipe left - next slide
-                    currentIndex = Math.min(currentIndex + 1, slides.length - 1);
-                } else {
-                    // Swipe right - previous slide
-                    currentIndex = Math.max(currentIndex - 1, 0);
-                }
-                
-                goToSlide(currentIndex);
-            }
-        }
-        
-        // Scroll-Triggered Animations
-        function initScrollAnimations() {
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-            
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const element = entry.target;
-                        const delay = element.getAttribute('data-delay');
-                        
-                        if (delay) {
-                            setTimeout(() => {
-                                element.classList.add('animated');
-                            }, delay === 'short' ? 200 : delay === 'medium' ? 400 : 600);
-                        } else {
-                            element.classList.add('animated');
-                        }
-                        
-                        observer.unobserve(element);
-                    }
-                });
-            }, {
-                threshold: 0.2,
-                rootMargin: '0px 0px -50px 0px'
-            });
-            
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-            
-            // Handle grouped animations
-            const animationGroups = document.querySelectorAll('[data-animation-group]');
-            
-            animationGroups.forEach(group => {
-                const groupObserver = new IntersectionObserver(entries => {
-                    if (entries[0].isIntersecting) {
-                        const items = group.querySelectorAll('.animate-item');
-                        const staggerDelay = parseInt(group.getAttribute('data-stagger') || '100');
-                        
-                        items.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.classList.add('animated');
-                            }, index * staggerDelay);
-                        });
-                        
-                        groupObserver.unobserve(group);
-                    }
-                }, {
-                    threshold: 0.2
-                });
-                
-                groupObserver.observe(group);
-            });
-        }
-        
-        // Navigation
-        function initNavigation() {
+        document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
-            
+            const mainNavLinks = document.querySelectorAll('.main-menu a');
             if (hamburger && navMenu) {
                 hamburger.addEventListener('click', () => {
+                    const isActive = navMenu.classList.contains('active');
                     hamburger.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', 
-                        hamburger.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
-                });
-            }
-        }
-    </script>
-    
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization,drawing&callback=initMap"></script>
-    
-    <script>
-        // Initialize Map
-        function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 39.5, lng: -98.35 },
-                zoom: 4,
-                mapTypeId: 'terrain',
-                mapTypeControl: true,
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                    position: google.maps.ControlPosition.TOP_LEFT
-                },
-                fullscreenControl: false,
-                streetViewControl: false,
-                zoomControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_BOTTOM
-                }
-            });
-            
-            // Add sample fire data
-            addSampleFireData(map);
-        }
-        
-        function addSampleFireData(map) {
-            // Sample data for demonstration
-            const sampleFires = [
-                { lat: 38.5, lng: -120.2, confidence: 90, frp: 45, name: "Sierra Ridge Fire" },
-                { lat: 34.2, lng: -111.8, confidence: 75, frp: 28, name: "Eagle Canyon Fire" },
-                { lat: 40.1, lng: -105.3, confidence: 95, frp: 60, name: "Boulder Creek Fire" },
-                { lat: 36.7, lng: -119.1, confidence: 65, frp: 18, name: "Pinecrest Fire" },
-                { lat: 35.6, lng: -115.3, confidence: 80, frp: 35, name: "Mountain View Fire" },
-                { lat: 39.8, lng: -122.9, confidence: 85, frp: 50, name: "Coastal Blaze" },
-                { lat: 42.1, lng: -100.7, confidence: 70, frp: 25, name: "Prairie Fire" }
-            ];
-            
-            const markers = [];
-            const infoWindow = new google.maps.InfoWindow();
-            
-            // Create markers for each fire
-            sampleFires.forEach(fire => {
-                const marker = new google.maps.Marker({
-                    position: { lat: fire.lat, lng: fire.lng },
-                    map: map,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        fillColor: getFireColor(fire.confidence),
-                        fillOpacity: 0.7,
-                        strokeColor: '#FFFFFF',
-                        strokeWeight: 1,
-                        scale: getFireSize(fire.frp)
-                    },
-                    title: fire.name
-                });
-                
-                marker.addListener('click', () => {
-                    const content = `
-                        <div style="padding: 10px; max-width: 300px;">
-                            <h5 style="margin-top: 0; font-weight: bold; color: #d43300;">${fire.name}</h5>
-                            <p><strong>Location:</strong> ${fire.lat.toFixed(4)}, ${fire.lng.toFixed(4)}</p>
-                            <p><strong>Confidence:</strong> ${fire.confidence}%</p>
-                            <p><strong>Fire Power:</strong> ${fire.frp} MW</p>
-                            <p><strong>Detection Date:</strong> May 8, 2025</p>
-                        </div>
-                    `;
-                    
-                    infoWindow.setContent(content);
-                    infoWindow.open(map, marker);
-                });
-                
-                markers.push(marker);
-            });
-            
-            // Set up clustering if MarkerClusterer is available
-            if (typeof MarkerClusterer !== 'undefined') {
-                new MarkerClusterer({
-                    map,
-                    markers,
-                    renderer: {
-                        render: ({ count, position }) => {
-                            return new google.maps.Marker({
-                                position,
-                                label: { text: String(count), color: "white", fontSize: "10px" },
-                                icon: {
-                                    path: google.maps.SymbolPath.CIRCLE,
-                                    fillColor: "#ff4500",
-                                    fillOpacity: 0.7,
-                                    strokeColor: "#ffffff",
-                                    strokeWeight: 1,
-                                    scale: Math.min(count / 5 + 10, 25)
-                                },
-                                zIndex: 1000
-                            });
-                        }
+                    hamburger.setAttribute('aria-expanded', !isActive);
+                    if (!navMenu.classList.contains('active')) {
+                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                            openDropdown.classList.remove('open');
+                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
+                            if(caret) caret.style.transform = '';
+                        });
                     }
                 });
             }
-        }
-        
-        function getFireColor(confidence) {
-            if (confidence >= 80) return '#FF0000';
-            if (confidence >= 60) return '#FF4500';
-            if (confidence >= 30) return '#FFA500';
-            return '#FFCC00';
-        }
-        
-        function getFireSize(frp) {
-            if (frp > 50) return 14;
-            if (frp > 20) return 12;
-            if (frp > 10) return 10;
-            return 8;
-        }
+            if (navMenu) {
+                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
+                dropdownToggles.forEach(toggleLink => {
+                    toggleLink.addEventListener('click', (e) => {
+                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
+                            e.preventDefault();
+                            const parentLi = toggleLink.closest('.has-dropdown');
+                            if (parentLi) {
+                                const currentlyOpen = parentLi.classList.contains('open');
+                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
+                                    if (otherLi !== parentLi) {
+                                        otherLi.classList.remove('open');
+                                        const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
+                                        if(otherCaret) otherCaret.style.transform = '';
+                                    }
+                                });
+                                parentLi.classList.toggle('open', !currentlyOpen);
+                                const caret = toggleLink.querySelector('i.fa-caret-down');
+                                if (caret) {
+                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
+                                }
+                            }
+                        }
+                        else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
+                            e.preventDefault();
+                        }
+                    });
+                });
+                mainNavLinks.forEach(link => {
+                    const isToggle = link.matches('.has-dropdown > a');
+                    const isInDropdown = link.closest('.dropdown') !== null;
+                    if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
+                        link.addEventListener('click', (e) => {
+                            const href = link.getAttribute('href');
+                            let isExternal = false;
+                            try {
+                                isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
+                            } catch (_) {}
+                            if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
+                                hamburger.classList.remove('active');
+                                navMenu.classList.remove('active');
+                                hamburger.setAttribute('aria-expanded', 'false');
+                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
+                                    openDropdown.classList.remove('open');
+                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
+                                    if(caret) caret.style.transform = '';
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+        });
     </script>
 </body>
 </html>
