@@ -55,12 +55,29 @@
             position: absolute;
             background-color: rgba(0, 0, 0, 0.75);
             color: white;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 4px;
             font-size: 12px;
             z-index: 10000;
             pointer-events: none;
             display: none;
+            max-width: 250px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        #custom-tooltip .tooltip-location {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 3px;
+        }
+        
+        #custom-tooltip .tooltip-data {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 4px;
         }
         
         /* Map Styles */
@@ -173,30 +190,38 @@
         /* Map controls - Enhanced for mobile */
         .map-wrapper .map-controls {
             position: absolute;
-            top: 10px;
+            bottom: 20px;
             right: 10px;
             z-index: 900;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
         
         .map-wrapper .map-control-btn {
             background: white;
             border: none;
-            width: 44px; /* Larger touch target */
-            height: 44px;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 8px;
+            width: 48px; /* Larger touch target */
+            height: 48px;
+            border-radius: 50%; /* Circular buttons */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
             color: var(--secondary-color);
+            transition: all 0.2s ease;
         }
         
         .map-wrapper .map-control-btn:hover,
         .map-wrapper .map-control-btn:active {
             background: #f0f0f0;
+            transform: scale(1.1);
         }
         
         /* Legend - Responsive positioning */
@@ -486,7 +511,10 @@
 </head>
 <body>
     <!-- Custom tooltip container for marker hover -->
-    <div id="custom-tooltip"></div>
+    <div id="custom-tooltip">
+        <div class="tooltip-location"></div>
+        <div class="tooltip-data"></div>
+    </div>
     
     <header class="navbar">
         <div class="navbar-container">
@@ -1587,41 +1615,171 @@
                         dateTimeInfo += `<p><strong>Detection Time:</strong> ${hours}:${minutes} UTC</p>`;
                     }
                 }
-                const content = `
-                    <div style="padding: 8px; max-width: 300px;">
-                        <h5 style="margin-top: 0; color: #333;">Fire Information</h5>
-                        <p><strong>Location:</strong> ${fire.latitude}, ${fire.longitude}</p>
-                        <p><strong>Confidence:</strong> ${fire.confidence || 'Unknown'}%</p>
-                        <p><strong>Fire Power:</strong> ${fire.frp || 'Unknown'} MW</p>
-                        ${dateTimeInfo}
-                        <p style="margin-top: 8px; font-size: 12px; color: #666;">
-                            <i class="fas fa-info-circle"></i> Data source: ${$('#data-source option:selected').text()}
-                        </p>
-                    </div>
-                `;
-                this.state.infoWindow.setContent(content);
-                this.state.infoWindow.open(this.state.map, marker);
+                
+                // Get location name
+                this.getLocationName(fire.latitude, fire.longitude)
+                    .then(locationName => {
+                        const content = `
+                            <div style="padding: 12px; max-width: 300px;">
+                                <h5 style="margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                                    <i class="fas fa-fire" style="color: #ff4500;"></i> Fire Information
+                                </h5>
+                                <p><strong>Location:</strong> ${locationName}</p>
+                                <p><strong>Coordinates:</strong> ${fire.latitude}, ${fire.longitude}</p>
+                                <p><strong>Confidence:</strong> ${fire.confidence || 'Unknown'}%</p>
+                                <p><strong>Fire Power:</strong> ${fire.frp || 'Unknown'} MW</p>
+                                ${dateTimeInfo}
+                                <p style="margin-top: 8px; font-size: 12px; color: #666;">
+                                    <i class="fas fa-info-circle"></i> Data source: ${$('#data-source option:selected').text()}
+                                </p>
+                            </div>
+                        `;
+                        this.state.infoWindow.setContent(content);
+                        this.state.infoWindow.open(this.state.map, marker);
+                    })
+                    .catch(err => {
+                        console.error('Geocoding error in info window:', err);
+                        // Fallback content without location name
+                        const content = `
+                            <div style="padding: 12px; max-width: 300px;">
+                                <h5 style="margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                                    <i class="fas fa-fire" style="color: #ff4500;"></i> Fire Information
+                                </h5>
+                                <p><strong>Coordinates:</strong> ${fire.latitude}, ${fire.longitude}</p>
+                                <p><strong>Confidence:</strong> ${fire.confidence || 'Unknown'}%</p>
+                                <p><strong>Fire Power:</strong> ${fire.frp || 'Unknown'} MW</p>
+                                ${dateTimeInfo}
+                                <p style="margin-top: 8px; font-size: 12px; color: #666;">
+                                    <i class="fas fa-info-circle"></i> Data source: ${$('#data-source option:selected').text()}
+                                </p>
+                            </div>
+                        `;
+                        this.state.infoWindow.setContent(content);
+                        this.state.infoWindow.open(this.state.map, marker);
+                    });
             }
             addMarkerHoverEffect(marker, fire) {
                 const tooltip = document.getElementById('custom-tooltip');
-                marker.addListener('mouseover', function(event) {
+                const locationDiv = tooltip.querySelector('.tooltip-location');
+                const dataDiv = tooltip.querySelector('.tooltip-data');
+                
+                marker.addListener('mouseover', (event) => {
                     const point = event.pixel;
                     tooltip.style.left = (point.x + 15) + 'px';
                     tooltip.style.top = (point.y - 15) + 'px';
-                    tooltip.innerHTML = `
-                        Confidence: ${fire.confidence || 'Unknown'}%<br>
-                        Fire Power: ${fire.frp || 'Unknown'} MW
+                    
+                    // Show initial loading state
+                    locationDiv.innerHTML = 'Loading location...';
+                    dataDiv.innerHTML = `
+                        <div>Confidence: ${fire.confidence || 'Unknown'}%</div>
+                        <div>Fire Power: ${fire.frp || 'Unknown'} MW</div>
                     `;
                     tooltip.style.display = 'block';
+                    
+                    // Get location info using reverse geocoding
+                    this.getLocationName(fire.latitude, fire.longitude)
+                        .then(locationName => {
+                            if (tooltip.style.display === 'block') { // Only update if tooltip is still visible
+                                locationDiv.innerHTML = locationName || 'Unknown Location';
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Geocoding error:', err);
+                            if (tooltip.style.display === 'block') {
+                                locationDiv.innerHTML = 'Location: Unknown';
+                            }
+                        });
                 });
+                
                 marker.addListener('mouseout', function() {
                     tooltip.style.display = 'none';
                 });
+                
                 marker.addListener('mousemove', function(event) {
                     const point = event.pixel;
                     tooltip.style.left = (point.x + 15) + 'px';
                     tooltip.style.top = (point.y - 15) + 'px';
                 });
+            }
+            
+            // Reverse geocoding to get location name
+            async getLocationName(lat, lng) {
+                // Cache geocoding results to avoid excessive API calls
+                const cacheKey = `${lat},${lng}`;
+                if (!this.locationCache) {
+                    this.locationCache = new Map();
+                }
+                
+                if (this.locationCache.has(cacheKey)) {
+                    return this.locationCache.get(cacheKey);
+                }
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const geocoder = new google.maps.Geocoder();
+                        const latlng = { lat: parseFloat(lat), lng: parseFloat(lng) };
+                        
+                        geocoder.geocode({ location: latlng }, (results, status) => {
+                            if (status === 'OK') {
+                                let locationName = 'Unknown Location';
+                                
+                                if (results[0]) {
+                                    // Try to find the most appropriate location name
+                                    // Start with lowest index (most specific) and move up to more general
+                                    const locality = this.findAddressComponent(results, 'locality');
+                                    const sublocality = this.findAddressComponent(results, 'sublocality');
+                                    const administrativeArea = this.findAddressComponent(results, 'administrative_area_level_1');
+                                    const country = this.findAddressComponent(results, 'country');
+                                    
+                                    if (locality) {
+                                        // City or town found
+                                        locationName = locality;
+                                        if (administrativeArea) {
+                                            locationName += `, ${administrativeArea}`;
+                                        }
+                                    } else if (sublocality) {
+                                        // Sublocality (district/neighborhood) found
+                                        locationName = sublocality;
+                                        if (administrativeArea) {
+                                            locationName += `, ${administrativeArea}`;
+                                        }
+                                    } else if (administrativeArea) {
+                                        // State/province found
+                                        locationName = administrativeArea;
+                                        if (country) {
+                                            locationName += `, ${country}`;
+                                        }
+                                    } else if (country) {
+                                        // Only country found
+                                        locationName = country;
+                                    }
+                                }
+                                
+                                this.locationCache.set(cacheKey, locationName);
+                                resolve(locationName);
+                            } else {
+                                // Handle geocoding error
+                                console.warn('Geocoder failed due to: ' + status);
+                                resolve('Unknown Location');
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Geocoding error:', error);
+                        resolve('Unknown Location');
+                    }
+                });
+            }
+            
+            // Helper to find address component by type
+            findAddressComponent(results, type) {
+                for (const result of results) {
+                    for (const component of result.address_components) {
+                        if (component.types.includes(type)) {
+                            return component.short_name;
+                        }
+                    }
+                }
+                return null;
             }
             generateSampleData() {
                 this.showStatus('Using sample data as fallback', 'warning');
