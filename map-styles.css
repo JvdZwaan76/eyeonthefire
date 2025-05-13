@@ -1,0 +1,346 @@
+/* Map styles extracted from index.html */
+.map-wrapper #map-container {
+    position: relative;
+    height: 600px;
+    width: 100%;
+    overflow: hidden;
+}
+.map-wrapper #map {
+    height: 100%;
+    width: 100%;
+}
+.map-wrapper #sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+.map-wrapper #sidebar.collapsed {
+    transform: translateX(-300px);
+}
+.map-wrapper #toggle-sidebar {
+    position: absolute;
+    left: 300px;
+    top: 10px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: left 0.3s ease;
+}
+.map-wrapper #toggle-sidebar.collapsed {
+    left: 0;
+}
+.map-wrapper .sidebar-content {
+    padding: 15px;
+    font-size: 0.9rem;
+}
+.map-wrapper .sidebar-header {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+.map-wrapper .sidebar-section {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+.map-wrapper .sidebar-section h5 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1rem;
+}
+.map-wrapper .form-group {
+    margin-bottom: 12px;
+}
+.map-wrapper label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+.map-wrapper .map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 900;
+}
+.map-wrapper .map-control-btn {
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #555;
+}
+.map-wrapper .map-control-btn:hover {
+    background: #f0f0f0;
+}
+.map-wrapper #legend {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 900;
+    max-width: 240px;
+    font-size: 11px;
+}
+@media (max-width: 640px) {
+    .map-wrapper #legend {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px;
+        max-width: 180px;
+        font-size: 10px;
+    }
+    .map-wrapper #sidebar {
+        width: 260px;
+    }
+    .map-wrapper #toggle-sidebar {
+        left: 260px;
+    }
+    .map-wrapper .map-control-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+}
+.map-wrapper .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+}
+.map-wrapper .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid #ddd;
+}
+.map-wrapper #status-panel {
+    position: absolute;
+    bottom: 30px;
+    left: 310px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 900;
+    max-width: 400px;
+    font-size: 14px;
+    display: none;
+    transition: left 0.3s ease;
+}
+.map-wrapper #status-panel.sidebar-collapsed {
+    left: 10px;
+}
+.map-wrapper .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.map-wrapper .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Additional styles for region loading, custom tooltip, etc. */
+.map-wrapper .region-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 900;
+    display: none;
+    text-align: center;
+}
+
+.map-wrapper .region-loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.map-wrapper .loading-data-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 900;
+    display: none;
+    text-align: center;
+}
+
+.map-wrapper .loading-data-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.map-wrapper #view-mode-toggle {
+    position: absolute;
+    top: 10px;
+    left: 310px;
+    z-index: 900;
+    transition: left 0.3s ease;
+}
+
+.map-wrapper #view-mode-toggle.sidebar-collapsed {
+    left: 10px;
+}
+
+.map-wrapper #stats-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: white;
+    padding: 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1100;
+    display: none;
+}
+
+.map-wrapper .stats-title {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    font-weight: 500;
+    color: #333;
+    border-radius: 4px 4px 0 0;
+}
+
+.map-wrapper #stats-content {
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.map-wrapper .filter-tag {
+    display: inline-block;
+    background-color: #e9ecef;
+    border-radius: 15px;
+    padding: 3px 10px;
+    margin: 3px;
+    font-size: 12px;
+    color: #495057;
+}
+
+.map-wrapper .filter-tag .remove-filter {
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.map-wrapper .region-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.map-wrapper .region-button {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.map-wrapper .region-button.active {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.map-wrapper .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.map-wrapper .color-scale {
+    display: flex;
+    height: 8px;
+    margin-top: 4px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.map-wrapper .color-scale div {
+    flex: 1;
+}
+
+.map-wrapper .custom-tooltip {
+    position: absolute;
+    display: none;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 2000;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
