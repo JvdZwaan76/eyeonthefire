@@ -80,33 +80,6 @@ export default {
             'Access-Control-Allow-Origin': '*'
           }
         });
-      } else if (path === '/api/google-maps') {
-        const GOOGLE_MAPS_KEY = env.GOOGLE_MAPS_KEY;
-        if (!GOOGLE_MAPS_KEY) {
-          console.error('Google Maps API key not configured');
-          throw new Error('Google Maps API key not configured');
-        }
-        const mapsUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=visualization,drawing,places&callback=initMap`;
-        console.log(`Fetching Google Maps API: ${mapsUrl}`);
-        const response = await fetch(mapsUrl);
-        console.log(`Google Maps API response status: ${response.status}`);
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`Google Maps API error: ${response.statusText}, Response: ${errorText}`);
-          throw new Error(`Google Maps API error: ${response.statusText}`);
-        }
-        const body = await response.text();
-        if (!body.includes('google.maps')) {
-          console.error('Google Maps API response does not contain expected JavaScript');
-          throw new Error('Invalid Google Maps API response');
-        }
-        return new Response(body, {
-          headers: {
-            'Content-Type': 'application/javascript',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=3600'
-          }
-        });
       }
       console.warn(`Unknown path requested: ${path}`);
       return new Response('Not found', {
