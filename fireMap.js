@@ -59,32 +59,35 @@ class FireMap {
                     throw new Error('Invalid API response structure');
                 }
                 this.markers.forEach(marker => marker.setMap(null));
-                this.markers = data.events
-                    .filter(event => {
-                        if (!event.geometry || !Array.isArray(event.geometry) || !event.geometry[0] || !event.geometry[0].coordinates) {
-                            console.warn('Invalid event geometry:', event);
-                            return false;
-                        }
-                        const [lng, lat] = event.geometry[0].coordinates;
-                        return !isNaN(lat) && !isNaN(lng);
-                    })
-                    .map(event => {
-                        const [lng, lat] = event.geometry[0].coordinates;
-                        return new google.maps.Marker({
-                            position: { lat: parseFloat(lat), lng: parseFloat(lng) },
-                            map: this.map,
-                            title: event.title || 'Active Fire'
-                        });
-                    });
+                this.markers = [];
+                let invalidCount = 0;
+                data.events.forEach((event, index) => {
+                    if (!event.geometry || !Array.isArray(event.geometry) || !event.geometry[0] || !event.geometry[0].coordinates) {
+                        console.warn(`Invalid event geometry at index ${index}:`, event);
+                        invalidCount++;
+                        return;
+                    }
+                    const [lng, lat] = event.geometry[0].coordinates;
+                    if (isNaN(lat) || isNaN(lng)) {
+                        console.warn(`Invalid coordinates at index ${index}:`, event);
+                        invalidCount++;
+                        return;
+                    }
+                    this.markers.push(new google.maps.Marker({
+                        position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+                        map: this.map,
+                        title: event.title || 'Active Fire'
+                    }));
+                });
                 if (this.markers.length === 0) {
-                    console.error('No valid fire data points after filtering');
+                    console.error(`No valid fire data points after filtering. Invalid events: ${invalidCount}`);
                     throw new Error('No valid fire data points');
                 }
                 if (this.clusterer) {
                     this.clusterer.clearMarkers();
                     this.clusterer.addMarkers(this.markers);
                 }
-                console.log(`Received ${this.markers.length} fire data points`);
+                console.log(`Received ${this.markers.length} valid fire data points. Invalid events: ${invalidCount}`);
                 document.getElementById('loading-overlay').classList.add('hidden');
                 return;
             } catch (error) {
