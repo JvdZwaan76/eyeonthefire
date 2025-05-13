@@ -9,7 +9,7 @@
         style-src 'self' https://*.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net 'sha256-biLFinpqYMtWHmXfkA1BPeCY0/fNt46SAZ+BBk5YUog=' 'sha256-23acR0PJ3kXDLgv9CPYrFXr0yZxbKxqobtwFlafSfMk=' 'sha256-wQWxAQI8pn3DkJVaPcUeZKjSF+z72r9uFH5BRbS6ndk=' 'sha256-lLbK/9VSX8spw3W1ij9rR+3LwZU/SvMyeaBxc1aFgx8=' 'sha256-WysfLoUHtEbSa9EvId7Uj/jyvaLuBOIha+R1P+iImzk=';
         font-src 'self' https://fonts.gstatic.com;
         frame-src 'self' https://firms.modaps.eosdis.nasa.gov;
-        connect-src 'self' https://eyeonthefire.com https://*.googleapis.com https://www.googletagmanager.com https://analytics.google.com;
+        connect-src 'self' https://eyeonthefire.com https://*.googleapis.com https://www.googletagmanager.com https://analytics.google.com https://www.google-analytics.com;
         img-src 'self' https://*.gstatic.com https://eyeonthefire.com data:;
     ">
     <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
@@ -403,6 +403,18 @@
             }
             return originalFetch(url, options);
         };
+        // Fallback for Google Maps if Worker fails
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof google === 'undefined' || !google.maps) {
+                    console.warn('Loading Google Maps API directly as fallback');
+                    const script = document.createElement('script');
+                    script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=visualization,drawing,places&callback=initMap';
+                    script.async = true;
+                    document.head.appendChild(script);
+                }
+            }, 5000);
+        });
     </script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer@2.5.3/dist/index.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" defer></script>
