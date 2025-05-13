@@ -531,6 +531,20 @@ body {
     display: none;
 }
 
+#fallback-map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+}
+
+.fallback-note {
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+}
+
 /* Mobile map navigation */
 .mobile-map-nav {
     position: absolute;
@@ -713,6 +727,10 @@ body {
     padding: 15px;
     border-bottom: 1px solid #ddd;
     background-color: var(--light-bg);
+}
+
+.map-wrapper .sidebar-header p {
+    font-size: 12px;
 }
 
 .map-wrapper .sidebar-section {
@@ -1231,286 +1249,4 @@ body {
     color: #777;
     margin-top: 3px;
     font-weight: normal;
-}
-
-.location-coordinates {
-    color: #666;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-/* Info window styling */
-.info-window-content {
-    padding: 15px;
-    max-width: 300px;
-    min-width: 250px;
-}
-
-.info-window-title {
-    margin-top: 0;
-    color: var(--fire-red);
-    border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.info-window-loading {
-    padding: 15px 0;
-    text-align: center;
-}
-
-.info-window-loading i {
-    font-size: 20px;
-    color: var(--fire-red);
-    margin-bottom: 15px;
-}
-
-.info-window-source {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #666;
-}
-
-.info-window-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    gap: 10px;
-}
-
-.more-info-btn, .directions-btn {
-    flex: 1;
-    background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
-    color: white;
-    border: none;
-    padding: 6px 0;
-    border-radius: 4px;
-    font-weight: 500;
-}
-
-.more-info-btn:hover, .directions-btn:hover {
-    background: linear-gradient(135deg, var(--fire-orange), var(--fire-red));
-    color: white;
-}
-
-/* Extended fire info modal styling */
-.extended-fire-info {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.extended-fire-info.visible {
-    opacity: 1;
-}
-
-.extended-fire-info-content {
-    background-color: white;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.extended-fire-info.visible .extended-fire-info-content {
-    transform: translateY(0);
-}
-
-.extended-fire-info-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    background: white;
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.extended-fire-info-body {
-    padding: 20px;
-}
-
-.extended-fire-info-footer {
-    padding: 15px 20px;
-    border-top: 1px solid #eee;
-    text-align: right;
-}
-
-.close-extended-info {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
-}
-
-.fire-stat-card {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-}
-
-/* Fire intensity indicators */
-.fire-danger-level {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-weight: bold;
-    margin: 5px 0;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-    font-size: 14px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.danger-low {
-    background-color: #ffc107;
-    color: #000;
-    border: 1px solid #e0a800;
-}
-
-.danger-medium {
-    background-color: #fd7e14;
-    color: #fff;
-    border: 1px solid #dc6502;
-}
-
-.danger-high {
-    background-color: #dc3545;
-    color: #fff;
-    border: 1px solid #bd2130;
-}
-
-/* Exact location detail in modals */
-.exact-location-detail {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 8px;
-    font-style: italic;
-}
-
-/* Data source note */
-.data-source-note {
-    text-align: center;
-    margin-top: 10px;
-    color: #666;
-    font-size: 12px;
-}
-
-/* Responsive adjustments */
-@media (min-width: 768px) {
-    .map-wrapper #map-container {
-        height: calc(100vh - var(--header-height) - 100px);
-        border-radius: 12px;
-        margin: 10px auto 30px;
-        max-width: 95%;
-    }
-    .map-wrapper #sidebar {
-        width: var(--sidebar-width-desktop);
-    }
-    .map-wrapper #toggle-sidebar {
-        left: var(--sidebar-width-desktop);
-    }
-    .map-wrapper #sidebar.collapsed {
-        transform: translateX(calc(-1 * var(--sidebar-width-desktop)));
-    }
-    .map-wrapper #legend {
-        max-width: 240px;
-        bottom: 30px;
-        font-size: 12px;
-    }
-    .map-wrapper #status-panel {
-        left: calc(var(--sidebar-width-desktop) + 10px);
-        max-width: calc(100% - var(--sidebar-width-desktop) - 30px);
-        bottom: 30px;
-    }
-    #view-mode-toggle {
-        left: calc(var(--sidebar-width-desktop) + 10px);
-    }
-    .region-button {
-        flex: 1 0 calc(16.66% - 8px);
-    }
-    .gallery {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .prevention-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .hero {
-        padding: 80px 0;
-    }
-    .hero h1 {
-        font-size: 3rem;
-    }
-    .hero p {
-        font-size: 1.4rem;
-    }
-}
-
-/* Mobile-specific optimizations */
-@media screen and (max-width: 480px) {
-    .map-wrapper #map-container {
-        height: calc(100vh - var(--header-height) - 80px);
-        min-height: 450px;
-    }
-    .find-fires-near-me {
-        font-size: 14px;
-        padding: 10px 15px;
-    }
-    .find-fires-near-me i {
-        font-size: 16px;
-    }
-    .map-control-btn {
-        width: 58px;
-        height: 58px;
-        font-size: 24px;
-    }
-    .map-controls {
-        bottom: 10px;
-        padding: 10px 8px;
-    }
-    .map-control-btn[title="Zoom In"],
-    .map-control-btn[title="Zoom Out"] {
-        display: flex !important;
-    }
-    #custom-tooltip {
-        max-width: 200px;
-        font-size: 12px;
-    }
-    .map {
-        touch-action: pan-x pan-y;
-    }
-    .hero {
-        padding: 40px 0;
-    }
-    .hero h1 {
-        font-size: 1.8rem;
-    }
-    .hero p {
-        font-size: 1rem;
-    }
-    .content-section {
-        padding: 30px 0;
-    }
-    .map-wrapper #sidebar {
-        width: 85%;
-        max-width: 300px;
-    }
 }
