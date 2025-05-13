@@ -1,101 +1,55 @@
+// index.js
 export default {
-    async fetch(request, env) {
-        const MAP_KEY = env.NASA_FIRMS_MAP_KEY || 'YOUR_MAP_KEY_HERE';
-        // Log MAP_KEY status for debugging (mask most of the key for security)
-        console.log('MAP_KEY status:', MAP_KEY === 'YOUR_MAP_KEY_HERE' ? 'Not set' : `Set (starts with: ${MAP_KEY.slice(0, 4)}...)`);
-        if (MAP_KEY === 'YOUR_MAP_KEY_HERE') {
-            console.error('MAP_KEY not set in environment variables');
-            return new Response(JSON.stringify({ error: 'Internal server error: NASA FIRMS MAP_KEY not configured' }), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' }
-            });
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+
+    try {
+      if (path.startsWith('/api/nasa/firms')) {
+        const dataSource = url.searchParams.get('source') || 'MODIS_NRT';
+        const days = url.searchParams.get('days') || '1';
+        const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${env.FIRMS_MAP_KEY}/${dataSource}/world/${days}`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`FIRMS API error: ${response.statusText}`);
         }
-        // Dynamic date for today
-        const today = new Date().toISOString().split('T')[0];
-        const upstreamUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/csv/${MAP_KEY}/VIIRS_SNPP_NRT/USA/1/${today}`;
-        console.log('Constructed upstreamUrl:', upstreamUrl); // Added for debugging
-        try {
-            const response = await fetch(upstreamUrl, {
-                headers: { 'User-Agent': 'EyeOnTheFire/1.0' },
-                redirect: 'manual'
-            });
-            console.log('Upstream status:', response.status, 'Headers:', Object.fromEntries(response.headers));
-            // Check for redirects
-            if (response.status >= 300 && response.status < 400) {
-                const location = response.headers.get('Location') || 'unknown';
-                console.error('Redirect detected:', response.status, 'Location:', location);
-                return new Response(JSON.stringify({ error: `Upstream API redirected: ${response.status} to ${location}` }), {
-                    status: 502,
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Upstream error:', errorText, 'Status:', response.status);
-                return new Response(JSON.stringify({ error: `Upstream API failed: ${response.status} ${errorText.slice(0, 100)}` }), {
-                    status: 502,
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
-            // Check Content-Type
-            const contentType = response.headers.get('Content-Type') || '';
-            if (!contentType.includes('text/csv')) {
-                const errorText = await response.text();
-                console.error('Invalid Content-Type:', contentType, 'Response:', errorText.slice(0, 200));
-                return new Response(JSON.stringify({ error: `Invalid Content-Type from upstream API: ${contentType}` }), {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
-            // Parse CSV response
-            const csvText = await response.text();
-            console.log('CSV data:', csvText.slice(0, 200));
-            const rows = csvText.trim().split('\n').map(row => row.split(','));
-            if (rows.length < 2) {
-                console.error('Empty or invalid CSV data');
-                return new Response(JSON.stringify({ error: 'Empty or invalid CSV data from upstream API' }), {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
-            const headers = rows[0];
-            const fireData = rows.slice(1).map(row => {
-                const obj = {};
-                headers.forEach((header, index) => {
-                    obj[header] = row[index];
-                });
-                return obj;
-            });
-            console.log('Parsed fireData sample:', fireData.slice(0, 2)); // Added for debugging
-            // Normalize data
-            const normalizedData = {
-                events: fireData.map(item => {
-                    const lon = parseFloat(item.longitude);
-                    const lat = parseFloat(item.latitude);
-                    if (!lon || !lat) {
-                        console.warn('Skipping invalid item:', item);
-                        return null;
-                    }
-                    return {
-                        geometry: [{ coordinates: [lon, lat] }],
-                        title: item.acq_date || 'Active Fire'
-                    };
-                }).filter(item => item !== null)
-            };
-            console.log('Normalized data sample:', normalizedData.events.slice(0, 2)); // Added for debugging
-            return new Response(JSON.stringify(normalizedData), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Cache-Control': 'public, max-age=900'
-                }
-            });
-        } catch (error) {
-            console.error('Worker error:', error.message, error.stack);
-            return new Response(JSON.stringify({ error: `Internal server error: ${error.message}` }), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' }
-            });
+        const csv = await response.text();
+        const events = csv.split('\n').slice(1).map(line => {
+          const [latitude, longitude, , , , , , , , , , title] = line.split(',');
+          if (!latitude || !longitude) return null;
+          return {
+            geometry: [{ coordinates: [parseFloat(longitude), parseFloat(latitude)] }],
+            title: title || 'Active Fire'
+          };
+        }).filter(event => event !== null);
+        return new Response(JSON.stringify({ events }), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } else if (path === '/api/geocode') {
+        const lat = url.searchParams.get('lat');
+        const lng = url.searchParams.get('lng');
+        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${env.GOOGLE_MAPS_KEY}`;
+        const response = await fetch(geocodeUrl);
+        if (!response.ok) {
+          throw new Error(`Geocode API error: ${response.statusText}`);
         }
+        const data = await response.json();
+        return new Response(JSON.stringify(data), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      } else if (path === '/api/google-maps') {
+        const mapsUrl = `https://maps.googleapis.com/maps/api/js?key=${env.GOOGLE_MAPS_KEY}&libraries=visualization,drawing,places&callback=initMap`;
+        const response = await fetch(mapsUrl);
+        return new Response(response.body, {
+          headers: { 'Content-Type': 'application/javascript', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+      return new Response('Not found', { status: 404 });
+    } catch (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
+  }
 };
