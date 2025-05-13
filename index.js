@@ -61,6 +61,10 @@ export default {
         }
         const lat = url.searchParams.get('lat');
         const lng = url.searchParams.get('lng');
+        if (!lat || !lng) {
+          console.error('Missing lat/lng parameters for geocode request');
+          throw new Error('Missing lat/lng parameters');
+        }
         const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_KEY}`;
         console.log(`Fetching geocode data: ${geocodeUrl}`);
         const response = await fetch(geocodeUrl);
@@ -87,14 +91,20 @@ export default {
         const response = await fetch(mapsUrl);
         console.log(`Google Maps API response status: ${response.status}`);
         if (!response.ok) {
-          console.error(`Google Maps API error: ${response.statusText}`);
+          const errorText = await response.text();
+          console.error(`Google Maps API error: ${response.statusText}, Response: ${errorText}`);
           throw new Error(`Google Maps API error: ${response.statusText}`);
         }
         const body = await response.text();
+        if (!body.includes('google.maps')) {
+          console.error('Google Maps API response does not contain expected JavaScript');
+          throw new Error('Invalid Google Maps API response');
+        }
         return new Response(body, {
           headers: {
             'Content-Type': 'application/javascript',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': 'public, max-age=3600'
           }
         });
       }
