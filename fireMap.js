@@ -53,21 +53,33 @@ class FireMap {
                     throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
                 }
                 const data = await response.json();
-                if (!data.events || !Array.isArray(data.events) || data.events.length === 0) {
-                    console.error('API response:', data);
-                    throw new Error('Invalid or empty API response');
+                console.log('API response:', data);
+                if (!data || !data.events || !Array.isArray(data.events)) {
+                    console.error('Invalid API response structure:', data);
+                    throw new Error('Invalid API response structure');
                 }
                 this.markers.forEach(marker => marker.setMap(null));
                 this.markers = data.events
-                    .filter(event => event.geometry && event.geometry[0]?.coordinates)
+                    .filter(event => {
+                        if (!event.geometry || !Array.isArray(event.geometry) || !event.geometry[0] || !event.geometry[0].coordinates) {
+                            console.warn('Invalid event geometry:', event);
+                            return false;
+                        }
+                        const [lng, lat] = event.geometry[0].coordinates;
+                        return !isNaN(lat) && !isNaN(lng);
+                    })
                     .map(event => {
                         const [lng, lat] = event.geometry[0].coordinates;
-                        return new google.maps.marker.AdvancedMarkerElement({
-                            position: { lat, lng },
+                        return new google.maps.Marker({
+                            position: { lat: parseFloat(lat), lng: parseFloat(lng) },
                             map: this.map,
                             title: event.title || 'Active Fire'
                         });
                     });
+                if (this.markers.length === 0) {
+                    console.error('No valid fire data points after filtering');
+                    throw new Error('No valid fire data points');
+                }
                 if (this.clusterer) {
                     this.clusterer.clearMarkers();
                     this.clusterer.addMarkers(this.markers);
