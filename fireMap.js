@@ -13,6 +13,11 @@ class FireMap {
             this.showFallbackMap();
             return;
         }
+        if (typeof google === 'undefined' || !google.maps) {
+            console.warn('Google Maps API not loaded. Retrying in 1s...');
+            setTimeout(() => this.initMap(), 1000);
+            return;
+        }
         this.map = new google.maps.Map(mapContainer, {
             center: { lat: 39.8283, lng: -98.5795 },
             zoom: 4,
