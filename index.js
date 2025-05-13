@@ -1,97 +1,152 @@
-export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    const path = url.pathname;
-
-    // Rate limiting
-    const rateLimit = 100; // Requests per minute
-    const clientIp = request.headers.get('CF-Connecting-IP') || 'unknown';
-    const cacheKey = `rate-limit:${clientIp}`;
-    const cache = caches.default;
-    let count = await cache.match(cacheKey);
-    count = count ? parseInt(await count.text()) + 1 : 1;
-    if (count > rateLimit) {
-      console.error(`Rate limit exceeded for IP: ${clientIp}`);
-      return new Response(JSON.stringify({ error: 'Rate limit exceeded' }), {
-        status: 429,
-        headers: { 'Content-Type': 'application/json' }
-      });
+class FireMap {
+    constructor() {
+        this.map = null;
+        this.markers = [];
+        this.clusterer = null;
+        this.retryCount = 0;
+        this.maxRetries = 10;
+        this.initMap();
     }
-    await cache.put(cacheKey, new Response(count, { headers: { 'Cache-Control': 's-maxage=60' } }));
 
-    try {
-      if (path.startsWith('/api/nasa/firms')) {
-        const MAP_KEY = env.FIRMS_MAP_KEY;
-        if (!MAP_KEY) {
-          console.error('NASA FIRMS MAP_KEY not configured');
-          throw new Error('NASA FIRMS MAP_KEY not configured');
+    initMap() {
+        const mapContainer = document.getElementById('map');
+        if (!mapContainer) {
+            console.error('Map container not found');
+            this.showFallbackMap();
+            return;
         }
-        const dataSource = url.searchParams.get('source') || 'MODIS_NRT';
-        const days = url.searchParams.get('days') || '1';
-        const apiUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${MAP_KEY}/${dataSource}/world/${days}`;
-        console.log(`Fetching NASA FIRMS data: ${apiUrl}`);
-        const response = await fetch(apiUrl, { cf: { cacheTtl: 3600 } });
-        console.log(`NASA FIRMS response status: ${response.status}`);
-        if (!response.ok) {
-          console.error(`NASA FIRMS API error: ${response.statusText}`);
-          throw new Error(`FIRMS API error: ${response.statusText}`);
+        if (typeof google === 'undefined' || !google.maps) {
+            if (this.retryCount >= this.maxRetries) {
+                console.error('Max retries reached for Google Maps API. Showing fallback map.');
+                this.showFallbackMap();
+                return;
+            }
+            console.warn(`Google Maps API not loaded. Retry ${this.retryCount + 1}/${this.maxRetries} in 1s...`);
+            this.retryCount++;
+            setTimeout(() => this.initMap(), 1000);
+            return;
         }
-        const csv = await response.text();
-        const events = csv.split('\n').slice(1).map(line => {
-          const [latitude, longitude, , , , , , , , , , title] = line.split(',');
-          if (!latitude || !longitude) return null;
-          return {
-            geometry: [{ coordinates: [parseFloat(longitude), parseFloat(latitude)] }],
-            title: title || 'Active Fire'
-          };
-        }).filter(event => event !== null);
-        console.log(`Processed ${events.length} fire events`);
-        return new Response(JSON.stringify({ events }), {
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=3600'
-          }
+        this.map = new google.maps.Map(mapContainer, {
+            center: { lat: 39.8283, lng: -98.5795 },
+            zoom: 4,
+            mapTypeId: 'roadmap'
         });
-      } else if (path === '/api/geocode') {
-        const GOOGLE_MAPS_KEY = env.GOOGLE_MAPS_KEY;
-        if (!GOOGLE_MAPS_KEY) {
-          console.error('Google Maps API key not configured');
-          throw new Error('Google Maps API key not configured');
+        if (typeof MarkerClusterer !== 'undefined') {
+            this.clusterer = new MarkerClusterer({ map: this.map, markers: [] });
+        } else {
+            console.warn('MarkerClusterer not loaded. Clustering disabled.');
         }
-        const lat = url.searchParams.get('lat');
-        const lng = url.searchParams.get('lng');
-        if (!lat || !lng) {
-          console.error('Missing lat/lng parameters for geocode request');
-          throw new Error('Missing lat/lng parameters');
-        }
-        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_KEY}`;
-        console.log(`Fetching geocode data: ${geocodeUrl}`);
-        const response = await fetch(geocodeUrl);
-        console.log(`Geocode response status: ${response.status}`);
-        if (!response.ok) {
-          console.error(`Geocode API error: ${response.statusText}`);
-          throw new Error(`Geocode API error: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return new Response(JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          }
-        });
-      }
-      console.warn(`Unknown path requested: ${path}`);
-      return new Response('Not found', {
-        status: 404,
-        headers: { 'Content-Type': 'text/plain' }
-      });
-    } catch (error) {
-      console.error(`Worker error for path ${path}: ${error.message}`);
-      return new Response(JSON.stringify({ error: `Server error: ${error.message}` }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+        this.fetchFireData();
     }
-  }
-};
+
+    async fetchFireData() {
+        const maxRetries = 4;
+        let attempt = 1;
+        while (attempt <= maxRetries) {
+            try {
+                const url = 'https://eyeonthefire.com/api/nasa/firms?source=MODIS_NRT&area=world&days=1';
+                console.log(`Fetch attempt ${attempt}/${maxRetries}: ${url}`);
+                document.getElementById('loading-overlay').style.display = 'flex';
+                const response = await fetch(url);
+                console.log(`Response status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                if (!data.events || !Array.isArray(data.events) || data.events.length === 0) {
+                    console.error('API response:', data);
+                    throw new Error('Invalid or empty API response');
+                }
+                this.markers.forEach(marker => marker.setMap(null));
+                this.markers = data.events
+                    .filter(event => event.geometry && event.geometry[0]?.coordinates)
+                    .map(event => {
+                        const [lng, lat] = event.geometry[0].coordinates;
+                        return new google.maps.marker.AdvancedMarkerElement({
+                            position: { lat, lng },
+                            map: this.map,
+                            title: event.title || 'Active Fire'
+                        });
+                    });
+                if (this.clusterer) {
+                    this.clusterer.clearMarkers();
+                    this.clusterer.addMarkers(this.markers);
+                }
+                console.log(`Received ${this.markers.length} fire data points`);
+                document.getElementById('loading-overlay').classList.add('hidden');
+                return;
+            } catch (error) {
+                console.error(`Fetch error on attempt ${attempt}: ${error.message}`);
+                if (attempt === maxRetries) {
+                    console.error('Max retries reached for fire data. Showing fallback map.');
+                    this.showFallbackMap();
+                }
+                attempt++;
+                await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+            }
+        }
+    }
+
+    showFallbackMap() {
+        document.getElementById('map').style.display = 'none';
+        document.getElementById('fallback-map').style.display = 'block';
+        document.getElementById('loading-overlay').style.display = 'none';
+    }
+
+    zoomIn() {
+        if (this.map) this.map.setZoom(this.map.getZoom() + 1);
+    }
+
+    zoomOut() {
+        if (this.map) this.map.setZoom(this.map.getZoom() - 1);
+    }
+
+    async getLocationName(lat, lng) {
+        try {
+            const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`);
+            if (!response.ok) throw new Error('Geocoding failed');
+            const data = await response.json();
+            if (data.results && data.results.length > 0) {
+                return data.results[0].formatted_address;
+            }
+            return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+        } catch (error) {
+            console.error('Google Maps geocoder error:', error.message);
+            return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+        }
+    }
+
+    getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    this.map.setCenter({ lat: latitude, lng: longitude });
+                    this.map.setZoom(10);
+                },
+                err => {
+                    console.error('Geolocation error:', err.message);
+                    alert('Could not get your location: ' + err.message);
+                },
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+            );
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
+    }
+
+    resize() {
+        if (this.map) google.maps.event.trigger(this.map, 'resize');
+    }
+
+    toggleStatsPanel() {
+        const statsPanel = document.getElementById('stats-panel');
+        statsPanel.style.display = statsPanel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    onGoogleMapsLoaded() {
+        this.initMap();
+    }
+}
+
+window.FireMap = FireMap;
