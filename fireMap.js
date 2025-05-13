@@ -37,7 +37,6 @@ class FireMap {
             console.warn('MarkerClusterer not loaded. Clustering disabled.');
         }
         this.fetchFireData();
-        this.bindControls();
     }
 
     async fetchFireData() {
@@ -45,15 +44,17 @@ class FireMap {
         let attempt = 1;
         while (attempt <= maxRetries) {
             try {
-                console.log(`Fetch attempt ${attempt}/${maxRetries}: https://eyeonthefire.com/api/nasa/firms?source=MODIS_NRT&area=world&days=1`);
+                const url = 'https://eyeonthefire.com/api/nasa/firms?source=MODIS_NRT&area=world&days=1';
+                console.log(`Fetch attempt ${attempt}/${maxRetries}: ${url}`);
                 document.getElementById('loading-overlay').style.display = 'flex';
-                const response = await fetch('https://eyeonthefire.com/api/nasa/firms?source=MODIS_NRT&area=world&days=1');
+                const response = await fetch(url);
                 console.log(`Response status: ${response.status}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
                 }
                 const data = await response.json();
                 if (!data.events || !Array.isArray(data.events) || data.events.length === 0) {
+                    console.error('API response:', data);
                     throw new Error('Invalid or empty API response');
                 }
                 this.markers.forEach(marker => marker.setMap(null));
@@ -75,7 +76,7 @@ class FireMap {
                 document.getElementById('loading-overlay').classList.add('hidden');
                 return;
             } catch (error) {
-                console.error(`Fetch error on attempt ${attempt}:`, error.message);
+                console.error(`Fetch error on attempt ${attempt}: ${error.message}`);
                 if (attempt === maxRetries) {
                     console.error('Max retries reached for fire data. Showing fallback map.');
                     this.showFallbackMap();
