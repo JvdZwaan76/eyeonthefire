@@ -22,6 +22,7 @@
     <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/favicon/site.webmanifest">
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -206,6 +207,147 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
+        .map-wrapper #custom-tooltip {
+            position: absolute;
+            display: none;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .map-wrapper .region-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1001;
+            text-align: center;
+            max-width: 80%;
+        }
+        .map-wrapper .region-loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .map-wrapper .loading-data-message {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1001;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .map-wrapper .loading-data-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .map-wrapper #view-mode-toggle {
+            position: absolute;
+            bottom: 70px;
+            left: 310px;
+            z-index: 900;
+            transition: left 0.3s ease;
+        }
+        .map-wrapper #view-mode-toggle.sidebar-collapsed {
+            left: 10px;
+        }
+        .map-wrapper .filter-tag {
+            display: inline-block;
+            background: #e9f5ff;
+            color: #0066cc;
+            padding: 3px 8px;
+            border-radius: 15px;
+            margin: 0 5px 5px 0;
+            font-size: 0.8rem;
+        }
+        .map-wrapper .filter-tag .remove-filter {
+            margin-left: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .map-wrapper .region-button {
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        .map-wrapper .region-button:hover {
+            background-color: #f0f0f0;
+        }
+        .map-wrapper .region-button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #0069d9;
+        }
+        .map-wrapper .region-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .map-wrapper #stats-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1100;
+            display: none;
+        }
+        .map-wrapper .stats-title {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .map-wrapper #stats-content {
+            padding: 15px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .map-wrapper .color-scale {
+            height: 10px;
+            display: flex;
+            margin-top: 4px;
+        }
+        .map-wrapper .color-scale div {
+            flex: 1;
+            height: 100%;
+        }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -270,6 +412,8 @@
             <div class="map-wrapper">
                 <div id="map-container">
                     <div id="map"></div>
+                    <!-- Custom Tooltip -->
+                    <div id="custom-tooltip"></div>
                     <!-- Sidebar -->
                     <div id="sidebar">
                         <div class="sidebar-header">
@@ -545,7 +689,7 @@
         class FireMap {
             constructor() {
                 this.config = {
-                    apiEndpoint: 'https://eyeonthefire.com/api/nasa/firms',
+                    apiEndpoint: '/api/nasa/firms', // Changed to relative path for Cloudflare compatibility
                     defaultCenter: { lat: 39.5, lng: -98.35 },
                     defaultZoom: 4,
                     usBounds: { west: -125, south: 24, east: -66, north: 49 },
@@ -606,33 +750,51 @@
             }
             waitForGoogleMaps() {
                 return new Promise((resolve) => {
+                    const maxWaitTime = 10000; // 10 seconds maximum wait time
+                    const checkInterval = 100; // Check every 100ms
+                    
                     if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
                         console.log('Google Maps already loaded');
                         resolve();
                         return;
                     }
+                    
                     console.log('Waiting for Google Maps to load');
-                    const checkInterval = setInterval(() => {
+                    
+                    // Create a timeout to handle the case where Google Maps doesn't load
+                    const timeout = setTimeout(() => {
+                        console.error('Google Maps failed to load within timeout');
+                        // Still resolve to allow the app to continue with fallback
+                        resolve();
+                    }, maxWaitTime);
+                    
+                    // Check if Google Maps is loaded at regular intervals
+                    const intervalId = setInterval(() => {
                         if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
-                            clearInterval(checkInterval);
+                            clearInterval(intervalId);
+                            clearTimeout(timeout);
                             console.log('Google Maps loaded successfully');
                             resolve();
                         }
-                    }, 100);
-                    setTimeout(() => {
-                        clearInterval(checkInterval);
-                        if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-                            console.error('Google Maps failed to load within timeout');
-                            resolve();
-                        }
-                    }, 10000);
+                    }, checkInterval);
                 });
             }
             initializeMap() {
                 this.showStatus('Initializing map...');
                 try {
                     console.log('Creating Google Map instance');
-                    this.state.map = new google.maps.Map(document.getElementById('map'), {
+                    // Make sure the map element exists
+                    const mapElement = document.getElementById('map');
+                    if (!mapElement) {
+                        throw new Error('Map container element not found');
+                    }
+                    
+                    // Check if Google Maps API is available
+                    if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                        throw new Error('Google Maps API not loaded');
+                    }
+                    
+                    this.state.map = new google.maps.Map(mapElement, {
                         center: this.config.defaultCenter,
                         zoom: this.config.defaultZoom,
                         mapTypeId: 'terrain',
@@ -650,7 +812,10 @@
                             latLngBounds: { north: 85, south: -85, west: -180, east: 180 }
                         }
                     });
+                    
                     this.state.infoWindow = new google.maps.InfoWindow();
+                    
+                    // Add event listener for map bounds changes
                     google.maps.event.addListener(this.state.map, 'idle', () => {
                         const bounds = this.state.map.getBounds();
                         if (bounds) {
@@ -667,6 +832,7 @@
                             }
                         }
                     });
+                    
                     this.focusOnUSA();
                     this.hideLoading();
                     this.showStatus('Map initialized successfully', 'success');
@@ -675,72 +841,110 @@
                 } catch (error) {
                     console.error('Error initializing map:', error);
                     this.showStatus('Error initializing map: ' + error.message, 'error');
+                    
+                    // Create a fallback for when Google Maps fails to load
+                    const mapElement = document.getElementById('map');
+                    if (mapElement) {
+                        mapElement.innerHTML = `
+                            <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #f1f1f1;">
+                                <h3>Map Loading Error</h3>
+                                <p>We couldn't load the fire map. Please try refreshing the page.</p>
+                                <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                            </div>
+                        `;
+                    }
+                    
                     return false;
                 }
             }
             setupEventListeners() {
                 console.log('Setting up event listeners');
+                
+                // Sidebar toggle
                 $('#toggle-sidebar').on('click', () => {
                     $('#sidebar').toggleClass('collapsed');
                     $('#toggle-sidebar').toggleClass('collapsed');
                     $('#status-panel').toggleClass('sidebar-collapsed');
                     $('#view-mode-toggle').toggleClass('sidebar-collapsed');
+                    
                     if ($('#sidebar').hasClass('collapsed')) {
                         $('#toggle-sidebar i').removeClass('fa-chevron-left').addClass('fa-chevron-right');
                     } else {
                         $('#toggle-sidebar i').removeClass('fa-chevron-right').addClass('fa-chevron-left');
                     }
                 });
+                
+                // Map controls
                 $('#zoom-in').on('click', () => {
-                    const currentZoom = this.state.map.getZoom();
-                    this.state.map.setZoom(currentZoom + 1);
+                    if (this.state.map) {
+                        const currentZoom = this.state.map.getZoom();
+                        this.state.map.setZoom(currentZoom + 1);
+                    }
                 });
+                
                 $('#zoom-out').on('click', () => {
-                    const currentZoom = this.state.map.getZoom();
-                    this.state.map.setZoom(currentZoom - 1);
+                    if (this.state.map) {
+                        const currentZoom = this.state.map.getZoom();
+                        this.state.map.setZoom(currentZoom - 1);
+                    }
                 });
+                
                 $('#recenter').on('click', () => {
                     this.recenterMap();
                 });
+                
                 $('#show-stats').on('click', () => {
                     this.showStatistics();
                 });
+                
                 $('#close-stats').on('click', () => {
                     $('#stats-panel').hide();
                 });
+                
+                // Filter controls
                 $('#apply-filters').on('click', () => {
                     this.applyFilters();
                 });
+                
                 $('#reset-filters').on('click', () => {
                     this.resetFilters();
                 });
+                
+                // Region buttons
                 $('.region-button').on('click', (e) => {
                     const $btn = $(e.currentTarget);
                     $('.region-button').removeClass('active');
                     $btn.addClass('active');
+                    
                     const bounds = $btn.data('bounds');
                     if (bounds) {
                         const [west, south, east, north] = bounds.split(',').map(Number);
                         this.focusOnRegion(north, south, east, west);
                     }
                 });
+                
+                // View mode toggle
                 $('#usa-mode').on('click', () => {
                     this.setViewMode('usa');
                     $('#usa-mode').removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#global-mode').removeClass('btn-primary').addClass('btn-outline-primary');
                     this.focusOnUSA();
                 });
+                
                 $('#global-mode').on('click', () => {
                     this.setViewMode('global');
                     $('#global-mode').removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#usa-mode').removeClass('btn-primary').addClass('btn-outline-primary');
                 });
+                
+                // Pagination controls
                 $('#prev-page').on('click', () => {
                     if (this.state.currentPage > 1) {
                         this.state.currentPage--;
                         this.updateMarkers();
                     }
                 });
+                
                 $('#next-page').on('click', () => {
                     const totalPages = this.getTotalPages();
                     if (this.state.currentPage < totalPages) {
@@ -748,12 +952,16 @@
                         this.updateMarkers();
                     }
                 });
+                
+                // Display options
                 $('#show-heatmap').on('change', () => {
                     this.toggleHeatmap($('#show-heatmap').is(':checked'));
                 });
+                
                 $('#enable-clustering').on('change', () => {
                     this.updateMarkers();
                 });
+                
                 $('#lazy-loading').on('change', () => {
                     this.state.lazyLoading = $('#lazy-loading').is(':checked');
                     if (!this.state.lazyLoading) {
@@ -764,15 +972,19 @@
                         }
                     }
                 });
+                
                 $('#markers-per-page').on('change', () => {
                     this.state.markersPerPage = parseInt($('#markers-per-page').val());
                     this.state.currentPage = 1;
                     this.updateMarkers();
                 });
+                
+                // Range slider displays
                 $('#confidence-range').on('input', function() {
                     const value = parseInt($(this).val());
                     $('#confidence-min').text(value + '%');
                 });
+                
                 $('#frp-range').on('input', function() {
                     const value = parseInt($(this).val());
                     if (value === 0) {
@@ -781,8 +993,16 @@
                         $('#frp-min').text(value);
                     }
                 });
+                
+                // Window resize handler
                 window.addEventListener('resize', () => {
                     this.checkMobile();
+                });
+                
+                // Mobile nav menu toggle
+                $('.hamburger').on('click', function() {
+                    $(this).toggleClass('active');
+                    $('.nav-menu').toggleClass('active');
                 });
             }
             setViewMode(mode) {
@@ -793,6 +1013,8 @@
                 }
             }
             focusOnUSA() {
+                if (!this.state.map) return;
+                
                 const bounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(this.config.usBounds.south, this.config.usBounds.west),
                     new google.maps.LatLng(this.config.usBounds.north, this.config.usBounds.east)
@@ -800,6 +1022,8 @@
                 this.state.map.fitBounds(bounds);
             }
             focusOnRegion(north, south, east, west) {
+                if (!this.state.map) return;
+                
                 const bounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(south, west),
                     new google.maps.LatLng(north, east)
@@ -807,20 +1031,26 @@
                 this.state.map.fitBounds(bounds);
             }
             async loadDataForViewport() {
+                if (!this.state.map) return;
+                
                 const viewportString = JSON.stringify(this.state.viewport);
                 if (this.state.loadingRegions.has(viewportString)) {
                     return;
                 }
+                
                 const isUSAViewport = this.isViewportInUSA();
                 if (this.state.viewMode === 'usa' && !isUSAViewport) {
                     return;
                 }
+                
                 if (this.state.regionDataCache.has(viewportString)) {
                     console.log('Using cached data for viewport:', this.state.viewport);
                     return;
                 }
+                
                 this.state.loadingRegions.add(viewportString);
                 this.showRegionLoading();
+                
                 try {
                     let url = this.config.apiEndpoint;
                     const params = new URLSearchParams();
@@ -829,28 +1059,39 @@
                     params.append('area', 'world');
                     const days = this.state.activeFilters.days?.value || '1';
                     params.append('days', days);
+                    
+                    // Add viewport bounds for server-side filtering
+                    params.append('north', this.state.viewport.north.toFixed(4));
+                    params.append('south', this.state.viewport.south.toFixed(4));
+                    params.append('east', this.state.viewport.east.toFixed(4));
+                    params.append('west', this.state.viewport.west.toFixed(4));
+                    
                     url = `${url}?${params.toString()}`;
                     console.log(`Fetching fire data for viewport:`, this.state.viewport);
                     const response = await this.fetchWithRetry(url);
+                    
                     if (response.ok) {
                         try {
                             const data = await response.json();
                             if (Array.isArray(data)) {
                                 console.log(`Received ${data.length} fire data points`);
-                                const viewportData = this.filterDataToViewport(data, this.state.viewport);
-                                console.log(`${viewportData.length} points are in current viewport`);
-                                this.state.regionDataCache.set(viewportString, viewportData);
-                                this.mergeFireData(viewportData);
+                                this.state.regionDataCache.set(viewportString, data);
+                                this.mergeFireData(data);
                                 this.filterData();
                                 this.updateMarkers();
-                                this.showStatus(`Loaded ${viewportData.length} fire data points for this area`, 'success');
+                                this.showStatus(`Loaded ${data.length} fire data points for this area`, 'success');
                             }
                         } catch (error) {
                             console.error('Error processing viewport data:', error);
+                            this.showStatus('Error processing data: ' + error.message, 'error');
                         }
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(`Server responded with status ${response.status}: ${errorText}`);
                     }
                 } catch (error) {
                     console.error('Error loading viewport data:', error);
+                    this.showStatus('Error loading data: ' + error.message, 'error');
                 } finally {
                     this.state.loadingRegions.delete(viewportString);
                     if (this.state.loadingRegions.size === 0) {
@@ -859,19 +1100,27 @@
                 }
             }
             mergeFireData(newData) {
+                if (!Array.isArray(newData)) {
+                    console.error('Invalid data format received:', newData);
+                    return;
+                }
+                
                 if (this.state.allFireData.length === 0) {
                     this.state.allFireData = [...newData];
                     return;
                 }
+                
                 const existingIds = new Set();
                 this.state.allFireData.forEach(point => {
                     const id = `${point.latitude},${point.longitude},${point.acq_date || ''},${point.acq_time || ''}`;
                     existingIds.add(id);
                 });
+                
                 const uniqueNewData = newData.filter(point => {
                     const id = `${point.latitude},${point.longitude},${point.acq_date || ''},${point.acq_time || ''}`;
                     return !existingIds.has(id);
                 });
+                
                 this.state.allFireData = [...this.state.allFireData, ...uniqueNewData];
                 console.log(`Added ${uniqueNewData.length} new unique fire points`);
             }
@@ -890,6 +1139,8 @@
             isViewportInUSA() {
                 const viewport = this.state.viewport;
                 const usBounds = this.config.usBounds;
+                
+                // Check if the viewport intersects with the USA bounds
                 return !(
                     viewport.north < usBounds.south ||
                     viewport.south > usBounds.north ||
@@ -899,26 +1150,29 @@
             }
             async loadUSAFireData() {
                 this.showStatus('Loading USA fire data...');
+                
                 try {
                     let url = this.config.apiEndpoint;
                     const params = new URLSearchParams();
                     const source = this.state.activeFilters.source?.value || 'MODIS_NRT';
                     params.append('source', source);
-                    params.append('area', 'world');
+                    params.append('area', 'usa'); // Request USA data specifically
                     const days = this.state.activeFilters.days?.value || '1';
                     params.append('days', days);
+                    
                     url = `${url}?${params.toString()}`;
                     console.log(`Fetching USA fire data: ${url}`);
+                    
                     const response = await this.fetchWithRetry(url);
+                    
                     if (response.ok) {
                         try {
                             const data = await response.json();
+                            
                             if (Array.isArray(data)) {
-                                console.log(`Received ${data.length} global fire data points`);
-                                const usaData = this.filterDataToUSA(data);
-                                console.log(`${usaData.length} fire points are in the USA`);
-                                this.processFireData(usaData);
-                                this.showStatus(`Loaded ${usaData.length} USA fire data points`, 'success');
+                                console.log(`Received ${data.length} USA fire data points`);
+                                this.processFireData(data);
+                                this.showStatus(`Loaded ${data.length} USA fire data points`, 'success');
                             } else if (data.error) {
                                 throw new Error(data.message || 'Unknown API error');
                             } else {
@@ -929,11 +1183,13 @@
                             throw error;
                         }
                     } else {
-                        throw new Error(`API responded with status ${response.status}`);
+                        const errorText = await response.text();
+                        throw new Error(`API responded with status ${response.status}: ${errorText}`);
                     }
                 } catch (error) {
                     console.error(`Error loading USA fire data: ${error.message}`);
                     this.showStatus(`Error loading USA fire data: ${error.message}`, 'error');
+                    
                     if (this.state.allFireData.length === 0) {
                         console.warn('Generating sample data as fallback');
                         this.generateSampleData();
@@ -944,27 +1200,32 @@
                 const usBounds = this.config.usBounds;
                 const alaskaBounds = { west: -170, south: 51, east: -130, north: 71 };
                 const hawaiiBounds = { west: -160, south: 18, east: -154, north: 23 };
+                
                 return data.filter(point => {
                     const lat = parseFloat(point.latitude);
                     const lng = parseFloat(point.longitude);
+                    
                     const inContUS = (
                         lat >= usBounds.south &&
                         lat <= usBounds.north &&
                         lng >= usBounds.west &&
                         lng <= usBounds.east
                     );
+                    
                     const inAlaska = (
                         lat >= alaskaBounds.south &&
                         lat <= alaskaBounds.north &&
                         lng >= alaskaBounds.west &&
                         lng <= alaskaBounds.east
                     );
+                    
                     const inHawaii = (
                         lat >= hawaiiBounds.south &&
                         lat <= hawaiiBounds.north &&
                         lng >= hawaiiBounds.west &&
                         lng <= hawaiiBounds.east
                     );
+                    
                     return inContUS || inAlaska || inHawaii;
                 });
             }
@@ -972,7 +1233,9 @@
                 if (!this.state.lazyLoading) {
                     this.showLoadingMessage('Loading global fire data...');
                 }
+                
                 this.showStatus('Loading global fire data...');
+                
                 try {
                     let url = this.config.apiEndpoint;
                     const params = new URLSearchParams();
@@ -981,12 +1244,16 @@
                     params.append('area', 'world');
                     const days = this.state.activeFilters.days?.value || '1';
                     params.append('days', days);
+                    
                     url = `${url}?${params.toString()}`;
                     console.log(`Fetching global fire data: ${url}`);
+                    
                     const response = await this.fetchWithRetry(url);
+                    
                     if (response.ok) {
                         try {
                             const data = await response.json();
+                            
                             if (Array.isArray(data)) {
                                 console.log(`Received ${data.length} global fire data points`);
                                 this.processFireData(data);
@@ -1001,11 +1268,13 @@
                             throw error;
                         }
                     } else {
-                        throw new Error(`API responded with status ${response.status}`);
+                        const errorText = await response.text();
+                        throw new Error(`API responded with status ${response.status}: ${errorText}`);
                     }
                 } catch (error) {
                     console.error(`Error loading global fire data: ${error.message}`);
                     this.showStatus(`Error loading global fire data: ${error.message}`, 'error');
+                    
                     if (this.state.allFireData.length === 0) {
                         console.warn('Generating sample data as fallback');
                         this.generateSampleData();
@@ -1017,13 +1286,20 @@
                 }
             }
             recenterMap() {
+                if (!this.state.map) return;
+                
                 if (this.state.viewMode === 'usa') {
                     this.focusOnUSA();
                 } else if (this.state.filteredData.length > 0) {
                     const bounds = new google.maps.LatLngBounds();
+                    
                     this.state.filteredData.forEach(point => {
-                        bounds.extend(new google.maps.LatLng(parseFloat(point.latitude), parseFloat(point.longitude)));
+                        bounds.extend(new google.maps.LatLng(
+                            parseFloat(point.latitude),
+                            parseFloat(point.longitude)
+                        ));
                     });
+                    
                     this.state.map.fitBounds(bounds);
                 } else {
                     this.state.map.setCenter(this.config.defaultCenter);
@@ -1032,8 +1308,11 @@
             }
             applyFilters() {
                 this.updateActiveFilters();
+                
                 if (this.state.activeFilters.source || this.state.activeFilters.days) {
+                    // These filters require new data from the server
                     this.state.regionDataCache.clear();
+                    
                     if (this.state.viewMode === 'usa') {
                         this.loadUSAFireData();
                     } else if (this.state.lazyLoading) {
@@ -1042,6 +1321,7 @@
                         this.loadWorldFireData();
                     }
                 } else {
+                    // These filters can be applied client-side
                     this.filterData();
                     this.updateMarkers();
                 }
@@ -1056,11 +1336,14 @@
                 $('#enable-clustering').prop('checked', true);
                 $('#show-heatmap').prop('checked', false);
                 $('#markers-per-page').val('1000');
+                
                 this.state.markersPerPage = 1000;
                 this.state.currentPage = 1;
                 this.state.activeFilters = {};
+                
                 $('#active-filters').empty();
                 this.state.regionDataCache.clear();
+                
                 if (this.state.viewMode === 'usa') {
                     this.loadUSAFireData();
                 } else {
@@ -1070,6 +1353,8 @@
             updateActiveFilters() {
                 this.state.activeFilters = {};
                 $('#active-filters').empty();
+                
+                // Source filter
                 const source = $('#data-source').val();
                 const sourceText = $('#data-source option:selected').text();
                 if (source !== 'MODIS_NRT') {
@@ -1080,6 +1365,8 @@
                         delete this.state.activeFilters.source;
                     });
                 }
+                
+                // Days filter
                 const days = $('#days-range').val();
                 const daysText = $('#days-range option:selected').text();
                 if (days !== '1') {
@@ -1090,6 +1377,8 @@
                         delete this.state.activeFilters.days;
                     });
                 }
+                
+                // Confidence filter
                 const confidence = parseInt($('#confidence-range').val());
                 if (confidence > 0) {
                     this.state.activeFilters.confidence = { value: confidence, label: `Confidence ≥ ${confidence}%` };
@@ -1100,6 +1389,8 @@
                         delete this.state.activeFilters.confidence;
                     });
                 }
+                
+                // Fire Radiative Power (FRP) filter
                 const frp = parseInt($('#frp-range').val());
                 if (frp > 0) {
                     this.state.activeFilters.frp = { value: frp, label: `FRP ≥ ${frp} MW` };
@@ -1120,6 +1411,15 @@
                 $(`.filter-tag[data-filter-id="${id}"]`).remove();
             }
             processFireData(data) {
+                if (!Array.isArray(data)) {
+                    console.error('Invalid data format received:', data);
+                    this.state.allFireData = [];
+                    this.state.totalFirePoints = 0;
+                    this.filterData();
+                    this.updateMarkers();
+                    return;
+                }
+                
                 this.state.allFireData = data;
                 this.state.totalFirePoints = data.length;
                 this.filterData();
@@ -1127,6 +1427,8 @@
             }
             filterData() {
                 let filtered = [...this.state.allFireData];
+                
+                // Apply confidence filter
                 if (this.state.activeFilters.confidence) {
                     const minConfidence = parseInt(this.state.activeFilters.confidence.value);
                     filtered = filtered.filter(point => {
@@ -1134,6 +1436,8 @@
                         return confidence >= minConfidence;
                     });
                 }
+                
+                // Apply FRP filter
                 if (this.state.activeFilters.frp) {
                     const minFrp = parseInt(this.state.activeFilters.frp.value);
                     filtered = filtered.filter(point => {
@@ -1141,19 +1445,27 @@
                         return frp >= minFrp;
                     });
                 }
+                
                 this.state.filteredData = filtered;
                 this.updatePaginationInfo();
             }
             updateMarkers() {
+                if (!this.state.map) return;
+                
                 this.clearMarkers();
+                
                 if (this.state.currentPage > this.getTotalPages()) {
                     this.state.currentPage = 1;
                 }
+                
                 this.updatePaginationInfo();
+                
                 if (this.state.filteredData.length === 0) {
                     this.showStatus('No fire data points match your filters.', 'warning');
                     return;
                 }
+                
+                // Determine which data to display based on pagination
                 let displayData;
                 if (this.state.markersPerPage === Number.MAX_SAFE_INTEGER) {
                     displayData = this.state.filteredData;
@@ -1162,47 +1474,68 @@
                     const endIndex = startIndex + this.state.markersPerPage;
                     displayData = this.state.filteredData.slice(startIndex, endIndex);
                 }
+                
                 const heatmapData = [];
                 const markers = displayData.map(fire => {
                     if (!fire.latitude || !fire.longitude) return null;
+                    
                     const lat = parseFloat(fire.latitude);
                     const lng = parseFloat(fire.longitude);
+                    
                     if (isNaN(lat) || isNaN(lng)) return null;
+                    
+                    // Add data for heatmap
                     heatmapData.push({
                         location: new google.maps.LatLng(lat, lng),
                         weight: parseFloat(fire.frp) || 1
                     });
+                    
+                    // Create marker
                     const marker = new google.maps.Marker({
                         position: { lat, lng },
                         map: this.state.map,
                         icon: this.createFireIcon(fire),
                         title: `Fire at ${lat}, ${lng}`
                     });
+                    
+                    // Add click handler
                     marker.addListener('click', () => {
                         this.showFireInfo(marker, fire);
                     });
+                    
+                    // Add hover effect
                     this.addMarkerHoverEffect(marker, fire);
+                    
                     return marker;
                 }).filter(marker => marker !== null);
+                
                 this.state.markers = markers;
+                
+                // Set up clustering if enabled
                 if ($('#enable-clustering').is(':checked')) {
                     this.setupMarkerClusterer();
                 }
+                
+                // Set up heatmap if enabled
                 if ($('#show-heatmap').is(':checked')) {
                     this.setupHeatmap(heatmapData);
                 }
+                
                 this.showStatus(`Showing ${markers.length} of ${this.state.filteredData.length} fire points`, 'success');
             }
             setupMarkerClusterer() {
                 try {
-                    if (typeof MarkerClusterer === 'undefined') {
+                    if (!window.MarkerClusterer) {
                         console.error('MarkerClusterer is not defined. Skipping clustering');
                         return;
                     }
+                    
                     console.log('Setting up marker clustering');
+                    
                     if (this.state.markerClusterer) {
                         this.state.markerClusterer.clearMarkers();
                     }
+                    
                     const renderer = {
                         render: ({ count, position }) => {
                             return new google.maps.Marker({
@@ -1220,20 +1553,28 @@
                             });
                         }
                     };
+                    
                     this.state.markerClusterer = new MarkerClusterer({
                         map: this.state.map,
                         markers: this.state.markers,
                         renderer: renderer
                     });
+                    
                     console.log('Marker clustering set up successfully');
                 } catch (error) {
                     console.error('Error setting up marker clustering:', error);
                 }
             }
             setupHeatmap(heatmapData) {
+                if (!this.state.map || !google.maps.visualization) {
+                    console.error('Google Maps visualization library not loaded. Skipping heatmap.');
+                    return;
+                }
+                
                 if (this.state.heatmap) {
                     this.state.heatmap.setMap(null);
                 }
+                
                 this.state.heatmap = new google.maps.visualization.HeatmapLayer({
                     data: heatmapData,
                     map: this.state.map,
@@ -1251,10 +1592,18 @@
                 });
             }
             toggleHeatmap(visible) {
+                if (!this.state.map || !google.maps.visualization) {
+                    console.error('Google Maps visualization library not loaded. Cannot toggle heatmap.');
+                    return;
+                }
+                
                 if (visible) {
                     const heatmapData = this.state.filteredData.map(fire => {
                         return {
-                            location: new google.maps.LatLng(parseFloat(fire.latitude), parseFloat(fire.longitude)),
+                            location: new google.maps.LatLng(
+                                parseFloat(fire.latitude),
+                                parseFloat(fire.longitude)
+                            ),
                             weight: parseFloat(fire.frp) || 1
                         };
                     });
@@ -1265,14 +1614,19 @@
                 }
             }
             clearMarkers() {
+                if (!this.state.map) return;
+                
                 this.state.markers.forEach(marker => marker.setMap(null));
                 this.state.markers = [];
+                
                 if (this.state.markerClusterer) {
                     this.state.markerClusterer.clearMarkers();
                 }
+                
                 if (this.state.heatmap) {
                     this.state.heatmap.setMap(null);
                 }
+                
                 if (this.state.infoWindow) {
                     this.state.infoWindow.close();
                 }
@@ -1280,8 +1634,10 @@
             createFireIcon(fire) {
                 const confidence = parseInt(fire.confidence) || 50;
                 const frp = parseFloat(fire.frp) || 10;
+                
                 const color = this.getFireColor(confidence);
                 const size = this.getFireSize(frp);
+                
                 return {
                     path: google.maps.SymbolPath.CIRCLE,
                     fillColor: color,
@@ -1304,9 +1660,12 @@
                 return 8;
             }
             showFireInfo(marker, fire) {
+                if (!this.state.infoWindow) return;
+                
                 let dateTimeInfo = '';
                 if (fire.acq_date) {
                     dateTimeInfo += `<p><strong>Detection Date:</strong> ${fire.acq_date}</p>`;
+                    
                     if (fire.acq_time) {
                         const timeStr = fire.acq_time.toString().padStart(4, '0');
                         const hours = timeStr.substring(0, 2);
@@ -1314,6 +1673,7 @@
                         dateTimeInfo += `<p><strong>Detection Time:</strong> ${hours}:${minutes} UTC</p>`;
                     }
                 }
+                
                 const content = `
                     <div style="padding: 8px; max-width: 300px;">
                         <h5 style="margin-top: 0; color: #333;">Fire Information</h5>
@@ -1326,11 +1686,17 @@
                         </p>
                     </div>
                 `;
+                
                 this.state.infoWindow.setContent(content);
                 this.state.infoWindow.open(this.state.map, marker);
             }
             addMarkerHoverEffect(marker, fire) {
                 const tooltip = document.getElementById('custom-tooltip');
+                if (!tooltip) {
+                    console.error('Custom tooltip element not found');
+                    return;
+                }
+                
                 marker.addListener('mouseover', function(event) {
                     const point = event.pixel;
                     tooltip.style.left = (point.x + 15) + 'px';
@@ -1341,9 +1707,11 @@
                     `;
                     tooltip.style.display = 'block';
                 });
+                
                 marker.addListener('mouseout', function() {
                     tooltip.style.display = 'none';
                 });
+                
                 marker.addListener('mousemove', function(event) {
                     const point = event.pixel;
                     tooltip.style.left = (point.x + 15) + 'px';
@@ -1352,53 +1720,81 @@
             }
             generateSampleData() {
                 this.showStatus('Using sample data as fallback', 'warning');
+                
                 const center = this.config.defaultCenter;
                 const sampleData = [];
+                
                 for (let i = 0; i < 50; i++) {
                     const latOffset = (Math.random() - 0.5) * 20;
                     const lngOffset = (Math.random() - 0.5) * 50;
                     const confidence = Math.floor(Math.random() * 100);
                     const frp = Math.random() * 100;
+                    
                     sampleData.push({
                         latitude: center.lat + latOffset,
                         longitude: center.lng + lngOffset,
                         confidence: confidence,
                         frp: frp,
-                        acq_date: '2025-05-09',
+                        acq_date: '2025-05-12',
                         acq_time: '1200'
                     });
                 }
+                
                 this.processFireData(sampleData);
             }
             showLoading(message = 'Loading...') {
-                document.getElementById('loading-overlay').style.display = 'flex';
-                document.getElementById('loading-message').textContent = message;
+                const loadingOverlay = document.getElementById('loading-overlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'flex';
+                    const loadingMessage = document.getElementById('loading-message');
+                    if (loadingMessage) {
+                        loadingMessage.textContent = message;
+                    }
+                }
             }
             hideLoading() {
-                document.getElementById('loading-overlay').style.display = 'none';
+                const loadingOverlay = document.getElementById('loading-overlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
             }
             showRegionLoading() {
-                document.getElementById('region-loading').style.display = 'block';
+                const regionLoading = document.getElementById('region-loading');
+                if (regionLoading) {
+                    regionLoading.style.display = 'block';
+                }
             }
             hideRegionLoading() {
-                document.getElementById('region-loading').style.display = 'none';
+                const regionLoading = document.getElementById('region-loading');
+                if (regionLoading) {
+                    regionLoading.style.display = 'none';
+                }
             }
             showLoadingMessage(message) {
                 const loadingMessage = document.getElementById('loading-data-message');
-                loadingMessage.innerHTML = `<span class="loading-data-spinner"></span> ${message}`;
-                loadingMessage.style.display = 'block';
+                if (loadingMessage) {
+                    loadingMessage.innerHTML = `<span class="loading-data-spinner"></span> ${message}`;
+                    loadingMessage.style.display = 'block';
+                }
             }
             hideLoadingMessage() {
-                document.getElementById('loading-data-message').style.display = 'none';
+                const loadingMessage = document.getElementById('loading-data-message');
+                if (loadingMessage) {
+                    loadingMessage.style.display = 'none';
+                }
             }
             showStatus(message, type = 'info') {
                 const statusPanel = document.getElementById('status-panel');
+                if (!statusPanel) return;
+                
                 statusPanel.textContent = message;
                 statusPanel.className = '';
                 statusPanel.classList.add('status-panel');
+                
                 if ($('#sidebar').hasClass('collapsed')) {
                     statusPanel.classList.add('sidebar-collapsed');
                 }
+                
                 switch (type) {
                     case 'success':
                         statusPanel.style.backgroundColor = '#d4edda';
@@ -1416,7 +1812,9 @@
                         statusPanel.style.backgroundColor = '#d1ecf1';
                         statusPanel.style.color = '#0c5460';
                 }
+                
                 statusPanel.style.display = 'block';
+                
                 if (type !== 'error') {
                     setTimeout(() => {
                         statusPanel.style.display = 'none';
@@ -1429,6 +1827,7 @@
                 $('#total-pages').text(totalPages);
                 $('#prev-page').prop('disabled', this.state.currentPage <= 1);
                 $('#next-page').prop('disabled', this.state.currentPage >= totalPages);
+                
                 if (totalPages <= 1) {
                     $('.pagination-container').hide();
                 } else {
@@ -1443,22 +1842,30 @@
                     this.showStatus('No data available for statistics', 'warning');
                     return;
                 }
+                
                 $('#stats-panel').show();
+                
                 const totalFires = this.state.filteredData.length;
                 const confidenceLevels = { high: 0, medium: 0, low: 0, veryLow: 0 };
                 const frpLevels = { extreme: 0, high: 0, medium: 0, low: 0 };
                 const dateMap = new Map();
+                
                 this.state.filteredData.forEach(fire => {
+                    // Process confidence levels
                     const confidence = parseInt(fire.confidence) || 0;
                     if (confidence >= 80) confidenceLevels.high++;
                     else if (confidence >= 60) confidenceLevels.medium++;
                     else if (confidence >= 30) confidenceLevels.low++;
                     else confidenceLevels.veryLow++;
+                    
+                    // Process FRP levels
                     const frp = parseFloat(fire.frp) || 0;
                     if (frp > 50) frpLevels.extreme++;
                     else if (frp > 20) frpLevels.high++;
                     else if (frp > 10) frpLevels.medium++;
                     else frpLevels.low++;
+                    
+                    // Process dates
                     const date = fire.acq_date || 'Unknown';
                     if (dateMap.has(date)) {
                         dateMap.set(date, dateMap.get(date) + 1);
@@ -1466,7 +1873,11 @@
                         dateMap.set(date, 1);
                     }
                 });
+                
+                // Sort dates by count (most fires first)
                 const sortedDates = [...dateMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+                
+                // Build statistics HTML
                 let statsHtml = `
                     <div class="mb-3">
                         <strong>Total Fire Points:</strong> ${totalFires}<br>
@@ -1489,6 +1900,8 @@
                         Low (<10 MW): ${frpLevels.low} (${Math.round(frpLevels.low/totalFires*100)}%)
                     </div>
                 `;
+                
+                // Add top detection dates if available
                 if (sortedDates.length > 0 && sortedDates[0][0] !== 'Unknown') {
                     statsHtml += `
                         <div>
@@ -1499,111 +1912,95 @@
                     });
                     statsHtml += `</div>`;
                 }
+                
                 $('#stats-content').html(statsHtml);
             }
             async fetchWithRetry(url, retries = 0) {
                 try {
                     console.log(`Fetch attempt ${retries + 1}/${this.config.maxFetchRetries + 1}: ${url}`);
+                    
                     const response = await fetch(url, {
                         method: 'GET',
-                        headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' },
+                        headers: {
+                            'Accept': 'application/json',
+                            'Cache-Control': 'no-cache'
+                        },
                         cache: 'no-cache'
                     });
+                    
                     console.log(`Response status: ${response.status} ${response.statusText}`);
                     return response;
                 } catch (error) {
                     console.error(`Fetch error: ${error.message}`);
-                    if (retries < this.config.maxFetchRetries - 1) {
+                    
+                    // Retry with exponential backoff if we haven't exceeded max retries
+                    if (retries < this.config.maxFetchRetries) {
                         console.log(`Retrying... (${retries + 1}/${this.config.maxFetchRetries})`);
-                        await new Promise(r => setTimeout(r, 1000 * Math.pow(2, retries)));
+                        const backoff = Math.pow(2, retries) * 1000; // Exponential backoff
+                        await new Promise(resolve => setTimeout(resolve, backoff));
                         return this.fetchWithRetry(url, retries + 1);
                     }
+                    
                     throw error;
                 }
             }
         }
+        
         $(document).ready(function() {
-            window.fireMap = new FireMap();
-        });
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization,drawing"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-            const mainNavLinks = document.querySelectorAll('.main-menu a');
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
-                    const isActive = navMenu.classList.contains('active');
-                    hamburger.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    hamburger.setAttribute('aria-expanded', !isActive);
-                    if (!navMenu.classList.contains('active')) {
-                        document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                            openDropdown.classList.remove('open');
-                            const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                            if(caret) caret.style.transform = '';
-                        });
-                    }
-                });
-            }
-            if (navMenu) {
-                const dropdownToggles = navMenu.querySelectorAll('.main-menu .has-dropdown > a');
-                dropdownToggles.forEach(toggleLink => {
-                    toggleLink.addEventListener('click', (e) => {
-                        if (hamburger && window.getComputedStyle(hamburger).display !== 'none') {
-                            e.preventDefault();
-                            const parentLi = toggleLink.closest('.has-dropdown');
-                            if (parentLi) {
-                                const currentlyOpen = parentLi.classList.contains('open');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(otherLi => {
-                                    if (otherLi !== parentLi) {
-                                        otherLi.classList.remove('open');
-                                        const otherCaret = otherLi.querySelector('a > i.fa-caret-down');
-                                        if(otherCaret) otherCaret.style.transform = '';
-                                    }
-                                });
-                                parentLi.classList.toggle('open', !currentlyOpen);
-                                const caret = toggleLink.querySelector('i.fa-caret-down');
-                                if (caret) {
-                                    caret.style.transform = parentLi.classList.contains('open') ? 'rotate(180deg)' : '';
-                                }
-                            }
-                        }
-                        else if (!toggleLink.getAttribute('href') || toggleLink.getAttribute('href') === '#') {
-                            e.preventDefault();
-                        }
-                    });
-                });
-                mainNavLinks.forEach(link => {
-                    const isToggle = link.matches('.has-dropdown > a');
-                    const isInDropdown = link.closest('.dropdown') !== null;
-                    if (!isToggle || (isInDropdown && hamburger && navMenu.classList.contains('active'))) {
-                        link.addEventListener('click', (e) => {
-                            const href = link.getAttribute('href');
-                            let isExternal = false;
-                            try {
-                                isExternal = new URL(href, window.location.origin).origin !== window.location.origin;
-                            } catch (_) {}
-                            if (hamburger && navMenu.classList.contains('active') && (!href || href === '#' || (href.startsWith('#') && !isExternal))) {
-                                hamburger.classList.remove('active');
-                                navMenu.classList.remove('active');
-                                hamburger.setAttribute('aria-expanded', 'false');
-                                document.querySelectorAll('.main-menu .has-dropdown.open').forEach(openDropdown => {
-                                    openDropdown.classList.remove('open');
-                                    const caret = openDropdown.querySelector('a > i.fa-caret-down');
-                                    if(caret) caret.style.transform = '';
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+            // Initialize the year display in the footer
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
             }
+            
+            // Initialize the fire map application
+            window.fireMap = new FireMap();
+            
+            // Setup mobile navigation
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    this.setAttribute('aria-expanded', !isExpanded);
+                });
+                
+                // Close mobile menu when clicking a link
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d3984949c34593',t:'MTc0NjgxODg1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization,drawing,geometry&callback=initMap"></script>
+    <script>
+        // Initialize Google Maps callback
+        function initMap() {
+            console.log("Google Maps API loaded successfully");
+            // The FireMap class will handle the initialization
+        }
+    </script>
+</body>
 </html>
