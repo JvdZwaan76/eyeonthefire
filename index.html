@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.googleapis.com https://*.gstatic.com; script-src 'self' https://*.googleapis.com https://*.cloudflare.com https://unpkg.com; style-src 'self' https://*.googleapis.com https://cdnjs.cloudflare.com; frame-src 'self' https://firms.modaps.eosdis.nasa.gov; connect-src 'self' https://eyeonthefire.com https://*.googleapis.com;">
     <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
     <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
     <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
@@ -15,11 +16,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <!-- Preload critical assets -->
-    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="/styles.css" as="style">
     <link rel="preload" href="/images/hero-bg.webp" as="image">
-    <link rel="preload" href="fireMap.js" as="script">
+    <link rel="preload" href="/fireMap.js" as="script">
     <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Favicon Links -->
@@ -45,7 +46,7 @@
     
     <header class="navbar">
         <div class="navbar-container">
-            <a href="index.html" class="logo-link">
+            <a href="/index.html" class="logo-link">
                 <div class="logo-container">
                     <img src="/images/eyeonthefire-logo.webp" alt="Eye on the Fire Logo" id="navbar-logo" width="40" height="40" loading="eager">
                     <span>Eye on the Fire</span>
@@ -58,13 +59,13 @@
             </button>
             <nav class="nav-menu" id="main-nav">
                 <ul class="main-menu">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="prepare.html">Prepare</a></li>
-                    <li><a href="prevent.html">Prevent</a></li>
-                    <li><a href="safety-info.html">Safety Info</a></li>
-                    <li><a href="news-resources.html">News & Resources</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/index.html" class="active">Home</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/prepare.html">Prepare</a></li>
+                    <li><a href="/prevent.html">Prevent</a></li>
+                    <li><a href="/safety-info.html">Safety Info</a></li>
+                    <li><a href="/news-resources.html">News & Resources</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -353,12 +354,12 @@
             <div class="footer-section links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="prepare.html">Prepare</a></li>
-                    <li><a href="prevent.html">Prevent</a></li>
-                    <li><a href="safety-info.html">Safety Info</a></li>
-                    <li><a href="news-resources.html">News & Resources</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/prepare.html">Prepare</a></li>
+                    <li><a href="/prevent.html">Prevent</a></li>
+                    <li><a href="/safety-info.html">Safety Info</a></li>
+                    <li><a href="/news-resources.html">News & Resources</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section social">
@@ -388,18 +389,18 @@
         // Mock fetch for development (handled by Cloudflare Worker in production)
         const originalFetch = window.fetch;
         window.fetch = function(url, options) {
-            if (url.includes('/api/geocode') || url.includes('/api/nasa')) {
+            if (url.includes('/api/nasa') || url.includes('/api/geocode')) {
                 console.log('Using server-side API:', url);
                 return originalFetch(url, options);
             }
             return originalFetch(url, options);
         };
     </script>
-    <script async defer src="/api/google-maps"></script>
-    <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer@2.5.3/dist/index.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="fireMap.js"></script>
+    <script src="/fireMap.js"></script>
+    <script async src="/api/google-maps"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Check if FireMap is defined before initializing
