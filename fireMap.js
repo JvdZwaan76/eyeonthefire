@@ -3,6 +3,8 @@ class FireMap {
         this.map = null;
         this.markers = [];
         this.clusterer = null;
+        this.retryCount = 0;
+        this.maxRetries = 10;
         this.initMap();
     }
 
@@ -14,7 +16,13 @@ class FireMap {
             return;
         }
         if (typeof google === 'undefined' || !google.maps) {
-            console.warn('Google Maps API not loaded. Retrying in 1s...');
+            if (this.retryCount >= this.maxRetries) {
+                console.error('Max retries reached for Google Maps API. Showing fallback map.');
+                this.showFallbackMap();
+                return;
+            }
+            console.warn(`Google Maps API not loaded. Retry ${this.retryCount + 1}/${this.maxRetries} in 1s...`);
+            this.retryCount++;
             setTimeout(() => this.initMap(), 1000);
             return;
         }
@@ -69,7 +77,7 @@ class FireMap {
             } catch (error) {
                 console.error(`Fetch error on attempt ${attempt}:`, error.message);
                 if (attempt === maxRetries) {
-                    console.error('Max retries reached. Showing fallback map.');
+                    console.error('Max retries reached for fire data. Showing fallback map.');
                     this.showFallbackMap();
                 }
                 attempt++;
