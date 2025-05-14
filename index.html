@@ -12,7 +12,10 @@
     <meta property="og:url" content="https://eyeonthefire.com/">
     <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
     <link rel="canonical" href="https://eyeonthefire.com/">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Preload and self-host critical fonts instead of using Google Fonts (to address CSP issues) -->
+    <link rel="preload" href="/fonts/montserrat-v25-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/montserrat-v25-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/open-sans-v34-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <!-- Favicon Links -->
@@ -30,6 +33,42 @@
         gtag('config', 'G-T8RE6KDBEW');
     </script>
     <style>
+        /* Self-hosted font definitions to replace Google Fonts */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            src: url('/fonts/montserrat-v25-latin-regular.woff2') format('woff2');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 500;
+            src: url('/fonts/montserrat-v25-latin-500.woff2') format('woff2');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: url('/fonts/montserrat-v25-latin-700.woff2') format('woff2');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: url('/fonts/open-sans-v34-latin-regular.woff2') format('woff2');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 600;
+            src: url('/fonts/open-sans-v34-latin-600.woff2') format('woff2');
+            font-display: swap;
+        }
         :root {
             --primary-color: #ff4500;
             --secondary-color: #ff7f50;
@@ -1470,9 +1509,15 @@
                     mapLoaded: false,
                     networkStatus: 'online',
                     lastError: null,
-                    abortControllers: new Map() // For cancellable fetch requests
+                    abortControllers: new Map(), // For cancellable fetch requests
+                    lastLoadTime: 0
                 };
-                this.initialize();
+                // When the DOM is fully loaded, initialize the map application
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => this.initialize());
+                } else {
+                    this.initialize();
+                }
             }
 
             async initialize() {
@@ -1503,13 +1548,22 @@
                     const mapElement = document.getElementById('map');
                     if (mapElement) {
                         mapElement.innerHTML = `
-                            <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #f1f1f1;">
+                            <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #f1f1f1; padding: 20px; text-align: center;">
+                                <i class="fas fa-exclamation-triangle fa-3x" style="color: #ff4500; margin-bottom: 15px;"></i>
                                 <h3>Map Loading Error</h3>
-                                <p>${error.message || 'We couldn\'t load the fire map. Please try refreshing the page.'}</p>
-                                <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                                <p>${error.message || 'We couldn\'t load the fire map. This may be due to network issues or because Google Maps is temporarily unavailable.'}</p>
+                                <button onclick="location.reload()" class="btn btn-primary">
+                                    <i class="fas fa-sync-alt"></i> Refresh Page
+                                </button>
+                                <p class="mt-3" style="font-size: 0.9rem; color: #666;">
+                                    <i class="fas fa-info-circle"></i> If the problem persists, try using a different browser or checking your internet connection.
+                                </p>
                             </div>
                         `;
                     }
+                    
+                    // Generate sample data anyway to show something
+                    this.generateSampleData();
                 }
             }
 
@@ -1552,7 +1606,7 @@
             }
 
             waitForGoogleMaps() {
-                return new Promise((resolve) => {
+                return new Promise((resolve, reject) => {
                     const maxWaitTime = 15000; // 15 seconds maximum wait time
                     const checkInterval = 100; // Check every 100ms
                     
@@ -1567,8 +1621,8 @@
                     // Create a timeout to handle the case where Google Maps doesn't load
                     const timeout = setTimeout(() => {
                         console.error('Google Maps failed to load within timeout');
-                        // Still resolve to allow the app to continue with fallback
-                        resolve();
+                        // Reject with an error to handle the failure more gracefully
+                        reject(new Error('Google Maps API failed to load within the timeout period'));
                     }, maxWaitTime);
                     
                     // Check if Google Maps is loaded at regular intervals
