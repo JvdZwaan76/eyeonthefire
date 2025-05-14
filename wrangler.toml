@@ -1,22 +1,9 @@
-# wrangler.toml
-name = "eyeonthefire-worker"  # Required: Unique name for the Worker
-main = "index.js"             # Required: Entry point replacing site.entry-point
-compatibility_date = "2025-05-12"  # Required: Ensures runtime compatibility
+name = "eyeonthefire"
+# other configuration...
 
-# Environment variables (non-inheritable, must be defined per environment)
 [vars]
-FIRMS_MAP_KEY = "d152217c8391eb5b0fbd242290527ae8"  # Replace with your NASA FIRMS API key
-GOOGLE_MAPS_KEY = "AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk"  # Replace with your Google Maps API key
+NASA_API_KEY = "d152217c8391eb5b0fbd242290527ae8"
+NASA_FIRMS_URL = "https://firms.modaps.eosdis.nasa.gov/api/..."
+MAPS_API_KEY = "AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk"  # Moved here from the duplicate section
 
-# Optional: Define environments (e.g., staging, production)
-[env.staging]
-name = "eyeonthefire-worker-staging"
-[vars]
-FIRMS_MAP_KEY = "your_staging_firms_map_key"
-GOOGLE_MAPS_KEY = "your_staging_google_maps_key"
-
-[env.production]
-name = "eyeonthefire-worker-production"
-[vars]
-FIRMS_MAP_KEY = "your_production_firms_map_key"
-GOOGLE_MAPS_KEY = "your_production_google_maps_key"
+# More configuration...
