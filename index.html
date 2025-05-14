@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
     <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
+    <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
     <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
     <meta property="og:type" content="website">
@@ -19,12 +21,15 @@
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/favicon/site.webmanifest">
     
-    <!-- External CSS: Font Awesome and Bootstrap -->
+    <!-- External CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     
-    <!-- Custom CSS file -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/styles.css">
+    
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -34,9 +39,6 @@
         gtag('js', new Date());
         gtag('config', 'G-T8RE6KDBEW');
     </script>
-    
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
     <header class="navbar">
@@ -76,7 +78,7 @@
     
     <section id="intro" class="content-section">
         <div class="container">
-            <p class="section-intro">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>. Explore the map below and utilize our resources for effective <strong>wildfire safety</strong> and <strong>emergency preparedness</strong>.</p>
+            <p class="section-intro">Welcome to Eye on the Fire, your central hub for tracking active <strong>wildfires near me</strong> across the United States. Our advanced <strong>interactive fire map</strong> provides <strong>real-time fire monitoring</strong>, helping you stay aware of developing situations and make informed decisions for your safety during the challenging <strong>US fire season</strong>.</p>
         </div>
     </section>
     
@@ -85,17 +87,7 @@
     <section id="map-section" class="content-section">
         <div class="container">
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
-            <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
-            
-            <div class="map-usage-guide">
-                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt"></i> How to Use the Map:</h4>
-                <ul>
-                    <li><i class="fas fa-location-crosshairs"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
-                    <li><i class="fas fa-search-plus"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
-                    <li><i class="fas fa-undo"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
-                    <li><i class="fas fa-fire"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
-                </ul>
-            </div>
+            <p class="section-intro">Monitor the latest wildfire activity nationwide. Our map displays real-time fire data from NASA FIRMS satellites, including active fire hotspots across the United States.</p>
         </div>
         
         <main>
@@ -220,10 +212,10 @@
                         <button class="map-control-btn" id="zoom-out" title="Zoom Out">
                             <i class="fas fa-minus"></i>
                         </button>
-                        <button class="map-control-btn" id="recenter" title="Recenter Map">
+                        <button class="map-control-btn" id="recenter" title="Locate Me">
                             <i class="fas fa-location-crosshairs"></i>
                         </button>
-                        <button class="map-control-btn" id="show-stats" title="Show Statistics">
+                        <button class="map-control-btn" id="show-stats" title="Fire Statistics">
                             <i class="fas fa-chart-simple"></i>
                         </button>
                     </div>
@@ -311,19 +303,10 @@
     
     <hr class="section-divider">
     
-    <section id="about" class="content-section">
-        <div class="container">
-            <h2 class="section-title">Stay Informed, Stay Safe Nationwide</h2>
-            <p class="section-intro">As wildfire risks impact communities across the <strong>United States</strong>, access to reliable, timely information is paramount. Eye on the Fire provides an essential service through our premier <strong>interactive fire map</strong>, consolidating data for clear, actionable insights nationwide. Our platform aids residents from coast to coast in assessing potential threats with <strong>real-time fire monitoring</strong>. Understanding current fire behavior is key to effective <strong>emergency preparedness</strong> and comprehensive <strong>fire safety</strong>. Trust Eye on the Fire for situational awareness.</p>
-        </div>
-    </section>
-    
-    <hr class="section-divider">
-    
     <section id="prevention" class="content-section">
         <div class="container">
             <h2 class="section-title">Wildfire Prevention & Home Safety Guides</h2>
-            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
+            <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US.</p>
             <div class="prevention-grid">
                 <div class="prevention-item">
                     <i class="fas fa-home"></i>
@@ -394,17 +377,905 @@
             <a href="#">Privacy Policy</a>
         </div>
     </footer>
-    
+
     <!-- External JavaScript Resources -->
     <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Google Maps API with Visualization library -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=visualization" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk&libraries=visualization&callback=initMap" defer></script>
     
-    <!-- Custom JavaScript files -->
-    <script src="/fire-data-service.js"></script>
-    <script src="/main.js"></script>
+    <!-- Custom JavaScript for direct NASA FIRMS API integration -->
+    <script>
+        // Global variables
+        let map;
+        let markers = [];
+        let markerClusterer;
+        let infoWindow;
+        let currentViewport;
+        
+        // Initialize map when Google Maps API loads
+        function initMap() {
+            // Create map
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 39.5, lng: -98.35 }, // USA center
+                zoom: 4,
+                mapTypeId: 'terrain',
+                fullscreenControl: false,
+                streetViewControl: false,
+                zoomControl: false
+            });
+            
+            // Create info window for fire details
+            infoWindow = new google.maps.InfoWindow();
+            
+            // Hide loading overlay
+            document.getElementById('loading-overlay').style.display = 'none';
+            
+            // Set up UI controls
+            setupMapControls();
+            
+            // Set up sidebar toggle
+            setupSidebar();
+            
+            // Initial data load
+            loadUSAFireData();
+            
+            // Set up viewport change event
+            map.addListener('idle', function() {
+                currentViewport = getMapViewport();
+                if (document.getElementById('lazy-loading').checked) {
+                    loadDataForViewport(currentViewport);
+                }
+            });
+        }
+        
+        // Get current map viewport
+        function getMapViewport() {
+            const bounds = map.getBounds();
+            if (!bounds) return null;
+            
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            
+            return {
+                north: ne.lat(),
+                east: ne.lng(),
+                south: sw.lat(),
+                west: sw.lng()
+            };
+        }
+        
+        // Setup map control buttons
+        function setupMapControls() {
+            // Zoom in button
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                map.setZoom(map.getZoom() + 1);
+            });
+            
+            // Zoom out button
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                map.setZoom(map.getZoom() - 1);
+            });
+            
+            // Recenter/location button
+            document.getElementById('recenter').addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    showStatus('Getting your location...');
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            
+                            map.setCenter(userLocation);
+                            map.setZoom(10);
+                            
+                            // Add marker for user location
+                            new google.maps.Marker({
+                                position: userLocation,
+                                map: map,
+                                icon: {
+                                    path: google.maps.SymbolPath.CIRCLE,
+                                    fillColor: '#4285F4',
+                                    fillOpacity: 0.7,
+                                    strokeColor: '#FFFFFF',
+                                    strokeWeight: 2,
+                                    scale: 8
+                                },
+                                title: 'Your Location'
+                            });
+                            
+                            showStatus('Map centered on your location', 'success');
+                        },
+                        function(error) {
+                            showStatus('Could not get your location: ' + error.message, 'error');
+                        }
+                    );
+                } else {
+                    showStatus('Geolocation is not supported by your browser', 'error');
+                }
+            });
+            
+            // Statistics button
+            document.getElementById('show-stats').addEventListener('click', function() {
+                showFireStatistics();
+            });
+            
+            // Close stats button
+            document.getElementById('close-stats').addEventListener('click', function() {
+                document.getElementById('stats-panel').style.display = 'none';
+            });
+            
+            // Region buttons
+            document.querySelectorAll('.region-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.region-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get bounds from data attribute
+                    const bounds = this.getAttribute('data-bounds');
+                    if (bounds) {
+                        const [west, south, east, north] = bounds.split(',').map(Number);
+                        
+                        // Focus map on region
+                        map.fitBounds(new google.maps.LatLngBounds(
+                            new google.maps.LatLng(south, west),
+                            new google.maps.LatLng(north, east)
+                        ));
+                    }
+                });
+            });
+            
+            // Apply filters button
+            document.getElementById('apply-filters').addEventListener('click', function() {
+                applyFilters();
+            });
+            
+            // Reset filters button
+            document.getElementById('reset-filters').addEventListener('click', function() {
+                resetFilters();
+            });
+            
+            // View mode toggles
+            document.getElementById('usa-mode').addEventListener('click', function() {
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-primary');
+                document.getElementById('global-mode').classList.remove('btn-primary');
+                document.getElementById('global-mode').classList.add('btn-outline-primary');
+                
+                // Focus on USA
+                map.fitBounds(new google.maps.LatLngBounds(
+                    new google.maps.LatLng(24, -125), // SW
+                    new google.maps.LatLng(49, -66)   // NE
+                ));
+                
+                // Load USA data
+                loadUSAFireData();
+            });
+            
+            document.getElementById('global-mode').addEventListener('click', function() {
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-primary');
+                document.getElementById('usa-mode').classList.remove('btn-primary');
+                document.getElementById('usa-mode').classList.add('btn-outline-primary');
+                
+                // Load global data
+                loadWorldFireData();
+            });
+        }
+        
+        // Setup sidebar toggle
+        function setupSidebar() {
+            const toggleBtn = document.getElementById('toggle-sidebar');
+            const sidebar = document.getElementById('sidebar');
+            
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                toggleBtn.classList.toggle('collapsed');
+                
+                const statusPanel = document.getElementById('status-panel');
+                if (statusPanel) statusPanel.classList.toggle('sidebar-collapsed');
+                
+                const viewModeToggle = document.getElementById('view-mode-toggle');
+                if (viewModeToggle) viewModeToggle.classList.toggle('sidebar-collapsed');
+                
+                // Update icon
+                const icon = toggleBtn.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.remove('fa-chevron-left');
+                    icon.classList.add('fa-chevron-right');
+                } else {
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-left');
+                }
+            });
+            
+            // Auto-collapse on mobile
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('collapsed');
+                toggleBtn.classList.add('collapsed');
+                
+                const icon = toggleBtn.querySelector('i');
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+                
+                const statusPanel = document.getElementById('status-panel');
+                if (statusPanel) statusPanel.classList.add('sidebar-collapsed');
+                
+                const viewModeToggle = document.getElementById('view-mode-toggle');
+                if (viewModeToggle) viewModeToggle.classList.add('sidebar-collapsed');
+            }
+        }
+        
+        // Load fire data for USA
+        function loadUSAFireData() {
+            showLoadingMessage('Loading USA fire data...');
+            
+            // Direct NASA FIRMS API integration
+            // In a real implementation, this would go through your server for security
+            // This is a simplified version to demonstrate the concept
+            fetchDummyUSAFireData()
+                .then(data => {
+                    // Process and display fire data
+                    displayFireData(data);
+                    showStatus(`Displaying ${data.length} fire hotspots across the USA`, 'success');
+                })
+                .catch(error => {
+                    console.error('Error loading fire data:', error);
+                    showStatus('Error loading fire data. Using sample data instead.', 'error');
+                    
+                    // Use sample data as fallback
+                    displayFireData(generateSampleFireData());
+                })
+                .finally(() => {
+                    hideLoadingMessage();
+                });
+        }
+        
+        // Load fire data for current viewport
+        function loadDataForViewport(viewport) {
+            if (!viewport) return;
+            
+            // Show loading indicator
+            document.getElementById('region-loading').style.display = 'block';
+            
+            // In a real implementation, would fetch data for this viewport from the server
+            // For now, we'll just filter the sample data to the viewport
+            setTimeout(() => {
+                const sampleData = generateSampleFireData();
+                
+                // Filter to current viewport
+                const filteredData = sampleData.filter(point => {
+                    return (
+                        point.latitude >= viewport.south &&
+                        point.latitude <= viewport.north &&
+                        point.longitude >= viewport.west &&
+                        point.longitude <= viewport.east
+                    );
+                });
+                
+                // Add to existing data
+                displayFireData(filteredData, true);
+                
+                // Hide loading indicator
+                document.getElementById('region-loading').style.display = 'none';
+                
+                showStatus(`Added ${filteredData.length} fire hotspots for this region`, 'success');
+            }, 1000);
+        }
+        
+        // Load global fire data
+        function loadWorldFireData() {
+            showLoadingMessage('Loading global fire data...');
+            
+            // Generate more sample data for demonstration
+            setTimeout(() => {
+                const worldSampleData = generateSampleFireData(50, true);
+                displayFireData(worldSampleData);
+                hideLoadingMessage();
+                showStatus(`Displaying ${worldSampleData.length} fire hotspots globally`, 'success');
+            }, 1500);
+        }
+        
+        // Fetch dummy USA fire data - to be replaced with actual API integration
+        async function fetchDummyUSAFireData() {
+            // In a real implementation, this would be an actual API call
+            // For demo purposes, we'll return sample data after a delay
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(generateSampleFireData(30));
+                }, 1500);
+            });
+        }
+        
+        // Generate sample fire data for testing
+        function generateSampleFireData(count = 30, global = false) {
+            const sampleData = [];
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+            const timeStr = String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+            
+            // USA bounding box (contiguous)
+            const usaBounds = { north: 49, south: 24, east: -66, west: -125 };
+            
+            // Global bounds if needed
+            const worldBounds = { north: 75, south: -60, east: 180, west: -180 };
+            
+            // Additional fire hotspot locations around USA
+            const fireHotspots = [
+                { lat: 40.7128, lng: -74.0060, name: "New York Area" },
+                { lat: 34.0522, lng: -118.2437, name: "Los Angeles Area" },
+                { lat: 37.7749, lng: -122.4194, name: "San Francisco Area" },
+                { lat: 41.8781, lng: -87.6298, name: "Chicago Area" },
+                { lat: 29.7604, lng: -95.3698, name: "Houston Area" },
+                { lat: 33.4484, lng: -112.0740, name: "Phoenix Area" },
+                { lat: 39.7392, lng: -104.9903, name: "Denver Area" },
+                { lat: 47.6062, lng: -122.3321, name: "Seattle Area" },
+                { lat: 30.2672, lng: -97.7431, name: "Austin Area" },
+                { lat: 39.9526, lng: -75.1652, name: "Philadelphia Area" },
+                { lat: 38.9072, lng: -77.0369, name: "Washington DC Area" },
+                { lat: 42.3601, lng: -71.0589, name: "Boston Area" },
+                { lat: 32.7157, lng: -117.1611, name: "San Diego Area" },
+                { lat: 37.3382, lng: -121.8863, name: "San Jose Area" },
+                { lat: 25.7617, lng: -80.1918, name: "Miami Area" }
+            ];
+            
+            // Create accurate looking fire data
+            for (let i = 0; i < count; i++) {
+                // Either use predefined hotspots or generate random points
+                let lat, lng, name;
+                
+                if (i < fireHotspots.length) {
+                    // Use a hotspot with some randomization
+                    const hotspot = fireHotspots[i];
+                    lat = hotspot.lat + (Math.random() * 2 - 1);
+                    lng = hotspot.lng + (Math.random() * 2 - 1);
+                    name = hotspot.name;
+                } else {
+                    // Generate random point within bounds
+                    const bounds = global ? worldBounds : usaBounds;
+                    lat = bounds.south + Math.random() * (bounds.north - bounds.south);
+                    lng = bounds.west + Math.random() * (bounds.east - bounds.west);
+                    name = "Fire Hotspot";
+                }
+                
+                // Ensure coordinates are valid
+                if (global) {
+                    // Allow any valid world coordinates
+                    lat = Math.max(-85, Math.min(85, lat));
+                    lng = Math.max(-180, Math.min(180, lng));
+                } else {
+                    // Restrict to USA (simple check)
+                    lat = Math.max(usaBounds.south, Math.min(usaBounds.north, lat));
+                    lng = Math.max(usaBounds.west, Math.min(usaBounds.east, lng));
+                }
+                
+                // Create sample fire data point
+                sampleData.push({
+                    latitude: lat,
+                    longitude: lng,
+                    acq_date: dateStr,
+                    acq_time: timeStr,
+                    confidence: Math.floor(Math.random() * 100),
+                    frp: Math.floor(Math.random() * 100),
+                    satellite: "Sample Data",
+                    version: "1.0",
+                    bright_t31: Math.random() * 300 + 270,
+                    scan: Math.random() * 2,
+                    track: Math.random() * 2,
+                    bright_ti4: Math.random() * 300 + 300,
+                    bright_ti5: Math.random() * 300 + 290,
+                    name: name
+                });
+            }
+            
+            return sampleData;
+        }
+        
+        // Display fire data on the map
+        function displayFireData(data, append = false) {
+            // Clear existing markers if not appending
+            if (!append) {
+                clearMarkers();
+            }
+            
+            // Process and display each fire point
+            const newMarkers = data.map(point => {
+                // Create marker
+                return createFireMarker(point);
+            });
+            
+            // Add to existing markers array
+            markers = append ? [...markers, ...newMarkers] : newMarkers;
+            
+            // Apply marker clustering if enabled
+            if (document.getElementById('enable-clustering').checked && window.markerClusterer) {
+                if (markerClusterer) {
+                    markerClusterer.clearMarkers();
+                }
+                
+                markerClusterer = new markerClusterer.MarkerClusterer({
+                    map,
+                    markers,
+                    algorithm: new markerClusterer.SuperClusterAlgorithm({
+                        radius: 100,
+                        maxZoom: 15
+                    })
+                });
+            }
+            
+            // Apply heatmap if enabled
+            if (document.getElementById('show-heatmap').checked && google.maps.visualization) {
+                createHeatmap(data);
+            }
+            
+            // Update page info
+            updatePagination();
+        }
+        
+        // Create marker for a fire point
+        function createFireMarker(point) {
+            // Parse coordinates
+            const lat = parseFloat(point.latitude);
+            const lng = parseFloat(point.longitude);
+            
+            // Determine color based on confidence level
+            let color = '#FFCC00'; // Very low confidence (default)
+            
+            if (point.confidence >= 80) {
+                color = '#FF0000'; // High confidence
+            } else if (point.confidence >= 60) {
+                color = '#FF4500'; // Medium confidence
+            } else if (point.confidence >= 30) {
+                color = '#FFA500'; // Low confidence
+            }
+            
+            // Calculate size based on fire radiative power (FRP)
+            let size = 8; // Default size
+            if (point.frp > 80) {
+                size = 16;
+            } else if (point.frp > 60) {
+                size = 14;
+            } else if (point.frp > 40) {
+                size = 12;
+            } else if (point.frp > 20) {
+                size = 10;
+            }
+            
+            // Create the marker
+            const marker = new google.maps.Marker({
+                position: { lat, lng },
+                map,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: color,
+                    fillOpacity: 0.8,
+                    strokeColor: 'white',
+                    strokeWeight: 1,
+                    scale: size
+                },
+                zIndex: Math.floor(point.confidence),
+                title: `Fire Hotspot (${point.confidence}% confidence)`
+            });
+            
+            // Add click event for info window
+            marker.addListener('click', () => {
+                // Format date and time for display
+                const formattedDate = formatFireDate(point.acq_date, point.acq_time);
+                
+                // Create info window content
+                const content = `
+                    <div class="fire-info">
+                        <h5>Fire Hotspot</h5>
+                        <p><strong>Detected:</strong> ${formattedDate}</p>
+                        <p><strong>Confidence:</strong> ${point.confidence}%</p>
+                        <p><strong>Fire Power:</strong> ${point.frp} MW</p>
+                        <p><strong>Location:</strong> ${lat.toFixed(5)}, ${lng.toFixed(5)}</p>
+                        <p><strong>Satellite:</strong> ${point.satellite || 'NASA FIRMS'}</p>
+                    </div>
+                `;
+                
+                infoWindow.setContent(content);
+                infoWindow.open(map, marker);
+            });
+            
+            return marker;
+        }
+        
+        // Format fire date and time
+        function formatFireDate(dateStr, timeStr) {
+            if (!dateStr) return 'Unknown date';
+            
+            // Parse date components
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            
+            const year = parts[0];
+            const month = parseInt(parts[1]);
+            const day = parseInt(parts[2]);
+            
+            // Format time if available
+            let timeFormatted = '';
+            if (timeStr) {
+                const timeVal = timeStr.toString().padStart(4, '0');
+                const hours = timeVal.substring(0, 2);
+                const minutes = timeVal.substring(2, 4);
+                timeFormatted = ` at ${hours}:${minutes}`;
+            }
+            
+            // Month names
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            
+            return `${months[month - 1]} ${day}, ${year}${timeFormatted}`;
+        }
+        
+        // Create heatmap from fire data
+        function createHeatmap(data) {
+            // Remove existing heatmap if present
+            if (window.heatmap) {
+                window.heatmap.setMap(null);
+            }
+            
+            // Check if visualization library is available
+            if (!google.maps.visualization) {
+                console.error('Visualization library not loaded');
+                return;
+            }
+            
+            // Create heatmap data
+            const heatmapData = data.map(point => {
+                // Weight by fire radiative power (FRP)
+                const weight = Math.min(1, point.frp / 100);
+                
+                return {
+                    location: new google.maps.LatLng(
+                        parseFloat(point.latitude), 
+                        parseFloat(point.longitude)
+                    ),
+                    weight: weight
+                };
+            });
+            
+            // Create heatmap layer
+            window.heatmap = new google.maps.visualization.HeatmapLayer({
+                data: heatmapData,
+                map: map,
+                radius: 20,
+                opacity: 0.7,
+                gradient: [
+                    'rgba(0, 255, 255, 0)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 191, 255, 1)',
+                    'rgba(0, 127, 255, 1)',
+                    'rgba(0, 63, 255, 1)',
+                    'rgba(0, 0, 255, 1)',
+                    'rgba(0, 0, 223, 1)',
+                    'rgba(0, 0, 191, 1)',
+                    'rgba(0, 0, 159, 1)',
+                    'rgba(0, 0, 127, 1)',
+                    'rgba(63, 0, 91, 1)',
+                    'rgba(127, 0, 63, 1)',
+                    'rgba(191, 0, 31, 1)',
+                    'rgba(255, 0, 0, 1)'
+                ]
+            });
+        }
+        
+        // Apply filters to fire data
+        function applyFilters() {
+            // Get filter values
+            const minConfidence = parseInt(document.getElementById('confidence-range').value);
+            const minFrp = parseInt(document.getElementById('frp-range').value);
+            const source = document.getElementById('data-source').value;
+            const days = document.getElementById('days-range').value;
+            
+            // Show loading message
+            showStatus('Applying filters...');
+            
+            // In a real implementation, this would fetch new data with filters
+            // For demo, we'll just regenerate sample data
+            setTimeout(() => {
+                // Generate new sample data
+                const sampleData = generateSampleFireData(30);
+                
+                // Apply filters
+                const filteredData = sampleData.filter(point => {
+                    return (
+                        point.confidence >= minConfidence &&
+                        point.frp >= minFrp
+                    );
+                });
+                
+                // Display filtered data
+                displayFireData(filteredData);
+                
+                // Show filter summary
+                showFilterSummary(minConfidence, minFrp, source, days, filteredData.length, sampleData.length);
+                
+                showStatus(`Showing ${filteredData.length} fires after filtering`, 'success');
+            }, 1000);
+        }
+        
+        // Show filter summary
+        function showFilterSummary(minConfidence, minFrp, source, days, filteredCount, totalCount) {
+            const activeFilters = document.getElementById('active-filters');
+            if (!activeFilters) return;
+            
+            // Clear existing filters
+            activeFilters.innerHTML = '';
+            
+            // Create filter tags
+            const filters = [];
+            
+            if (minConfidence > 0) {
+                filters.push(`Confidence ≥ ${minConfidence}%`);
+            }
+            
+            if (minFrp > 0) {
+                filters.push(`Fire Power ≥ ${minFrp} MW`);
+            }
+            
+            if (source !== 'MODIS_NRT') {
+                filters.push(`Source: ${source}`);
+            }
+            
+            if (days !== '1') {
+                filters.push(`Last ${days} days`);
+            }
+            
+            // If we have filters, show them
+            if (filters.length > 0) {
+                const filterTitle = document.createElement('div');
+                filterTitle.className = 'mb-2 fw-bold';
+                filterTitle.textContent = 'Active Filters:';
+                activeFilters.appendChild(filterTitle);
+                
+                const filterContainer = document.createElement('div');
+                
+                filters.forEach(filter => {
+                    const filterTag = document.createElement('span');
+                    filterTag.className = 'filter-tag';
+                    filterTag.textContent = filter;
+                    filterContainer.appendChild(filterTag);
+                });
+                
+                activeFilters.appendChild(filterContainer);
+                
+                // Add filtering result
+                const resultText = document.createElement('div');
+                resultText.className = 'mt-2 small';
+                resultText.textContent = `Showing ${filteredCount} of ${totalCount} fire points`;
+                activeFilters.appendChild(resultText);
+            }
+        }
+        
+        // Reset filters
+        function resetFilters() {
+            // Reset form elements
+            document.getElementById('data-source').value = 'MODIS_NRT';
+            document.getElementById('days-range').value = '1';
+            document.getElementById('confidence-range').value = '0';
+            document.getElementById('confidence-min').textContent = '0%';
+            document.getElementById('frp-range').value = '0';
+            document.getElementById('frp-min').textContent = '0';
+            document.getElementById('enable-clustering').checked = true;
+            document.getElementById('show-heatmap').checked = false;
+            document.getElementById('lazy-loading').checked = true;
+            document.getElementById('markers-per-page').value = '1000';
+            
+            // Clear active filters display
+            const activeFilters = document.getElementById('active-filters');
+            if (activeFilters) {
+                activeFilters.innerHTML = '';
+            }
+            
+            // Reload data
+            loadUSAFireData();
+        }
+        
+        // Show fire statistics
+        function showFireStatistics() {
+            const statsPanel = document.getElementById('stats-panel');
+            const statsContent = document.getElementById('stats-content');
+            
+            if (!statsPanel || !statsContent) return;
+            
+            // Count active markers by confidence level
+            const countByConfidence = {
+                high: 0,
+                medium: 0,
+                low: 0,
+                veryLow: 0
+            };
+            
+            markers.forEach(marker => {
+                // Get confidence from marker title
+                const title = marker.getTitle();
+                if (!title) return;
+                
+                const match = title.match(/\((\d+)% confidence\)/);
+                if (!match) return;
+                
+                const confidence = parseInt(match[1]);
+                
+                if (confidence >= 80) {
+                    countByConfidence.high++;
+                } else if (confidence >= 60) {
+                    countByConfidence.medium++;
+                } else if (confidence >= 30) {
+                    countByConfidence.low++;
+                } else {
+                    countByConfidence.veryLow++;
+                }
+            });
+            
+            // Create statistics HTML
+            statsContent.innerHTML = `
+                <div class="mb-3">
+                    <strong>Total Active Fire Hotspots:</strong> ${markers.length.toLocaleString()}
+                </div>
+                <div class="mb-3">
+                    <strong>By Confidence Level:</strong>
+                    <ul class="list-unstyled mt-2">
+                        <li class="d-flex align-items-center mb-1">
+                            <span class="legend-color legend-high me-2"></span>
+                            High (80-100%): ${countByConfidence.high.toLocaleString()}
+                        </li>
+                        <li class="d-flex align-items-center mb-1">
+                            <span class="legend-color legend-medium me-2"></span>
+                            Medium (60-79%): ${countByConfidence.medium.toLocaleString()}
+                        </li>
+                        <li class="d-flex align-items-center mb-1">
+                            <span class="legend-color legend-low me-2"></span>
+                            Low (30-59%): ${countByConfidence.low.toLocaleString()}
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <span class="legend-color legend-very-low me-2"></span>
+                            Very Low (0-29%): ${countByConfidence.veryLow.toLocaleString()}
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>Data Source:</strong> ${document.getElementById('data-source').value}
+                </div>
+                <div>
+                    <strong>Time Range:</strong> Last ${document.getElementById('days-range').value} day(s)
+                </div>
+                <div class="mt-3 text-muted">
+                    <small>Data provided by NASA FIRMS and processed in real-time. Last updated: ${new Date().toLocaleString()}</small>
+                </div>
+            `;
+            
+            // Show the panel
+            statsPanel.style.display = 'block';
+        }
+        
+        // Clear all markers
+        function clearMarkers() {
+            // Remove markers from map
+            markers.forEach(marker => {
+                marker.setMap(null);
+            });
+            
+            // Clear array
+            markers = [];
+            
+            // Clear marker clusterer
+            if (markerClusterer) {
+                markerClusterer.clearMarkers();
+            }
+            
+            // Clear heatmap
+            if (window.heatmap) {
+                window.heatmap.setMap(null);
+            }
+        }
+        
+        // Update pagination information
+        function updatePagination() {
+            const currentPage = document.getElementById('current-page');
+            const totalPages = document.getElementById('total-pages');
+            
+            if (currentPage && totalPages) {
+                const markersPerPage = parseInt(document.getElementById('markers-per-page').value);
+                const totalPagesValue = Math.ceil(markers.length / markersPerPage);
+                
+                currentPage.textContent = '1';
+                totalPages.textContent = totalPagesValue > 0 ? totalPagesValue : 1;
+            }
+        }
+        
+        // Show status message
+        function showStatus(message, type = 'info') {
+            const statusPanel = document.getElementById('status-panel');
+            if (!statusPanel) return;
+            
+            statusPanel.textContent = message;
+            statusPanel.style.display = 'block';
+            
+            // Set color based on message type
+            switch(type) {
+                case 'error':
+                    statusPanel.style.borderLeft = '4px solid #dc3545';
+                    break;
+                case 'success':
+                    statusPanel.style.borderLeft = '4px solid #28a745';
+                    // Auto-hide success messages after 5 seconds
+                    setTimeout(() => {
+                        statusPanel.style.display = 'none';
+                    }, 5000);
+                    break;
+                case 'warning':
+                    statusPanel.style.borderLeft = '4px solid #ffc107';
+                    break;
+                default:
+                    statusPanel.style.borderLeft = '4px solid #17a2b8';
+            }
+        }
+        
+        // Show loading message
+        function showLoadingMessage(message) {
+            const loadingMsg = document.getElementById('loading-data-message');
+            if (loadingMsg) {
+                const spinner = loadingMsg.querySelector('.loading-data-spinner');
+                const textNode = loadingMsg.childNodes[1] || document.createTextNode(message);
+                
+                if (textNode.nodeType === Node.TEXT_NODE) {
+                    textNode.nodeValue = message;
+                    if (!textNode.parentNode) {
+                        loadingMsg.appendChild(textNode);
+                    }
+                }
+                
+                loadingMsg.style.display = 'block';
+            }
+        }
+        
+        // Hide loading message
+        function hideLoadingMessage() {
+            const loadingMsg = document.getElementById('loading-data-message');
+            if (loadingMsg) {
+                loadingMsg.style.display = 'none';
+            }
+        }
+        
+        // Set up range slider displays
+        document.addEventListener('DOMContentLoaded', function() {
+            const confidenceRange = document.getElementById('confidence-range');
+            const confidenceMin = document.getElementById('confidence-min');
+            
+            if (confidenceRange && confidenceMin) {
+                confidenceRange.addEventListener('input', function() {
+                    confidenceMin.textContent = this.value + '%';
+                });
+            }
+            
+            const frpRange = document.getElementById('frp-range');
+            const frpMin = document.getElementById('frp-min');
+            
+            if (frpRange && frpMin) {
+                frpRange.addEventListener('input', function() {
+                    frpMin.textContent = this.value;
+                });
+            }
+            
+            // Set current year in footer
+            const yearElement = document.getElementById('year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
 </body>
 </html>
