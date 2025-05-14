@@ -5,22 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eye on the Fire - Live US Wildfire Map | Fires Near Me Tracker</title>
     <meta name="description" content="Track wildfires near you with Eye on the Fire's live US interactive map. Get real-time updates, safety guides, and emergency resources.">
-    <meta name="keywords" content="wildfire map, fires near me, US wildfire tracker, real-time fire updates, wildfire safety">
     <meta property="og:title" content="Eye on the Fire - Live US Wildfire Map">
     <meta property="og:description" content="Track wildfires in real-time with our interactive US map. Stay informed and safe with updates and resources.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eyeonthefire.com/">
     <meta property="og:image" content="https://eyeonthefire.com/images/hero-bg.jpg">
     <link rel="canonical" href="https://eyeonthefire.com/">
-    
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="/fonts/montserrat-v25-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/montserrat-v25-latin-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/open-sans-v34-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-    
-    <!-- External CSS resources -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     
     <!-- Favicon Links -->
     <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
@@ -29,12 +19,21 @@
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/favicon/site.webmanifest">
     
-    <!-- External CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- External CSS: Font Awesome and Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     
-    <!-- Google Analytics - Moved to separate script file -->
+    <!-- Custom CSS file -->
+    <link rel="stylesheet" href="/styles.css">
+    
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
-    <script src="analytics.js" defer></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW');
+    </script>
 </head>
 <body>
     <header class="navbar">
@@ -85,13 +84,13 @@
             <h2 class="section-title">Interactive Live US Wildfire Tracker</h2>
             <p class="section-intro">Monitor the latest wildfire activity nationwide. Use the map controls to find <strong>fires near you</strong> anywhere in the US, zoom into specific regions, and explore data layers for a comprehensive view of <strong>current wildfires</strong> and activity.</p>
             
-            <div class="map-usage-guide" role="region" aria-labelledby="map-guide-heading">
-                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt" aria-hidden="true"></i> How to Use the Map:</h4>
+            <div class="map-usage-guide">
+                <h4 id="map-guide-heading"><i class="fas fa-map-marked-alt"></i> How to Use the Map:</h4>
                 <ul>
-                    <li><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
-                    <li><i class="fas fa-search-plus" aria-hidden="true"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
-                    <li><i class="fas fa-undo" aria-hidden="true"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
-                    <li><i class="fas fa-fire" aria-hidden="true"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
+                    <li><i class="fas fa-location-crosshairs"></i><span>Click <strong>Locate Me</strong> to center the map on your current position and find potential <strong>wildfires near me</strong>.</span></li>
+                    <li><i class="fas fa-search-plus"></i><span>Use the <strong>+/- buttons</strong> or pinch/scroll to zoom in and out for regional detail.</span></li>
+                    <li><i class="fas fa-undo"></i><span>Click <strong>Reset View</strong> to return to the initial nationwide map extent.</span></li>
+                    <li><i class="fas fa-fire"></i><span>Fire icons indicate detected hotspots or reported incidents. Click icons for available details.</span></li>
                 </ul>
             </div>
         </div>
@@ -100,6 +99,7 @@
             <div class="map-wrapper">
                 <div id="map-container">
                     <div id="map"></div>
+                    
                     <!-- Custom Tooltip -->
                     <div id="custom-tooltip"></div>
                     
@@ -107,7 +107,7 @@
                     <div id="sidebar">
                         <div class="sidebar-header">
                             <h4><i class="fas fa-fire-flame-curved"></i> USA Fire Map</h4>
-                            <p class="text-muted mb-0" style="font-size: 12px;">NASA FIRMS Real-Time Fire Data</p>
+                            <p class="sidebar-tagline">NASA FIRMS Real-Time Fire Data</p>
                         </div>
                         <div class="sidebar-content">
                             <div id="active-filters"></div>
@@ -204,6 +204,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div id="toggle-sidebar">
                         <i class="fas fa-chevron-left"></i>
                     </div>
@@ -226,31 +227,31 @@
                     
                     <!-- Legend -->
                     <div id="legend">
-                        <h6 style="font-size: 12px; margin-top: 0;">Fire Confidence</h6>
+                        <h6 class="legend-title">Fire Confidence</h6>
                         <div class="legend-item">
-                            <div class="legend-color" style="background-color: #FF0000;"></div>
+                            <div class="legend-color legend-high"></div>
                             <span>High (80-100%)</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background-color: #FF4500;"></div>
+                            <div class="legend-color legend-medium"></div>
                             <span>Medium (60-79%)</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background-color: #FFA500;"></div>
+                            <div class="legend-color legend-low"></div>
                             <span>Low (30-59%)</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background-color: #FFCC00;"></div>
+                            <div class="legend-color legend-very-low"></div>
                             <span>Very Low (0-29%)</span>
                         </div>
-                        <div style="margin-top: 6px; font-size: 10px;">
+                        <div class="legend-size-note">
                             <strong>Circle Size:</strong> Fire Power (MW)
                         </div>
                         <div class="color-scale">
-                            <div style="background-color: #FFCC00;"></div>
-                            <div style="background-color: #FFA500;"></div>
-                            <div style="background-color: #FF4500;"></div>
-                            <div style="background-color: #FF0000;"></div>
+                            <div class="color-scale-1"></div>
+                            <div class="color-scale-2"></div>
+                            <div class="color-scale-3"></div>
+                            <div class="color-scale-4"></div>
                         </div>
                     </div>
                     
@@ -319,17 +320,17 @@
             <p class="section-intro">Protecting your property starts long before a wildfire approaches. Implementing <strong>fire prevention</strong> strategies like <strong>home hardening</strong> and creating <strong>defensible space</strong> are the most effective ways to increase your home's chance of survival, regardless of your location in the US. Explore these fundamental guides to build your <strong>wildfire action plan</strong>.</p>
             <div class="prevention-grid">
                 <div class="prevention-item">
-                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <i class="fas fa-home"></i>
                     <h3>Defensible Space Zones</h3>
                     <p>Learn how to create and maintain recommended buffer zones around your home to reduce flammable vegetation and help stop fire spread. Essential nationwide guidance.</p>
                 </div>
                 <div class="prevention-item">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
+                    <i class="fas fa-tools"></i>
                     <h3>Home Hardening Techniques</h3>
                     <p>Discover methods to make your home more resistant to embers and flames, focusing on roofs, vents, windows, siding, and decks applicable across the US.</p>
                 </div>
                 <div class="prevention-item">
-                    <i class="fas fa-seedling" aria-hidden="true"></i>
+                    <i class="fas fa-seedling"></i>
                     <h3>Fire-Smart Landscaping</h3>
                     <p>Choose appropriate vegetation and spacing for plants near your home. Utilize fire-resistant native plants and maintain adequate irrigation for your climate zone.</p>
                 </div>
@@ -346,10 +347,10 @@
             <div class="cta-banner">
                 <p>Find National Interagency Fire Center (NIFC) Updates: <a href="https://www.nifc.gov/" target="_blank" rel="noopener noreferrer">Visit NIFC.gov</a></p>
             </div>
-            <div class="gallery" role="list" aria-label="Community and wildfire images">
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
-                <div class="gallery-item" role="listitem"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
+            <div class="gallery">
+                <div class="gallery-item"><img src="/images/us-wildfire-community-response.jpg" alt="Diverse group of community members clearing brush together for wildfire prevention in a US neighborhood"></div>
+                <div class="gallery-item"><img src="/images/us-firefighters-working.jpg" alt="US firefighters monitoring a controlled burn or wildfire line in a forested area"></div>
+                <div class="gallery-item"><img src="/images/us-wildfire-landscape-recovery.jpg" alt="Wide landscape view showing ecological recovery with green shoots emerging after a US wildfire"></div>
             </div>
         </div>
     </section>
@@ -397,7 +398,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization" defer></script>
     
     <!-- Your site JavaScript files -->
-    <script src="firemap-core.js"></script>
-    <script src="main.js"></script>
+    <script src="/main.js" defer></script>
 </body>
 </html>
