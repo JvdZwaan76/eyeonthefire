@@ -1,7 +1,0 @@
-name = "eyeonthefire"
-
-[vars]
-NASA_FIRMS_URL = "https://firms.modaps.eosdis.nasa.gov/api/..."
-ENVIRONMENT = "production"
-
-# The API keys should NOT be here - use secrets instead
