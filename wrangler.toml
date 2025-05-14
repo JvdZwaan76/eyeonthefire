@@ -1,9 +1,7 @@
 name = "eyeonthefire"
-# other configuration...
 
 [vars]
-NASA_API_KEY = "d152217c8391eb5b0fbd242290527ae8"
 NASA_FIRMS_URL = "https://firms.modaps.eosdis.nasa.gov/api/..."
-MAPS_API_KEY = "AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk"  # Moved here from the duplicate section
+ENVIRONMENT = "production"
 
-# More configuration...
+# The API keys should NOT be here - use secrets instead
