@@ -1,152 +1,162 @@
-class FireMap {
-    constructor() {
-        this.map = null;
-        this.markers = [];
-        this.clusterer = null;
-        this.retryCount = 0;
-        this.maxRetries = 10;
-        this.initMap();
-    }
+// src/index.js for your eyeonthefire Worker
 
-    initMap() {
-        const mapContainer = document.getElementById('map');
-        if (!mapContainer) {
-            console.error('Map container not found');
-            this.showFallbackMap();
-            return;
+export default {
+  async fetch(request, env, ctx) {
+    // Set up CORS headers
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "https://eyeonthefire.com",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    };
+    
+    // Handle OPTIONS request for CORS
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+    
+    // Parse the URL and path
+    const url = new URL(request.url);
+    const path = url.pathname.split('/').filter(Boolean);
+    
+    // API endpoint for fire data
+    if (path[0] === "api" && path[1] === "nasa" && path[2] === "firms") {
+      return await handleFireDataRequest(request, url, env, corsHeaders);
+    }
+    
+    // Default response for unmatched routes
+    return new Response("Not found", { 
+      status: 404,
+      headers: {
+        "Content-Type": "text/plain",
+        ...corsHeaders
+      } 
+    });
+  }
+};
+
+async function handleFireDataRequest(request, url, env, corsHeaders) {
+  try {
+    // Get Turnstile token from request
+    const turnstileToken = url.searchParams.get("cf-turnstile-token");
+    
+    // Verify Turnstile token
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ 
+        error: true, 
+        message: "Turnstile token is required" 
+      }), {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders
         }
-        if (typeof google === 'undefined' || !google.maps) {
-            if (this.retryCount >= this.maxRetries) {
-                console.error('Max retries reached for Google Maps API. Showing fallback map.');
-                this.showFallbackMap();
-                return;
-            }
-            console.warn(`Google Maps API not loaded. Retry ${this.retryCount + 1}/${this.maxRetries} in 1s...`);
-            this.retryCount++;
-            setTimeout(() => this.initMap(), 1000);
-            return;
+      });
+    }
+    
+    // Verify the token with Turnstile
+    const turnstileResult = await verifyTurnstileToken(turnstileToken, env, request);
+    
+    if (!turnstileResult.success) {
+      return new Response(JSON.stringify({
+        error: true,
+        message: "Turnstile verification failed",
+        details: turnstileResult
+      }), {
+        status: 403,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders
         }
-        this.map = new google.maps.Map(mapContainer, {
-            center: { lat: 39.8283, lng: -98.5795 },
-            zoom: 4,
-            mapTypeId: 'roadmap'
-        });
-        if (typeof MarkerClusterer !== 'undefined') {
-            this.clusterer = new MarkerClusterer({ map: this.map, markers: [] });
-        } else {
-            console.warn('MarkerClusterer not loaded. Clustering disabled.');
+      });
+    }
+    
+    // Parse query parameters for the NASA FIRMS API
+    const source = url.searchParams.get("source") || "MODIS_NRT";
+    const days = url.searchParams.get("days") || "1";
+    const area = url.searchParams.get("area") || "usa";
+    
+    // Create bounds parameter if provided
+    let boundsParam = "";
+    if (url.searchParams.has("north") && 
+        url.searchParams.has("south") && 
+        url.searchParams.has("east") && 
+        url.searchParams.has("west")) {
+      boundsParam = `&extent=${url.searchParams.get("west")},${url.searchParams.get("south")},${url.searchParams.get("east")},${url.searchParams.get("north")}`;
+    }
+    
+    // Cache key for the request
+    const cacheKey = `firms-${source}-${area}-${days}-${boundsParam}`;
+    
+    // Check if we have a cached response
+    const cache = caches.default;
+    let cachedResponse = await cache.match(cacheKey);
+    
+    if (cachedResponse) {
+      // Return cached data with cors headers
+      return new Response(cachedResponse.body, {
+        headers: {
+          ...cachedResponse.headers,
+          ...corsHeaders
         }
-        this.fetchFireData();
+      });
     }
-
-    async fetchFireData() {
-        const maxRetries = 4;
-        let attempt = 1;
-        while (attempt <= maxRetries) {
-            try {
-                const url = 'https://eyeonthefire.com/api/nasa/firms?source=MODIS_NRT&area=world&days=1';
-                console.log(`Fetch attempt ${attempt}/${maxRetries}: ${url}`);
-                document.getElementById('loading-overlay').style.display = 'flex';
-                const response = await fetch(url);
-                console.log(`Response status: ${response.status}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
-                }
-                const data = await response.json();
-                if (!data.events || !Array.isArray(data.events) || data.events.length === 0) {
-                    console.error('API response:', data);
-                    throw new Error('Invalid or empty API response');
-                }
-                this.markers.forEach(marker => marker.setMap(null));
-                this.markers = data.events
-                    .filter(event => event.geometry && event.geometry[0]?.coordinates)
-                    .map(event => {
-                        const [lng, lat] = event.geometry[0].coordinates;
-                        return new google.maps.marker.AdvancedMarkerElement({
-                            position: { lat, lng },
-                            map: this.map,
-                            title: event.title || 'Active Fire'
-                        });
-                    });
-                if (this.clusterer) {
-                    this.clusterer.clearMarkers();
-                    this.clusterer.addMarkers(this.markers);
-                }
-                console.log(`Received ${this.markers.length} fire data points`);
-                document.getElementById('loading-overlay').classList.add('hidden');
-                return;
-            } catch (error) {
-                console.error(`Fetch error on attempt ${attempt}: ${error.message}`);
-                if (attempt === maxRetries) {
-                    console.error('Max retries reached for fire data. Showing fallback map.');
-                    this.showFallbackMap();
-                }
-                attempt++;
-                await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-            }
-        }
+    
+    // Construct NASA FIRMS API URL using the base URL and API key from environment
+    const nasaFirmsUrl = `${env.NASA_FIRMS_URL}/area/json/${env.NASA_API_KEY}/${source}/${area}/${days}${boundsParam}`;
+    
+    // Fetch data from NASA FIRMS
+    const firmsResponse = await fetch(nasaFirmsUrl);
+    
+    if (!firmsResponse.ok) {
+      throw new Error(`NASA FIRMS API returned status ${firmsResponse.status}`);
     }
-
-    showFallbackMap() {
-        document.getElementById('map').style.display = 'none';
-        document.getElementById('fallback-map').style.display = 'block';
-        document.getElementById('loading-overlay').style.display = 'none';
-    }
-
-    zoomIn() {
-        if (this.map) this.map.setZoom(this.map.getZoom() + 1);
-    }
-
-    zoomOut() {
-        if (this.map) this.map.setZoom(this.map.getZoom() - 1);
-    }
-
-    async getLocationName(lat, lng) {
-        try {
-            const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`);
-            if (!response.ok) throw new Error('Geocoding failed');
-            const data = await response.json();
-            if (data.results && data.results.length > 0) {
-                return data.results[0].formatted_address;
-            }
-            return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
-        } catch (error) {
-            console.error('Google Maps geocoder error:', error.message);
-            return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
-        }
-    }
-
-    getUserLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    const { latitude, longitude } = position.coords;
-                    this.map.setCenter({ lat: latitude, lng: longitude });
-                    this.map.setZoom(10);
-                },
-                err => {
-                    console.error('Geolocation error:', err.message);
-                    alert('Could not get your location: ' + err.message);
-                },
-                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-            );
-        } else {
-            alert('Geolocation is not supported by this browser.');
-        }
-    }
-
-    resize() {
-        if (this.map) google.maps.event.trigger(this.map, 'resize');
-    }
-
-    toggleStatsPanel() {
-        const statsPanel = document.getElementById('stats-panel');
-        statsPanel.style.display = statsPanel.style.display === 'block' ? 'none' : 'block';
-    }
-
-    onGoogleMapsLoaded() {
-        this.initMap();
-    }
+    
+    const firmsData = await firmsResponse.json();
+    
+    // Cache the response (5 minutes)
+    const response = new Response(JSON.stringify(firmsData), {
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "max-age=300",
+        ...corsHeaders
+      }
+    });
+    
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    
+    return response;
+    
+  } catch (error) {
+    console.error("Error processing request:", error);
+    
+    return new Response(JSON.stringify({
+      error: true,
+      message: `Error processing request: ${error.message}`
+    }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+        ...corsHeaders
+      }
+    });
+  }
 }
 
-window.FireMap = FireMap;
+async function verifyTurnstileToken(token, env, request) {
+  const turnstileResponse = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        secret: env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: request.headers.get("CF-Connecting-IP")
+      })
+    }
+  );
+  
+  return await turnstileResponse.json();
+}
