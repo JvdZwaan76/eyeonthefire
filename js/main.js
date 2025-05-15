@@ -5,20 +5,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeSite();
-  if (!window.turnstile) {
-    const turnstileScript = document.createElement('script');
-    turnstileScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    turnstileScript.async = true;
-    turnstileScript.defer = true;
-    document.head.appendChild(turnstileScript);
-    const turnstileContainer = document.createElement('div');
-    turnstileContainer.id = 'turnstile-container';
-    turnstileContainer.style.display = 'none';
-    document.body.appendChild(turnstileContainer);
-  }
 });
 
 function initializeSite() {
+  console.log('Initializing site');
   const yearElement = document.getElementById('year');
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
@@ -27,11 +17,14 @@ function initializeSite() {
   setupScrollEffect();
   setupSmoothScrolling();
   if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
+    console.log('Google Maps API available, initializing map');
     initializeGoogleMap();
   } else {
+    console.log('Google Maps API not available, setting initMap callback');
     window.initMap = initializeGoogleMap;
     setTimeout(() => {
       if (!window.fireMapInitialized) {
+        console.error('Map initialization timeout');
         showMapLoadingError();
       }
     }, 10000);
@@ -40,6 +33,7 @@ function initializeSite() {
 }
 
 function setupMobileMenu() {
+  console.log('Setting up mobile menu');
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   if (hamburger && navMenu) {
@@ -63,6 +57,7 @@ function setupMobileMenu() {
 }
 
 function setupScrollEffect() {
+  console.log('Setting up scroll effect');
   const navbar = document.querySelector('.navbar');
   if (navbar) {
     window.addEventListener('scroll', function () {
@@ -76,6 +71,7 @@ function setupScrollEffect() {
 }
 
 function setupSmoothScrolling() {
+  console.log('Setting up smooth scrolling');
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -100,13 +96,17 @@ function setupSmoothScrolling() {
 }
 
 function initializeGoogleMap() {
-  if (window.fireMapInitialized) return;
+  if (window.fireMapInitialized) {
+    console.log('Map already initialized');
+    return;
+  }
   window.fireMapInitialized = true;
   const mapElement = document.getElementById('map');
   if (!mapElement) {
     console.error('Map container not found');
     return;
   }
+  console.log('Initializing Google Map');
   const mapOptions = {
     center: { lat: 39.5, lng: -98.35 },
     zoom: 4,
@@ -139,6 +139,7 @@ function initializeGoogleMap() {
   };
   const map = new google.maps.Map(mapElement, mapOptions);
   window.fireMap = map;
+  console.log('Map created, hiding loading overlay');
   const loadingOverlay = document.getElementById('loading-overlay');
   if (loadingOverlay) {
     loadingOverlay.style.display = 'none';
@@ -152,12 +153,14 @@ function initializeFireDataService(map) {
     showStatusMessage('Error loading fire data service', 'error');
     return;
   }
+  console.log('Initializing FireDataService');
   const fireDataService = new window.FireDataService();
   window.fireDataService = fireDataService;
   fireDataService.initialize(map);
 }
 
 function setupMapControls() {
+  console.log('Setting up map controls');
   const toggleSidebar = document.getElementById('toggle-sidebar');
   if (toggleSidebar) {
     toggleSidebar.addEventListener('click', toggleSidebarPanel);
@@ -303,6 +306,7 @@ function setupMapControls() {
 }
 
 function toggleSidebarPanel() {
+  console.log('Toggling sidebar panel');
   const sidebar = document.getElementById('sidebar');
   const toggleSidebar = document.getElementById('toggle-sidebar');
   const statusPanel = document.getElementById('status-panel');
@@ -346,6 +350,7 @@ function getFireMap() {
 }
 
 function showStatusMessage(message, type = 'info') {
+  console.log('Showing status message:', message, type);
   const statusPanel = document.getElementById('status-panel');
   if (!statusPanel) return;
   statusPanel.textContent = message;
@@ -369,6 +374,7 @@ function showStatusMessage(message, type = 'info') {
 }
 
 function showMapLoadingError() {
+  console.error('Showing map loading error');
   const mapElement = document.getElementById('map');
   if (!mapElement) return;
   const loadingOverlay = document.getElementById('loading-overlay');
