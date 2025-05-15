@@ -84,6 +84,7 @@ class FireDataService {
   }
 
   async fetchUSAFireData() {
+    console.log('Fetching USA fire data');
     this.setLoading(true);
     this.showLoadingMessage('Loading USA fire data...');
     try {
@@ -93,14 +94,8 @@ class FireDataService {
       params.append('source', this.settings.source);
       params.append('days', this.settings.days);
       params.append('area', 'usa');
-      const token = await this.getTurnstileToken();
-      console.log('Turnstile Token for fetchUSAFireData:', token);
-      if (token) {
-        params.append('cf-turnstile-token', token);
-      } else {
-        console.warn('No Turnstile token obtained, proceeding without');
-      }
-      console.log('Fetching USA fire data from:', fireMapConfig.apiEndpoint);
+      // Skip Turnstile token while bypassed in Worker
+      console.log('Skipping Turnstile token for fetchUSAFireData (Worker bypass)');
       const response = await fetch(`${fireMapConfig.apiEndpoint}?${params.toString()}`, {
         method: 'GET',
         signal: this.abortController.signal,
@@ -110,9 +105,9 @@ class FireDataService {
         throw new Error(`API responded with status ${response.status}`);
       }
       const csvData = await response.text();
+      console.log('Received CSV data:', csvData.substring(0, 100)); // Debug first 100 chars
       const data = Papa.parse(csvData, { header: true, skipEmptyLines: true }).data;
       if (Array.isArray(data)) {
-        console.log('Parsed USA fire data:', data.length, 'points');
         this.processFireData(data);
         this.showStatusMessage(`Loaded ${data.length} fire data points for USA`, 'success');
         this.lastFetchTime = new Date();
@@ -139,6 +134,7 @@ class FireDataService {
     if (!bounds) return;
     const ne = bounds.getNorthEast();
     const sw = bounds.getSouthWest();
+    console.log('Fetching fire data for viewport:', { north: ne.lat(), south: sw.lat(), east: ne.lng(), west: sw.lng() });
     this.setLoading(true);
     this.showRegionLoadingIndicator();
     try {
@@ -151,14 +147,8 @@ class FireDataService {
       params.append('south', sw.lat().toFixed(6));
       params.append('east', ne.lng().toFixed(6));
       params.append('west', sw.lng().toFixed(6));
-      const token = await this.getTurnstileToken();
-      console.log('Turnstile Token for fetchDataForViewport:', token);
-      if (token) {
-        params.append('cf-turnstile-token', token);
-      } else {
-        console.warn('No Turnstile token obtained, proceeding without');
-      }
-      console.log('Fetching viewport fire data from:', fireMapConfig.apiEndpoint);
+      // Skip Turnstile token while bypassed in Worker
+      console.log('Skipping Turnstile token for fetchDataForViewport (Worker bypass)');
       const response = await fetch(`${fireMapConfig.apiEndpoint}?${params.toString()}`, {
         method: 'GET',
         signal: this.abortController.signal,
@@ -168,9 +158,9 @@ class FireDataService {
         throw new Error(`API responded with status ${response.status}`);
       }
       const csvData = await response.text();
+      console.log('Received viewport CSV data:', csvData.substring(0, 100));
       const data = Papa.parse(csvData, { header: true, skipEmptyLines: true }).data;
       if (Array.isArray(data)) {
-        console.log('Parsed viewport fire data:', data.length, 'points');
         this.mergeFireData(data);
         this.showStatusMessage(`Loaded ${data.length} fire data points for this region`, 'success');
       } else {
@@ -190,62 +180,9 @@ class FireDataService {
   }
 
   async getTurnstileToken() {
-    return new Promise((resolve) => {
-      if (!window.turnstile) {
-        console.error('Turnstile script not loaded');
-        resolve(null);
-        return;
-      }
-      const container = document.getElementById('turnstile-container');
-      if (!container) {
-        console.error('Turnstile container not found');
-        resolve(null);
-        return;
-      }
-      // Clear container to prevent re-render issues
-      container.innerHTML = '';
-      fetch('https://firemap-worker.jaspervdz.workers.dev/api-keys')
-        .then((res) => {
-          if (!res.ok) {
-            console.error('Failed to fetch API keys:', res.status, res.statusText);
-            resolve(null);
-            return;
-          }
-          return res.json();
-        })
-        .then((keys) => {
-          if (!keys || !keys.turnstileSiteKey) {
-            console.error('No Turnstile site key received:', keys);
-            resolve(null);
-            return;
-          }
-          console.log('Attempting Turnstile render with site key:', keys.turnstileSiteKey);
-          try {
-            window.turnstile.render('#turnstile-container', {
-              sitekey: keys.turnstileSiteKey,
-              callback: (token) => {
-                console.log('Turnstile token generated:', token);
-                resolve(token);
-              },
-              'error-callback': (error) => {
-                console.error('Turnstile render error:', error);
-                resolve(null);
-              },
-              'expired-callback': () => {
-                console.warn('Turnstile token expired');
-                resolve(null);
-              },
-            });
-          } catch (error) {
-            console.error('Turnstile render exception:', error);
-            resolve(null);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching Turnstile site key:', error);
-          resolve(null);
-        });
-    });
+    // Skip Turnstile while Worker bypass is active
+    console.log('Skipping Turnstile token generation (Worker bypass active)');
+    return null;
   }
 
   processFireData(data) {
@@ -253,6 +190,7 @@ class FireDataService {
       console.error('Invalid data format received');
       return;
     }
+    console.log('Processing fire data:', data.length, 'points');
     this.data = data.map((point) => {
       const lat = parseFloat(point.latitude);
       const lng = parseFloat(point.longitude);
@@ -270,7 +208,6 @@ class FireDataService {
         formattedDate,
       };
     });
-    console.log('Processed fire data:', this.data.length, 'points');
     this.applyFilters();
     this.updateMarkers();
   }
@@ -308,6 +245,7 @@ class FireDataService {
 
   mergeFireData(newData) {
     if (!Array.isArray(newData) || newData.length === 0) return;
+    console.log('Merging new fire data:', newData.length, 'points');
     const existingIds = new Set();
     this.data.forEach((point) => {
       const id = `${point.lat},${point.lng},${point.acq_date || ''},${point.acq_time || ''}`;
@@ -337,7 +275,6 @@ class FireDataService {
       };
     });
     this.data = [...this.data, ...processedNewData];
-    console.log('Merged fire data:', this.data.length, 'points');
     this.applyFilters();
     this.updateMarkers();
   }
@@ -348,7 +285,7 @@ class FireDataService {
       if (point.frp < this.settings.minFrp) return false;
       return true;
     });
-    console.log('Filtered fire data:', this.filteredData.length, 'points');
+    console.log('Applied filters, filtered data:', this.filteredData.length, 'points');
     this.updateFilterStatus();
   }
 
@@ -393,14 +330,16 @@ class FireDataService {
       const totalPages = Math.ceil(this.filteredData.length / this.settings.maxMarkers);
       currentPageEl.textContent = this.settings.currentPage;
       totalPagesEl.textContent = totalPages > 0 ? totalPages : 1;
+      console.log('Updated pagination:', this.settings.currentPage, 'of', totalPages);
     }
   }
 
   updateMarkers() {
     if (!this.map) {
-      console.error('Map instance not available for updating markers');
+      console.error('Map not initialized for markers');
       return;
     }
+    console.log('Updating markers:', this.filteredData.length, 'points');
     this.clearMarkers();
     const totalPages = Math.ceil(this.filteredData.length / this.settings.maxMarkers);
     this.settings.currentPage = Math.min(this.settings.currentPage, totalPages);
@@ -408,7 +347,6 @@ class FireDataService {
     const startIndex = (this.settings.currentPage - 1) * this.settings.maxMarkers;
     const endIndex = startIndex + this.settings.maxMarkers;
     const dataSlice = this.filteredData.slice(startIndex, endIndex);
-    console.log('Updating markers:', dataSlice.length, 'points');
     this.markers = dataSlice.map((point) => this.createMarker(point));
     if (this.settings.clustering && window.markerClusterer) {
       this.markerClusterer = new markerClusterer.MarkerClusterer({
@@ -467,6 +405,7 @@ class FireDataService {
       });
       infoWindow.open(this.map, marker);
     });
+    console.log('Created marker:', point.lat, point.lng);
     return marker;
   }
 
@@ -530,6 +469,7 @@ class FireDataService {
       this.heatmap.setMap(null);
       this.heatmap = null;
     }
+    console.log('Cleared markers');
   }
 
   cancelPendingRequests() {
@@ -596,6 +536,7 @@ class FireDataService {
       default:
         statusPanel.style.borderLeft = '4px solid #17a2b8';
     }
+    console.log('Status message:', message, type);
   }
 
   applyFilterSettings() {
@@ -632,6 +573,7 @@ class FireDataService {
       this.settings.maxMarkers = parseInt(markersPerPage.value);
     }
     this.settings.currentPage = 1;
+    console.log('Applying filter settings:', this.settings);
     this.applyFilters();
     this.updateMarkers();
     if (this.settings.lazyLoading) {
@@ -677,6 +619,7 @@ class FireDataService {
       maxMarkers: 1000,
       currentPage: 1,
     };
+    console.log('Resetting filters to defaults');
     this.applyFilters();
     this.updateMarkers();
     this.fetchUSAFireData();
@@ -745,13 +688,11 @@ class FireDataService {
       </div>
     `;
     statsPanel.style.display = 'block';
+    console.log('Showing statistics panel');
   }
 
   showSampleData() {
-    if (!this.map) {
-      console.error('Map instance not available for sample data');
-      return;
-    }
+    if (!this.map) return;
     const samplePoints = [
       { lat: 40.7128, lng: -74.006, confidence: 95, frp: 75, acq_date: '2025-05-13' },
       { lat: 34.0522, lng: -118.2437, confidence: 80, frp: 50, acq_date: '2025-05-13' },
