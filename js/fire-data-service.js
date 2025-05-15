@@ -49,6 +49,7 @@ class FireDataService {
   }
 
   initialize(mapInstance) {
+    console.log('Initializing FireDataService with map');
     this.map = mapInstance;
     if (this.map && this.settings.lazyLoading) {
       this.map.addListener('idle', () => {
@@ -93,9 +94,13 @@ class FireDataService {
       params.append('days', this.settings.days);
       params.append('area', 'usa');
       const token = await this.getTurnstileToken();
+      console.log('Turnstile Token for fetchUSAFireData:', token);
       if (token) {
         params.append('cf-turnstile-token', token);
+      } else {
+        console.warn('No Turnstile token obtained, proceeding without');
       }
+      console.log('Fetching USA fire data from:', fireMapConfig.apiEndpoint);
       const response = await fetch(`${fireMapConfig.apiEndpoint}?${params.toString()}`, {
         method: 'GET',
         signal: this.abortController.signal,
@@ -107,6 +112,7 @@ class FireDataService {
       const csvData = await response.text();
       const data = Papa.parse(csvData, { header: true, skipEmptyLines: true }).data;
       if (Array.isArray(data)) {
+        console.log('Parsed USA fire data:', data.length, 'points');
         this.processFireData(data);
         this.showStatusMessage(`Loaded ${data.length} fire data points for USA`, 'success');
         this.lastFetchTime = new Date();
@@ -146,9 +152,13 @@ class FireDataService {
       params.append('east', ne.lng().toFixed(6));
       params.append('west', sw.lng().toFixed(6));
       const token = await this.getTurnstileToken();
+      console.log('Turnstile Token for fetchDataForViewport:', token);
       if (token) {
         params.append('cf-turnstile-token', token);
+      } else {
+        console.warn('No Turnstile token obtained, proceeding without');
       }
+      console.log('Fetching viewport fire data from:', fireMapConfig.apiEndpoint);
       const response = await fetch(`${fireMapConfig.apiEndpoint}?${params.toString()}`, {
         method: 'GET',
         signal: this.abortController.signal,
@@ -160,6 +170,7 @@ class FireDataService {
       const csvData = await response.text();
       const data = Papa.parse(csvData, { header: true, skipEmptyLines: true }).data;
       if (Array.isArray(data)) {
+        console.log('Parsed viewport fire data:', data.length, 'points');
         this.mergeFireData(data);
         this.showStatusMessage(`Loaded ${data.length} fire data points for this region`, 'success');
       } else {
@@ -180,25 +191,60 @@ class FireDataService {
 
   async getTurnstileToken() {
     return new Promise((resolve) => {
-      if (window.turnstile) {
-        fetch('https://firemap-worker.jaspervdz.workers.dev/api-keys')
-          .then((res) => res.json())
-          .then((keys) => {
-            if (keys.turnstileSiteKey) {
-              window.turnstile.render('#turnstile-container', {
-                sitekey: keys.turnstileSiteKey,
-                callback: (token) => resolve(token),
-                'expired-callback': () => resolve(null),
-                'error-callback': () => resolve(null),
-              });
-            } else {
-              resolve(null);
-            }
-          })
-          .catch(() => resolve(null));
-      } else {
+      if (!window.turnstile) {
+        console.error('Turnstile script not loaded');
         resolve(null);
+        return;
       }
+      const container = document.getElementById('turnstile-container');
+      if (!container) {
+        console.error('Turnstile container not found');
+        resolve(null);
+        return;
+      }
+      // Clear container to prevent re-render issues
+      container.innerHTML = '';
+      fetch('https://firemap-worker.jaspervdz.workers.dev/api-keys')
+        .then((res) => {
+          if (!res.ok) {
+            console.error('Failed to fetch API keys:', res.status, res.statusText);
+            resolve(null);
+            return;
+          }
+          return res.json();
+        })
+        .then((keys) => {
+          if (!keys || !keys.turnstileSiteKey) {
+            console.error('No Turnstile site key received:', keys);
+            resolve(null);
+            return;
+          }
+          console.log('Attempting Turnstile render with site key:', keys.turnstileSiteKey);
+          try {
+            window.turnstile.render('#turnstile-container', {
+              sitekey: keys.turnstileSiteKey,
+              callback: (token) => {
+                console.log('Turnstile token generated:', token);
+                resolve(token);
+              },
+              'error-callback': (error) => {
+                console.error('Turnstile render error:', error);
+                resolve(null);
+              },
+              'expired-callback': () => {
+                console.warn('Turnstile token expired');
+                resolve(null);
+              },
+            });
+          } catch (error) {
+            console.error('Turnstile render exception:', error);
+            resolve(null);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching Turnstile site key:', error);
+          resolve(null);
+        });
     });
   }
 
@@ -224,6 +270,7 @@ class FireDataService {
         formattedDate,
       };
     });
+    console.log('Processed fire data:', this.data.length, 'points');
     this.applyFilters();
     this.updateMarkers();
   }
@@ -290,6 +337,7 @@ class FireDataService {
       };
     });
     this.data = [...this.data, ...processedNewData];
+    console.log('Merged fire data:', this.data.length, 'points');
     this.applyFilters();
     this.updateMarkers();
   }
@@ -300,6 +348,7 @@ class FireDataService {
       if (point.frp < this.settings.minFrp) return false;
       return true;
     });
+    console.log('Filtered fire data:', this.filteredData.length, 'points');
     this.updateFilterStatus();
   }
 
@@ -348,7 +397,10 @@ class FireDataService {
   }
 
   updateMarkers() {
-    if (!this.map) return;
+    if (!this.map) {
+      console.error('Map instance not available for updating markers');
+      return;
+    }
     this.clearMarkers();
     const totalPages = Math.ceil(this.filteredData.length / this.settings.maxMarkers);
     this.settings.currentPage = Math.min(this.settings.currentPage, totalPages);
@@ -356,6 +408,7 @@ class FireDataService {
     const startIndex = (this.settings.currentPage - 1) * this.settings.maxMarkers;
     const endIndex = startIndex + this.settings.maxMarkers;
     const dataSlice = this.filteredData.slice(startIndex, endIndex);
+    console.log('Updating markers:', dataSlice.length, 'points');
     this.markers = dataSlice.map((point) => this.createMarker(point));
     if (this.settings.clustering && window.markerClusterer) {
       this.markerClusterer = new markerClusterer.MarkerClusterer({
@@ -366,9 +419,11 @@ class FireDataService {
           maxZoom: 15,
         }),
       });
+      console.log('Marker clustering enabled');
     }
     if (this.settings.heatmap && google.maps.visualization) {
       this.createHeatmap();
+      console.log('Heatmap enabled');
     }
     this.updatePagination();
   }
@@ -693,7 +748,10 @@ class FireDataService {
   }
 
   showSampleData() {
-    if (!this.map) return;
+    if (!this.map) {
+      console.error('Map instance not available for sample data');
+      return;
+    }
     const samplePoints = [
       { lat: 40.7128, lng: -74.006, confidence: 95, frp: 75, acq_date: '2025-05-13' },
       { lat: 34.0522, lng: -118.2437, confidence: 80, frp: 50, acq_date: '2025-05-13' },
@@ -710,6 +768,7 @@ class FireDataService {
       ...point,
       formattedDate: this.formatDateTime(point.acq_date, ''),
     }));
+    console.log('Showing sample data:', this.data.length, 'points');
     this.applyFilters();
     this.updateMarkers();
     this.showStatusMessage('Note: Showing sample data as API could not be reached', 'warning');
