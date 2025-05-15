@@ -8,9 +8,15 @@ const WORKER_URL = 'https://firemap-worker.jaspervdz.workers.dev';
 
 async function fetchApiKeys() {
   try {
+    console.log('Fetching API keys from:', WORKER_URL + '/api-keys');
     const response = await fetch(`${WORKER_URL}/api-keys`);
-    if (!response.ok) throw new Error('Failed to fetch API keys');
-    return await response.json();
+    if (!response.ok) {
+      console.error('Failed to fetch API keys:', response.status, response.statusText);
+      throw new Error('Failed to fetch API keys');
+    }
+    const keys = await response.json();
+    console.log('API keys received:', keys);
+    return keys;
   } catch (error) {
     console.error('Error fetching API keys:', error);
     document.getElementById('loading-message').textContent = 'Failed to load API keys. Please refresh and try again.';
@@ -20,21 +26,31 @@ async function fetchApiKeys() {
 
 async function loadGoogleMapsScript() {
   if (document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]')) {
+    console.log('Google Maps script already loaded');
     return;
   }
   try {
+    console.log('Fetching API keys for Google Maps');
     const { googleMaps } = await fetchApiKeys();
+    if (!googleMaps) {
+      console.error('No Google Maps API key received');
+      document.getElementById('loading-message').textContent = 'Failed to load Google Maps API key';
+      return;
+    }
+    console.log('Loading Google Maps script with key:', googleMaps);
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMaps}&libraries=visualization&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMaps}&libraries=visualization&callback=initMap&loading=async`;
     script.async = true;
     script.defer = true;
     script.onerror = () => {
-      console.error('Failed to load Google Maps API');
-      document.getElementById('loading-message').textContent = 'Failed to load Google Maps. Please refresh and try again.';
+      console.error('Failed to load Google Maps API script');
+      document.getElementById('loading-message').textContent = 'Failed to load Google Maps';
     };
     document.head.appendChild(script);
+    console.log('Google Maps script appended');
   } catch (error) {
     console.error('Failed to initialize Google Maps:', error);
+    document.getElementById('loading-message').textContent = 'Error initializing Google Maps';
   }
 }
 
@@ -50,12 +66,14 @@ window.initMap = function () {
     streetViewControl: false,
     zoomControl: false,
   });
+  console.log('Map initialized, setting fireService');
   fireService.initialize(map);
   document.getElementById('loading-overlay').style.display = 'none';
   setupUIControls(map, fireService);
 };
 
 function setupUIControls(map, service) {
+  console.log('Setting up UI controls');
   document.getElementById('zoom-in').addEventListener('click', () => {
     map.setZoom(map.getZoom() + 1);
   });
@@ -152,6 +170,7 @@ function setupUIControls(map, service) {
 }
 
 function setupSidebar() {
+  console.log('Setting up sidebar');
   const toggleBtn = document.getElementById('toggle-sidebar');
   const sidebar = document.getElementById('sidebar');
   toggleBtn.addEventListener('click', () => {
@@ -184,6 +203,7 @@ function setupSidebar() {
 }
 
 function setupRangeDisplays() {
+  console.log('Setting up range displays');
   const confidenceRange = document.getElementById('confidence-range');
   const confidenceMin = document.getElementById('confidence-min');
   if (confidenceRange && confidenceMin) {
@@ -201,6 +221,7 @@ function setupRangeDisplays() {
 }
 
 function updateFooterYear() {
+  console.log('Updating footer year');
   const yearElement = document.getElementById('year');
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
@@ -208,6 +229,7 @@ function updateFooterYear() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded, initializing map script');
   loadGoogleMapsScript();
   setupRangeDisplays();
   updateFooterYear();
