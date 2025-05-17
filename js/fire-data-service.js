@@ -54,7 +54,7 @@ class FireDataService {
     this.clearMarkers();
     this.fireData.forEach(point => {
       if (point.latitude && point.longitude) {
-        const marker = new google.maps.marker.AdvancedMarkerElement({
+        const marker = new google.maps.Marker({
           position: { lat: parseFloat(point.latitude), lng: parseFloat(point.longitude) },
           map: this.map,
           title: `Fire at ${point.latitude}, ${point.longitude}`,
@@ -79,7 +79,7 @@ class FireDataService {
     if (this.markerCluster) {
       this.markerCluster.clearMarkers();
     }
-    this.markers.forEach(marker => marker.map = null);
+    this.markers.forEach(marker => marker.setMap(null));
     this.markers = [];
   }
 
