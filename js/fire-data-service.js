@@ -10,6 +10,10 @@ class FireDataService {
   async initialize() {
     console.log('Initializing FireDataService with map');
     console.log('Map object:', this.map);
+    if (!this.map) {
+      console.error('Map object is undefined, cannot initialize FireDataService');
+      return;
+    }
     await this.fetchUSAFireData();
     this.applyFilters();
   }
@@ -42,7 +46,6 @@ class FireDataService {
   }
 
   parseCSV(csvData) {
-    // Simplified CSV parsing (assumes PapaParse is used in the original)
     console.log('Parsing CSV data');
     return Papa.parse(csvData, { header: true }).data;
   }
@@ -56,6 +59,10 @@ class FireDataService {
     console.log('Updating markers:', this.fireData.length, 'points');
     this.clearMarkers();
     console.log('Map object before creating markers:', this.map);
+    if (!this.map) {
+      console.error('Map object is undefined, cannot create markers');
+      return;
+    }
     this.fireData.forEach(point => {
       if (point.latitude && point.longitude) {
         const marker = new google.maps.Marker({
