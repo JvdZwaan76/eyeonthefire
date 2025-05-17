@@ -13,7 +13,7 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
-  <script>
+  <script nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -63,7 +63,7 @@
            data-auto_prompt="false">
       </div>
       <div class="g_id_signin" data-type="standard"></div>
-      <a href="#" onclick="signOut();" style="display: none;" id="signout-link" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">Sign out</a>
+      <a href="#" onclick="signOut();" id="signout-link" class="signout-link">Sign out</a>
     </div>
   </section>
 
@@ -149,18 +149,18 @@
         <div class="legend-item"><span class="legend-color legend-very-low"></span> Very Low (0-29%)</div>
         <div class="legend-size-note">Marker size indicates fire power (MW)</div>
       </div>
-      <div id="status-panel" style="display: none;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0"></div>
-      <div id="loading-data-message" style="display: none;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
+      <div id="status-panel" class="status-panel"></div>
+      <div id="loading-data-message" class="loading-data-message">
         <span class="loading-data-spinner"></span>Loading data...
       </div>
-      <div id="region-loading" style="display: none;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
+      <div id="region-loading" class="region-loading">
         <span class="region-loading-spinner"></span>Loading region...
       </div>
-      <div id="stats-panel" style="display: none;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
+      <div id="stats-panel" class="stats-panel">
         <div class="stats-title">Fire Statistics <button id="close-stats" class="btn btn-sm btn-outline-secondary">Close</button></div>
         <div id="stats-content"></div>
       </div>
-      <div id="loading-overlay" style="display: flex;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
+      <div id="loading-overlay" class="loading-overlay">
         <div class="spinner"></div>
         <div id="loading-message">Loading Fire Map...</div>
       </div>
@@ -260,6 +260,6 @@
   <script src="/js/map-integration.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/google-signin.js"></script>
-  <div id="turnstile-container" style="display: none;" nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0"></div>
+  <div id="turnstile-container" class="turnstile-container"></div>
 </body>
 </html>
