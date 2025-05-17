@@ -1,4 +1,3 @@
-<xaiArtifactContent>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +19,9 @@
     gtag('js', new Date());
     gtag('config', 'G-T8RE6KDBEW');
   </script>
+  <!-- Google Sign-In Library -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta name="google-signin-client_id" content="<776232562017-tbtur0bspcb8k8o4fic5bb9v2i7vntac.apps.googleusercontent.com>">
 </head>
 <body>
   <!-- Navbar -->
@@ -54,6 +56,14 @@
       <h1>USA Fire Map</h1>
       <p>Track active wildfires across the United States in real-time with data from NASA FIRMS.</p>
       <a href="#map-container" class="cta-button">View Fire Map</a>
+      <!-- Google Sign-In Button -->
+      <div id="g_id_onload"
+           data-client_id="<YOUR_CLIENT_ID>"
+           data-callback="onSignIn"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin" data-type="standard"></div>
+      <a href="#" onclick="signOut();" style="display: none;" id="signout-link">Sign out</a>
     </div>
   </section>
 
@@ -241,7 +251,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© <span id="year"></span> Eye on the Fire. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      <p>© <span id="year"></span> Eye on the Fire. All rights reserved. | <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-of-service.html">Terms of Service</a></p>
     </div>
   </footer>
 
@@ -250,6 +260,28 @@
   <script src="/js/map-integration.js"></script>
   <script src="/js/main.js"></script>
   <div id="turnstile-container" style="display: none;"></div>
+  <!-- Google Sign-In Script -->
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to backend!
+      console.log('Name: ' + profile.getName());
+      console.log('Email: ' + profile.getEmail());
+      // Show sign-out link after successful sign-in
+      document.getElementById('signout-link').style.display = 'block';
+      // Optionally, send the ID token to your backend for validation
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log('ID Token: ' + id_token);
+      // Send id_token to your backend via HTTPS (not implemented here)
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+        document.getElementById('signout-link').style.display = 'none';
+      });
+    }
+  </script>
 </body>
 </html>
-</xaiArtifactContent>
