@@ -24,13 +24,15 @@ function loadGoogleMapsScript(apiKey) {
 }
 
 function initMap() {
-  // Placeholder for map initialization (assumed in the original)
   console.log('Initializing Google Map');
-  const map = new google.maps.Map(document.getElementById('map'), {
+  const mapElement = document.getElementById('map');
+  console.log('Map element:', mapElement);
+  window.globalMap = new google.maps.Map(mapElement, {
     center: { lat: 37.0902, lng: -95.7129 },
     zoom: 4,
   });
-  const fireDataService = new FireDataService(map);
+  console.log('Global map created:', window.globalMap);
+  const fireDataService = new FireDataService(window.globalMap);
   fireDataService.initialize();
   console.log('Map created, hiding loading overlay');
 }
