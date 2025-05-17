@@ -1,4 +1,3 @@
-<xaiArtifactContent>
 // Cloudflare Worker for Eye on the Fire
 // Handles API key retrieval and NASA FIRMS data fetching
 
@@ -136,4 +135,3 @@ export default {
     }
   },
 };
-</xaiArtifactContent>
