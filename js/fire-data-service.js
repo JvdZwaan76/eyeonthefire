@@ -64,11 +64,10 @@ class FireDataService {
       }
     });
 
-    if (document.getElementById('enable-clustering').checked) {
+    if (document.getElementById('enable-clustering').checked && typeof MarkerClusterer !== 'undefined') {
       console.log('Marker clustering enabled');
-      this.markerCluster = new MarkerClusterer({
-        map: this.map,
-        markers: this.markers,
+      this.markerCluster = new MarkerClusterer(this.map, this.markers, {
+        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       });
     }
 
