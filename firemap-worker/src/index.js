@@ -1,4 +1,3 @@
-<xaiArtifactContent>
 // Cloudflare Worker for Eye on the Fire
 // Handles API key retrieval and NASA FIRMS data fetching
 
@@ -54,6 +53,7 @@ export default {
         console.log('Handling /nasa/firms request');
         const source = url.searchParams.get('source') || 'MODIS_NRT';
         const days = parseInt(url.searchParams.get('days')) || 1;
+        const date = url.searchParams.get('date') || null;
         const area = url.searchParams.get('area') || null;
         const north = parseFloat(url.searchParams.get('north'));
         const south = parseFloat(url.searchParams.get('south'));
@@ -68,7 +68,7 @@ export default {
           });
         }
 
-        if (isNaN(days) || days < 1 || days > 10) {
+        if (days && (isNaN(days) || days < 1 || days > 10)) {
           console.error('Invalid days parameter:', days);
           return new Response('Invalid days parameter. Must be a number between 1-10', {
             status: 400,
@@ -83,14 +83,33 @@ export default {
           const intEast = Math.round(east);
           const intNorth = Math.round(north);
           console.log('Using provided coordinates:', { intWest, intSouth, intEast, intNorth, days });
-          firmsUrl += `/${intWest}/${intSouth}/${intEast}/${intNorth}/${days}`;
+          if (date) {
+            firmsUrl += `/${intWest}/${intSouth}/${intEast}/${intNorth}/${date}`;
+          } else {
+            firmsUrl += `/${intWest}/${intSouth}/${intEast}/${intNorth}/${days}`;
+          }
         } else if (area === 'usa') {
           const usaWest = -125;
           const usaSouth = 24;
           const usaEast = -66;
           const usaNorth = 49;
           console.log('Using USA coordinates:', { usaWest, usaSouth, usaEast, usaNorth, days });
-          firmsUrl += `/${usaWest}/${usaSouth}/${usaEast}/${usaNorth}/${days}`;
+          if (date) {
+            firmsUrl += `/${usaWest}/${usaSouth}/${usaEast}/${usaNorth}/${date}`;
+          } else {
+            firmsUrl += `/${usaWest}/${usaSouth}/${usaEast}/${usaNorth}/${days}`;
+          }
+        } else if (area === 'small-test') { // Test with a smaller area
+          const testWest = -80;
+          const testSouth = 25;
+          const testEast = -79;
+          const testNorth = 26;
+          console.log('Using test coordinates:', { testWest, testSouth, testEast, testNorth, days });
+          if (date) {
+            firmsUrl += `/${testWest}/${testSouth}/${testEast}/${testNorth}/${date}`;
+          } else {
+            firmsUrl += `/${testWest}/${testSouth}/${testEast}/${testNorth}/${days}`;
+          }
         } else {
           console.error('Invalid area or coordinates:', { area, west, south, east, north });
           return new Response('Invalid area or coordinates. Expects valid coordinates or "usa"', {
@@ -115,7 +134,7 @@ export default {
         const csvData = await response.text();
         console.log('FIRMS response:', csvData.substring(0, 100));
         if (csvData.includes('Invalid') || csvData.trim() === '') {
-          console.error('FIRMS API returned error: ${csvData}`);
+          console.error(`FIRMS API returned error: ${csvData}`);
           return new Response(csvData || 'Empty response from FIRMS API', {
             status: 400,
             headers: corsHeaders,
@@ -136,4 +155,3 @@ export default {
     }
   },
 };
-</xaiArtifactContent>
