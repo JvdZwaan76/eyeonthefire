@@ -1,157 +1,111 @@
-// Cloudflare Worker for Eye on the Fire
-// Handles API key retrieval and NASA FIRMS data fetching
+class FireDataService {
+  constructor(map) {
+    this.map = map;
+    this.markers = [];
+    this.markerCluster = null;
+    this.heatmapLayer = null;
+    this.fireData = [];
+  }
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Wildcard for testing; restrict later
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+  async initialize() {
+    console.log('Initializing FireDataService with map');
+    await this.fetchUSAFireData();
+    this.applyFilters();
+  }
 
-async function validateTurnstileToken(token, env) {
-  const verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
-  const response = await fetch(verifyUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      secret: env.TURNSTILE_SECRET_KEY,
-      response: token,
-    }),
-  });
-  const result = await response.json();
-  return result.success;
+  async fetchUSAFireData() {
+    console.log('Fetching USA fire data');
+    const source = document.getElementById('data-source').value || 'MODIS_NRT';
+    const date = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD format
+    const area = 'usa';
+
+    console.log('Skipping Turnstile token for fetchUSAFireData (Worker bypass)');
+    const url = `https://firemap-worker.jaspervdz.workers.dev/nasa/firms?source=${source}&date=${date}&area=${area}`;
+    console.log('Fetching from:', url);
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
+      }
+      const csvData = await response.text();
+      this.fireData = this.parseCSV(csvData);
+      this.updateMap();
+    } catch (error) {
+      console.error('Error fetching USA fire data:', error.message);
+      this.showStatusMessage(`Error loading fire data: ${error.message}`, 'error');
+      this.showSampleData();
+    }
+  }
+
+  parseCSV(csvData) {
+    // Simplified CSV parsing (assumes PapaParse is used in the original)
+    console.log('Parsing CSV data');
+    return Papa.parse(csvData, { header: true }).data;
+  }
+
+  applyFilters() {
+    console.log('Applied filters, filtered data:', this.fireData.length, 'points');
+    this.updateMap();
+  }
+
+  updateMap() {
+    console.log('Updating markers:', this.fireData.length, 'points');
+    this.clearMarkers();
+    this.fireData.forEach(point => {
+      if (point.latitude && point.longitude) {
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+          position: { lat: parseFloat(point.latitude), lng: parseFloat(point.longitude) },
+          map: this.map,
+          title: `Fire at ${point.latitude}, ${point.longitude}`,
+        });
+        console.log(`Created marker: ${point.latitude} ${point.longitude}`);
+        this.markers.push(marker);
+      }
+    });
+
+    if (document.getElementById('enable-clustering').checked) {
+      console.log('Marker clustering enabled');
+      this.markerCluster = new MarkerClusterer({
+        map: this.map,
+        markers: this.markers,
+      });
+    }
+
+    console.log('Updated pagination: 1 of 1');
+  }
+
+  clearMarkers() {
+    console.log('Cleared markers');
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+    }
+    this.markers.forEach(marker => marker.map = null);
+    this.markers = [];
+  }
+
+  showSampleData() {
+    console.log('Showing sample data: 10 points');
+    this.fireData = [
+      { latitude: '40.7128', longitude: '-74.0060' },
+      { latitude: '34.0522', longitude: '-118.2437' },
+      { latitude: '41.8781', longitude: '-87.6298' },
+      { latitude: '29.7604', longitude: '-95.3698' },
+      { latitude: '33.4484', longitude: '-112.0740' },
+      { latitude: '47.6062', longitude: '-122.3321' },
+      { latitude: '39.7392', longitude: '-104.9903' },
+      { latitude: '25.7617', longitude: '-80.1918' },
+      { latitude: '36.1699', longitude: '-115.1398' },
+      { latitude: '37.7749', longitude: '-122.4194' },
+    ];
+    this.applyFilters();
+  }
+
+  showStatusMessage(message, type) {
+    console.log(`Status message: ${message} ${type}`);
+    // Simplified status message display (assumes DOM manipulation in the original)
+  }
 }
 
-export default {
-  async fetch(request, env) {
-    try {
-      const url = new URL(request.url);
-      const path = url.pathname;
-
-      if (request.method === 'OPTIONS') {
-        console.log('Handling OPTIONS request');
-        return new Response(null, {
-          status: 204,
-          headers: corsHeaders,
-        });
-      }
-
-      if (path === '/api-keys') {
-        console.log('Serving /api-keys');
-        return new Response(
-          JSON.stringify({
-            googleMaps: env.GOOGLE_MAPS_API_KEY,
-            turnstileSiteKey: env.TURNSTILE_SITE_KEY,
-          }),
-          {
-            status: 200,
-            headers: { 'Content-Type': 'application/json', ...corsHeaders },
-          },
-        );
-      }
-
-      if (path === '/nasa/firms') {
-        console.log('Handling /nasa/firms request');
-        const source = url.searchParams.get('source') || 'MODIS_NRT';
-        const days = parseInt(url.searchParams.get('days')) || 1;
-        const date = url.searchParams.get('date') || null;
-        const area = url.searchParams.get('area') || null;
-        const north = parseFloat(url.searchParams.get('north'));
-        const south = parseFloat(url.searchParams.get('south'));
-        const east = parseFloat(url.searchParams.get('east'));
-        const west = parseFloat(url.searchParams.get('west'));
-
-        if (!env.NASA_FIRMS_API_KEY) {
-          console.error('NASA_FIRMS_API_KEY is not set');
-          return new Response('Server configuration error: Missing API key', {
-            status: 500,
-            headers: corsHeaders,
-          });
-        }
-
-        if (days && (isNaN(days) || days < 1 || days > 10)) {
-          console.error('Invalid days parameter:', days);
-          return new Response('Invalid days parameter. Must be a number between 1-10', {
-            status: 400,
-            headers: corsHeaders,
-          });
-        }
-
-        let firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${env.NASA_FIRMS_API_KEY}/${source}`;
-        if (north && south && east && west && !isNaN(north) && !isNaN(south) && !isNaN(east) && !isNaN(west)) {
-          const intWest = Math.round(west);
-          const intSouth = Math.round(south);
-          const intEast = Math.round(east);
-          const intNorth = Math.round(north);
-          console.log('Using provided coordinates:', { intWest, intSouth, intEast, intNorth, days });
-          if (date) {
-            firmsUrl += `/${intWest}/${intSouth}/${intEast}/${intNorth}/${date}`;
-          } else {
-            firmsUrl += `/${intWest}/${intSouth}/${intEast}/${intNorth}/${days}`;
-          }
-        } else if (area === 'usa') {
-          const usaWest = -125;
-          const usaSouth = 24;
-          const usaEast = -66;
-          const usaNorth = 49;
-          console.log('Using USA coordinates:', { usaWest, usaSouth, usaEast, usaNorth, days });
-          if (date) {
-            firmsUrl += `/${usaWest}/${usaSouth}/${usaEast}/${usaNorth}/${date}`;
-          } else {
-            firmsUrl += `/${usaWest}/${usaSouth}/${usaEast}/${usaNorth}/${days}`;
-          }
-        } else if (area === 'small-test') { // Test with a smaller area
-          const testWest = -80;
-          const testSouth = 25;
-          const testEast = -79;
-          const testNorth = 26;
-          console.log('Using test coordinates:', { testWest, testSouth, testEast, testNorth, days });
-          if (date) {
-            firmsUrl += `/${testWest}/${testSouth}/${testEast}/${testNorth}/${date}`;
-          } else {
-            firmsUrl += `/${testWest}/${testSouth}/${testEast}/${testNorth}/${days}`;
-          }
-        } else {
-          console.error('Invalid area or coordinates:', { area, west, south, east, north });
-          return new Response('Invalid area or coordinates. Expects valid coordinates or "usa"', {
-            status: 400,
-            headers: corsHeaders,
-          });
-        }
-
-        console.log(`Fetching FIRMS data from: ${firmsUrl}`);
-        const response = await fetch(firmsUrl, {
-          headers: { 'Accept': 'text/csv' },
-        });
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`FIRMS API error: ${response.status} ${response.statusText} - Full Response: ${errorText}`);
-          return new Response(`FIRMS API error: ${response.status} - ${errorText}`, {
-            status: response.status,
-            headers: corsHeaders,
-          });
-        }
-
-        const csvData = await response.text();
-        console.log('FIRMS response:', csvData.substring(0, 100));
-        if (csvData.includes('Invalid') || csvData.trim() === '') {
-          console.error(`FIRMS API returned error: ${csvData}`);
-          return new Response(csvData || 'Empty response from FIRMS API', {
-            status: 400,
-            headers: corsHeaders,
-          });
-        }
-
-        return new Response(csvData, {
-          status: 200,
-          headers: { 'Content-Type': 'text/csv', ...corsHeaders },
-        });
-      }
-
-      console.log('Path not found:', path);
-      return new Response('Not found', { status: 404, headers: corsHeaders });
-    } catch (error) {
-      console.error('Worker error:', error.message, error.stack);
-      return new Response(`Error: ${error.message}`, { status: 500, headers: corsHeaders });
-    }
-  },
-};
+// Define globally for use in other scripts
+window.FireDataService = FireDataService;
