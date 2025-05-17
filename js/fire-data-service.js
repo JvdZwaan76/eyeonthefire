@@ -9,6 +9,7 @@ class FireDataService {
 
   async initialize() {
     console.log('Initializing FireDataService with map');
+    console.log('Map object:', this.map);
     await this.fetchUSAFireData();
     this.applyFilters();
   }
@@ -26,7 +27,9 @@ class FireDataService {
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`API responded with status ${response.status}`);
+        const errorText = await response.text();
+        console.error('FIRMS API error:', response.status, response.statusText, '- Full Response:', errorText);
+        throw new Error(`API responded with status ${response.status}: ${errorText}`);
       }
       const csvData = await response.text();
       this.fireData = this.parseCSV(csvData);
@@ -52,6 +55,7 @@ class FireDataService {
   updateMap() {
     console.log('Updating markers:', this.fireData.length, 'points');
     this.clearMarkers();
+    console.log('Map object before creating markers:', this.map);
     this.fireData.forEach(point => {
       if (point.latitude && point.longitude) {
         const marker = new google.maps.Marker({
@@ -64,12 +68,15 @@ class FireDataService {
       }
     });
 
+    // Temporarily disable clustering to isolate rendering issue
+    /*
     if (document.getElementById('enable-clustering').checked && typeof MarkerClusterer !== 'undefined') {
       console.log('Marker clustering enabled');
       this.markerCluster = new MarkerClusterer(this.map, this.markers, {
         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       });
     }
+    */
 
     console.log('Updated pagination: 1 of 1');
   }
