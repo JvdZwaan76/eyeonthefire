@@ -10,10 +10,19 @@ class FireDataService {
   async initialize() {
     console.log('Initializing FireDataService with map');
     console.log('Map object:', this.map);
+
+    // Retry mechanism if map is undefined
     if (!this.map) {
-      console.error('Map object is undefined, cannot initialize FireDataService');
+      console.warn('Map object is undefined, attempting to retrieve from window.globalMap');
+      this.map = window.globalMap;
+      console.log('Retrieved map object:', this.map);
+    }
+
+    if (!this.map) {
+      console.error('Map object is still undefined after retry, cannot initialize FireDataService');
       return;
     }
+
     await this.fetchUSAFireData();
     this.applyFilters();
   }
