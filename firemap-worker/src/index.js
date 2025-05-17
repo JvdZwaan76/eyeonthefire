@@ -124,7 +124,7 @@ export default {
         });
         if (!response.ok) {
           const errorText = await response.text();
-          console.error(`FIRMS API error: ${response.status} ${response.statusText} - ${errorText}`);
+          console.error(`FIRMS API error: ${response.status} ${response.statusText} - Full Response: ${errorText}`);
           return new Response(`FIRMS API error: ${response.status} - ${errorText}`, {
             status: response.status,
             headers: corsHeaders,
