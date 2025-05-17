@@ -91,6 +91,18 @@ body {
   transition: all 0.3s ease;
 }
 
+.hamburger.active .line1 {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .line2 {
+  opacity: 0;
+}
+
+.hamburger.active .line3 {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
 /* Hero Section */
 .hero {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero-bg.jpg') no-repeat center center/cover;
@@ -590,10 +602,13 @@ body {
     width: 100%;
     background-color: #333;
     padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
   .nav-menu.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .main-menu {
@@ -605,6 +620,16 @@ body {
     margin: 10px 0;
   }
 
+  .main-menu a {
+    font-size: 1.2rem;
+  }
+
+  .hero {
+    height: 70vh;
+    background-position: center;
+    padding: 20px;
+  }
+
   .hero-content h1 {
     font-size: 2rem;
   }
@@ -613,16 +638,76 @@ body {
     font-size: 1rem;
   }
 
+  .cta-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .map-wrapper {
+    height: 500px;
+  }
+
   .sidebar {
-    width: 250px;
+    width: 80%;
+    max-width: 300px;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
   }
 
   #toggle-sidebar {
-    left: 250px;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 0;
+  }
+
+  .sidebar.active + #toggle-sidebar {
+    left: 80%;
+    max-width: 300px;
+  }
+
+  .legend {
+    bottom: 60px;
+    right: 10px;
+    font-size: 0.9rem;
+  }
+
+  .prevention-grid,
+  .gallery,
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 10px;
+  }
+
+  #navbar-logo {
+    height: 30px;
+  }
+
+  .logo-container span {
+    font-size: 1.2rem;
+  }
+
+  .hero {
+    height: 60vh;
+  }
+
   .hero-content h1 {
     font-size: 1.5rem;
   }
@@ -631,12 +716,104 @@ body {
     font-size: 0.9rem;
   }
 
+  .cta-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
   .section-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .section-intro {
+    font-size: 0.9rem;
   }
 
   .map-wrapper {
     height: 400px;
+  }
+
+  .map-controls {
+    top: 5px;
+    right: 5px;
+    gap: 5px;
+  }
+
+  .map-control-btn {
+    padding: 8px;
+  }
+
+  .sidebar {
+    padding: 10px;
+  }
+
+  .sidebar-header h4 {
+    font-size: 1.2rem;
+  }
+
+  .sidebar-tagline {
+    font-size: 0.8rem;
+  }
+
+  .sidebar-section h5 {
+    font-size: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .form-select-sm,
+  .form-control-sm {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+  }
+
+  .prevention-item i {
+    font-size: 1.5rem;
+  }
+
+  .prevention-item h3 {
+    font-size: 1.2rem;
+  }
+
+  .prevention-item p {
+    font-size: 0.9rem;
+  }
+
+  .gallery-item img {
+    height: 150px;
+  }
+
+  .news-item h3 {
+    font-size: 1.2rem;
+  }
+
+  .news-item p {
+    font-size: 0.9rem;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .footer-section p {
+    font-size: 0.9rem;
+  }
+
+  .footer-section ul li a {
+    font-size: 0.9rem;
+  }
+
+  .social-icons a {
+    font-size: 1.2rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
   }
 }
 
