@@ -1,87 +1,103 @@
+let map = null;
+
 async function fetchApiKeys() {
   console.log('Fetching API keys for Google Maps');
   const url = 'https://firemap-worker.jaspervdz.workers.dev/api-keys';
   console.log('Fetching API keys from:', url);
-  try {
-    const response = await fetch(url);
-    const keys = await response.json();
-    console.log('API keys received:', keys);
-    return keys;
-  } catch (error) {
-    console.error('Error fetching API keys:', error.message);
-    throw error;
-  }
+  const response = await fetch(url);
+  const keys = await response.json();
+  console.log('API keys received:', keys);
+  return keys;
 }
 
-function loadGoogleMapsScript(apiKey) {
-  return new Promise((resolve, reject) => {
-    console.log('Loading Google Maps script with key:', apiKey);
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization,marker&callback=initMap&loading=async`;
-    script.async = true;
-    script.defer = true;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-    console.log('Google Maps script appended');
-  });
+async function loadGoogleMapsScript() {
+  const { googleMaps: apiKey } = await fetchApiKeys();
+  console.log('Loading Google Maps script with key:', apiKey);
+  const script = document.createElement('script');
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap`;
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+  console.log('Google Maps script appended');
 }
 
-function initMap() {
-  console.log('Initializing Google Map');
-  const mapElement = document.getElementById('map');
-  console.log('Map element:', mapElement);
-  if (!mapElement) {
-    console.error('Map element not found in DOM');
-    return;
-  }
-  window.globalMap = new google.maps.Map(mapElement, {
-    center: { lat: 37.0902, lng: -95.7129 },
+function initializeGoogleMap() {
+  const mapOptions = {
+    center: { lat: 39.8283, lng: -98.5795 },
     zoom: 4,
-  });
-  console.log('Global map created:', window.globalMap);
-  console.log('Map created, hiding loading overlay');
+    mapTypeId: 'terrain',
+    styles: [
+      { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    ],
+  };
+  const mapElement = document.getElementById('map');
+  map = new google.maps.Map(mapElement, mapOptions);
+  console.log('Map created');
+  return map;
 }
 
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', async () => {
-  console.log('DOM loaded, initializing map script');
+function initializeFireDataService(map) {
+  console.log('Initializing FireDataService with map');
+  window.fireDataService = new FireDataService(map);
+}
+
+window.initMap = function () {
+  console.log('initMap called');
+  const map = initializeGoogleMap();
+  const loadingOverlay = document.getElementById('loading-overlay');
+  loadingOverlay.style.display = 'none';
+  console.log('Map created, hiding loading overlay');
+  initializeFireDataService(map);
+};
+
+async function initializeMap() {
+  await loadGoogleMapsScript();
+  const mapPromise = new Promise((resolve) => {
+    const checkMap = () => {
+      if (map) {
+        resolve(map);
+      } else {
+        setTimeout(checkMap, 100);
+      }
+    };
+    checkMap();
+  });
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error('Timed out waiting for map to initialize'));
+    }, 10000);
+  });
   try {
-    const keys = await fetchApiKeys();
-    await loadGoogleMapsScript(keys.googleMaps);
-
-    // Wait for initMap to complete and window.globalMap to be set
-    const waitForMap = () => new Promise((resolve, reject) => {
-      const interval = setInterval(() => {
-        if (window.globalMap) {
-          clearInterval(interval);
-          resolve();
-        }
-      }, 100);
-      setTimeout(() => {
-        clearInterval(interval);
-        reject(new Error('Timed out waiting for map to initialize'));
-      }, 10000);
-    });
-
-    await waitForMap();
-    console.log('Map initialization complete, proceeding with FireDataService');
-    const fireDataService = new FireDataService(window.globalMap);
-    fireDataService.initialize();
-
-    setupRangeDisplays();
-    updateFooterYear();
+    await Promise.race([mapPromise, timeoutPromise]);
   } catch (error) {
-    console.error('Failed to initialize Google Maps:', error.message);
+    console.error('Failed to initialize Google Maps:', error);
   }
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+  console.log('DOM loaded, initializing map script');
+  await initializeMap();
+  setupRangeDisplays();
+  updateFooterYear();
 });
 
 function setupRangeDisplays() {
   console.log('Setting up range displays');
-  // Placeholder for range display logic (assumed in the original)
+  const confidenceRange = document.getElementById('confidence-range');
+  const confidenceMin = document.getElementById('confidence-min');
+  const frpRange = document.getElementById('frp-range');
+  const frpMin = document.getElementById('frp-min');
+  confidenceRange.addEventListener('input', () => {
+    confidenceMin.textContent = `${confidenceRange.value}%`;
+  });
+  frpRange.addEventListener('input', () => {
+    frpMin.textContent = frpRange.value;
+  });
 }
 
 function updateFooterYear() {
   console.log('Updating footer year');
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const yearSpan = document.getElementById('year');
+  yearSpan.textContent = new Date().getFullYear();
 }
