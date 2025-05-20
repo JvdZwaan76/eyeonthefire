@@ -8,13 +8,13 @@ async function fetchApiKeys() {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch API keys: ${response.status}`);
+      throw new Error(`Failed to fetch API keys: ${response.status} - ${response.statusText}`);
     }
     const keys = await response.json();
     console.log('API keys received:', keys);
     return keys;
   } catch (error) {
-    console.error('Error fetching API keys:', error);
+    console.error('Error fetching API keys:', error.message);
     throw error;
   }
 }
@@ -27,13 +27,21 @@ async function loadGoogleMapsScript() {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap&loading=async`;
     script.async = true;
     script.defer = true;
-    script.onerror = () => {
-      console.error('Failed to load Google Maps script');
+    script.onerror = (error) => {
+      console.error('Failed to load Google Maps script:', error);
       reject(new Error('Failed to load Google Maps script'));
     };
     script.onload = () => {
       console.log('Google Maps script loaded successfully');
-      resolve();
+      // Wait briefly to ensure google.maps is defined
+      setTimeout(() => {
+        if (typeof google === 'undefined' || !google.maps) {
+          console.error('Google Maps API not available after loading script');
+          reject(new Error('Google Maps API not available after loading script'));
+        } else {
+          resolve();
+        }
+      }, 100);
     };
     document.head.appendChild(script);
     console.log('Google Maps script appended');
@@ -109,7 +117,7 @@ async function initializeMap() {
       checkMap();
     });
   } catch (error) {
-    console.error('Failed to initialize Google Maps:', error);
+    console.error('Failed to initialize Google Maps:', error.message);
     throw error;
   }
 }
