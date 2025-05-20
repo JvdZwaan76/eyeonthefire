@@ -1,3 +1,5 @@
+console.log('main.js loaded successfully');
+
 function initializeSite() {
   console.log('Initializing site');
   setupMobileMenu();
