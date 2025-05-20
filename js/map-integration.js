@@ -57,7 +57,7 @@ function initializeGoogleMap() {
   }
   map = new google.maps.Map(mapElement, mapOptions);
   window.globalMap = map;
-  console.log('Map created');
+  console.log('Map created successfully');
   return map;
 }
 
@@ -83,20 +83,24 @@ window.initMap = function () {
   }
   console.log('Map created, hiding loading overlay');
   initializeFireDataService(mapInstance);
+  // Ensure map is set globally for other scripts
+  window.mapInitialized = true;
 };
 
 async function initializeMap() {
   try {
     await loadGoogleMapsScript();
-    // Resolve once the map is created, regardless of FireDataService
-    const mapPromise = new Promise((resolve, reject) => {
+    // Wait for map to be initialized
+    await new Promise((resolve, reject) => {
       let attempts = 0;
-      const maxAttempts = 100; // 10 seconds with 100ms intervals
+      const maxAttempts = 50; // 5 seconds with 100ms intervals
       const checkMap = () => {
         attempts++;
-        if (map || window.globalMap) {
+        if (window.mapInitialized || map || window.globalMap) {
+          console.log('Map initialization confirmed');
           resolve(map || window.globalMap);
         } else if (attempts >= maxAttempts) {
+          console.error('Timed out waiting for map to initialize after', maxAttempts, 'attempts');
           reject(new Error('Timed out waiting for map to initialize'));
         } else {
           setTimeout(checkMap, 100);
@@ -104,7 +108,6 @@ async function initializeMap() {
       };
       checkMap();
     });
-    return await mapPromise;
   } catch (error) {
     console.error('Failed to initialize Google Maps:', error);
     throw error;
