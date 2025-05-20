@@ -117,3 +117,7 @@ class FireDataService {
     document.getElementById('total-pages').textContent = '1';
   }
 }
+
+// Make FireDataService globally available
+window.FireDataService = FireDataService;
+console.log('FireDataService class defined globally');
