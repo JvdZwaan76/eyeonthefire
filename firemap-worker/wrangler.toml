@@ -1,3 +1,7 @@
 name = "firemap-worker"
 main = "src/index.js"
 compatibility_date = "2025-05-19"
+[observability.logs]
+enabled = true
+
+
