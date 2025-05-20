@@ -11,8 +11,6 @@ class FireDataService {
     this.filteredData = [];
     this.currentPage = 1;
     this.markersPerPage = 1000;
-    this.initialLoadLimit = 100; // Load top 100 fires initially
-    this.lazyLoadBatchSize = 100; // Lazy load in batches of 100
     if (!map) {
       console.error('Map object is undefined, attempting to retrieve from window.globalMap');
       this.map = window.globalMap;
@@ -43,9 +41,6 @@ class FireDataService {
       const csvData = await response.text();
       console.log('Fire data received:', csvData.substring(0, 100));
       this.data = Papa.parse(csvData, { header: true }).data;
-      // Sort data by FRP in descending order
-      this.data.sort((a, b) => (parseFloat(b.frp) || 0) - (parseFloat(a.frp) || 0));
-      console.log('Sorted data by FRP, total fires:', this.data.length);
       this.applyFilterSettings();
     } catch (error) {
       console.error('Error fetching USA fire data:', error.message);
@@ -69,28 +64,7 @@ class FireDataService {
     });
 
     console.log('Applied filters, filtered data:', this.filteredData.length, 'points');
-    // Initially load top 100 fires
-    this.loadInitialFires();
-    // Lazy load the rest in the background
-    this.lazyLoadRemainingFires();
-  }
-
-  loadInitialFires() {
-    const initialFires = this.filteredData.slice(0, this.initialLoadLimit);
-    console.log('Loading initial top 100 fires:', initialFires.length);
-    this.updateMarkers(initialFires);
-  }
-
-  async lazyLoadRemainingFires() {
-    const remainingFires = this.filteredData.slice(this.initialLoadLimit);
-    console.log('Starting lazy load of remaining fires:', remainingFires.length);
-    for (let i = 0; i < remainingFires.length; i += this.lazyLoadBatchSize) {
-      const batch = remainingFires.slice(i, i + this.lazyLoadBatchSize);
-      console.log('Lazy loading batch:', i, 'to', i + batch.length);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate async loading
-      this.updateMarkers(batch, true); // Append to existing markers
-    }
-    console.log('Lazy loading complete');
+    this.updateMarkers();
   }
 
   showSampleData() {
@@ -107,27 +81,19 @@ class FireDataService {
       { latitude: 36.1699, longitude: -115.1398, confidence: 40, frp: 10 },
       { latitude: 37.7749, longitude: -122.4194, confidence: 35, frp: 5 },
     ];
-    this.data.sort((a, b) => (parseFloat(b.frp) || 0) - (parseFloat(a.frp) || 0));
-    console.log('Sorted sample data by FRP, total fires:', this.data.length);
     this.applyFilterSettings();
   }
 
-  updateMarkers(fires, append = false) {
-    console.log('Updating markers:', fires.length, 'points, append:', append);
-    if (!append) {
-      this.clearMarkers();
-    }
-    fires.forEach(item => {
+  updateMarkers() {
+    console.log('Updating markers:', this.filteredData.length, 'points');
+    this.clearMarkers();
+    this.filteredData.forEach(item => {
       const marker = this.createMarker(item);
       this.markers.push(marker);
     });
     if (document.getElementById('enable-clustering').checked) {
       console.log('Marker clustering enabled');
-      if (this.markerCluster) {
-        this.markerCluster.addMarkers(this.markers);
-      } else {
-        this.markerCluster = new MarkerClusterer(this.map, this.markers, { imagePath: 'https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/images/m' });
-      }
+      this.markerCluster = new MarkerClusterer(this.map, this.markers, { imagePath: 'https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/images/m' });
     }
     this.updatePagination();
   }
