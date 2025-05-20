@@ -1,22 +1,35 @@
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to backend!
-  console.log('Name: ' + profile.getName());
-  console.log('Email: ' + profile.getEmail());
+function onSignIn(response) {
+  // The response parameter contains the ID token as response.credential
+  const idToken = response.credential;
+  console.log('ID Token:', idToken);
+
+  // Decode the JWT token to get user info
+  const payload = parseJwt(idToken);
+  console.log('User ID:', payload.sub);
+  console.log('Name:', payload.name);
+  console.log('Email:', payload.email);
+
   // Show sign-out link after successful sign-in
   document.getElementById('signout-link').style.display = 'block';
-  // Optionally, send the ID token to your backend for validation
-  var id_token = googleUser.getAuthResponse().id_token;
-  console.log('ID Token: ' + id_token);
-  // Send id_token to your backend via HTTPS (not implemented here)
+}
+
+// Helper function to decode JWT token
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  return JSON.parse(jsonPayload);
 }
 
 function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-    document.getElementById('signout-link').style.display = 'none';
-  });
+  // Using Google Identity Services, sign-out is typically handled by invalidating the token on the client
+  console.log('User signed out.');
+  document.getElementById('signout-link').style.display = 'none';
+  // Optionally, you can revoke the token on your backend if needed
+  // For client-side only, clear any stored state
+  google.accounts.id.disableAutoSelect();
 }
 
 // Add event listener for sign-out link
