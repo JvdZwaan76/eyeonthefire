@@ -14,7 +14,7 @@ async function loadGoogleMapsScript() {
   const { googleMaps: apiKey } = await fetchApiKeys();
   console.log('Loading Google Maps script with key:', apiKey);
   const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap&loading=async`;
   script.async = true;
   script.defer = true;
   document.head.appendChild(script);
@@ -37,18 +37,22 @@ function initializeGoogleMap() {
   return map;
 }
 
-function initializeFireDataService(map) {
+function initializeFireDataService(mapInstance) {
   console.log('Initializing FireDataService with map');
-  window.fireDataService = new FireDataService(map);
+  if (!mapInstance) {
+    console.error('Map instance is undefined, cannot initialize FireDataService');
+    return;
+  }
+  window.fireDataService = new FireDataService(mapInstance);
 }
 
 window.initMap = function () {
   console.log('initMap called');
-  const map = initializeGoogleMap();
+  const mapInstance = initializeGoogleMap();
   const loadingOverlay = document.getElementById('loading-overlay');
   loadingOverlay.style.display = 'none';
   console.log('Map created, hiding loading overlay');
-  initializeFireDataService(map);
+  initializeFireDataService(mapInstance);
 };
 
 async function initializeMap() {
@@ -88,16 +92,22 @@ function setupRangeDisplays() {
   const confidenceMin = document.getElementById('confidence-min');
   const frpRange = document.getElementById('frp-range');
   const frpMin = document.getElementById('frp-min');
-  confidenceRange.addEventListener('input', () => {
-    confidenceMin.textContent = `${confidenceRange.value}%`;
-  });
-  frpRange.addEventListener('input', () => {
-    frpMin.textContent = frpRange.value;
-  });
+  if (confidenceRange && confidenceMin) {
+    confidenceRange.addEventListener('input', () => {
+      confidenceMin.textContent = `${confidenceRange.value}%`;
+    });
+  }
+  if (frpRange && frpMin) {
+    frpRange.addEventListener('input', () => {
+      frpMin.textContent = frpRange.value;
+    });
+  }
 }
 
 function updateFooterYear() {
   console.log('Updating footer year');
   const yearSpan = document.getElementById('year');
-  yearSpan.textContent = new Date().getFullYear();
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 }
