@@ -114,7 +114,7 @@ export default {
         const csvData = await response.text();
         console.log('FIRMS response:', csvData.substring(0, 100));
         if (csvData.includes('Invalid') || csvData.trim() === '') {
-          console.error('FIRMS API returned error: ${csvData}`);
+          console.error(`FIRMS API returned error: ${csvData}`);
           return new Response(csvData || 'Empty response from FIRMS API', {
             status: 400,
             headers: corsHeaders,
