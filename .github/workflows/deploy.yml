@@ -12,10 +12,14 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm install wrangler@4.14.0
+        run: npm install wrangler@latest
+      - name: Navigate to firemap-worker directory
+        run: cd firemap-worker
       - name: Validate Wrangler config
-        run: npx wrangler deploy index.js --dry-run
+        run: npx wrangler deploy --dry-run
+        working-directory: firemap-worker
       - name: Deploy to Cloudflare
-        run: npx wrangler deploy index.js
+        run: npx wrangler deploy
+        working-directory: firemap-worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
