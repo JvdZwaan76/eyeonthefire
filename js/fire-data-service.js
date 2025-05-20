@@ -31,15 +31,19 @@ class FireDataService {
     console.log('Skipping Turnstile token for fetchUSAFireData (Worker bypass)');
     const url = 'https://firemap-worker.jaspervdz.workers.dev/nasa/firms?source=MODIS_NRT&days=1&area=usa';
     try {
+      console.log('Fetching fire data from:', url);
       const response = await fetch(url);
+      console.log('Fire data response status:', response.status);
       if (!response.ok) {
-        throw new Error(`API responded with status ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`API responded with status ${response.status}: ${errorText}`);
       }
       const csvData = await response.text();
+      console.log('Fire data received:', csvData.substring(0, 100));
       this.data = Papa.parse(csvData, { header: true }).data;
       this.applyFilterSettings();
     } catch (error) {
-      console.error('Error fetching USA fire data:', error);
+      console.error('Error fetching USA fire data:', error.message);
       this.showSampleData();
     }
   }
