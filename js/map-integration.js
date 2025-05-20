@@ -5,22 +5,39 @@ async function fetchApiKeys() {
   console.log('Fetching API keys for Google Maps');
   const url = 'https://firemap-worker.jaspervdz.workers.dev/api-keys';
   console.log('Fetching API keys from:', url);
-  const response = await fetch(url);
-  const keys = await response.json();
-  console.log('API keys received:', keys);
-  return keys;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch API keys: ${response.status}`);
+    }
+    const keys = await response.json();
+    console.log('API keys received:', keys);
+    return keys;
+  } catch (error) {
+    console.error('Error fetching API keys:', error);
+    throw error;
+  }
 }
 
 async function loadGoogleMapsScript() {
   const { googleMaps: apiKey } = await fetchApiKeys();
   console.log('Loading Google Maps script with key:', apiKey);
-  const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap&loading=async`;
-  script.async = true;
-  script.defer = true;
-  script.onerror = () => console.error('Failed to load Google Maps script');
-  document.head.appendChild(script);
-  console.log('Google Maps script appended');
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap&loading=async`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => {
+      console.error('Failed to load Google Maps script');
+      reject(new Error('Failed to load Google Maps script'));
+    };
+    script.onload = () => {
+      console.log('Google Maps script loaded successfully');
+      resolve();
+    };
+    document.head.appendChild(script);
+    console.log('Google Maps script appended');
+  });
 }
 
 function initializeGoogleMap() {
@@ -69,24 +86,24 @@ window.initMap = function () {
 };
 
 async function initializeMap() {
-  await loadGoogleMapsScript();
-  const mapPromise = new Promise((resolve) => {
-    const checkMap = () => {
-      if (map || window.globalMap) {
-        resolve(map || window.globalMap);
-      } else {
-        setTimeout(checkMap, 100);
-      }
-    };
-    checkMap();
-  });
-  const timeoutPromise = new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error('Timed out waiting for map to initialize'));
-    }, 10000);
-  });
   try {
-    await Promise.race([mapPromise, timeoutPromise]);
+    await loadGoogleMapsScript();
+    const mapPromise = new Promise((resolve, reject) => {
+      let attempts = 0;
+      const maxAttempts = 100; // 10 seconds with 100ms intervals
+      const checkMap = () => {
+        attempts++;
+        if (map || window.globalMap) {
+          resolve(map || window.globalMap);
+        } else if (attempts >= maxAttempts) {
+          reject(new Error('Timed out waiting for map to initialize'));
+        } else {
+          setTimeout(checkMap, 100);
+        }
+      };
+      checkMap();
+    });
+    await mapPromise;
   } catch (error) {
     console.error('Failed to initialize Google Maps:', error);
   }
