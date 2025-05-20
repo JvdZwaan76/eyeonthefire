@@ -1,4 +1,5 @@
 let map = null;
+window.globalMap = null;
 
 async function fetchApiKeys() {
   console.log('Fetching API keys for Google Maps');
@@ -17,6 +18,7 @@ async function loadGoogleMapsScript() {
   script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMap&loading=async`;
   script.async = true;
   script.defer = true;
+  script.onerror = () => console.error('Failed to load Google Maps script');
   document.head.appendChild(script);
   console.log('Google Maps script appended');
 }
@@ -32,7 +34,12 @@ function initializeGoogleMap() {
     ],
   };
   const mapElement = document.getElementById('map');
+  if (!mapElement) {
+    console.error('Map element not found');
+    return null;
+  }
   map = new google.maps.Map(mapElement, mapOptions);
+  window.globalMap = map;
   console.log('Map created');
   return map;
 }
@@ -49,8 +56,14 @@ function initializeFireDataService(mapInstance) {
 window.initMap = function () {
   console.log('initMap called');
   const mapInstance = initializeGoogleMap();
+  if (!mapInstance) {
+    console.error('Failed to initialize map instance');
+    return;
+  }
   const loadingOverlay = document.getElementById('loading-overlay');
-  loadingOverlay.style.display = 'none';
+  if (loadingOverlay) {
+    loadingOverlay.style.display = 'none';
+  }
   console.log('Map created, hiding loading overlay');
   initializeFireDataService(mapInstance);
 };
@@ -59,8 +72,8 @@ async function initializeMap() {
   await loadGoogleMapsScript();
   const mapPromise = new Promise((resolve) => {
     const checkMap = () => {
-      if (map) {
-        resolve(map);
+      if (map || window.globalMap) {
+        resolve(map || window.globalMap);
       } else {
         setTimeout(checkMap, 100);
       }
