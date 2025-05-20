@@ -59,6 +59,8 @@ export default {
         const east = parseFloat(url.searchParams.get('east'));
         const west = parseFloat(url.searchParams.get('west'));
 
+        console.log('Request parameters:', { source, days, area, north, south, east, west });
+
         if (!env.NASA_FIRMS_API_KEY) {
           console.error('NASA_FIRMS_API_KEY is not set');
           return new Response('Server configuration error: Missing API key', {
@@ -114,7 +116,7 @@ export default {
         const csvData = await response.text();
         console.log('FIRMS response:', csvData.substring(0, 100));
         if (csvData.includes('Invalid') || csvData.trim() === '') {
-          console.error('FIRMS API returned error: ${csvData}`);
+          console.error(`FIRMS API returned error: ${csvData}`);
           return new Response(csvData || 'Empty response from FIRMS API', {
             status: 400,
             headers: corsHeaders,
