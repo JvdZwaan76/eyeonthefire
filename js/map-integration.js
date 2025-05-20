@@ -88,6 +88,7 @@ window.initMap = function () {
 async function initializeMap() {
   try {
     await loadGoogleMapsScript();
+    // Resolve once the map is created, regardless of FireDataService
     const mapPromise = new Promise((resolve, reject) => {
       let attempts = 0;
       const maxAttempts = 100; // 10 seconds with 100ms intervals
@@ -103,9 +104,10 @@ async function initializeMap() {
       };
       checkMap();
     });
-    await mapPromise;
+    return await mapPromise;
   } catch (error) {
     console.error('Failed to initialize Google Maps:', error);
+    throw error;
   }
 }
 
