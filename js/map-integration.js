@@ -33,15 +33,7 @@ async function loadGoogleMapsScript() {
     };
     script.onload = () => {
       console.log('Google Maps script loaded successfully');
-      // Wait briefly to ensure google.maps is defined
-      setTimeout(() => {
-        if (typeof google === 'undefined' || !google.maps) {
-          console.error('Google Maps API not available after loading script');
-          reject(new Error('Google Maps API not available after loading script'));
-        } else {
-          resolve();
-        }
-      }, 100);
+      resolve();
     };
     document.head.appendChild(script);
     console.log('Google Maps script appended');
@@ -49,6 +41,10 @@ async function loadGoogleMapsScript() {
 }
 
 function initializeGoogleMap() {
+  if (typeof google === 'undefined' || !google.maps) {
+    console.error('Google Maps API not available');
+    return null;
+  }
   const mapOptions = {
     center: { lat: 39.8283, lng: -98.5795 },
     zoom: 4,
@@ -63,10 +59,15 @@ function initializeGoogleMap() {
     console.error('Map element not found');
     return null;
   }
-  map = new google.maps.Map(mapElement, mapOptions);
-  window.globalMap = map; // Set global map immediately
-  console.log('Map created successfully');
-  return map;
+  try {
+    map = new google.maps.Map(mapElement, mapOptions);
+    window.globalMap = map; // Set global map immediately
+    console.log('Map created successfully');
+    return map;
+  } catch (error) {
+    console.error('Failed to create map:', error.message);
+    return null;
+  }
 }
 
 function initializeFireDataService(mapInstance) {
@@ -100,12 +101,12 @@ async function initializeMap() {
     // Wait for map to be initialized
     await new Promise((resolve, reject) => {
       let attempts = 0;
-      const maxAttempts = 100; // Increase to 10 seconds
+      const maxAttempts = 100; // 10 seconds
       const checkMap = () => {
         attempts++;
-        if (window.mapInitialized || map || window.globalMap) {
+        if (window.mapInitialized || window.globalMap) {
           console.log('Map initialization confirmed');
-          resolve(map || window.globalMap);
+          resolve(window.globalMap);
         } else if (attempts >= maxAttempts) {
           console.error('Timed out waiting for map to initialize after', maxAttempts, 'attempts');
           reject(new Error('Timed out waiting for map to initialize'));
@@ -117,7 +118,13 @@ async function initializeMap() {
     });
   } catch (error) {
     console.error('Failed to initialize Google Maps:', error.message);
-    throw error;
+    // Fallback: try to initialize map anyway
+    if (typeof google !== 'undefined' && google.maps) {
+      const mapInstance = initializeGoogleMap();
+      if (mapInstance) {
+        initializeFireDataService(mapInstance);
+      }
+    }
   }
 }
 
