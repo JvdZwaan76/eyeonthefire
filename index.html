@@ -5,22 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eye on the Fire - USA Fire Map</title>
   <link rel="stylesheet" href="/styles.css">
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <!-- External JavaScript Resources -->
   <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
-  <script src="https://unpkg.com/@googlemaps/markerclustererplus@1.0.3/dist/index.min.js"></script>
+  <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
-  <script nonce="N2Y4ZmI5YzktNDM2Mi00YzVhLWI2NDktMjM5NzVhN2Q4YzE0">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-T8RE6KDBEW');
-  </script>
+  <script src="/js/analytics.js"></script>
   <!-- Google Sign-In Library -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta name="google-signin-client_id" content="776232562017-tbtur0bspcb8k8o4fic5bb9v2i7vntac.apps.googleusercontent.com">
@@ -65,7 +58,7 @@
            data-auto_prompt="false">
       </div>
       <div class="g_id_signin" data-type="standard"></div>
-      <a href="#" onclick="signOut();" id="signout-link" class="signout-link">Sign out</a>
+      <a href="#" id="signout-link">Sign out</a>
     </div>
   </section>
 
@@ -151,18 +144,18 @@
         <div class="legend-item"><span class="legend-color legend-very-low"></span> Very Low (0-29%)</div>
         <div class="legend-size-note">Marker size indicates fire power (MW)</div>
       </div>
-      <div id="status-panel" class="status-panel"></div>
-      <div id="loading-data-message" class="loading-data-message">
+      <div id="status-panel"></div>
+      <div id="loading-data-message">
         <span class="loading-data-spinner"></span>Loading data...
       </div>
-      <div id="region-loading" class="region-loading">
+      <div id="region-loading">
         <span class="region-loading-spinner"></span>Loading region...
       </div>
-      <div id="stats-panel" class="stats-panel">
+      <div id="stats-panel">
         <div class="stats-title">Fire Statistics <button id="close-stats" class="btn btn-sm btn-outline-secondary">Close</button></div>
         <div id="stats-content"></div>
       </div>
-      <div id="loading-overlay" class="loading-overlay">
+      <div id="loading-overlay">
         <div class="spinner"></div>
         <div id="loading-message">Loading Fire Map...</div>
       </div>
@@ -262,6 +255,6 @@
   <script src="/js/map-integration.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/google-signin.js"></script>
-  <div id="turnstile-container" class="turnstile-container"></div>
+  <div id="turnstile-container"></div>
 </body>
 </html>
