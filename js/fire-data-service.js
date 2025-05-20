@@ -1,3 +1,5 @@
+console.log('fire-data-service.js loaded successfully');
+
 class FireDataService {
   constructor(map) {
     console.log('Initializing FireDataService with map');
