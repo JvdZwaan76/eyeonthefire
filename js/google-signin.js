@@ -1,36 +1,31 @@
-function parseJwt(token) {
-  try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-  } catch (e) {
-    console.error('Error parsing JWT:', e);
-    return {};
-  }
-}
-
-function onSignIn(response) {
-  // The response object contains the credential (JWT token)
-  const credential = response.credential;
-  const profile = parseJwt(credential);
-  
-  console.log('ID:', profile.sub); // User ID
-  console.log('Name:', profile.name);
-  console.log('Email:', profile.email);
-  
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to backend!
+  console.log('Name: ' + profile.getName());
+  console.log('Email: ' + profile.getEmail());
   // Show sign-out link after successful sign-in
   document.getElementById('signout-link').style.display = 'block';
-  
   // Optionally, send the ID token to your backend for validation
-  console.log('ID Token:', credential);
+  var id_token = googleUser.getAuthResponse().id_token;
+  console.log('ID Token: ' + id_token);
   // Send id_token to your backend via HTTPS (not implemented here)
 }
 
 function signOut() {
-  google.accounts.id.disableAutoSelect();
-  console.log('User signed out.');
-  document.getElementById('signout-link').style.display = 'none';
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+    document.getElementById('signout-link').style.display = 'none';
+  });
 }
+
+// Add event listener for sign-out link
+document.addEventListener('DOMContentLoaded', function () {
+  const signOutLink = document.getElementById('signout-link');
+  if (signOutLink) {
+    signOutLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      signOut();
+    });
+  }
+});
