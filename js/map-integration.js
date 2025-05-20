@@ -64,7 +64,7 @@ function initializeGoogleMap() {
     return null;
   }
   map = new google.maps.Map(mapElement, mapOptions);
-  window.globalMap = map;
+  window.globalMap = map; // Set global map immediately
   console.log('Map created successfully');
   return map;
 }
@@ -91,8 +91,7 @@ window.initMap = function () {
   }
   console.log('Map created, hiding loading overlay');
   initializeFireDataService(mapInstance);
-  // Ensure map is set globally for other scripts
-  window.mapInitialized = true;
+  window.mapInitialized = true; // Set flag after map and FireDataService are initialized
 };
 
 async function initializeMap() {
@@ -101,7 +100,7 @@ async function initializeMap() {
     // Wait for map to be initialized
     await new Promise((resolve, reject) => {
       let attempts = 0;
-      const maxAttempts = 50; // 5 seconds with 100ms intervals
+      const maxAttempts = 100; // Increase to 10 seconds
       const checkMap = () => {
         attempts++;
         if (window.mapInitialized || map || window.globalMap) {
