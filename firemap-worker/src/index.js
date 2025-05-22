@@ -8,9 +8,9 @@ async function handleRequest(request) {
   if (url.pathname === '/' || url.pathname === '/index.html') {
     console.log('Processing index.html');
     try {
-      let html = await MY_KV.get('index.html', 'text');
+      let html = await eyeonthefire_keys.get('index.html', 'text');
       if (!html) {
-        return new Response('index.html not found', { status: 404 });
+        return new Response('index.html not found in KV', { status: 404 });
       }
       const nonce = btoa(String.fromCharCode.apply(null, crypto.getRandomValues(new Uint8Array(16))));
       console.log('Generated nonce:', nonce);
@@ -21,7 +21,7 @@ async function handleRequest(request) {
       }
       html = html.replace(/{{NONCE}}/g, nonce);
       html = html.replace('{{GOOGLE_MAPS_API_KEY}}', GOOGLE_MAPS_API_KEY);
-      const csp = `default-src 'none'; script-src 'self' 'nonce-${nonce}' https://accounts.google.com https://maps.googleapis.com https://unpkg.com https://www.googletagmanager.com https://code.jquery.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://challenges.cloudflare.com 'strict-dynamic'; style-src 'self' 'unsafe-inline' https://maps.googleapis.com https://cdnjs.cloudflare.com [invalid url, do not cite] connect-src 'self' https://firemap-worker.jaspervdz.workers.dev https://maps.googleapis.com https://www.googletagmanager.com https://analytics.google.com https://www.google-analytics.com [invalid url, do not cite] img-src 'self' data: https://maps.googleapis.com https://www.googletagmanager.com [invalid url, do not cite] font-src [invalid url, do not cite]
+      const csp = `default-src 'none'; script-src 'self' 'nonce-${nonce}' https://accounts.google.com https://maps.googleapis.com https://unpkg.com https://www.googletagmanager.com https://code.jquery.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://challenges.cloudflare.com 'strict-dynamic'; style-src 'self' 'unsafe-inline' https://maps.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://firemap-worker.jaspervdz.workers.dev https://maps.googleapis.com https://www.googletagmanager.com https://analytics.google.com https://www.google-analytics.com https://stats.g.doubleclick.net https://challenges.cloudflare.com; img-src 'self' data: https://maps.googleapis.com https://www.googletagmanager.com https://*.google.com; font-src https://fonts.googleapis.com`;
       return new Response(html, {
         headers: {
           'Content-Type': 'text/html',
@@ -45,7 +45,7 @@ async function handleRequest(request) {
     const source = url.searchParams.get('source') || 'MODIS_NRT';
     const days = url.searchParams.get('days') || '1';
     const area = url.searchParams.get('area') || 'usa';
-    const firmsUrl = `[invalid url, do not cite]
+    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${NASA_FIRMS_API_KEY}/${source}/${area}/${days}`;
     try {
       const response = await fetch(firmsUrl);
       if (!response.ok) {
