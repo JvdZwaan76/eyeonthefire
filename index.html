@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track active wildfires across the USA in real-time with our interactive fire map using NASA FIRMS data.">
+  <meta property="og:title" content="Eye on the Fire - USA Fire Map">
+  <meta property="og:description" content="Real-time wildfire tracking and safety information.">
   <title>Eye on the Fire - USA Fire Map</title>
   <link rel="stylesheet" href="/styles.css">
+  <!-- Google Maps API -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&callback=initMap&libraries=visualization"></script>
   <!-- External JavaScript Resources -->
   <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
   <script src="https://unpkg.com/@googlemaps/markerclusterer@2.0.15/dist/index.min.js"></script>
