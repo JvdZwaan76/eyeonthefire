@@ -3,7 +3,7 @@ class FireDataService {
     this.map = map;
     this.markers = [];
     this.markerCluster = null;
-    this.enableClustering = document.getElementById('enable-clustering').checked;
+    this.enableClustering = document.getElementById('enable-clustering')?.checked || false;
   }
 
   async fetchUSAFireData() {
@@ -44,8 +44,8 @@ class FireDataService {
 
   applyFilterSettings(data) {
     console.log('Applying filter settings');
-    const minConfidence = parseInt(document.getElementById('confidence-range').value) || 0;
-    const minFrp = parseInt(document.getElementById('frp-range').value) || 0;
+    const minConfidence = parseInt(document.getElementById('confidence-range')?.value) || 0;
+    const minFrp = parseInt(document.getElementById('frp-range')?.value) || 0;
     const filteredData = data.filter(fire => 
       parseFloat(fire.confidence) >= minConfidence && parseFloat(fire.frp) >= minFrp
     );
@@ -60,13 +60,13 @@ class FireDataService {
     if (this.enableClustering) {
       console.log('Marker clustering enabled');
       try {
-        if (typeof markerClusterer !== 'undefined') {
+        if (typeof markerClusterer !== 'undefined' && markerClusterer.MarkerClusterer) {
           this.markerCluster = new markerClusterer.MarkerClusterer({
             map: this.map,
             markers: this.markers
           });
         } else {
-          console.error('markerClusterer not loaded');
+          console.error('markerClusterer not loaded or MarkerClusterer not defined');
         }
       } catch (error) {
         console.error('Error initializing MarkerClusterer:', error);
