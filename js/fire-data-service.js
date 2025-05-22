@@ -3,7 +3,7 @@ class FireDataService {
     this.map = map;
     this.markers = [];
     this.markerCluster = null;
-    this.enableClustering = true; // Assuming clustering is enabled by default
+    this.enableClustering = document.getElementById('enable-clustering').checked;
   }
 
   async fetchUSAFireData() {
@@ -17,7 +17,6 @@ class FireDataService {
         throw new Error('Failed to fetch');
       }
       const csvData = await response.text();
-      // Parse CSV data (assuming Papa Parse is used)
       const results = Papa.parse(csvData, { header: true });
       this.applyFilterSettings(results.data);
     } catch (error) {
@@ -45,8 +44,11 @@ class FireDataService {
 
   applyFilterSettings(data) {
     console.log('Applying filter settings');
-    // Apply filters (e.g., confidence, frp)
-    const filteredData = data; // Simplified for example
+    const minConfidence = parseInt(document.getElementById('confidence-range').value) || 0;
+    const minFrp = parseInt(document.getElementById('frp-range').value) || 0;
+    const filteredData = data.filter(fire => 
+      parseFloat(fire.confidence) >= minConfidence && parseFloat(fire.frp) >= minFrp
+    );
     console.log('Applied filters, filtered data:', filteredData.length, 'points');
     this.updateMarkers(filteredData);
   }
@@ -57,10 +59,15 @@ class FireDataService {
     this.markers = data.map(fire => this.createMarker(fire));
     if (this.enableClustering) {
       console.log('Marker clustering enabled');
-      this.markerCluster = new markerClusterer.MarkerClusterer({
-        map: this.map,
-        markers: this.markers
-      });
+      try {
+        this.markerCluster = new markerClusterer.MarkerClusterer({
+          map: this.map,
+          markers: this.markers
+        });
+      } catch (error) {
+        console.error('Error initializing MarkerClusterer:', error);
+        // Fallback to showing markers without clustering
+      }
     }
   }
 
@@ -68,6 +75,7 @@ class FireDataService {
     console.log('Cleared markers');
     if (this.markerCluster) {
       this.markerCluster.clearMarkers();
+      this.markerCluster = null;
     }
     this.markers.forEach(marker => marker.setMap(null));
     this.markers = [];
@@ -88,6 +96,5 @@ class FireDataService {
   }
 }
 
-// Define globally
 window.FireDataService = FireDataService;
 console.log('FireDataService class defined globally');
