@@ -60,13 +60,17 @@ class FireDataService {
     if (this.enableClustering) {
       console.log('Marker clustering enabled');
       try {
-        this.markerCluster = new markerClusterer.MarkerClusterer({
-          map: this.map,
-          markers: this.markers
-        });
+        if (typeof markerClusterer !== 'undefined') {
+          this.markerCluster = new markerClusterer.MarkerClusterer({
+            map: this.map,
+            markers: this.markers
+          });
+        } else {
+          console.error('markerClusterer not loaded');
+          // Fallback to showing markers without clustering
+        }
       } catch (error) {
         console.error('Error initializing MarkerClusterer:', error);
-        // Fallback to showing markers without clustering
       }
     }
   }
