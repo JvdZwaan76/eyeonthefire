@@ -3,8 +3,8 @@ main = "src/index.js"
 compatibility_date = "2025-05-19"
 [[routes]]
 pattern = "eyeonthefire.com/*"
-[observability.logs]
-enabled = true
 [[kv_namespaces]]
 binding = "eyeonthefire-keys"
 id = "7870aa9dfbfb404aa043612f7cf6a59a"
+[observability.logs]
+enabled = true
