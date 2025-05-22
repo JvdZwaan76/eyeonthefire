@@ -3,9 +3,3 @@ main = "src/index.js"
 compatibility_date = "2025-05-19"
 [observability.logs]
 enabled = true
-
-[vars]
-GOOGLE_MAPS_API_KEY = "AIzaSyD9MXRpmeXMKlezIOs3lPAjn0C5yLeTNUk"
-TURNSTILE_SITE_KEY = "0x4AAAAAABc1nqDeCwRviFAi"
-TURNSTILE_SECRET_KEY = "0x4AAAAAABc1nteQcJqnH2lgRIQ86VO3kh8"
-NASA_FIRMS_API_KEY = "aaa0f9bee1f66e3a5abf7a6a09d0dc15"
