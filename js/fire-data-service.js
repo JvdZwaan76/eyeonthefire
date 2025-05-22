@@ -9,7 +9,7 @@ class FireDataService {
   async fetchUSAFireData() {
     console.log('Fetching USA fire data');
     console.log('Skipping Turnstile token for fetchUSAFireData (Worker bypass)');
-    const url = 'https://firemap-worker.jaspervdz.workers.dev/nasa/firms?source=MODIS_NRT&days=1&area=usa';
+    const url = '/nasa/firms?source=MODIS_NRT&days=1&area=usa';
     console.log('Fetching fire data from:', url);
     try {
       const response = await fetch(url);
