@@ -8,12 +8,10 @@ async function handleRequest(request) {
   if (url.pathname === '/' || url.pathname === '/index.html') {
     console.log('Processing index.html');
     try {
-      // Adjust the fetch URL based on where index.html is hosted
-      let response = await fetch('[invalid url, do not cite]);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch index.html: ${response.status}`);
+      let html = await MY_KV.get('index.html', 'text');
+      if (!html) {
+        return new Response('index.html not found', { status: 404 });
       }
-      let html = await response.text();
       const nonce = btoa(String.fromCharCode.apply(null, crypto.getRandomValues(new Uint8Array(16))));
       console.log('Generated nonce:', nonce);
       console.log('GOOGLE_MAPS_API_KEY:', GOOGLE_MAPS_API_KEY);
@@ -23,12 +21,13 @@ async function handleRequest(request) {
       }
       html = html.replace(/{{NONCE}}/g, nonce);
       html = html.replace('{{GOOGLE_MAPS_API_KEY}}', GOOGLE_MAPS_API_KEY);
-      const csp = `default-src 'none'; script-src 'self' 'nonce-${nonce}' https://accounts.google.com https://maps.googleapis.com https://unpkg.com https://www.googletagmanager.com https://code.jquery.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://challenges.cloudflare.com 'strict-dynamic'; style-src 'self' 'nonce-${nonce}' https://maps.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://firemap-worker.jaspervdz.workers.dev https://maps.googleapis.com https://www.googletagmanager.com https://analytics.google.com https://www.google-analytics.com https://challenges.cloudflare.com; img-src 'self' data: https://maps.googleapis.com https://www.googletagmanager.com https://static.cloudflareinsights.com; font-src https://fonts.googleapis.com`;
+      const csp = `default-src 'none'; script-src 'self' 'nonce-${nonce}' https://accounts.google.com https://maps.googleapis.com https://unpkg.com https://www.googletagmanager.com https://code.jquery.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://challenges.cloudflare.com 'strict-dynamic'; style-src 'self' 'unsafe-inline' https://maps.googleapis.com https://cdnjs.cloudflare.com [invalid url, do not cite] connect-src 'self' https://firemap-worker.jaspervdz.workers.dev https://maps.googleapis.com https://www.googletagmanager.com https://analytics.google.com https://www.google-analytics.com [invalid url, do not cite] img-src 'self' data: https://maps.googleapis.com https://www.googletagmanager.com [invalid url, do not cite] font-src [invalid url, do not cite]
       return new Response(html, {
         headers: {
           'Content-Type': 'text/html',
           'Content-Security-Policy': csp,
-          'X-Worker': 'true'
+          'X-Worker': 'true',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
         }
       });
     } catch (error) {
