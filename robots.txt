@@ -1,0 +1,63 @@
+# Eye on the Fire - Robots.txt
+# https://eyeonthefire.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# High-priority pages for crawling
+Allow: /
+Allow: /safety/
+Allow: /prevention/
+Allow: /about/
+Allow: /alerts/
+
+# Allow access to important resources
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /images/
+Allow: /favicon.ico
+Allow: /manifest.json
+
+# Disallow API endpoints (not meant for search engines)
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Disallow temporary or development files
+Disallow: /temp/
+Disallow: /dev/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# Allow specific crawlers for better indexing
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Block abusive crawlers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://eyeonthefire.com/sitemap.xml
+Sitemap: https://eyeonthefire.com/sitemap-news.xml
+Sitemap: https://eyeonthefire.com/sitemap-images.xml
+
+# Additional information
+# This robots.txt file is for Eye on the Fire wildfire tracking platform
+# Contact: support@eyeonthefire.com for crawling questions
+# Last updated: 2025-01-15

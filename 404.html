@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Eye on the Fire</title>
+    <meta name="description" content="The page you're looking for could not be found. Return to Eye on the Fire's wildfire tracking platform and safety resources.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, 
+                rgba(255, 68, 68, 0.95) 0%,
+                rgba(255, 107, 53, 0.9) 50%,
+                rgba(255, 165, 0, 0.85) 100%
+            );
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .error-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            opacity: 0.9;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .error-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-input::placeholder {
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #FF4444;
+            border: 2px solid transparent;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .suggestions {
+            margin-top: 2rem;
+        }
+        
+        .suggestions h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .suggestion-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .suggestion-link {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .suggestion-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+            color: white;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .logo-container:hover {
+            opacity: 1;
+            color: white;
+        }
+        
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .error-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+            
+            .suggestion-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .suggestion-link {
+                text-align: center;
+                min-width: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            h1 {
+                font-size: 1.25rem;
+            }
+            
+            .error-message {
+                font-size: 1rem;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Animation for the fire icon */
+        @keyframes flicker {
+            0%, 100% { 
+                opacity: 0.9; 
+                transform: scale(1) rotate(0deg); 
+            }
+            25% { 
+                opacity: 1; 
+                transform: scale(1.05) rotate(1deg); 
+            }
+            50% { 
+                opacity: 0.95; 
+                transform: scale(1.02) rotate(-1deg); 
+            }
+            75% { 
+                opacity: 1; 
+                transform: scale(1.03) rotate(0.5deg); 
+            }
+        }
+        
+        .error-icon {
+            animation: flicker 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <a href="/" class="logo-container">
+            <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo-image" onerror="this.style.display='none'">
+            <span class="logo-text">Eye on the Fire</span>
+        </a>
+        
+        <div class="error-icon">🔥</div>
+        
+        <div class="error-code">404</div>
+        
+        <h1>Page Not Found</h1>
+        
+        <p class="error-message">
+            The page you're looking for seems to have gone up in smoke. 
+            Don't worry though - our wildfire tracking and safety resources are still here to help keep you informed and protected.
+        </p>
+        
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Search for wildfire information, safety tips, or resources..."
+                id="search-input"
+            >
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Return Home
+            </a>
+            <a href="/#map" class="btn btn-secondary">
+                <i class="fas fa-fire"></i>
+                View Fire Map
+            </a>
+        </div>
+        
+        <div class="suggestions">
+            <h3>Popular Pages</h3>
+            <div class="suggestion-links">
+                <a href="/safety/" class="suggestion-link">Safety Guide</a>
+                <a href="/prevention/" class="suggestion-link">Fire Prevention</a>
+                <a href="/alerts/" class="suggestion-link">Fire Alerts</a>
+                <a href="/air-quality/" class="suggestion-link">Air Quality</a>
+                <a href="/evacuation/" class="suggestion-link">Evacuation Planning</a>
+                <a href="/about/" class="suggestion-link">About Us</a>
+                <a href="/contact/" class="suggestion-link">Contact</a>
+                <a href="/help/" class="suggestion-link">Help Center</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple search functionality
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = encodeURIComponent(this.value.trim());
+                if (query) {
+                    // Redirect to a search results page or Google site search
+                    window.location.href = `https://www.google.com/search?q=site:eyeonthefire.com+${query}`;
+                }
+            }
+        });
+        
+        // Track 404 errors for analytics (if Google Analytics is available)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                page_title: '404 Error',
+                page_location: window.location.href,
+                content_group: 'Error Pages'
+            });
+            
+            gtag('event', 'exception', {
+                description: '404 Page Not Found: ' + window.location.pathname,
+                fatal: false
+            });
+        }
+        
+        // Auto-focus search input for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 1000); // Small delay so users can see the page first
+            }
+        });
+        
+        // Handle missing logo image gracefully
+        document.querySelector('.logo-image').addEventListener('error', function() {
+            this.style.display = 'none';
+            // Adjust logo container layout when image is hidden
+            const logoContainer = document.querySelector('.logo-container');
+            logoContainer.style.gap = '0';
+        });
+        
+        // Add some interactivity to suggestion links
+        document.querySelectorAll('.suggestion-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Track clicks on suggestion links if analytics available
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        event_category: '404 Recovery',
+                        event_label: this.textContent,
+                        value: 1
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

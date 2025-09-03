@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+    <!-- Homepage - Highest Priority -->
+    <url>
+        <loc>https://eyeonthefire.com/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://eyeonthefire.com/images/eyeonthefire-logo.png</image:loc>
+            <image:title>Eye on the Fire - Real-Time Wildfire Tracking</image:title>
+            <image:caption>America's premier wildfire tracking platform</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Safety Guide - High Priority -->
+    <url>
+        <loc>https://eyeonthefire.com/safety/</loc>
+        <lastmod>2025-01-15T10:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eyeonthefire.com/safety/"/>
+    </url>
+
+    <!-- Fire Prevention Guide - High Priority -->
+    <url>
+        <loc>https://eyeonthefire.com/prevention/</loc>
+        <lastmod>2025-01-15T10:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://eyeonthefire.com/prevention/"/>
+    </url>
+
+    <!-- About Page -->
+    <url>
+        <loc>https://eyeonthefire.com/about/</loc>
+        <lastmod>2025-01-15T08:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Fire Alerts -->
+    <url>
+        <loc>https://eyeonthefire.com/alerts/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact Page -->
+    <url>
+        <loc>https://eyeonthefire.com/contact/</loc>
+        <lastmod>2025-01-10T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Additional Resource Pages -->
+    <url>
+        <loc>https://eyeonthefire.com/evacuation/</loc>
+        <lastmod>2025-01-12T15:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/insurance/</loc>
+        <lastmod>2025-01-12T15:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/air-quality/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/weather/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Recovery Resources -->
+    <url>
+        <loc>https://eyeonthefire.com/recovery/</loc>
+        <lastmod>2025-01-10T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Help and Support -->
+    <url>
+        <loc>https://eyeonthefire.com/help/</loc>
+        <lastmod>2025-01-10T12:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/status/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Legal Pages -->
+    <url>
+        <loc>https://eyeonthefire.com/privacy/</loc>
+        <lastmod>2025-01-01T12:00:00+00:00</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/terms/</loc>
+        <lastmod>2025-01-01T12:00:00+00:00</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- API Documentation -->
+    <url>
+        <loc>https://eyeonthefire.com/api/</loc>
+        <lastmod>2025-01-12T12:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Regional Fire Information Pages -->
+    <url>
+        <loc>https://eyeonthefire.com/california-fires/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/colorado-fires/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/oregon-fires/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/washington-fires/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/texas-fires/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Educational Content -->
+    <url>
+        <loc>https://eyeonthefire.com/defensible-space/</loc>
+        <lastmod>2025-01-12T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/home-hardening/</loc>
+        <lastmod>2025-01-12T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://eyeonthefire.com/fire-resistant-landscaping/</loc>
+        <lastmod>2025-01-12T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Blog/News Section -->
+    <url>
+        <loc>https://eyeonthefire.com/news/</loc>
+        <lastmod>2025-01-15T12:00:00+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Mobile App Pages -->
+    <url>
+        <loc>https://eyeonthefire.com/mobile-app/</loc>
+        <lastmod>2025-01-10T12:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+</urlset>

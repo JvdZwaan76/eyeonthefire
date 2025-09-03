@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye on the Fire | Real-Time Wildfire Tracking & Safety Platform</title>
+    <meta name="description" content="America's premier real-time wildfire tracking platform. Monitor active fires, get evacuation alerts, and access expert safety guides. Free, fast, and trusted by millions.">
+    <meta name="keywords" content="wildfire tracking, fire map, evacuation alerts, fire safety, real-time wildfire, FIRMS data, NASA satellites">
+    
+    <!-- Google Analytics - Priority Loading -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW', {
+            // Enhanced ecommerce and custom parameters
+            custom_map: {
+                'custom_parameter_1': 'fire_alerts_enabled',
+                'custom_parameter_2': 'user_location_shared'
+            },
+            // Privacy settings
+            anonymize_ip: true,
+            allow_google_signals: false,
+            // Performance settings
+            page_title: document.title,
+            page_location: window.location.href
+        });
+        
+        // Track initial page load performance
+        gtag('event', 'page_view', {
+            event_category: 'Homepage',
+            page_title: document.title,
+            page_location: window.location.href
+        });
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eyeonthefire.com/">
+    <meta property="og:title" content="Eye on the Fire | Real-Time Wildfire Tracking Platform">
+    <meta property="og:description" content="Track wildfires in real-time with satellite data, get evacuation alerts, and access expert safety guides.">
+    <meta property="og:image" content="https://eyeonthefire.com/assets/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://eyeonthefire.com/">
+    <meta property="twitter:title" content="Eye on the Fire | Real-Time Wildfire Tracking">
+    <meta property="twitter:description" content="America's premier wildfire tracking platform with real-time satellite data.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="/assets/css/styles.css" as="style">
+    <link rel="preload" href="/assets/js/app.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" as="style">
+    
+    <!-- Fonts with display=swap for performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet for mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Eye on the Fire",
+        "url": "https://eyeonthefire.com",
+        "description": "America's premier real-time wildfire tracking platform",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://eyeonthefire.com/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo-container" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Logo'});">
+                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo-image">
+                <div class="logo-text-wrapper">
+                    <span class="logo-text">Eye on the Fire</span>
+                    <span class="logo-tagline">Real-Time Wildfire Intelligence</span>
+                </div>
+            </a>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="/" class="active" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Home'});">Home</a></li>
+                <li class="nav-item"><a href="#map" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Live Map'});">Live Map</a></li>
+                <li class="nav-item"><a href="/safety/" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Safety'});">Safety</a></li>
+                <li class="nav-item"><a href="/prevention/" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Prevention'});">Prevention</a></li>
+                <li class="nav-item"><a href="/alerts/" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'Alerts'});">Alerts</a></li>
+                <li class="nav-item"><a href="/about/" onclick="gtag('event', 'click', {'event_category': 'Navigation', 'event_label': 'About'});">About</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>America's Premier<br>Wildfire Tracking Platform</h1>
+            <p class="hero-subtitle">
+                Track active wildfires in real-time using NASA satellite data, get instant evacuation alerts, and access expert safety guides. Trusted by millions during wildfire season.
+            </p>
+            <div class="hero-actions">
+                <a href="#map" class="btn btn-primary" onclick="gtag('event', 'click', {'event_category': 'Hero CTA', 'event_label': 'View Live Map'});">
+                    <i class="fas fa-map-marked-alt"></i>
+                    View Live Map
+                </a>
+                <a href="/safety/" class="btn btn-secondary" onclick="gtag('event', 'click', {'event_category': 'Hero CTA', 'event_label': 'Safety Guide'});">
+                    <i class="fas fa-shield-alt"></i>
+                    Safety Guide
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="active-fires">--</span>
+                    <span class="stat-label">Active Fires</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">7M+</span>
+                    <span class="stat-label">Users Protected</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Monitoring</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Live Map Section -->
+    <section class="map-section" id="map">
+        <div class="section-header">
+            <h2 class="section-title">Live Wildfire Map</h2>
+            <p class="section-subtitle">
+                Real-time wildfire tracking powered by NASA FIRMS satellite data, NIFC incident reports, and verified ground sources.
+            </p>
+        </div>
+        
+        <div class="map-container">
+            <div class="map-header">
+                <div class="map-title">
+                    <i class="fas fa-satellite"></i>
+                    Real-Time Wildfire Tracking
+                </div>
+                <div class="map-status">
+                    <div class="status-indicator"></div>
+                    <span>Live Data Feed</span>
+                    <span id="last-update">--</span>
+                </div>
+            </div>
+            
+            <div class="map-wrapper">
+                <div id="wildfire-map"></div>
+                
+                <div class="map-controls">
+                    <button class="map-control-btn" id="locate-btn" title="Find My Location" onclick="gtag('event', 'click', {'event_category': 'Map Controls', 'event_label': 'Locate User'});">
+                        <i class="fas fa-crosshairs"></i>
+                    </button>
+                    <button class="map-control-btn" id="layers-btn" title="Toggle Layers" onclick="gtag('event', 'click', {'event_category': 'Map Controls', 'event_label': 'Toggle Layers'});">
+                        <i class="fas fa-layer-group"></i>
+                    </button>
+                    <button class="map-control-btn" id="fullscreen-btn" title="Fullscreen" onclick="gtag('event', 'click', {'event_category': 'Map Controls', 'event_label': 'Fullscreen'});">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="map-control-btn" id="alerts-btn" title="Fire Alerts" onclick="gtag('event', 'click', {'event_category': 'Map Controls', 'event_label': 'Fire Alerts'});">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+                
+                <div class="map-legend">
+                    <div class="legend-title">Fire Confidence</div>
+                    <div class="legend-item">
+                        <div class="legend-color high"></div>
+                        <span>High (80-100%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color medium"></div>
+                        <span>Medium (60-79%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color low"></div>
+                        <span>Low (30-59%)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-info">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-satellite-dish"></i>
+                        <h4>NASA FIRMS Data</h4>
+                        <p>Real-time hotspot detection from MODIS and VIIRS satellites</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Expert Verification</h4>
+                        <p>Data verified by professional firefighters and emergency responders</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Instant Alerts</h4>
+                        <p>Get notified of fires near your location via push notifications</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Always Free</h4>
+                        <p>No ads, no subscriptions - public safety information for everyone</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Comprehensive Wildfire Intelligence</h2>
+            <p class="section-subtitle">
+                Everything you need to stay informed and prepared during wildfire season
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3>Real-Time Fire Tracking</h3>
+                <p>Monitor active wildfires with satellite data updated every 15 minutes. See fire perimeters, growth rates, and containment status from official sources.</p>
+                <a href="#map" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Real-Time Tracking'});">View Live Map</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Evacuation Alerts</h3>
+                <p>Receive instant notifications for evacuation orders, warnings, and shelter locations. Critical information when every second counts.</p>
+                <a href="/alerts/" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Evacuation Alerts'});">Setup Alerts</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <h3>Weather Intelligence</h3>
+                <p>Track fire weather conditions including wind speed, humidity, temperature, and red flag warnings that could accelerate fire spread.</p>
+                <a href="/weather/" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Weather Intelligence'});">View Weather</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <h3>Aircraft Tracking</h3>
+                <p>Watch firefighting aircraft and helicopters in real-time as they deploy retardant and coordinate suppression efforts.</p>
+                <a href="#map" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Aircraft Tracking'});">Track Aircraft</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lungs"></i>
+                </div>
+                <h3>Air Quality Monitoring</h3>
+                <p>Check smoke and particle levels in your area with EPA air quality data. Know when it's safe to go outside during fire events.</p>
+                <a href="/air-quality/" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Air Quality'});">Check Air Quality</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>Home Protection Guide</h3>
+                <p>Learn how to create defensible space, harden your home, and prepare an evacuation plan with expert guidance from fire professionals.</p>
+                <a href="/prevention/" class="feature-link" onclick="gtag('event', 'click', {'event_category': 'Features', 'event_label': 'Home Protection'});">Learn More</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Safety Section -->
+    <section class="safety" id="safety">
+        <div class="safety-content">
+            <div class="safety-text">
+                <h2>Prepare. Plan. Protect.</h2>
+                <p>Wildfire preparedness can be the difference between losing everything and protecting what matters most. Our comprehensive safety guides are developed by fire professionals and emergency management experts.</p>
+                
+                <ul class="safety-checklist">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Create Defensible Space</strong>
+                            <p>Clear vegetation within 30-100 feet of your home using the zone system recommended by fire professionals.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Harden Your Home</strong>
+                            <p>Use fire-resistant materials for roofing, siding, and decking. Install ember-resistant vents and screens.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Plan Multiple Escape Routes</strong>
+                            <p>Know at least two ways to evacuate your neighborhood and practice your evacuation plan regularly.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Prepare Emergency Kit</strong>
+                            <p>Keep important documents, medications, and supplies ready for rapid evacuation at a moment's notice.</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <a href="/safety/" class="btn btn-primary" onclick="gtag('event', 'click', {'event_category': 'Safety CTA', 'event_label': 'Complete Safety Guide'});">
+                    <i class="fas fa-book-open"></i>
+                    Complete Safety Guide
+                </a>
+            </div>
+            
+            <div class="safety-visual">
+                <div class="defensible-space-diagram">
+                    <div class="zone zone-1">
+                        <span>Zone 1<br>0-30 ft</span>
+                    </div>
+                    <div class="zone zone-2">
+                        <span>Zone 2<br>30-100 ft</span>
+                    </div>
+                    <div class="house-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Statistics Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <h2>Protecting Communities Nationwide</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">50</span>
+                    <span class="stat-label">States Covered</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">15min</span>
+                    <span class="stat-label">Update Frequency</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">99.9%</span>
+                    <span class="stat-label">Uptime</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="data-sources">12</span>
+                    <span class="stat-label">Data Sources</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Eye on the Fire</h4>
+                <p>America's premier wildfire tracking platform, providing real-time fire intelligence and safety resources to protect communities nationwide.</p>
+                <div class="social-links">
+                    <a href="https://twitter.com/eyeonthefire" aria-label="Twitter" onclick="gtag('event', 'click', {'event_category': 'Social', 'event_label': 'Twitter'});"><i class="fab fa-twitter"></i></a>
+                    <a href="https://facebook.com/eyeonthefire" aria-label="Facebook" onclick="gtag('event', 'click', {'event_category': 'Social', 'event_label': 'Facebook'});"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/eyeonthefire" aria-label="Instagram" onclick="gtag('event', 'click', {'event_category': 'Social', 'event_label': 'Instagram'});"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/eyeonthefire" aria-label="GitHub" onclick="gtag('event', 'click', {'event_category': 'Social', 'event_label': 'GitHub'});"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#map" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Live Fire Map'});">Live Fire Map</a></li>
+                    <li><a href="/alerts/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Fire Alerts'});">Fire Alerts</a></li>
+                    <li><a href="/safety/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Safety Guide'});">Safety Guide</a></li>
+                    <li><a href="/api/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'API Access'});">API Access</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="/prevention/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Fire Prevention'});">Fire Prevention</a></li>
+                    <li><a href="/evacuation/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Evacuation Planning'});">Evacuation Planning</a></li>
+                    <li><a href="/insurance/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Insurance Guide'});">Insurance Guide</a></li>
+                    <li><a href="/recovery/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Recovery Resources'});">Recovery Resources</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="/help/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Help Center'});">Help Center</a></li>
+                    <li><a href="/contact/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Contact Us'});">Contact Us</a></li>
+                    <li><a href="/status/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'System Status'});">System Status</a></li>
+                    <li><a href="/feedback/" onclick="gtag('event', 'click', {'event_category': 'Footer', 'event_label': 'Send Feedback'});">Send Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Eye on the Fire. All rights reserved. Data provided "as is" without warranty. Always follow official emergency guidance.</p>
+        </div>
+    </footer>
+    
+    <!-- Alert Template -->
+    <div class="alert alert-danger hidden" id="alert-template">
+        <div class="alert-header">
+            <div class="alert-title">Fire Alert</div>
+            <button class="alert-close">&times;</button>
+        </div>
+        <div class="alert-content">
+            <p>New wildfire detected near your location.</p>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/assets/js/performance.js"></script>
+    <script src="/assets/js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(() => {
+                        console.log('Service Worker registered');
+                        gtag('event', 'pwa_install', {
+                            'event_category': 'PWA',
+                            'event_label': 'Service Worker Registered'
+                        });
+                    })
+                    .catch(() => {
+                        console.log('Service Worker registration failed');
+                        gtag('event', 'exception', {
+                            'description': 'Service Worker registration failed',
+                            'fatal': false
+                        });
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
