@@ -1,0 +1,242 @@
+# security.txt - Security Contact Information
+# Located at /.well-known/security.txt
+
+Contact: security@eyeonthefire.com
+Contact: https://eyeonthefire.com/contact/
+Expires: 2025-12-31T23:59:59.000Z
+Encryption: https://eyeonthefire.com/.well-known/pgp-key.txt
+Preferred-Languages: en
+Canonical: https://eyeonthefire.com/.well-known/security.txt
+Policy: https://eyeonthefire.com/security-policy/
+Hiring: https://eyeonthefire.com/careers/
+
+# Acknowledgments for responsible disclosure
+Acknowledgments: https://eyeonthefire.com/security-acknowledgments/
+
+---
+
+# humans.txt - About the Team Behind Eye on the Fire
+# Located at /humans.txt
+
+/* TEAM */
+    Developer: Eye on the Fire Development Team
+    Contact: hello [at] eyeonthefire.com
+    Twitter: @eyeonthefire
+    Location: United States
+
+/* THANKS */
+    NASA FIRMS: For providing real-time wildfire data
+    NIFC: For official incident reports
+    NOAA: For weather data and red flag warnings
+    EPA AirNow: For air quality monitoring
+    Emergency Management Agencies: For verification and guidance
+    Open Source Community: For tools and libraries
+
+/* SITE */
+    Last update: 2025/01/15
+    Language: English
+    Doctype: HTML5
+    IDE: Professional Development Environment
+    Technologies: HTML5, CSS3, JavaScript, Progressive Web App
+    Hosting: Cloudflare
+    API: Cloudflare Workers
+    Standards: W3C, WCAG 2.1 AA, Schema.org
+
+/* VALUES */
+    Public Safety First
+    Free and Open Access
+    Privacy Protection
+    Real-time Accuracy
+    Community Focused
+
+---
+
+# ads.txt - Advertising Policy
+# Located at /ads.txt
+
+# Eye on the Fire does not serve third-party advertisements
+# This file exists to prevent unauthorized ad serving
+
+# No authorized digital sellers
+
+---
+
+# browserconfig.xml - Microsoft Tile Configuration
+# Located at /browserconfig.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square70x70logo src="/images/icons/icon-70x70.png"/>
+            <square150x150logo src="/images/icons/icon-150x150.png"/>
+            <wide310x150logo src="/images/icons/icon-310x150.png"/>
+            <square310x310logo src="/images/icons/icon-310x310.png"/>
+            <TileColor>#FF4444</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>
+
+---
+
+# Performance Budget Configuration
+# .perfbudget.json
+
+{
+  "url": "https://eyeonthefire.com",
+  "metrics": {
+    "firstContentfulPaint": 2500,
+    "largestContentfulPaint": 4000,
+    "firstInputDelay": 300,
+    "cumulativeLayoutShift": 0.1,
+    "totalBlockingTime": 600,
+    "speedIndex": 4000
+  },
+  "resources": {
+    "totalRequestsHttp": 0,
+    "totalRequestsHttps": 50,
+    "totalBytes": 2097152,
+    "totalJsBytes": 524288,
+    "totalCssBytes": 131072,
+    "totalImageBytes": 1048576,
+    "totalFontBytes": 262144
+  }
+}
+
+---
+
+# Server Configuration Health Check
+# /health-check.json
+
+{
+  "service": "eyeonthefire-web",
+  "version": "1.0.0",
+  "status": "healthy",
+  "timestamp": "2025-01-15T00:00:00Z",
+  "checks": {
+    "database": "not_applicable",
+    "api": "external_dependency",
+    "cache": "enabled",
+    "cdn": "cloudflare",
+    "ssl": "enabled",
+    "monitoring": "enabled"
+  },
+  "endpoints": {
+    "api": "https://eyeonthefire-api.workers.dev",
+    "status": "https://status.eyeonthefire.com",
+    "docs": "https://docs.eyeonthefire.com"
+  }
+}
+
+---
+
+# Web Performance Monitoring Script
+# /assets/js/performance.js
+
+(function() {
+    'use strict';
+    
+    // Performance monitoring for Core Web Vitals
+    function measurePerformance() {
+        if ('performance' in window && 'PerformanceObserver' in window) {
+            // Largest Contentful Paint
+            new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'web_vitals', {
+                            event_category: 'Performance',
+                            name: 'LCP',
+                            value: Math.round(entry.startTime),
+                            metric_id: 'lcp'
+                        });
+                    }
+                }
+            }).observe({entryTypes: ['largest-contentful-paint']});
+            
+            // First Input Delay
+            new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'web_vitals', {
+                            event_category: 'Performance', 
+                            name: 'FID',
+                            value: Math.round(entry.processingStart - entry.startTime),
+                            metric_id: 'fid'
+                        });
+                    }
+                }
+            }).observe({entryTypes: ['first-input']});
+            
+            // Cumulative Layout Shift
+            let clsValue = 0;
+            new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (!entry.hadRecentInput) {
+                        clsValue += entry.value;
+                    }
+                }
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'web_vitals', {
+                        event_category: 'Performance',
+                        name: 'CLS',
+                        value: Math.round(clsValue * 1000),
+                        metric_id: 'cls'
+                    });
+                }
+            }).observe({entryTypes: ['layout-shift']});
+        }
+    }
+    
+    // API Performance monitoring
+    function monitorAPIPerformance() {
+        if ('PerformanceObserver' in window) {
+            new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.name.includes('api/nasa/firms')) {
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'api_performance', {
+                                event_category: 'API',
+                                api_endpoint: 'nasa_firms',
+                                response_time: Math.round(entry.responseEnd - entry.requestStart),
+                                api_status: entry.responseStatus || 'unknown'
+                            });
+                        }
+                    }
+                }
+            }).observe({entryTypes: ['navigation', 'resource']});
+        }
+    }
+    
+    // Error tracking
+    window.addEventListener('error', (event) => {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'exception', {
+                description: event.error ? event.error.toString() : 'Unknown error',
+                fatal: false,
+                error_type: 'javascript_error'
+            });
+        }
+    });
+    
+    // Unhandled promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'exception', {
+                description: event.reason ? event.reason.toString() : 'Unhandled promise rejection',
+                fatal: false,
+                error_type: 'promise_rejection'
+            });
+        }
+    });
+    
+    // Initialize monitoring
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            measurePerformance();
+            monitorAPIPerformance();
+        });
+    } else {
+        measurePerformance();
+        monitorAPIPerformance();
+    }
+})();
