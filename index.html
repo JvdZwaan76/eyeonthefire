@@ -150,7 +150,7 @@
             top: 60px; 
             left: 0; 
             right: 0; 
-            bottom: 120px;
+            bottom: 240px;
         }
         
         .fire-map { 
@@ -160,13 +160,23 @@
         
         .ad-banner {
             position: fixed;
-            bottom: 0;
+            bottom: 80px;
             left: 0;
             right: 0;
             min-height: 120px;
             background: white;
             border-top: 2px solid var(--hd-orange);
             z-index: 5;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--gray-900);
+            z-index: 4;
         }
         
         @keyframes fadeIn { 
@@ -215,7 +225,7 @@
         </div>
     </div>
 
-    <!-- Main Navigation -->
+    <!-- Main Navigation - WatchDuty Style -->
     <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
         <!-- Clickable Brand -->
         <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
@@ -233,6 +243,12 @@
                 </div>
             </div>
             
+            <!-- Location Status -->
+            <div class="location-status" id="locationStatus" style="display: none;">
+                <span class="location-icon">📍</span>
+                <span class="location-text" id="locationText">Finding location...</span>
+            </div>
+            
             <!-- Prominent Locate Me Button -->
             <button class="locate-me-btn" 
                     id="locateMeBtn" 
@@ -243,90 +259,114 @@
                 <span class="button-text">Locate Me</span>
             </button>
             
-            <!-- Navigation Dropdown -->
-            <div class="nav-dropdown">
-                <button class="dropdown-toggle" 
-                        id="navDropdownToggle" 
-                        aria-expanded="false" 
-                        aria-controls="navDropdownMenu" 
-                        aria-label="Open navigation menu">
-                    <div class="hamburger-lines" aria-hidden="true">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
+                </div>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
+            </div>
+            
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
                     </div>
-                </button>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
                 
-                <div class="dropdown-menu" id="navDropdownMenu" role="menu" aria-hidden="true">
-                    <!-- Fire Intelligence Section -->
-                    <div class="dropdown-section">
-                        <div class="section-title">Fire Intelligence</div>
-                        <a href="/" class="dropdown-link active" role="menuitem" aria-current="page">
-                            <span class="link-icon" aria-hidden="true">🗺️</span>
-                            <span>Live Fire Map</span>
-                        </a>
-                        <a href="safety.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">🛡️</span>
-                            <span>Safety Center</span>
-                        </a>
-                        <a href="prevention.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">🌿</span>
-                            <span>Fire Prevention</span>
-                        </a>
-                        <a href="alerts.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">🚨</span>
-                            <span>Alert Setup</span>
-                        </a>
-                    </div>
-                    
-                    <!-- Add Places Section -->
-                    <div class="dropdown-section add-places-section">
-                        <div class="section-title">Add Places</div>
-                        <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.75rem; padding: 0 0;">
-                            Monitor fires near specific locations
-                        </p>
-                        <form class="add-place-form" onsubmit="addPlace(event)">
-                            <input type="text" 
-                                   class="place-input" 
-                                   id="placeInput" 
-                                   placeholder="Enter address or place name"
-                                   autocomplete="off"
-                                   aria-label="Enter address or place name to monitor">
-                            <button type="submit" 
-                                    class="add-place-btn" 
-                                    aria-label="Add this place to monitoring list">
-                                Add
-                            </button>
-                        </form>
-                        <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-                    
-                    <!-- Resources Section -->
-                    <div class="dropdown-section">
-                        <div class="section-title">Resources</div>
-                        <a href="about.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">ℹ️</span>
-                            <span>About Platform</span>
-                        </a>
-                        <a href="support.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">📞</span>
-                            <span>Emergency Contacts</span>
-                        </a>
-                        <a href="data-sources.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">📊</span>
-                            <span>Data Sources</span>
-                        </a>
-                        <a href="settings.html" class="dropdown-link" role="menuitem">
-                            <span class="link-icon" aria-hidden="true">⚙️</span>
-                            <span>Settings & Alerts</span>
-                        </a>
-                    </div>
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
                 </div>
             </div>
         </div>
-    </nav>
+    </aside>
 
     <!-- Map Container -->
     <main class="map-container" role="main" id="main-content" tabindex="-1">
@@ -352,7 +392,6 @@
             <section class="status-panel" role="region" aria-labelledby="fire-status-title">
                 <div class="status-header">
                     <h2 class="status-title" id="fire-status-title">
-                        <span class="status-icon" aria-hidden="true">🔥</span>
                         <span class="count-number" id="fireCount" aria-live="polite" aria-atomic="true">--</span>
                         <span class="count-label">Active Fires</span>
                     </h2>
@@ -367,8 +406,7 @@
                 <button class="action-button primary" 
                         id="showAllBtn" 
                         onclick="showAllFires()" 
-                        aria-label="Show all active fires on the map"
-                        aria-describedby="all-fires-help">
+                        aria-label="Show all active fires on the map">
                     <span class="button-icon" aria-hidden="true">🔥</span>
                     <span class="button-label">All Fires</span>
                 </button>
@@ -376,10 +414,18 @@
                 <button class="action-button" 
                         id="refreshBtn" 
                         onclick="refreshFireData()" 
-                        aria-label="Refresh fire data from NASA satellites"
-                        aria-describedby="refresh-help">
+                        aria-label="Refresh fire data from NASA satellites">
                     <span class="button-icon" aria-hidden="true">🔄</span>
                     <span class="button-label">Refresh</span>
+                </button>
+                
+                <button class="action-button" 
+                        id="nearbyBtn" 
+                        onclick="showNearbyFires()" 
+                        aria-label="Show fires near your location"
+                        style="display: none;">
+                    <span class="button-icon" aria-hidden="true">📍</span>
+                    <span class="button-label">Nearby</span>
                 </button>
             </div>
         </div>
@@ -417,7 +463,7 @@
         </aside>
     </main>
 
-    <!-- Home Depot Ad Banner - Under Map -->
+    <!-- Home Depot Ad Banner -->
     <aside class="ad-banner" 
            role="complementary" 
            aria-labelledby="ad-title">
@@ -445,12 +491,55 @@
         </div>
     </aside>
 
-    <!-- Accessibility Help Descriptions (Hidden) -->
-    <div id="all-fires-help" class="sr-only">
-        Zoom out to show all currently active fires detected across the entire monitoring region
-    </div>
-    <div id="refresh-help" class="sr-only">
-        Manually update fire detection data from NASA satellite feeds to get the latest information
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                    <span class="footer-title">Eye on the Fire</span>
+                </div>
+                <p class="footer-tagline">Real-time wildfire intelligence</p>
+            </div>
+            
+            <div class="footer-links">
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="terms.html" class="footer-link">Terms of Service</a>
+                <a href="accessibility.html" class="footer-link">Accessibility</a>
+                <a href="contact.html" class="footer-link">Contact</a>
+                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+            </div>
+            
+            <div class="footer-info">
+                <p class="footer-copyright">© 2025 Eye on the Fire. All rights reserved.</p>
+                <p class="footer-data">Data provided by NASA FIRMS</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Permission Request Modal -->
+    <div id="locationModal" class="location-modal" style="display: none;" role="dialog" aria-labelledby="location-modal-title" aria-modal="true">
+        <div class="modal-overlay" onclick="closeLocationModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="location-modal-title">📍 Enable Location Services</h3>
+                <button class="modal-close" onclick="closeLocationModal()" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Allow location access to:</p>
+                <ul>
+                    <li>🔥 Find fires near your current location</li>
+                    <li>🚨 Receive personalized fire alerts</li>
+                    <li>📍 Show distance to active fires</li>
+                    <li>🗺️ Center map on your area</li>
+                </ul>
+                <p class="privacy-note">Your location is never stored or shared. It's only used to show nearby fire activity.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn primary" onclick="requestLocationPermission()">Enable Location</button>
+                <button class="modal-btn secondary" onclick="closeLocationModal()">Maybe Later</button>
+            </div>
+        </div>
     </div>
 
     <!-- Performance Monitoring & Critical Scripts -->
@@ -459,6 +548,11 @@
         const perfStart = performance.now();
         let loadSteps = 0;
         const totalSteps = 4;
+        
+        // State variables
+        let userLocation = null;
+        let savedPlaces = [];
+        let isLocationEnabled = false;
         
         // Ad click tracking for analytics
         function trackAdClick(placement, content) {
@@ -488,67 +582,45 @@
             }
         }
         
-        // Navigation dropdown management
-        function initializeNavigation() {
-            const dropdownToggle = document.getElementById('navDropdownToggle');
-            const dropdownMenu = document.getElementById('navDropdownMenu');
+        // Navigation menu management
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
             
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', toggleDropdown);
-                
-                // Close dropdown when clicking outside
-                document.addEventListener('click', (event) => {
-                    if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                        closeDropdown();
-                    }
-                });
-                
-                // Close dropdown on escape key
-                document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape') {
-                        closeDropdown();
-                    }
-                });
-            }
-        }
-        
-        function toggleDropdown() {
-            const toggle = document.getElementById('navDropdownToggle');
-            const menu = document.getElementById('navDropdownMenu');
-            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
             
-            toggle.setAttribute('aria-expanded', !isOpen);
-            menu.classList.toggle('active', !isOpen);
-            menu.setAttribute('aria-hidden', isOpen);
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
             
             // Focus management for accessibility
             if (!isOpen) {
-                const firstLink = menu.querySelector('.dropdown-link, .place-input');
-                if (firstLink) {
-                    setTimeout(() => firstLink.focus(), 100);
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
                 }
             }
         }
         
-        function closeDropdown() {
-            const toggle = document.getElementById('navDropdownToggle');
-            const menu = document.getElementById('navDropdownMenu');
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
             
-            toggle.setAttribute('aria-expanded', 'false');
-            menu.classList.remove('active');
-            menu.setAttribute('aria-hidden', 'true');
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
         }
         
-        // Add Places functionality
+        // Add Places functionality with cookies
         function addPlace(event) {
             event.preventDefault();
             const input = document.getElementById('placeInput');
             const placeName = input.value.trim();
             
             if (!placeName) return;
-            
-            // Get existing places from cookie
-            const savedPlaces = getSavedPlaces();
             
             // Check if place already exists
             if (savedPlaces.includes(placeName)) {
@@ -564,9 +636,6 @@
             input.value = '';
             renderSavedPlaces();
             
-            // Close dropdown after adding
-            closeDropdown();
-            
             // Track analytics
             if (window.gtag) {
                 gtag('event', 'place_added', {
@@ -575,14 +644,11 @@
                 });
             }
             
-            // Show fires for this location if app is loaded
-            if (window.eyeOnTheFire && window.eyeOnTheFire.searchLocation) {
-                window.eyeOnTheFire.searchLocation(placeName);
-            }
+            console.log('Added place:', placeName);
         }
         
         function removePlace(placeName) {
-            const savedPlaces = getSavedPlaces().filter(place => place !== placeName);
+            savedPlaces = savedPlaces.filter(place => place !== placeName);
             setSavedPlaces(savedPlaces);
             renderSavedPlaces();
             
@@ -596,8 +662,19 @@
         
         function getSavedPlaces() {
             try {
+                // Try localStorage first
                 const places = localStorage.getItem('eyeonthefire_saved_places');
-                return places ? JSON.parse(places) : [];
+                if (places) return JSON.parse(places);
+                
+                // Fallback to cookies
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    let [name, value] = cookie.trim().split('=');
+                    if (name === 'saved_places') {
+                        return JSON.parse(decodeURIComponent(value));
+                    }
+                }
+                return [];
             } catch (e) {
                 return [];
             }
@@ -605,6 +682,7 @@
         
         function setSavedPlaces(places) {
             try {
+                // Save to localStorage
                 localStorage.setItem('eyeonthefire_saved_places', JSON.stringify(places));
                 
                 // Also set as cookie for 30 days
@@ -621,16 +699,17 @@
             const places = getSavedPlaces();
             
             if (places.length === 0) {
-                container.innerHTML = '';
+                container.innerHTML = '<p class="no-places">No places added yet</p>';
                 return;
             }
             
             container.innerHTML = places.map(place => `
                 <div class="saved-place">
-                    <span class="place-name" onclick="searchPlace('${place.replace(/'/g, '\\\'')}')" 
-                          role="button" tabindex="0" 
-                          aria-label="View fires near ${place}"
-                          onkeydown="if(event.key==='Enter'||event.key===' ')searchPlace('${place.replace(/'/g, '\\\'')}')">${place}</span>
+                    <button class="place-name" onclick="searchPlace('${place.replace(/'/g, '\\\'')}')" 
+                          aria-label="View fires near ${place}">
+                        <span class="place-icon">📍</span>
+                        <span class="place-text">${place}</span>
+                    </button>
                     <button class="remove-place" 
                             onclick="removePlace('${place.replace(/'/g, '\\\'')}')"
                             aria-label="Remove ${place} from monitoring"
@@ -640,30 +719,234 @@
         }
         
         function searchPlace(placeName) {
-            closeDropdown();
+            closeNavMenu();
             if (window.eyeOnTheFire && window.eyeOnTheFire.searchLocation) {
                 window.eyeOnTheFire.searchLocation(placeName);
             }
         }
         
+        // Enhanced Location Services
+        function findUserLocation() {
+            const button = document.getElementById('locateMeBtn');
+            const locationStatus = document.getElementById('locationStatus');
+            const locationText = document.getElementById('locationText');
+            
+            // Check if browser supports geolocation
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser. Please enter your location manually in the "Add Places" section.');
+                return;
+            }
+            
+            // Show location permission modal first
+            showLocationModal();
+        }
+        
+        function showLocationModal() {
+            const modal = document.getElementById('locationModal');
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            
+            // Focus on primary button
+            const primaryBtn = modal.querySelector('.modal-btn.primary');
+            if (primaryBtn) {
+                setTimeout(() => primaryBtn.focus(), 100);
+            }
+        }
+        
+        function closeLocationModal() {
+            const modal = document.getElementById('locationModal');
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+        }
+        
+        async function requestLocationPermission() {
+            const button = document.getElementById('locateMeBtn');
+            const locationStatus = document.getElementById('locationStatus');
+            const locationText = document.getElementById('locationText');
+            const nearbyBtn = document.getElementById('nearbyBtn');
+            
+            closeLocationModal();
+            
+            // Update button state
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Finding...</span>';
+            button.disabled = true;
+            
+            // Show location status
+            locationStatus.style.display = 'flex';
+            locationText.textContent = 'Getting your location...';
+            
+            try {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(
+                        resolve,
+                        reject,
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 15000,
+                            maximumAge: 300000 // 5 minutes
+                        }
+                    );
+                });
+                
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    accuracy: position.coords.accuracy
+                };
+                
+                isLocationEnabled = true;
+                
+                // Update UI elements
+                button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Location Found</span>';
+                button.style.background = '#16a34a'; // Green for success
+                
+                // Show nearby button
+                nearbyBtn.style.display = 'flex';
+                
+                // Determine user's location context
+                await determineLocationContext();
+                
+                // Auto-show nearby fires
+                if (window.eyeOnTheFire && window.eyeOnTheFire.showNearbyFires) {
+                    await window.eyeOnTheFire.showNearbyFires();
+                }
+                
+                // Track analytics
+                if (window.gtag) {
+                    gtag('event', 'location_enabled', {
+                        event_category: 'User Engagement',
+                        event_label: 'geolocation_success'
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Geolocation error:', error);
+                
+                let errorMessage = 'Unable to determine location.';
+                if (error.code === 1) {
+                    errorMessage = 'Location access denied. You can manually add places to monitor in the menu.';
+                } else if (error.code === 2) {
+                    errorMessage = 'Location unavailable. Please check your device settings.';
+                } else if (error.code === 3) {
+                    errorMessage = 'Location request timed out. Please try again.';
+                }
+                
+                locationText.textContent = errorMessage;
+                button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Try Again</span>';
+                button.style.background = '#dc2626'; // Red for error
+                
+                // Track analytics
+                if (window.gtag) {
+                    gtag('event', 'location_error', {
+                        event_category: 'User Engagement',
+                        event_label: `geolocation_error_${error.code}`,
+                        non_interaction: true
+                    });
+                }
+                
+            } finally {
+                button.disabled = false;
+                setTimeout(() => {
+                    locationStatus.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        async function determineLocationContext() {
+            if (!userLocation) return;
+            
+            try {
+                // Use reverse geocoding to determine state/country
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLocation.lat}&lon=${userLocation.lng}&zoom=5&addressdetails=1`,
+                    { headers: { 'User-Agent': 'EyeOnTheFire/2.0 (https://eyeonthefire.com)' }}
+                );
+                
+                const data = await response.json();
+                const locationText = document.getElementById('locationText');
+                
+                if (data && data.address) {
+                    const state = data.address.state;
+                    const country = data.address.country;
+                    
+                    userLocation.state = state;
+                    userLocation.country = country;
+                    
+                    if (country === 'United States') {
+                        if (state === 'California') {
+                            locationText.textContent = `📍 California - Showing CA fires`;
+                        } else {
+                            locationText.textContent = `📍 ${state} - Showing fires nationwide`;
+                        }
+                    } else {
+                        locationText.textContent = `📍 ${country} - Limited fire data available`;
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error determining location context:', error);
+                document.getElementById('locationText').textContent = '📍 Location found - Loading fire data';
+            }
+        }
+        
         // Enhanced keyboard accessibility
         function enhanceKeyboardNavigation() {
-            // Add keyboard support for dropdown items
+            // Add keyboard support for buttons and interactive elements
             document.addEventListener('keydown', (event) => {
                 // Handle Enter and Space for custom buttons
-                if ((event.key === 'Enter' || event.key === ' ') && event.target.hasAttribute('role') && event.target.getAttribute('role') === 'button') {
+                if ((event.key === 'Enter' || event.key === ' ') && 
+                    event.target.hasAttribute('role') && 
+                    event.target.getAttribute('role') === 'button') {
                     event.preventDefault();
                     event.target.click();
+                }
+                
+                // Close menu with Escape
+                if (event.key === 'Escape') {
+                    closeNavMenu();
+                    closeLocationModal();
+                }
+                
+                // Quick location shortcut (Ctrl/Cmd + L)
+                if ((event.ctrlKey || event.metaKey) && event.key === 'l') {
+                    event.preventDefault();
+                    findUserLocation();
+                }
+            });
+            
+            // Handle clicks outside menu to close
+            document.addEventListener('click', (event) => {
+                const navMenu = document.getElementById('navMenu');
+                const navMenuBtn = document.getElementById('navMenuBtn');
+                
+                if (navMenu.classList.contains('active') && 
+                    !navMenu.contains(event.target) && 
+                    !navMenuBtn.contains(event.target)) {
+                    closeNavMenu();
                 }
             });
         }
         
         // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
-            initializeNavigation();
+            // Load saved places
+            savedPlaces = getSavedPlaces();
             renderSavedPlaces();
+            
+            // Enhance accessibility
             enhanceKeyboardNavigation();
+            
             updateProgress(2, 'Initializing application components...');
+            
+            // Check for saved location preference
+            const savedLocationPref = localStorage.getItem('eyeonthefire_location_enabled');
+            if (savedLocationPref === 'true') {
+                // Auto-request location if previously enabled
+                setTimeout(() => {
+                    requestLocationPermission();
+                }, 2000);
+            }
             
             // Announce app ready to screen readers
             setTimeout(() => {
@@ -718,11 +1001,7 @@
                 gtag('event', 'page_load_complete', {
                     event_category: 'Performance',
                     event_label: 'homepage',
-                    value: Math.round(loadTime),
-                    custom_map: {
-                        user_agent: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
-                        connection: navigator.connection ? navigator.connection.effectiveType : 'unknown'
-                    }
+                    value: Math.round(loadTime)
                 });
             }
             
@@ -739,10 +1018,9 @@
             }, 1000);
         });
         
-        // Error boundary for unhandled errors
+        // Global error handling
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
-            
             if (window.gtag) {
                 gtag('event', 'js_error', {
                     event_category: 'Error',
@@ -752,10 +1030,8 @@
             }
         });
         
-        // Unhandled promise rejection handler
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Unhandled promise rejection:', event.reason);
-            
             if (window.gtag) {
                 gtag('event', 'promise_rejection', {
                     event_category: 'Error', 
