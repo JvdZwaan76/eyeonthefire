@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Real-time wildfire tracking and safety alerts for California. Professional-grade fire intelligence powered by NASA satellite data.">
-    <title>Eye on the Fire | Real-Time Wildfire Tracking & Safety Platform</title>
+    <meta name="description" content="Real-time wildfire tracking and safety alerts for California. Professional-grade fire intelligence powered by NASA satellite data. Emergency preparedness tools and Home Depot safety supplies.">
+    <meta name="keywords" content="wildfire tracking, fire safety, emergency preparedness, California fires, NASA satellite data, Home Depot safety supplies">
+    <meta name="author" content="Eye on the Fire">
+    <title>Eye on the Fire | Real-Time Wildfire Tracking & Emergency Preparedness</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
@@ -24,6 +32,7 @@
     <link rel="preload" href="assets/css/styles.css" as="style">
     <link rel="dns-prefetch" href="//unpkg.com">
     <link rel="dns-prefetch" href="//nominatim.openstreetmap.org">
+    <link rel="dns-prefetch" href="//www.homedepot.com">
     
     <!-- External CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -41,16 +50,31 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Eye on the Fire">
     
-    <!-- Critical Path CSS - Inline for immediate render -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Eye on the Fire - Real-Time Wildfire Tracking">
+    <meta property="og:description" content="Professional wildfire tracking platform with real-time NASA satellite data and emergency preparedness resources.">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eye on the Fire - Real-Time Wildfire Tracking">
+    <meta name="twitter:description" content="Professional wildfire tracking with NASA satellite data and emergency preparedness resources.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
+    
+    <!-- Critical Path CSS -->
     <style>
-        /* Critical styles for immediate render and accessibility */
         :root {
             --danger-red: #dc2626;
-            --home-depot-orange: #F96302;
+            --hd-orange: #F96302;
             --gray-900: #111827;
-            --white: #ffffff;
             --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --white: #ffffff;
             --touch-target: 44px;
+            --info-blue: #2563eb;
         }
         
         * { 
@@ -68,14 +92,13 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Skip to main content link for screen readers */
         .skip-link {
             position: absolute;
             top: -40px;
             left: 6px;
             background: var(--danger-red);
             color: white;
-            padding: 8px;
+            padding: 8px 16px;
             text-decoration: none;
             z-index: 10000;
             border-radius: 4px;
@@ -86,7 +109,6 @@
             top: 6px;
         }
         
-        /* Loading screen - critical path */
         .loading-screen { 
             position: fixed; 
             inset: 0; 
@@ -99,14 +121,6 @@
             flex-direction: column;
         }
         
-        .loading-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-        }
-        
-        /* Navigation - critical visibility */
         .main-nav {
             position: fixed;
             top: 0;
@@ -114,7 +128,7 @@
             right: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--gray-200);
             z-index: 1000;
             min-height: 60px;
             display: flex;
@@ -122,43 +136,15 @@
             padding: 0 1rem;
         }
         
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-        }
-        
-        .brand-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-        
-        .brand-text {
-            font-weight: 700;
-            font-size: 1.125rem;
-            color: var(--danger-red);
-            white-space: nowrap;
-        }
-        
-        /* Map container - critical positioning */
         .map-container { 
             position: fixed; 
             top: 60px; 
             left: 0; 
             right: 0; 
-            bottom: 40px;
+            bottom: 60px;
         }
         
-        .fire-map { 
-            width: 100%; 
-            height: 100%; 
-        }
-        
-        /* Prevent flash of unstyled content */
-        .map-controls, .ad-container { 
+        .ad-container { 
             opacity: 0; 
             animation: fadeIn 0.3s ease-out 0.2s forwards; 
         }
@@ -167,7 +153,6 @@
             to { opacity: 1; } 
         }
         
-        /* High contrast mode support */
         @media (prefers-contrast: high) {
             .main-nav {
                 background: white;
@@ -175,7 +160,6 @@
             }
         }
         
-        /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -186,15 +170,17 @@
     </style>
 </head>
 <body>
-    <!-- Skip to main content for screen readers -->
+    <!-- Skip Links for Screen Readers -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    <a href="#emergency-info" class="skip-link">Skip to emergency information</a>
     
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen" aria-hidden="true" role="dialog" aria-label="Loading application">
-        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="loading-logo">
-        <h2>Eye on the Fire</h2>
+        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire Logo - Wildfire tracking platform" class="loading-logo">
+        <h1>Eye on the Fire</h1>
         <p>Loading real-time fire intelligence...</p>
-        <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Application loading progress">
             <div class="progress-bar"></div>
         </div>
         <div class="loading-status" id="loadingStatus" aria-live="polite">Initializing...</div>
@@ -206,13 +192,13 @@
             <div class="banner-icon" aria-hidden="true">📍</div>
             <div class="banner-text">
                 <h3 id="location-banner-title">Get Personalized Fire Alerts</h3>
-                <p id="location-banner-desc">Enable location access to see fires near you and receive distance-based warnings</p>
+                <p id="location-banner-desc">Enable location access to see fires near you and receive distance-based warnings for enhanced safety</p>
             </div>
             <div class="banner-actions">
                 <button class="banner-button primary" onclick="requestLocationAccess()" aria-describedby="location-banner-desc">
                     Enable Location
                 </button>
-                <button class="banner-button secondary" onclick="dismissLocationBanner()">
+                <button class="banner-button secondary" onclick="dismissLocationBanner()" aria-label="Dismiss location banner, can be enabled later in settings">
                     Maybe Later
                 </button>
             </div>
@@ -229,26 +215,26 @@
     </div>
 
     <!-- Main Navigation -->
-    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
         <div class="nav-brand">
-            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire - Wildfire Tracking Platform" class="brand-logo">
             <span class="brand-text">Eye on the Fire</span>
         </div>
         
-        <div class="nav-status" role="status" aria-live="polite">
+        <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
             <div class="live-indicator">
                 <span class="live-dot" aria-hidden="true"></span>
-                <span class="live-text">Live</span>
+                <span class="live-text">Live Data</span>
             </div>
         </div>
         
-        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Open navigation menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle navigation menu">
+            <span class="hamburger-line" aria-hidden="true"></span>
+            <span class="hamburger-line" aria-hidden="true"></span>
+            <span class="hamburger-line" aria-hidden="true"></span>
         </button>
         
-        <div class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <nav class="nav-menu" id="navMenu" role="menu" aria-hidden="true" aria-label="Main menu">
             <div class="nav-section">
                 <h3 class="nav-section-title" id="fire-intelligence-section">Fire Intelligence</h3>
                 <ul role="group" aria-labelledby="fire-intelligence-section">
@@ -258,7 +244,7 @@
                     </a></li>
                     <li><a href="safety.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">🛡️</span>
-                        <span>Safety</span>
+                        <span>Safety Center</span>
                     </a></li>
                     <li><a href="prevention.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">🌿</span>
@@ -266,21 +252,25 @@
                     </a></li>
                     <li><a href="alerts.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">🚨</span>
-                        <span>Alerts</span>
+                        <span>Alert Setup</span>
                     </a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3 class="nav-section-title" id="information-section">Information</h3>
+                <h3 class="nav-section-title" id="information-section">Resources</h3>
                 <ul role="group" aria-labelledby="information-section">
                     <li><a href="about.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">ℹ️</span>
-                        <span>About</span>
+                        <span>About Platform</span>
                     </a></li>
                     <li><a href="support.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">📞</span>
-                        <span>Support</span>
+                        <span>Emergency Contacts</span>
+                    </a></li>
+                    <li><a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="nav-icon" aria-hidden="true">📊</span>
+                        <span>Data Sources</span>
                     </a></li>
                 </ul>
             </div>
@@ -290,71 +280,99 @@
                 <ul role="group" aria-labelledby="account-section">
                     <li><a href="settings.html" class="nav-link" role="menuitem">
                         <span class="nav-icon" aria-hidden="true">⚙️</span>
-                        <span>Settings</span>
+                        <span>Settings & Alerts</span>
                     </a></li>
                 </ul>
             </div>
-        </div>
+        </nav>
     </nav>
 
     <!-- Home Depot Ad - Top Banner -->
-    <div class="ad-container top-ad" role="complementary" aria-label="Advertisement">
+    <aside class="ad-container top-ad" role="complementary" aria-labelledby="top-ad-title">
         <div class="ad-content">
             <div class="ad-header">
                 <span class="ad-label">Advertisement</span>
-                <span class="ad-partner">Home Depot</span>
+                <span class="ad-partner">Home Depot Partnership</span>
             </div>
             <div class="ad-placeholder">
                 <div class="ad-logo">
-                    <div class="hd-logo-placeholder"></div>
+                    <div class="hd-logo-placeholder" aria-label="Home Depot logo"></div>
                 </div>
                 <div class="ad-text">
-                    <h4>Wildfire Preparedness & Safety</h4>
-                    <p>Emergency supplies, generators, and fire safety equipment</p>
+                    <h4 id="top-ad-title">Wildfire Emergency Preparedness</h4>
+                    <p>Fire extinguishers, emergency generators, evacuation supplies & more - Be ready for wildfire season</p>
                 </div>
-                <button class="ad-cta" aria-label="Visit Home Depot for wildfire preparedness supplies">
-                    Shop Now
-                </button>
+                <a href="https://www.homedepot.com/c/emergency_preparedness" 
+                   class="ad-cta" 
+                   target="_blank" 
+                   rel="noopener nofollow"
+                   aria-label="Shop emergency preparedness supplies at Home Depot - opens in new tab"
+                   onclick="trackAdClick('top_banner', 'emergency_prep')">
+                    Shop Emergency Supplies
+                </a>
             </div>
         </div>
-    </div>
+    </aside>
 
     <!-- Map Container -->
     <main class="map-container" role="main" id="main-content" tabindex="-1">
-        <div id="map" class="fire-map" aria-label="Interactive wildfire tracking map" role="application"></div>
+        <div id="map" class="fire-map" 
+             aria-label="Interactive wildfire tracking map showing active fires across California" 
+             role="application"
+             aria-describedby="map-instructions"></div>
+        
+        <!-- Hidden instructions for screen readers -->
+        <div id="map-instructions" class="sr-only">
+            Use arrow keys to pan the map. Use plus and minus keys to zoom. Click on fire markers to view detailed information. Press Tab to navigate through fire locations.
+        </div>
+        
+        <!-- Emergency Information Section -->
+        <section id="emergency-info" class="sr-only">
+            <h2>Emergency Information</h2>
+            <p>In case of immediate danger from wildfire, call 911 immediately. This map shows real-time fire detection data but should not be your only source for emergency decision-making. Always follow official evacuation orders.</p>
+        </section>
         
         <!-- Mobile-Optimized Map Controls -->
-        <div class="map-controls" role="toolbar" aria-label="Map controls">
+        <div class="map-controls" role="toolbar" aria-label="Map controls and fire status">
             <!-- Status Panel -->
-            <div class="status-panel" role="region" aria-label="Fire status information">
+            <section class="status-panel" role="region" aria-labelledby="fire-status-title">
                 <div class="status-header">
                     <h2 class="status-title" id="fire-status-title">
                         <span class="status-icon" aria-hidden="true">🔥</span>
-                        <span class="count-number" id="fireCount" aria-live="polite">--</span>
+                        <span class="count-number" id="fireCount" aria-live="polite" aria-atomic="true">--</span>
                         <span class="count-label">Active Fires</span>
                     </h2>
                     <div class="update-time">
-                        <span id="lastUpdate" aria-live="polite">Loading...</span>
+                        <span id="lastUpdate" aria-live="polite" aria-label="Last data update time">Loading...</span>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Quick Action Buttons -->
-            <div class="quick-actions" role="group" aria-label="Map actions">
-                <button class="action-button location-btn" id="findLocationBtn" onclick="findUserLocation()" 
-                        aria-label="Find fires near my current location" title="Find fires near me">
+            <div class="quick-actions" role="group" aria-label="Map navigation actions">
+                <button class="action-button location-btn" 
+                        id="findLocationBtn" 
+                        onclick="findUserLocation()" 
+                        aria-label="Find and show fires near my current location"
+                        aria-describedby="location-help">
                     <span class="button-icon" aria-hidden="true">📍</span>
                     <span class="button-label">Near Me</span>
                 </button>
                 
-                <button class="action-button" id="showAllBtn" onclick="showAllFires()" 
-                        aria-label="Show all active fires on map" title="Show all fires">
+                <button class="action-button" 
+                        id="showAllBtn" 
+                        onclick="showAllFires()" 
+                        aria-label="Show all active fires on the map"
+                        aria-describedby="all-fires-help">
                     <span class="button-icon" aria-hidden="true">🔥</span>
                     <span class="button-label">All Fires</span>
                 </button>
                 
-                <button class="action-button" id="refreshBtn" onclick="refreshFireData()" 
-                        aria-label="Refresh fire data" title="Refresh data">
+                <button class="action-button" 
+                        id="refreshBtn" 
+                        onclick="refreshFireData()" 
+                        aria-label="Refresh fire data from NASA satellites"
+                        aria-describedby="refresh-help">
                     <span class="button-icon" aria-hidden="true">🔄</span>
                     <span class="button-label">Refresh</span>
                 </button>
@@ -363,137 +381,259 @@
 
         <!-- Layer Controls -->
         <div class="layer-panel" id="layerPanel">
-            <button class="layer-toggle-btn" onclick="toggleLayerPanel()" 
-                    aria-expanded="false" aria-controls="layerControls" aria-label="Toggle map layers">
+            <button class="layer-toggle-btn" 
+                    onclick="toggleLayerPanel()" 
+                    aria-expanded="false" 
+                    aria-controls="layerControls" 
+                    aria-label="Toggle map data layers">
                 <span class="toggle-icon" aria-hidden="true">⚙️</span>
                 <span class="toggle-text">Layers</span>
             </button>
             
-            <div class="layer-controls" id="layerControls" role="group" aria-label="Map layer controls" 
-                 aria-hidden="true" style="display: none;">
+            <div class="layer-controls" 
+                 id="layerControls" 
+                 role="group" 
+                 aria-labelledby="layer-controls-title"
+                 aria-hidden="true" 
+                 style="display: none;">
                 <fieldset class="layer-options">
-                    <legend>Map Data Layers</legend>
+                    <legend id="layer-controls-title">Map Data Layers</legend>
                     
                     <label class="layer-option">
-                        <input type="checkbox" id="satelliteHotspotsLayer" checked 
+                        <input type="checkbox" 
+                               id="satelliteHotspotsLayer" 
+                               checked 
                                aria-describedby="satellite-help">
-                        <span class="option-slider"></span>
-                        <span class="option-label">Satellite Data</span>
+                        <span class="option-slider" aria-hidden="true"></span>
+                        <span class="option-label">NASA Satellite Data</span>
                     </label>
                     
                     <label class="layer-option">
-                        <input type="checkbox" id="weatherLayer" aria-describedby="weather-help">
-                        <span class="option-slider"></span>
-                        <span class="option-label">Weather Overlay</span>
+                        <input type="checkbox" 
+                               id="weatherLayer" 
+                               aria-describedby="weather-help">
+                        <span class="option-slider" aria-hidden="true"></span>
+                        <span class="option-label">Weather Conditions</span>
                     </label>
                 </fieldset>
             </div>
         </div>
 
         <!-- Nearby Fires Panel -->
-        <div class="nearby-panel" id="nearbyPanel" role="region" aria-label="Nearby fires information" 
-             aria-hidden="true" style="display: none;">
+        <aside class="nearby-panel" 
+               id="nearbyPanel" 
+               role="complementary" 
+               aria-labelledby="nearby-title"
+               aria-hidden="true" 
+               style="display: none;">
             <div class="panel-header">
                 <h3 class="panel-title" id="nearby-title">
                     <span class="panel-icon" aria-hidden="true">📍</span>
-                    Fires Near You
+                    Fires Near Your Location
                 </h3>
-                <button class="panel-close" onclick="closeNearbyPanel()" aria-label="Close nearby fires panel">×</button>
+                <button class="panel-close" 
+                        onclick="closeNearbyPanel()" 
+                        aria-label="Close nearby fires panel">×</button>
             </div>
             
             <div class="nearby-content">
-                <div class="user-location" role="status">
+                <div class="user-location" role="status" aria-live="polite">
                     <span class="location-icon" aria-hidden="true">📍</span>
-                    <span class="location-text" id="userLocationText" aria-live="polite">Determining location...</span>
+                    <span class="location-text" id="userLocationText">Determining your location...</span>
                 </div>
                 
-                <div class="nearby-list" id="nearbyList" role="list" aria-labelledby="nearby-title">
-                    <!-- Populated dynamically -->
+                <div class="nearby-list" 
+                     id="nearbyList" 
+                     role="list" 
+                     aria-labelledby="nearby-title">
+                    <!-- Populated dynamically with fire data -->
                 </div>
                 
                 <div class="panel-footer">
-                    <button class="footer-button" onclick="refreshNearbyFires()" aria-label="Update location and refresh nearby fires">
+                    <button class="footer-button" 
+                            onclick="refreshNearbyFires()" 
+                            aria-label="Update your location and refresh nearby fire information">
                         <span class="button-icon" aria-hidden="true">🔄</span>
                         Update Location
                     </button>
                 </div>
             </div>
-        </div>
+        </aside>
     </main>
 
-    <!-- Home Depot Ad - Sidebar (Desktop) -->
-    <aside class="ad-container side-ad" role="complementary" aria-label="Advertisement" aria-hidden="true">
+    <!-- Home Depot Ad - Sidebar (Desktop Only) -->
+    <aside class="ad-container side-ad" 
+           role="complementary" 
+           aria-labelledby="side-ad-title"
+           aria-hidden="true">
         <div class="ad-content">
             <div class="ad-header">
-                <span class="ad-label">Sponsored</span>
+                <span class="ad-label">Sponsored Content</span>
                 <span class="ad-partner">Home Depot</span>
             </div>
             <div class="ad-placeholder vertical">
                 <div class="ad-logo">
-                    <div class="hd-logo-placeholder"></div>
+                    <div class="hd-logo-placeholder" aria-label="Home Depot logo"></div>
                 </div>
                 <div class="ad-text">
-                    <h4>Emergency Ready</h4>
-                    <p>Fire extinguishers, smoke detectors, emergency kits & more</p>
-                    <ul class="ad-features">
-                        <li>Fire Safety Equipment</li>
-                        <li>Emergency Generators</li>
-                        <li>Water Storage Solutions</li>
-                        <li>First Aid Supplies</li>
+                    <h4 id="side-ad-title">Emergency Preparedness Center</h4>
+                    <p>Everything you need to protect your family during wildfire season</p>
+                    <ul class="ad-features" role="list">
+                        <li role="listitem">Fire Safety Equipment</li>
+                        <li role="listitem">Emergency Backup Generators</li>
+                        <li role="listitem">Water Storage & Filtration</li>
+                        <li role="listitem">First Aid & Medical Supplies</li>
+                        <li role="listitem">Evacuation & Go-Bag Items</li>
                     </ul>
                 </div>
-                <button class="ad-cta" aria-label="Visit Home Depot for emergency supplies">
+                <a href="https://www.homedepot.com/c/emergency_preparedness" 
+                   class="ad-cta" 
+                   target="_blank" 
+                   rel="noopener nofollow"
+                   aria-label="Visit Home Depot Emergency Preparedness section - opens in new tab"
+                   onclick="trackAdClick('sidebar', 'emergency_center')">
                     Shop Emergency Supplies
-                </button>
+                </a>
             </div>
         </div>
     </aside>
 
     <!-- Fire Detail Modal -->
-    <div class="fire-modal" id="fireModal" role="dialog" aria-modal="true" 
-         aria-labelledby="fireModalTitle" aria-hidden="true" style="display: none;">
-        <div class="modal-backdrop" onclick="closeFireModal()" aria-label="Close modal"></div>
+    <div class="fire-modal" 
+         id="fireModal" 
+         role="dialog" 
+         aria-modal="true" 
+         aria-labelledby="fireModalTitle" 
+         aria-hidden="true" 
+         style="display: none;">
+        <div class="modal-backdrop" 
+             onclick="closeFireModal()" 
+             aria-label="Close modal by clicking background"></div>
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="fireModalTitle">
-                    <img src="images/eyeonthefire-logo.png" alt="" class="modal-logo">
-                    Fire Details
+                    <img src="images/eyeonthefire-logo.png" alt="" class="modal-logo" aria-hidden="true">
+                    Fire Intelligence Report
                 </h2>
-                <button class="modal-close" onclick="closeFireModal()" aria-label="Close fire details modal">×</button>
+                <button class="modal-close" 
+                        onclick="closeFireModal()" 
+                        aria-label="Close fire details modal">×</button>
             </div>
             
             <div class="modal-body" id="fireModalBody">
-                <!-- Populated dynamically -->
+                <!-- Populated dynamically with detailed fire information -->
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="site-footer" role="contentinfo">
+    <!-- Comprehensive Footer with Legal Links -->
+    <footer class="site-footer" role="contentinfo" aria-labelledby="footer-title">
         <div class="footer-content">
-            <p class="footer-text">
-                <span>Data: NASA FIRMS</span> • 
-                <span>Maps: OpenStreetMap</span> • 
-                <span>Emergency: Call 911</span>
-            </p>
+            <div class="footer-main">
+                <div class="footer-data">
+                    <span>Data: <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener" class="footer-link">NASA FIRMS</a></span>
+                    <span>Maps: <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener" class="footer-link">OpenStreetMap</a></span>
+                    <span class="footer-emergency">🚨 Emergency: Call 911</span>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4 class="footer-section-title" id="footer-title">Legal & Compliance</h4>
+                    <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="footer-link">Terms of Service</a>
+                    <a href="cookie-policy.html" class="footer-link">Cookie Policy</a>
+                    <a href="disclaimer.html" class="footer-link">Safety Disclaimer</a>
+                    <a href="accessibility.html" class="footer-link">Accessibility Statement</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Company</h4>
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="contact.html" class="footer-link">Contact</a>
+                    <a href="careers.html" class="footer-link">Careers</a>
+                    <a href="press.html" class="footer-link">Press Kit</a>
+                    <a href="partnerships.html" class="footer-link">Partnerships</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <a href="api-documentation.html" class="footer-link">API Access</a>
+                    <a href="data-sources.html" class="footer-link">Data Sources</a>
+                    <a href="fire-science.html" class="footer-link">Fire Science Center</a>
+                    <a href="safety-resources.html" class="footer-link">Safety Resources</a>
+                    <a href="developer.html" class="footer-link">Developer Tools</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <a href="evacuation-guide.html" class="footer-link">Evacuation Planning</a>
+                    <a href="emergency-contacts.html" class="footer-link">Emergency Contacts</a>
+                    <a href="safety-checklist.html" class="footer-link">Safety Checklist</a>
+                    <a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a>
+                    <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/wildfire" class="footer-link" target="_blank" rel="noopener">Red Cross Wildfire Safety</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Advertising Partners</h4>
+                    <a href="advertising.html" class="footer-link">Advertising Information</a>
+                    <a href="affiliate-disclosure.html" class="footer-link">Affiliate Disclosure</a>
+                    <a href="sponsored-content.html" class="footer-link">Sponsored Content Policy</a>
+                </div>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2025 Eye on the Fire. All rights reserved. | 
+                <a href="privacy-policy.html" class="footer-link">Privacy</a> | 
+                <a href="terms-of-service.html" class="footer-link">Terms</a> | 
+                <a href="ccpa-request.html" class="footer-link">Do Not Sell My Personal Information</a></p>
+                
+                <p style="margin-top: 8px;">
+                <strong>Disclaimer:</strong> This platform provides fire detection data for informational purposes. 
+                In emergency situations, always rely on official sources and evacuation orders from local authorities. 
+                Call 911 for immediate emergency assistance.
+                </p>
+            </div>
         </div>
     </footer>
 
-    <!-- Accessibility Descriptions -->
+    <!-- Accessibility Help Descriptions (Hidden) -->
     <div id="satellite-help" class="sr-only">
-        Shows real-time fire hotspots detected by NASA satellites across California
+        Shows real-time fire hotspots detected by NASA satellites across California, updated every 20 minutes
     </div>
     <div id="weather-help" class="sr-only">
-        Displays current weather conditions that may affect wildfire behavior and spread
+        Displays current weather conditions including wind speed and direction that may affect wildfire behavior and spread
+    </div>
+    <div id="location-help" class="sr-only">
+        Click to allow location access and see fires within 100 kilometers of your current position
+    </div>
+    <div id="all-fires-help" class="sr-only">
+        Zoom out to show all currently active fires detected across the entire monitoring region
+    </div>
+    <div id="refresh-help" class="sr-only">
+        Manually update fire detection data from NASA satellite feeds to get the latest information
     </div>
 
     <!-- Performance Monitoring & Critical Scripts -->
     <script>
-        // Performance tracking
+        // Performance and accessibility tracking
         const perfStart = performance.now();
         let loadSteps = 0;
         const totalSteps = 4;
         
+        // Ad click tracking for analytics
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
+                });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Progress tracking with accessibility
         function updateProgress(step, status) {
             loadSteps = step;
             const progress = (step / totalSteps) * 100;
@@ -505,13 +645,13 @@
             if (progressBar) progressBar.style.width = progress + '%';
             if (progressContainer) {
                 progressContainer.setAttribute('aria-valuenow', progress);
+                progressContainer.setAttribute('aria-valuetext', status + ' - ' + Math.round(progress) + '% complete');
             }
         }
         
-        updateProgress(1, 'Loading map engine...');
-        
-        // Location banner management
+        // Location banner management with accessibility
         function showLocationBanner() {
+            // Only show if not previously dismissed and location not granted
             if (!localStorage.getItem('locationBannerDismissed') && 
                 !localStorage.getItem('locationPermissionGranted')) {
                 setTimeout(() => {
@@ -519,6 +659,15 @@
                     if (banner) {
                         banner.style.display = 'block';
                         banner.setAttribute('aria-hidden', 'false');
+                        
+                        // Announce to screen readers
+                        const announcement = document.createElement('div');
+                        announcement.setAttribute('aria-live', 'polite');
+                        announcement.setAttribute('aria-atomic', 'true');
+                        announcement.className = 'sr-only';
+                        announcement.textContent = 'Location permission request available to enable personalized fire alerts';
+                        document.body.appendChild(announcement);
+                        setTimeout(() => announcement.remove(), 3000);
                     }
                 }, 3000);
             }
@@ -528,13 +677,15 @@
             localStorage.setItem('locationPermissionAsked', 'true');
             dismissLocationBanner();
             
-            if (window.findUserLocation) {
-                window.findUserLocation();
+            if (window.eyeOnTheFire && window.eyeOnTheFire.findUserLocation) {
+                window.eyeOnTheFire.findUserLocation();
             }
             
+            // Analytics tracking
             if (window.gtag) {
                 gtag('event', 'location_permission_requested', {
-                    event_category: 'User Engagement'
+                    event_category: 'User Engagement',
+                    event_label: 'banner_click'
                 });
             }
         }
@@ -545,6 +696,12 @@
                 banner.style.display = 'none';
                 banner.setAttribute('aria-hidden', 'true');
                 localStorage.setItem('locationBannerDismissed', 'true');
+                
+                if (window.gtag) {
+                    gtag('event', 'location_banner_dismissed', {
+                        event_category: 'User Engagement'
+                    });
+                }
             }
         }
         
@@ -556,40 +713,117 @@
             panel.style.display = isOpen ? 'none' : 'block';
             panel.setAttribute('aria-hidden', isOpen);
             button.setAttribute('aria-expanded', !isOpen);
+            
+            // Focus management
+            if (!isOpen) {
+                const firstCheckbox = panel.querySelector('input[type="checkbox"]');
+                if (firstCheckbox) {
+                    setTimeout(() => firstCheckbox.focus(), 100);
+                }
+            }
         }
         
-        // Initialize on load
+        // Keyboard accessibility improvements
+        function enhanceKeyboardNavigation() {
+            // Add keyboard support for fire items
+            document.addEventListener('keydown', (event) => {
+                if (event.target.classList.contains('nearby-fire-item')) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        event.target.click();
+                    }
+                }
+            });
+            
+            // Tab trap for modals
+            document.addEventListener('keydown', (event) => {
+                const modal = document.querySelector('.fire-modal[style*="block"]');
+                if (modal && event.key === 'Tab') {
+                    const focusableElements = modal.querySelectorAll(
+                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                    );
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+                    
+                    if (event.shiftKey && document.activeElement === firstElement) {
+                        lastElement.focus();
+                        event.preventDefault();
+                    } else if (!event.shiftKey && document.activeElement === lastElement) {
+                        firstElement.focus();
+                        event.preventDefault();
+                    }
+                }
+            });
+        }
+        
+        // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
             showLocationBanner();
-            updateProgress(2, 'Initializing application...');
+            enhanceKeyboardNavigation();
+            updateProgress(2, 'Initializing application components...');
+            
+            // Announce app ready to screen readers
+            setTimeout(() => {
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = 'Eye on the Fire wildfire tracking application is now ready for use';
+                document.body.appendChild(announcement);
+                setTimeout(() => announcement.remove(), 5000);
+            }, 1500);
         });
+        
+        updateProgress(1, 'Loading map engine...');
     </script>
     
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onload="updateProgress(3, 'Loading application...')"></script>
-    <script src="assets/js/app.js" defer onload="updateProgress(4, 'Ready!')"></script>
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            onload="updateProgress(3, 'Loading fire data systems...')"
+            onerror="console.error('Failed to load Leaflet library')"></script>
+    
+    <!-- Main Application Script -->
+    <script src="assets/js/app.js" 
+            defer 
+            onload="updateProgress(4, 'Application ready!')"
+            onerror="console.error('Failed to load main application script')"></script>
 
-    <!-- Service Worker -->
+    <!-- Service Worker for Progressive Web App -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered'))
-                    .catch(error => console.log('SW registration failed'));
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                        if (window.gtag) {
+                            gtag('event', 'sw_registered', {
+                                event_category: 'Performance'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
             });
         }
         
-        // Performance & analytics
+        // Performance monitoring and cleanup
         window.addEventListener('load', () => {
             const loadTime = performance.now() - perfStart;
             
+            // Analytics tracking
             if (window.gtag) {
-                gtag('event', 'page_view', {
-                    page_title: 'Live Fire Map',
-                    page_load_time: Math.round(loadTime),
-                    user_agent: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop'
+                gtag('event', 'page_load_complete', {
+                    event_category: 'Performance',
+                    event_label: 'homepage',
+                    value: Math.round(loadTime),
+                    custom_map: {
+                        user_agent: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
+                        connection: navigator.connection ? navigator.connection.effectiveType : 'unknown'
+                    }
                 });
             }
             
+            // Final loading screen cleanup
             setTimeout(() => {
                 const loadingScreen = document.getElementById('loading-screen');
                 if (loadingScreen) {
@@ -600,6 +834,32 @@
                     }, 300);
                 }
             }, 1000);
+        });
+        
+        // Error boundary for unhandled errors
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            
+            if (window.gtag) {
+                gtag('event', 'js_error', {
+                    event_category: 'Error',
+                    event_label: event.error ? event.error.message : 'Unknown error',
+                    non_interaction: true
+                });
+            }
+        });
+        
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+            
+            if (window.gtag) {
+                gtag('event', 'promise_rejection', {
+                    event_category: 'Error', 
+                    event_label: event.reason ? event.reason.toString() : 'Unknown rejection',
+                    non_interaction: true
+                });
+            }
         });
     </script>
 </body>
