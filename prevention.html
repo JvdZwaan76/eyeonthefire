@@ -2,265 +2,430 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fire Prevention Guide | Eye on the Fire - Defensible Space & Home Hardening</title>
-    <meta name="description" content="Comprehensive wildfire prevention guide covering defensible space, home hardening, fire-resistant landscaping, and ember protection. Expert tips to protect your property.">
-    <meta name="keywords" content="fire prevention, defensible space, home hardening, fire-resistant landscaping, ember protection, wildfire mitigation">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Comprehensive wildfire prevention guide with defensible space planning, home hardening, fire-resistant landscaping, and emergency preparedness from Eye on the Fire.">
+    <meta name="keywords" content="wildfire prevention, defensible space, fire resistant landscaping, home hardening, emergency preparedness, fire safety">
+    <meta name="author" content="Eye on the Fire">
+    <title>Fire Prevention Guide | Eye on the Fire - Wildfire Safety & Preparedness</title>
     
-    <!-- Open Graph / Facebook -->
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8RE6KDBEW', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Critical Path Optimization -->
+    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/css/prevention.css" as="style">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/prevention.css">
+    
+    <!-- App Manifest & Icons -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#16a34a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Fire Prevention Guide - Eye on the Fire">
+    <meta property="og:description" content="Comprehensive wildfire prevention strategies including defensible space, home hardening, and emergency preparedness.">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com/prevention.html">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/prevention/">
-    <meta property="og:title" content="Complete Fire Prevention Guide | Eye on the Fire">
-    <meta property="og:description" content="Learn how to protect your home with defensible space, fire-resistant materials, and proven wildfire prevention techniques.">
-    <meta property="og:image" content="https://eyeonthefire.com/assets/og-prevention.jpg">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://eyeonthefire.com/prevention/">
-    <meta property="twitter:title" content="Fire Prevention Guide | Eye on the Fire">
-    <meta property="twitter:description" content="Expert guidance on defensible space, home hardening, and wildfire prevention strategies.">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://eyeonthefire.com/prevention/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/assets/css/prevention.css">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fire Prevention Guide - Eye on the Fire">
+    <meta name="twitter:description" content="Learn essential wildfire prevention strategies to protect your home and family.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "HowTo",
-        "name": "How to Prevent Wildfire Damage to Your Home",
-        "description": "Complete guide to wildfire prevention including defensible space creation and home hardening techniques",
-        "totalTime": "PT40H",
-        "estimatedCost": {
-            "@type": "MonetaryAmount",
-            "currency": "USD",
-            "value": "500-5000"
+        "name": "Wildfire Prevention Guide",
+        "description": "Comprehensive guide to wildfire prevention and home protection",
+        "image": "https://eyeonthefire.com/images/eyeonthefire-logo.png",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Eye on the Fire",
+            "logo": "https://eyeonthefire.com/images/eyeonthefire-logo.png"
         },
-        "supply": [
-            "Fire-resistant roofing materials",
-            "Ember-resistant vents", 
-            "Fire-safe landscaping plants",
-            "Irrigation system"
-        ],
-        "tool": [
-            "Pruning shears",
-            "Rake",
-            "Shovel",
-            "Garden hose"
-        ],
         "step": [
             {
                 "@type": "HowToStep",
-                "name": "Create Defensible Space Zone 1",
-                "text": "Clear all flammable vegetation within 30 feet of your home",
-                "url": "https://eyeonthefire.com/prevention/#defensible-space"
+                "name": "Create Defensible Space",
+                "text": "Establish three zones of defensible space around your home to reduce fire risk."
             },
             {
                 "@type": "HowToStep", 
                 "name": "Harden Your Home",
-                "text": "Install fire-resistant roofing, siding, and ember-resistant vents",
-                "url": "https://eyeonthefire.com/prevention/#home-hardening"
+                "text": "Use fire-resistant materials and maintain your property to prevent ignition."
+            },
+            {
+                "@type": "HowToStep",
+                "name": "Choose Fire-Resistant Plants",
+                "text": "Select appropriate vegetation and maintain landscaping for fire safety."
             }
         ]
     }
     </script>
 </head>
-<body class="prevention-page">
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo-container">
-                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo-image">
-                <div class="logo-text-wrapper">
-                    <span class="logo-text">Eye on the Fire</span>
-                    <span class="logo-tagline">Real-Time Wildfire Intelligence</span>
+<body>
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
+        <div class="alert-content">
+            <span class="alert-icon" aria-hidden="true">⚠️</span>
+            <span class="alert-text" id="alert-message"></span>
+            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
+        <!-- Clickable Brand -->
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Live Status -->
+            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
+                <div class="live-indicator">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-text">Live</span>
                 </div>
-            </a>
+            </div>
             
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item"><a href="/">Home</a></li>
-                <li class="nav-item"><a href="/#map">Live Map</a></li>
-                <li class="nav-item"><a href="/safety/">Safety</a></li>
-                <li class="nav-item"><a href="/prevention/" class="active">Prevention</a></li>
-                <li class="nav-item"><a href="/alerts/">Alerts</a></li>
-                <li class="nav-item"><a href="/about/">About</a></li>
-            </ul>
+            <!-- Location Status -->
+            <div class="location-status" id="locationStatus" style="display: none;">
+                <span class="location-icon">📍</span>
+                <span class="location-text" id="locationText">Finding location...</span>
+            </div>
             
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
-                <i class="fas fa-bars"></i>
+            <!-- Prominent Locate Me Button -->
+            <button class="locate-me-btn" 
+                    id="locateMeBtn" 
+                    onclick="findUserLocation()" 
+                    aria-label="Find fires near my current location"
+                    title="Get personalized fire alerts for your area">
+                <span class="button-icon" aria-hidden="true">📍</span>
+                <span class="button-text">Locate Me</span>
+            </button>
+            
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
             </button>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
-    <section class="hero prevention-hero">
-        <div class="hero-content">
-            <h1>Fire Prevention Guide</h1>
-            <p class="hero-subtitle">
-                Protect your home and property with proven wildfire prevention strategies. Learn how to create defensible space, harden your home, and reduce fire risk through smart planning.
-            </p>
-            <div class="hero-actions">
-                <a href="#defensible-space" class="btn btn-primary">
-                    <i class="fas fa-home"></i>
-                    Start with Defensible Space
-                </a>
-                <a href="#home-hardening" class="btn btn-secondary">
-                    <i class="fas fa-tools"></i>
-                    Home Hardening Guide
-                </a>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
+                </div>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
             </div>
-        </div>
-    </section>
-    
-    <!-- Prevention Overview -->
-    <section class="prevention-overview">
-        <div class="container">
-            <div class="overview-content">
-                <h2>Why Fire Prevention Matters</h2>
-                <p class="overview-text">
-                    Research shows that homes with proper defensible space and fire-resistant features have up to a 85% better chance of surviving a wildfire. Most home ignitions during wildfires are caused by flying embers, not direct flame contact. By implementing these prevention strategies, you can dramatically increase your home's survivability.
-                </p>
+            
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link" role="menuitem">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
                 
-                <div class="prevention-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">85%</div>
-                        <div class="stat-label">Survival Rate Improvement</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">90%</div>
-                        <div class="stat-label">Ember-Caused Ignitions</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">30ft</div>
-                        <div class="stat-label">Critical Zone Distance</div>
-                    </div>
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <!-- Defensible Space Section -->
-    <section id="defensible-space" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Creating Defensible Space</h2>
-                <p class="section-subtitle">
-                    Defensible space is the buffer you create between a building and the grass, trees, shrubs, or other wildland vegetation that surround it.
-                </p>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="page-container" id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section class="prevention-hero" role="banner">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Wildfire Prevention Guide</h1>
+                    <p class="hero-subtitle">Protect your home and family with proven fire prevention strategies</p>
+                    <div class="hero-actions">
+                        <a href="#defensible-space" class="hero-btn primary">Start Prevention Plan</a>
+                        <a href="#emergency-kit" class="hero-btn secondary">Emergency Kit</a>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">90%</span>
+                        <span class="stat-label">Preventable</span>
+                        <span class="stat-description">of home losses with proper preparation</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100ft</span>
+                        <span class="stat-label">Defensible Space</span>
+                        <span class="stat-description">minimum recommended distance</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">72hrs</span>
+                        <span class="stat-label">Emergency Supplies</span>
+                        <span class="stat-description">minimum survival kit duration</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="defensible-space-zones">
+        </section>
+
+        <!-- Prevention Overview -->
+        <section class="prevention-overview">
+            <div class="overview-content">
+                <h2>Why Fire Prevention Matters</h2>
+                <p class="overview-text">
+                    Wildfire prevention is your first and most effective line of defense against property damage and loss of life. 
+                    Research shows that homes with proper defensible space and fire-resistant features have a 90% better survival rate 
+                    during wildfires. This comprehensive guide provides actionable steps to protect your property and loved ones.
+                </p>
+                
+                <div class="prevention-principles">
+                    <div class="principle-card">
+                        <div class="principle-icon">🛡️</div>
+                        <h3>Defensible Space</h3>
+                        <p>Create fuel-free zones around your home to slow or stop the spread of wildfire</p>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon">🏠</div>
+                        <h3>Home Hardening</h3>
+                        <p>Use fire-resistant materials and eliminate ignition sources on your property</p>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon">🌱</div>
+                        <h3>Smart Landscaping</h3>
+                        <p>Choose fire-resistant plants and maintain vegetation for maximum safety</p>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon">📋</div>
+                        <h3>Emergency Planning</h3>
+                        <p>Develop evacuation plans and maintain emergency supplies for your family</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Defensible Space Section -->
+        <section id="defensible-space" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Defensible Space Zones</h2>
+                    <p class="section-description">
+                        Create three distinct zones around your home to reduce fire risk and protect your property. 
+                        Each zone has specific requirements for vegetation management and fuel reduction.
+                    </p>
+                </div>
+
+                <!-- Zone Diagram -->
                 <div class="zone-overview">
                     <div class="zone-diagram">
                         <div class="zone-visual">
                             <div class="house-center">
-                                <i class="fas fa-home"></i>
-                                <span>Your Home</span>
+                                <span>🏠</span>
+                                <span>Home</span>
                             </div>
                             <div class="zone zone-1">
-                                <span class="zone-label">Zone 1<br>0-30 feet</span>
+                                <div class="zone-label">Zone 1<br>0-30 feet</div>
                             </div>
                             <div class="zone zone-2">
-                                <span class="zone-label">Zone 2<br>30-100 feet</span>
+                                <div class="zone-label">Zone 2<br>30-100 feet</div>
                             </div>
                             <div class="zone zone-3">
-                                <span class="zone-label">Zone 3<br>100-200 feet</span>
+                                <div class="zone-label">Zone 3<br>100+ feet</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Zone Details -->
                 <div class="zones-grid">
-                    <div class="zone-card zone-1-card">
+                    <!-- Zone 1 -->
+                    <article class="zone-card zone-1-card">
                         <div class="zone-header">
                             <div class="zone-icon">1</div>
                             <div class="zone-info">
-                                <h3>Zone 1 - Immediate Zone</h3>
-                                <span class="zone-distance">0-30 feet from home</span>
+                                <h3>Zone 1: Immediate Zone</h3>
+                                <p class="zone-distance">0-30 feet from structures</p>
                             </div>
                         </div>
                         <div class="zone-content">
                             <p class="zone-description">
-                                This is the most critical area for home protection. Focus on eliminating ignition sources and creating a lean, clean, and green environment.
+                                The most critical area for fire prevention. This zone requires the most aggressive fuel reduction 
+                                and should be kept as fire-resistant as possible.
                             </p>
                             
-                            <h4>Required Actions:</h4>
+                            <h4>Zone 1 Requirements</h4>
                             <ul class="zone-checklist">
                                 <li>
                                     <input type="checkbox" id="z1-1">
-                                    <label for="z1-1">Remove all dead plants, grass, and weeds</label>
+                                    <label for="z1-1">Remove all dead vegetation, leaves, and debris</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z1-2">
-                                    <label for="z1-2">Keep grass mowed to 4 inches or less</label>
+                                    <label for="z1-2">Trim tree branches to 10 feet from chimney and roof</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z1-3">
-                                    <label for="z1-3">Create 5-foot non-combustible zone around home</label>
+                                    <label for="z1-3">Keep lawns and vegetation well-watered and maintained</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z1-4">
-                                    <label for="z1-4">Remove vegetation from under decks and stairs</label>
+                                    <label for="z1-4">Store firewood 30+ feet from structures</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z1-5">
-                                    <label for="z1-5">Prune trees up to 10 feet from roof</label>
+                                    <label for="z1-5">Use fire-resistant mulch (gravel, stone)</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z1-6">
-                                    <label for="z1-6">Store firewood 30+ feet from home</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="z1-7">
-                                    <label for="z1-7">Use hardscape (gravel, pavers) near home</label>
+                                    <label for="z1-6">Maintain 5-foot non-combustible area around structure</label>
                                 </li>
                             </ul>
                             
                             <div class="zone-tips">
-                                <h4>Pro Tips:</h4>
+                                <h4>💡 Zone 1 Tips</h4>
                                 <ul>
-                                    <li>Use irrigation to keep plants well-hydrated</li>
-                                    <li>Choose fire-resistant plant varieties</li>
-                                    <li>Maintain plants regularly - don't let them dry out</li>
+                                    <li>Replace bark mulch with gravel or decomposed granite</li>
+                                    <li>Install drip irrigation for consistent moisture</li>
+                                    <li>Choose low-growing, high-moisture plants</li>
+                                    <li>Regularly clean gutters and roof areas</li>
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="zone-card zone-2-card">
+                    </article>
+
+                    <!-- Zone 2 -->
+                    <article class="zone-card zone-2-card">
                         <div class="zone-header">
                             <div class="zone-icon">2</div>
                             <div class="zone-info">
-                                <h3>Zone 2 - Intermediate Zone</h3>
-                                <span class="zone-distance">30-100 feet from home</span>
+                                <h3>Zone 2: Intermediate Zone</h3>
+                                <p class="zone-distance">30-100 feet from structures</p>
                             </div>
                         </div>
                         <div class="zone-content">
                             <p class="zone-description">
-                                Create fuel breaks to slow fire spread and reduce flame lengths. This zone should have widely spaced plants and trees.
+                                Focus on reducing fire intensity and creating fuel breaks to slow fire spread. 
+                                Strategic vegetation management is key in this zone.
                             </p>
                             
-                            <h4>Required Actions:</h4>
+                            <h4>Zone 2 Requirements</h4>
                             <ul class="zone-checklist">
                                 <li>
                                     <input type="checkbox" id="z2-1">
-                                    <label for="z2-1">Space trees at least 10 feet apart (crown to crown)</label>
+                                    <label for="z2-1">Create horizontal spacing between tree crowns</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z2-2">
@@ -268,920 +433,940 @@
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z2-3">
-                                    <label for="z2-3">Create fuel breaks with paths or driveways</label>
+                                    <label for="z2-3">Maintain vertical spacing between shrubs and trees</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z2-4">
-                                    <label for="z2-4">Maintain plants below 4 feet in height</label>
+                                    <label for="z2-4">Keep grass height below 4 inches</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z2-5">
-                                    <label for="z2-5">Remove dead branches and debris</label>
+                                    <label for="z2-5">Remove dead and dying vegetation regularly</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z2-6">
-                                    <label for="z2-6">Prune trees up 6-10 feet from ground</label>
+                                    <label for="z2-6">Create fuel breaks with driveways or clearings</label>
                                 </li>
                             </ul>
                             
                             <div class="zone-tips">
-                                <h4>Pro Tips:</h4>
+                                <h4>💡 Zone 2 Tips</h4>
                                 <ul>
-                                    <li>Group plants in small clusters separated by bare space</li>
-                                    <li>Use natural features like rocks as fuel breaks</li>
-                                    <li>Consider native, fire-resistant plant species</li>
+                                    <li>Space trees 2-4 times their mature crown diameter</li>
+                                    <li>Prune lower tree branches up to 8-10 feet</li>
+                                    <li>Use fire-resistant ground covers</li>
+                                    <li>Install irrigation systems for drought periods</li>
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="zone-card zone-3-card">
+                    </article>
+
+                    <!-- Zone 3 -->
+                    <article class="zone-card zone-3-card">
                         <div class="zone-header">
                             <div class="zone-icon">3</div>
                             <div class="zone-info">
-                                <h3>Zone 3 - Extended Zone</h3>
-                                <span class="zone-distance">100-200 feet from home</span>
+                                <h3>Zone 3: Extended Zone</h3>
+                                <p class="zone-distance">100+ feet from structures</p>
                             </div>
                         </div>
                         <div class="zone-content">
                             <p class="zone-description">
-                                This zone focuses on forest management and creating strategic fuel breaks to reduce fire intensity before it reaches your property.
+                                Reduce fire intensity and eliminate conditions that could cause extreme fire behavior. 
+                                Focus on fuel reduction and forest health management.
                             </p>
                             
-                            <h4>Recommended Actions:</h4>
+                            <h4>Zone 3 Requirements</h4>
                             <ul class="zone-checklist">
                                 <li>
                                     <input type="checkbox" id="z3-1">
-                                    <label for="z3-1">Thin dense tree stands</label>
+                                    <label for="z3-1">Thin dense vegetation and overcrowded trees</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z3-2">
-                                    <label for="z3-2">Remove dead and diseased trees</label>
+                                    <label for="z3-2">Remove dead and diseased trees and shrubs</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z3-3">
-                                    <label for="z3-3">Create shaded fuel breaks along ridgetops</label>
+                                    <label for="z3-3">Create strategic fuel breaks along ridges</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z3-4">
-                                    <label for="z3-4">Maintain access roads and firebreaks</label>
+                                    <label for="z3-4">Maintain access roads for emergency vehicles</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="z3-5">
                                     <label for="z3-5">Consider prescribed burns (with professionals)</label>
                                 </li>
+                                <li>
+                                    <input type="checkbox" id="z3-6">
+                                    <label for="z3-6">Coordinate with neighbors for community efforts</label>
+                                </li>
                             </ul>
                             
                             <div class="zone-tips">
-                                <h4>Pro Tips:</h4>
+                                <h4>💡 Zone 3 Tips</h4>
                                 <ul>
-                                    <li>Work with neighbors on community-wide efforts</li>
-                                    <li>Consult with forestry professionals</li>
-                                    <li>Check local regulations before major tree removal</li>
+                                    <li>Work with local fire departments for guidance</li>
+                                    <li>Consider hiring certified arborists</li>
+                                    <li>Join community fire safe councils</li>
+                                    <li>Apply for fuel reduction grants when available</li>
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Home Hardening Section -->
-    <section id="home-hardening" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Home Hardening</h2>
-                <p class="section-subtitle">
-                    Make your home more resistant to ignition by upgrading key components that are vulnerable to embers and radiant heat.
-                </p>
-            </div>
-            
-            <div class="hardening-areas">
-                <div class="hardening-area">
-                    <div class="area-header">
-                        <div class="area-icon">
-                            <i class="fas fa-home"></i>
+        </section>
+
+        <!-- Home Hardening Section -->
+        <section id="home-hardening" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Home Hardening Strategies</h2>
+                    <p class="section-description">
+                        Retrofit your home with fire-resistant materials and eliminate ignition sources. 
+                        Focus on the most vulnerable areas where embers commonly cause ignition.
+                    </p>
+                </div>
+
+                <div class="hardening-areas">
+                    <!-- Roof & Gutters -->
+                    <article class="hardening-area">
+                        <div class="area-header">
+                            <div class="area-icon">🏠</div>
+                            <h3>Roof & Gutters</h3>
+                            <span class="vulnerability-level high">High Risk</span>
                         </div>
-                        <h3>Roof & Gutters</h3>
-                        <span class="vulnerability-level high">High Vulnerability</span>
-                    </div>
-                    <div class="area-content">
-                        <p class="area-description">
-                            The roof is often the first part of a home to ignite from flying embers. Proper roofing materials and maintenance are critical.
-                        </p>
-                        
-                        <div class="recommendations">
-                            <div class="rec-category">
-                                <h4>Best Materials</h4>
-                                <ul class="material-list">
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Class A Fire-Rated</span>
-                                        <span class="material-types">Composition shingle, metal, tile</span>
-                                    </li>
-                                    <li class="material-item good">
-                                        <span class="material-name">Treated Wood Shingles</span>
-                                        <span class="material-types">With fire retardant treatment</span>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="area-content">
+                            <p class="area-description">
+                                Your roof is the most vulnerable part of your home to ember attacks. 
+                                Proper materials and maintenance can dramatically reduce ignition risk.
+                            </p>
                             
-                            <div class="rec-category">
-                                <h4>Avoid These Materials</h4>
-                                <ul class="material-list">
-                                    <li class="material-item poor">
-                                        <span class="material-name">Untreated Wood Shakes</span>
-                                        <span class="material-types">Highly combustible</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="action-checklist">
-                            <h4>Action Items:</h4>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="roof-1">
-                                    <label for="roof-1">Install Class A fire-rated roofing</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="roof-2">
-                                    <label for="roof-2">Clean gutters and roof regularly</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="roof-3">
-                                    <label for="roof-3">Install gutter guards</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="roof-4">
-                                    <label for="roof-4">Seal gaps where embers could enter</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hardening-area">
-                    <div class="area-header">
-                        <div class="area-icon">
-                            <i class="fas fa-wind"></i>
-                        </div>
-                        <h3>Vents</h3>
-                        <span class="vulnerability-level high">High Vulnerability</span>
-                    </div>
-                    <div class="area-content">
-                        <p class="area-description">
-                            Vents are a primary entry point for embers. Upgrading to ember-resistant vents is one of the most cost-effective improvements.
-                        </p>
-                        
-                        <div class="recommendations">
-                            <div class="rec-category">
-                                <h4>Ember-Resistant Options</h4>
-                                <ul class="material-list">
-                                    <li class="material-item excellent">
-                                        <span class="material-name">1/4" Metal Mesh</span>
-                                        <span class="material-types">Corrosion-resistant</span>
-                                    </li>
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Intumescent Vents</span>
-                                        <span class="material-types">Close automatically when heated</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="action-checklist">
-                            <h4>Action Items:</h4>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="vent-1">
-                                    <label for="vent-1">Upgrade all attic vents to ember-resistant</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="vent-2">
-                                    <label for="vent-2">Install foundation vents with fine mesh</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="vent-3">
-                                    <label for="vent-3">Check and clean vents seasonally</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="vent-4">
-                                    <label for="vent-4">Seal gaps around vent installations</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hardening-area">
-                    <div class="area-header">
-                        <div class="area-icon">
-                            <i class="fas fa-border-style"></i>
-                        </div>
-                        <h3>Siding & Exterior Walls</h3>
-                        <span class="vulnerability-level medium">Medium Vulnerability</span>
-                    </div>
-                    <div class="area-content">
-                        <p class="area-description">
-                            Exterior walls face radiant heat and ember exposure. Fire-resistant materials and proper installation details are important.
-                        </p>
-                        
-                        <div class="recommendations">
-                            <div class="rec-category">
-                                <h4>Fire-Resistant Materials</h4>
-                                <ul class="material-list">
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Fiber Cement</span>
-                                        <span class="material-types">Non-combustible, durable</span>
-                                    </li>
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Stucco</span>
-                                        <span class="material-types">Over non-combustible sheathing</span>
-                                    </li>
-                                    <li class="material-item good">
-                                        <span class="material-name">Treated Wood</span>
-                                        <span class="material-types">With fire-resistant treatment</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="action-checklist">
-                            <h4>Action Items:</h4>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="siding-1">
-                                    <label for="siding-1">Upgrade to fire-resistant siding materials</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="siding-2">
-                                    <label for="siding-2">Install non-combustible trim around openings</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="siding-3">
-                                    <label for="siding-3">Seal gaps and cracks in exterior walls</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="siding-4">
-                                    <label for="siding-4">Remove combustible materials from walls</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hardening-area">
-                    <div class="area-header">
-                        <div class="area-icon">
-                            <i class="fas fa-square"></i>
-                        </div>
-                        <h3>Windows</h3>
-                        <span class="vulnerability-level medium">Medium Vulnerability</span>
-                    </div>
-                    <div class="area-content">
-                        <p class="area-description">
-                            Windows can break from radiant heat, allowing embers and flames to enter the home. Proper glazing and protection are essential.
-                        </p>
-                        
-                        <div class="recommendations">
-                            <div class="rec-category">
-                                <h4>Best Options</h4>
-                                <ul class="material-list">
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Dual-Pane Tempered</span>
-                                        <span class="material-types">Better heat resistance</span>
-                                    </li>
-                                    <li class="material-item good">
-                                        <span class="material-name">Multi-Pane Windows</span>
-                                        <span class="material-types">Insulated glazing</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="action-checklist">
-                            <h4>Action Items:</h4>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="window-1">
-                                    <label for="window-1">Upgrade to dual-pane tempered glass</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="window-2">
-                                    <label for="window-2">Install non-combustible window frames</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="window-3">
-                                    <label for="window-3">Add exterior shutters for protection</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="window-4">
-                                    <label for="window-4">Keep areas under windows clear of vegetation</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hardening-area">
-                    <div class="area-header">
-                        <div class="area-icon">
-                            <i class="fas fa-grip-lines"></i>
-                        </div>
-                        <h3>Decks & Porches</h3>
-                        <span class="vulnerability-level high">High Vulnerability</span>
-                    </div>
-                    <div class="area-content">
-                        <p class="area-description">
-                            Attached decks can provide a direct path for fire to reach the home. The area under decks is particularly vulnerable to ember accumulation.
-                        </p>
-                        
-                        <div class="recommendations">
-                            <div class="rec-category">
-                                <h4>Fire-Resistant Decking</h4>
-                                <ul class="material-list">
-                                    <li class="material-item excellent">
-                                        <span class="material-name">Composite Decking</span>
-                                        <span class="material-types">Fire-resistant formulations</span>
-                                    </li>
-                                    <li class="material-item good">
-                                        <span class="material-name">Pressure-Treated Lumber</span>
-                                        <span class="material-types">With fire-retardant treatment</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="action-checklist">
-                            <h4>Action Items:</h4>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="deck-1">
-                                    <label for="deck-1">Enclose area under deck with fire-resistant materials</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="deck-2">
-                                    <label for="deck-2">Remove combustible storage from under deck</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="deck-3">
-                                    <label for="deck-3">Install ember-resistant deck board spacing</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="deck-4">
-                                    <label for="deck-4">Keep deck clear of leaves and debris</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Fire-Resistant Landscaping -->
-    <section id="landscaping" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Fire-Resistant Landscaping</h2>
-                <p class="section-subtitle">
-                    Choose plants and design features that reduce fire risk while maintaining beautiful outdoor spaces.
-                </p>
-            </div>
-            
-            <div class="landscaping-content">
-                <div class="plant-selection">
-                    <h3>Fire-Resistant Plant Characteristics</h3>
-                    <div class="plant-features">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-tint"></i>
-                            </div>
-                            <h4>High Moisture Content</h4>
-                            <p>Plants that retain water in leaves and stems burn less readily</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <h4>Low Resin/Oil Content</h4>
-                            <p>Avoid plants with high oil, resin, or wax content that ignite easily</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <h4>Slow Growing</h4>
-                            <p>Plants that grow slowly typically have less combustible tissue</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-cut"></i>
-                            </div>
-                            <h4>Low Maintenance</h4>
-                            <p>Plants that don't require frequent pruning reduce debris accumulation</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="plant-recommendations">
-                    <div class="plant-category">
-                        <h3>Recommended Plants by Region</h3>
-                        
-                        <div class="region-tabs">
-                            <button class="region-tab active" data-region="california">California</button>
-                            <button class="region-tab" data-region="southwest">Southwest</button>
-                            <button class="region-tab" data-region="pacific-nw">Pacific NW</button>
-                            <button class="region-tab" data-region="mountain">Mountain States</button>
-                        </div>
-                        
-                        <div class="region-plants">
-                            <div class="region-content active" id="california">
-                                <div class="plant-types">
-                                    <div class="plant-type">
-                                        <h4>Trees</h4>
-                                        <ul class="plant-list">
-                                            <li>California Live Oak (Quercus agrifolia)</li>
-                                            <li>Citrus Trees (Citrus species)</li>
-                                            <li>California Pepper Tree (Schinus molle)</li>
-                                            <li>Jacaranda (Jacaranda mimosifolia)</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="plant-type">
-                                        <h4>Shrubs</h4>
-                                        <ul class="plant-list">
-                                            <li>Lavender (Lavandula species)</li>
-                                            <li>Rosemary (Rosmarinus officinalis)</li>
-                                            <li>Sage (Salvia species)</li>
-                                            <li>Rockrose (Cistus species)</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="plant-type">
-                                        <h4>Groundcover</h4>
-                                        <ul class="plant-list">
-                                            <li>Ice Plant (Carpobrotus species)</li>
-                                            <li>Sedum (Sedum species)</li>
-                                            <li>Baccharis (Baccharis pilularis)</li>
-                                        </ul>
-                                    </div>
+                            <div class="recommendations">
+                                <div class="rec-category">
+                                    <h4>Recommended Materials</h4>
+                                    <ul class="material-list">
+                                        <li class="material-item excellent">
+                                            <span class="material-name">Metal Roofing</span>
+                                            <span class="material-types">Steel, aluminum, copper</span>
+                                        </li>
+                                        <li class="material-item excellent">
+                                            <span class="material-name">Clay/Concrete Tiles</span>
+                                            <span class="material-types">Terra cotta, concrete</span>
+                                        </li>
+                                        <li class="material-item good">
+                                            <span class="material-name">Class A Asphalt</span>
+                                            <span class="material-types">Fire-rated shingles</span>
+                                        </li>
+                                        <li class="material-item poor">
+                                            <span class="material-name">Avoid: Wood Shakes</span>
+                                            <span class="material-types">Cedar, pine, untreated wood</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             
-                            <div class="region-content" id="southwest">
-                                <div class="plant-types">
-                                    <div class="plant-type">
-                                        <h4>Trees</h4>
-                                        <ul class="plant-list">
-                                            <li>Desert Willow (Chilopsis linearis)</li>
-                                            <li>Palo Verde (Parkinsonia florida)</li>
-                                            <li>Texas Red Oak (Quercus buckleyi)</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="plant-type">
-                                        <h4>Shrubs</h4>
-                                        <ul class="plant-list">
-                                            <li>Agave (Agave species)</li>
-                                            <li>Desert Marigold (Baileya multiradiata)</li>
-                                            <li>Brittlebush (Encelia farinosa)</li>
-                                        </ul>
-                                    </div>
+                            <div class="action-checklist">
+                                <h4>Roof Hardening Checklist</h4>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" id="roof-1">
+                                        <label for="roof-1">Install gutter guards to prevent debris accumulation</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="roof-2">
+                                        <label for="roof-2">Clean gutters and roof regularly (quarterly minimum)</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="roof-3">
+                                        <label for="roof-3">Install 1/8" metal mesh over roof vents</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="roof-4">
+                                        <label for="roof-4">Seal gaps in roof decking and eaves</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="roof-5">
+                                        <label for="roof-5">Upgrade to fire-resistant roofing materials</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Vents & Openings -->
+                    <article class="hardening-area">
+                        <div class="area-header">
+                            <div class="area-icon">💨</div>
+                            <h3>Vents & Openings</h3>
+                            <span class="vulnerability-level high">High Risk</span>
+                        </div>
+                        <div class="area-content">
+                            <p class="area-description">
+                                Embers can enter your home through small openings and vents. 
+                                Proper screening and sealing prevent ember intrusion while maintaining ventilation.
+                            </p>
+                            
+                            <div class="action-checklist">
+                                <h4>Vent Protection Checklist</h4>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" id="vent-1">
+                                        <label for="vent-1">Install 1/8" metal mesh on all vents</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="vent-2">
+                                        <label for="vent-2">Upgrade to ember-resistant attic vents</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="vent-3">
+                                        <label for="vent-3">Seal gaps around pipes and utilities</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="vent-4">
+                                        <label for="vent-4">Install automatic vent closures (where appropriate)</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="vent-5">
+                                        <label for="vent-5">Check and maintain vent screens annually</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Windows & Doors -->
+                    <article class="hardening-area">
+                        <div class="area-header">
+                            <div class="area-icon">🪟</div>
+                            <h3>Windows & Doors</h3>
+                            <span class="vulnerability-level medium">Medium Risk</span>
+                        </div>
+                        <div class="area-content">
+                            <p class="area-description">
+                                Windows can break from radiant heat, allowing embers inside. 
+                                Proper glazing and protection systems reduce this risk significantly.
+                            </p>
+                            
+                            <div class="recommendations">
+                                <div class="rec-category">
+                                    <h4>Window Protection Options</h4>
+                                    <ul class="material-list">
+                                        <li class="material-item excellent">
+                                            <span class="material-name">Tempered Glass</span>
+                                            <span class="material-types">Single or multi-pane</span>
+                                        </li>
+                                        <li class="material-item good">
+                                            <span class="material-name">Fire-Rated Windows</span>
+                                            <span class="material-types">20+ minute rating</span>
+                                        </li>
+                                        <li class="material-item good">
+                                            <span class="material-name">External Shutters</span>
+                                            <span class="material-types">Metal or fire-resistant materials</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             
-                            <div class="region-content" id="pacific-nw">
-                                <div class="plant-types">
-                                    <div class="plant-type">
-                                        <h4>Trees</h4>
-                                        <ul class="plant-list">
-                                            <li>Big Leaf Maple (Acer macrophyllum)</li>
-                                            <li>Western Red Cedar (Thuja plicata)</li>
-                                            <li>Madrone (Arbutus menziesii)</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="plant-type">
-                                        <h4>Shrubs</h4>
-                                        <ul class="plant-list">
-                                            <li>Rhododendron (Rhododendron species)</li>
-                                            <li>Oregon Grape (Mahonia aquifolium)</li>
-                                            <li>Salal (Gaultheria shallon)</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            <div class="action-checklist">
+                                <h4>Window & Door Checklist</h4>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" id="window-1">
+                                        <label for="window-1">Install dual-pane or tempered glass windows</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="window-2">
+                                        <label for="window-2">Add external shutters for protection</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="window-3">
+                                        <label for="window-3">Install weather stripping to seal gaps</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="window-4">
+                                        <label for="window-4">Consider fire-resistant window treatments</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire-Resistant Landscaping -->
+        <section id="landscaping" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Fire-Resistant Landscaping</h2>
+                    <p class="section-description">
+                        Choose plants and design landscapes that naturally resist fire while maintaining beauty and functionality. 
+                        Smart plant selection can significantly reduce fire risk around your home.
+                    </p>
+                </div>
+
+                <div class="landscaping-content">
+                    <!-- Plant Selection Principles -->
+                    <div class="plant-selection">
+                        <h3>Fire-Resistant Plant Characteristics</h3>
+                        <div class="plant-features">
+                            <div class="feature-card">
+                                <div class="feature-icon">💧</div>
+                                <h4>High Moisture Content</h4>
+                                <p>Plants with thick, fleshy leaves and high water content burn less readily</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🍃</div>
+                                <h4>Low Resin & Oil</h4>
+                                <p>Avoid plants with waxy, oily, or aromatic leaves that ignite easily</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🌿</div>
+                                <h4>Minimal Dead Material</h4>
+                                <p>Choose plants that don't accumulate dead branches and leaves</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🌱</div>
+                                <h4>Open Growth Habit</h4>
+                                <p>Select plants with loose, open branching patterns</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Plant Recommendations -->
+                    <div class="plant-recommendations">
+                        <div class="plant-category">
+                            <h3>Recommended Plants by Region</h3>
+                            <div class="region-tabs">
+                                <button class="region-tab active" onclick="showRegion('california')">California</button>
+                                <button class="region-tab" onclick="showRegion('southwest')">Southwest</button>
+                                <button class="region-tab" onclick="showRegion('northwest')">Northwest</button>
+                                <button class="region-tab" onclick="showRegion('southeast')">Southeast</button>
                             </div>
                             
-                            <div class="region-content" id="mountain">
-                                <div class="plant-types">
-                                    <div class="plant-type">
-                                        <h4>Trees</h4>
-                                        <ul class="plant-list">
-                                            <li>Aspen (Populus tremuloides)</li>
-                                            <li>Gambel Oak (Quercus gambelii)</li>
-                                            <li>Colorado Blue Spruce (Picea pungens)</li>
-                                        </ul>
+                            <div class="region-plants">
+                                <div class="region-content active" id="california">
+                                    <div class="plant-types">
+                                        <div class="plant-type">
+                                            <h4>Trees</h4>
+                                            <ul class="plant-list">
+                                                <li>Coast Live Oak (Quercus agrifolia)</li>
+                                                <li>California Sycamore (Platanus racemosa)</li>
+                                                <li>Catalina Cherry (Prunus lyonii)</li>
+                                                <li>Strawberry Tree (Arbutus unedo)</li>
+                                                <li>California Bay Laurel (Umbellularia californica)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Shrubs</h4>
+                                            <ul class="plant-list">
+                                                <li>Toyon (Heteromeles arbutifolia)</li>
+                                                <li>Lemonade Berry (Rhus integrifolia)</li>
+                                                <li>Ceanothus (various species)</li>
+                                                <li>Manzanita (Arctostaphylos species)</li>
+                                                <li>Lavender (Lavandula species)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Ground Covers</h4>
+                                            <ul class="plant-list">
+                                                <li>Ice Plant (Delosperma species)</li>
+                                                <li>Stonecrop (Sedum species)</li>
+                                                <li>California Fescue (Festuca californica)</li>
+                                                <li>Deer Grass (Muhlenbergia rigens)</li>
+                                                <li>Beach Strawberry (Fragaria chiloensis)</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="plant-type">
-                                        <h4>Shrubs</h4>
-                                        <ul class="plant-list">
-                                            <li>Serviceberry (Amelanchier alnifolia)</li>
-                                            <li>Snowberry (Symphoricarpos albus)</li>
-                                            <li>Mountain Mahogany (Cercocarpus montanus)</li>
-                                        </ul>
+                                </div>
+                                
+                                <div class="region-content" id="southwest">
+                                    <div class="plant-types">
+                                        <div class="plant-type">
+                                            <h4>Trees</h4>
+                                            <ul class="plant-list">
+                                                <li>Palo Verde (Parkinsonia florida)</li>
+                                                <li>Texas Red Oak (Quercus buckleyi)</li>
+                                                <li>Desert Willow (Chilopsis linearis)</li>
+                                                <li>Mesquite (Prosopis species)</li>
+                                                <li>Mexican Buckeye (Ungnadia speciosa)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Shrubs</h4>
+                                            <ul class="plant-list">
+                                                <li>Agave (Agave species)</li>
+                                                <li>Prickly Pear Cactus (Opuntia species)</li>
+                                                <li>Sage (Salvia species)</li>
+                                                <li>Brittlebush (Encelia farinosa)</li>
+                                                <li>Desert Marigold (Baileya multiradiata)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Ground Covers</h4>
+                                            <ul class="plant-list">
+                                                <li>Buffalo Grass (Poaceae species)</li>
+                                                <li>Desert Verbena (Glandularia gooddingii)</li>
+                                                <li>Trailing Lantana (Lantana montevidensis)</li>
+                                                <li>Desert Zinnia (Zinnia acerosa)</li>
+                                                <li>Ghost Plant (Graptopetalum paraguayense)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="region-content" id="northwest">
+                                    <div class="plant-types">
+                                        <div class="plant-type">
+                                            <h4>Trees</h4>
+                                            <ul class="plant-list">
+                                                <li>Oregon White Oak (Quercus garryana)</li>
+                                                <li>Pacific Madrone (Arbutus menziesii)</li>
+                                                <li>Bigleaf Maple (Acer macrophyllum)</li>
+                                                <li>Shore Pine (Pinus contorta)</li>
+                                                <li>Western Redbud (Cercis occidentalis)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Shrubs</h4>
+                                            <ul class="plant-list">
+                                                <li>Salal (Gaultheria shallon)</li>
+                                                <li>Oregon Grape (Mahonia aquifolium)</li>
+                                                <li>Red-flowering Currant (Ribes sanguineum)</li>
+                                                <li>Kinnikinnick (Arctostaphylos uva-ursi)</li>
+                                                <li>Snowberry (Symphoricarpos albus)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Ground Covers</h4>
+                                            <ul class="plant-list">
+                                                <li>Wild Ginger (Asarum canadense)</li>
+                                                <li>Pacific Bleeding Heart (Dicentra formosa)</li>
+                                                <li>Inside-out Flower (Vancouveria hexandra)</li>
+                                                <li>Oregon Oxalis (Oxalis oregana)</li>
+                                                <li>Western Sword Fern (Polystichum munitum)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="region-content" id="southeast">
+                                    <div class="plant-types">
+                                        <div class="plant-type">
+                                            <h4>Trees</h4>
+                                            <ul class="plant-list">
+                                                <li>Live Oak (Quercus virginiana)</li>
+                                                <li>Bald Cypress (Taxodium distichum)</li>
+                                                <li>Southern Magnolia (Magnolia grandiflora)</li>
+                                                <li>Red Maple (Acer rubrum)</li>
+                                                <li>Sweetgum (Liquidambar styraciflua)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Shrubs</h4>
+                                            <ul class="plant-list">
+                                                <li>Azalea (Rhododendron species)</li>
+                                                <li>Camellia (Camellia species)</li>
+                                                <li>Yaupon Holly (Ilex vomitoria)</li>
+                                                <li>Bottlebrush (Callistemon species)</li>
+                                                <li>Firebush (Hamelia patens)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="plant-type">
+                                            <h4>Ground Covers</h4>
+                                            <ul class="plant-list">
+                                                <li>Coontie (Zamia integrifolia)</li>
+                                                <li>Beach Sunflower (Helianthus debilis)</li>
+                                                <li>Coral Honeysuckle (Lonicera sempervirens)</li>
+                                                <li>Wild Columbine (Aquilegia canadensis)</li>
+                                                <li>Green-and-gold (Chrysogonum virginianum)</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Plants to Avoid -->
+                    <div class="plants-to-avoid">
+                        <h3>⚠️ Plants to Avoid in Fire-Prone Areas</h3>
+                        <div class="avoid-categories">
+                            <div class="avoid-category">
+                                <h4>High-Risk Trees</h4>
+                                <ul class="avoid-list">
+                                    <li>
+                                        <span class="plant-name">Eucalyptus</span>
+                                        <span>Extremely flammable oils and bark</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Pine Species</span>
+                                        <span>Resinous needles and branches</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Cypress</span>
+                                        <span>Dense, dry foliage</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Cedar</span>
+                                        <span>Aromatic oils, fine foliage</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="avoid-category">
+                                <h4>High-Risk Shrubs</h4>
+                                <ul class="avoid-list">
+                                    <li>
+                                        <span class="plant-name">Juniper</span>
+                                        <span>Volatile oils, dead material</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Rosemary</span>
+                                        <span>Aromatic oils, dry stems</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Pampas Grass</span>
+                                        <span>Accumulates dead material</span>
+                                    </li>
+                                    <li>
+                                        <span class="plant-name">Fountain Grass</span>
+                                        <span>Fine, dry foliage</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="plants-to-avoid">
-                    <h3>Plants to Avoid</h3>
-                    <div class="avoid-categories">
-                        <div class="avoid-category">
-                            <h4>High Fire Hazard Plants</h4>
-                            <ul class="avoid-list">
-                                <li><span class="plant-name">Juniper</span> - High oil content, burns intensely</li>
-                                <li><span class="plant-name">Pine Trees</span> - Resinous, drop flammable needles</li>
-                                <li><span class="plant-name">Eucalyptus</span> - Extremely flammable oils</li>
-                                <li><span class="plant-name">Pampas Grass</span> - Dries out completely, burns rapidly</li>
-                                <li><span class="plant-name">Bamboo</span> - Dry hollow stems burn very hot</li>
+            </div>
+        </section>
+
+        <!-- Emergency Kit Section -->
+        <section id="emergency-kit" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Emergency Preparedness</h2>
+                    <p class="section-description">
+                        Prepare your family and home for wildfire emergencies with comprehensive planning, 
+                        communication strategies, and essential supply kits.
+                    </p>
+                </div>
+
+                <!-- Emergency Kit Checklist -->
+                <div class="emergency-checklist">
+                    <h3>72-Hour Emergency Kit</h3>
+                    <div class="kit-categories">
+                        <div class="kit-category">
+                            <h4>🥤 Water & Food</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> 1 gallon water per person per day (3-day supply)</li>
+                                <li><input type="checkbox"> Non-perishable food (3-day supply)</li>
+                                <li><input type="checkbox"> Manual can opener</li>
+                                <li><input type="checkbox"> Water purification tablets</li>
+                                <li><input type="checkbox"> Paper plates and plastic utensils</li>
                             </ul>
                         </div>
                         
-                        <div class="avoid-category">
-                            <h4>Problematic Characteristics</h4>
-                            <ul class="avoid-list">
-                                <li>Plants that accumulate dead material</li>
-                                <li>Plants with peeling or fibrous bark</li>
-                                <li>Plants that produce a lot of litter</li>
-                                <li>Plants with high oil or resin content</li>
-                                <li>Plants that grow in very dense stands</li>
+                        <div class="kit-category">
+                            <h4>🏥 Medical Supplies</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> First aid kit</li>
+                                <li><input type="checkbox"> Prescription medications (7-day supply)</li>
+                                <li><input type="checkbox"> Thermometer</li>
+                                <li><input type="checkbox"> Hand sanitizer</li>
+                                <li><input type="checkbox"> Face masks</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="kit-category">
+                            <h4>📻 Communication</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> Battery-powered or hand crank radio</li>
+                                <li><input type="checkbox"> NOAA Weather Radio</li>
+                                <li><input type="checkbox"> Cell phone with chargers</li>
+                                <li><input type="checkbox"> Extra batteries</li>
+                                <li><input type="checkbox"> Emergency contact list</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="kit-category">
+                            <h4>🔦 Tools & Supplies</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> Flashlights (one per person)</li>
+                                <li><input type="checkbox"> Multi-tool or Swiss Army knife</li>
+                                <li><input type="checkbox"> Duct tape and plastic sheeting</li>
+                                <li><input type="checkbox"> Waterproof matches</li>
+                                <li><input type="checkbox"> Work gloves</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="kit-category">
+                            <h4>📄 Important Documents</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> Copies of ID, insurance policies</li>
+                                <li><input type="checkbox"> Bank account records</li>
+                                <li><input type="checkbox"> Credit card information</li>
+                                <li><input type="checkbox"> Medical records and prescriptions</li>
+                                <li><input type="checkbox"> Cash in small bills</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="kit-category">
+                            <h4>👕 Personal Items</h4>
+                            <ul class="kit-items">
+                                <li><input type="checkbox"> Change of clothing and shoes</li>
+                                <li><input type="checkbox"> Sleeping bags and pillows</li>
+                                <li><input type="checkbox"> Personal hygiene items</li>
+                                <li><input type="checkbox"> Activities for children</li>
+                                <li><input type="checkbox"> Pet supplies (if applicable)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Go-Bag Essentials -->
+                <div class="go-bag-section">
+                    <h3>Ready-to-Go Evacuation Bag</h3>
+                    <p>Keep a separate bag ready for immediate evacuation (less than 10 minutes notice)</p>
+                    <div class="go-bag-grid">
+                        <div class="go-bag-item">
+                            <h4>🎒 The Bag</h4>
+                            <ul>
+                                <li>Sturdy backpack or duffel bag</li>
+                                <li>Easy to carry and grab quickly</li>
+                                <li>Located near main exit</li>
+                            </ul>
+                        </div>
+                        <div class="go-bag-item">
+                            <h4>📱 Critical Items</h4>
+                            <ul>
+                                <li>Cell phone charger</li>
+                                <li>Important documents (copies)</li>
+                                <li>Cash and credit cards</li>
+                                <li>Keys (house, car, work)</li>
+                            </ul>
+                        </div>
+                        <div class="go-bag-item">
+                            <h4>🧥 Immediate Needs</h4>
+                            <ul>
+                                <li>Change of clothes for 2-3 days</li>
+                                <li>Essential medications</li>
+                                <li>Personal hygiene items</li>
+                                <li>Flashlight and batteries</li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Maintenance Calendar -->
-    <section id="maintenance" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Seasonal Maintenance Calendar</h2>
-                <p class="section-subtitle">
-                    Year-round maintenance schedule to keep your fire prevention measures effective
-                </p>
+        </section>
+    </main>
+
+    <!-- Home Depot Ad Banner -->
+    <aside class="ad-banner" 
+           role="complementary" 
+           aria-labelledby="ad-title">
+        <div class="ad-content">
+            <div class="ad-header">Advertisement - Home Depot Partnership</div>
+            
+            <div class="ad-logo">
+                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
             </div>
             
-            <div class="calendar-grid">
-                <div class="season-card spring">
-                    <div class="season-header">
-                        <i class="fas fa-seedling"></i>
-                        <h3>Spring</h3>
-                        <span class="season-months">March - May</span>
-                    </div>
-                    <div class="season-tasks">
-                        <h4>Key Tasks:</h4>
-                        <ul class="task-list">
-                            <li>Clean gutters and roof of debris</li>
-                            <li>Prune dead branches from trees and shrubs</li>
-                            <li>Check and clean vents</li>
-                            <li>Test irrigation systems</li>
-                            <li>Plan landscape improvements</li>
-                            <li>Review and update evacuation plans</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="season-card summer">
-                    <div class="season-header">
-                        <i class="fas fa-sun"></i>
-                        <h3>Summer</h3>
-                        <span class="season-months">June - August</span>
-                    </div>
-                    <div class="season-tasks">
-                        <h4>Key Tasks:</h4>
-                        <ul class="task-list">
-                            <li>Mow grass regularly (keep under 4 inches)</li>
-                            <li>Water plants regularly to maintain moisture</li>
-                            <li>Remove dry and dead vegetation weekly</li>
-                            <li>Check fire extinguishers and emergency kits</li>
-                            <li>Monitor fire weather forecasts</li>
-                            <li>Maintain wide access for firefighters</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="season-card fall">
-                    <div class="season-header">
-                        <i class="fas fa-leaf"></i>
-                        <h3>Fall</h3>
-                        <span class="season-months">September - November</span>
-                    </div>
-                    <div class="season-tasks">
-                        <h4>Key Tasks:</h4>
-                        <ul class="task-list">
-                            <li>Rake and remove fallen leaves regularly</li>
-                            <li>Final major pruning before winter</li>
-                            <li>Clean gutters frequently during leaf drop</li>
-                            <li>Harvest and store garden produce</li>
-                            <li>Prepare emergency supplies for winter</li>
-                            <li>Schedule professional tree inspections</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="season-card winter">
-                    <div class="season-header">
-                        <i class="fas fa-snowflake"></i>
-                        <h3>Winter</h3>
-                        <span class="season-months">December - February</span>
-                    </div>
-                    <div class="season-tasks">
-                        <h4>Key Tasks:</h4>
-                        <ul class="task-list">
-                            <li>Plan next year's landscape projects</li>
-                            <li>Research and order fire-resistant plants</li>
-                            <li>Review home insurance policies</li>
-                            <li>Attend community preparedness meetings</li>
-                            <li>Service and maintain tools and equipment</li>
-                            <li>Update emergency contact information</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Cost Estimates -->
-    <section id="cost-estimates" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Investment & Cost Estimates</h2>
-                <p class="section-subtitle">
-                    Understanding the costs involved in fire prevention improvements
-                </p>
+            <div class="ad-text">
+                <h2 class="ad-title" id="ad-title">Fire Prevention & Safety Supplies</h2>
+                <p class="ad-description">Fire extinguishers, defensible space tools, emergency generators, evacuation supplies & hardening materials</p>
             </div>
             
-            <div class="cost-breakdown">
-                <div class="cost-category">
-                    <div class="category-header">
-                        <i class="fas fa-dollar-sign"></i>
-                        <h3>Budget-Friendly ($500 - $2,000)</h3>
-                    </div>
-                    <div class="cost-items">
-                        <div class="cost-item">
-                            <span class="item-name">Basic Defensible Space Clearing</span>
-                            <span class="item-cost">$200 - $800</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Ember-Resistant Vent Screens</span>
-                            <span class="item-cost">$100 - $300</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Gutter Guards Installation</span>
-                            <span class="item-cost">$150 - $400</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Fire-Resistant Plants</span>
-                            <span class="item-cost">$200 - $600</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="cost-category">
-                    <div class="category-header">
-                        <i class="fas fa-coins"></i>
-                        <h3>Moderate Investment ($2,000 - $10,000)</h3>
-                    </div>
-                    <div class="cost-items">
-                        <div class="cost-item">
-                            <span class="item-name">Professional Landscaping</span>
-                            <span class="item-cost">$2,000 - $5,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Deck Improvements</span>
-                            <span class="item-cost">$1,500 - $4,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Window Upgrades</span>
-                            <span class="item-cost">$3,000 - $8,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Irrigation System</span>
-                            <span class="item-cost">$1,000 - $3,000</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="cost-category">
-                    <div class="category-header">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <h3>Major Upgrades ($10,000+)</h3>
-                    </div>
-                    <div class="cost-items">
-                        <div class="cost-item">
-                            <span class="item-name">Roof Replacement</span>
-                            <span class="item-cost">$10,000 - $30,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Exterior Siding Upgrade</span>
-                            <span class="item-cost">$8,000 - $25,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Complete Home Hardening</span>
-                            <span class="item-cost">$15,000 - $50,000</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="item-name">Professional Fire Assessment</span>
-                            <span class="item-cost">$300 - $800</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="cost-benefits">
-                <h3>Return on Investment</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Insurance Savings</h4>
-                        <p>Many insurers offer 5-20% discounts for fire-resistant improvements</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <h4>Property Value</h4>
-                        <p>Fire-resistant homes often have higher resale values in fire-prone areas</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h4>Peace of Mind</h4>
-                        <p>Invaluable protection for your family and irreplaceable possessions</p>
-                    </div>
-                </div>
-            </div>
+            <a href="https://www.homedepot.com/c/fire_safety_prevention" 
+               class="ad-cta" 
+               target="_blank" 
+               rel="noopener nofollow"
+               aria-label="Shop fire prevention supplies at Home Depot - opens in new tab"
+               onclick="trackAdClick('prevention_page', 'fire_prevention_supplies')">
+                <span aria-hidden="true">🛠️</span>
+                Shop Prevention Supplies
+            </a>
         </div>
-    </section>
-    
-    <!-- Call to Action -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Start Your Fire Prevention Plan Today</h2>
-                <p>Every improvement you make increases your home's chances of survival. Begin with the most critical items and work your way through the list.</p>
-                <div class="cta-buttons">
-                    <a href="/safety/" class="btn btn-primary">
-                        <i class="fas fa-clipboard-check"></i>
-                        Create Safety Plan
-                    </a>
-                    <a href="/#map" class="btn btn-secondary">
-                        <i class="fas fa-eye"></i>
-                        Monitor Current Fires
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
+    </aside>
+
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="footer-content">
-            <div class="footer-section">
-                <h4>Eye on the Fire</h4>
-                <p>America's premier wildfire tracking platform, providing real-time fire intelligence and safety resources to protect communities nationwide.</p>
-                <div class="social-links">
-                    <a href="https://twitter.com/eyeonthefire" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://facebook.com/eyeonthefire" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/eyeonthefire" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and prevention education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌐 Global Coverage</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="support.html" class="footer-link">Emergency Contacts</a></li>
+                        <li><a href="blog.html" class="footer-link">Fire Safety Blog</a></li>
+                        <li><a href="api.html" class="footer-link">Developer API</a></li>
+                        <li><a href="research.html" class="footer-link">Research & Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="footer-section">
-                <h4>Prevention Resources</h4>
-                <ul class="footer-links">
-                    <li><a href="#defensible-space">Defensible Space</a></li>
-                    <li><a href="#home-hardening">Home Hardening</a></li>
-                    <li><a href="#landscaping">Fire-Resistant Plants</a></li>
-                    <li><a href="#maintenance">Maintenance Calendar</a></li>
-                </ul>
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
+                    </div>
+                </div>
             </div>
-            
-            <div class="footer-section">
-                <h4>Professional Resources</h4>
-                <ul class="footer-links">
-                    <li><a href="https://www.nfpa.org/Public-Education/Fire-causes-and-risks/Wildfire" target="_blank">NFPA Wildfire Resources</a></li>
-                    <li><a href="https://www.firewise.org" target="_blank">Firewise USA</a></li>
-                    <li><a href="https://www.readyforwildfire.org" target="_blank">Ready for Wildfire</a></li>
-                    <li><a href="/professionals/">Find Local Contractors</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Platform</h4>
-                <ul class="footer-links">
-                    <li><a href="/">Live Fire Map</a></li>
-                    <li><a href="/safety/">Safety Guide</a></li>
-                    <li><a href="/alerts/">Fire Alerts</a></li>
-                    <li><a href="/about/">About Us</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Eye on the Fire. All rights reserved. Professional consultation recommended for major improvements. Content for educational purposes only.</p>
         </div>
     </footer>
-    
+
     <!-- Scripts -->
-    <script src="/assets/js/app.js"></script>
-    
-    <!-- Page-specific functionality -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Save checklist progress to localStorage
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            
-            checkboxes.forEach(checkbox => {
-                const saved = localStorage.getItem(`prevention_checklist_${checkbox.id}`);
-                if (saved === 'true') {
-                    checkbox.checked = true;
-                }
-                
-                checkbox.addEventListener('change', function() {
-                    localStorage.setItem(`prevention_checklist_${this.id}`, this.checked);
-                    updateProgress();
+        // Ad click tracking for analytics
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
                 });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Region tab functionality
+        function showRegion(regionId) {
+            // Hide all region content
+            document.querySelectorAll('.region-content').forEach(content => {
+                content.classList.remove('active');
             });
             
-            // Region tabs functionality
-            const regionTabs = document.querySelectorAll('.region-tab');
-            const regionContents = document.querySelectorAll('.region-content');
-            
-            regionTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const region = this.dataset.region;
-                    
-                    // Update active tab
-                    regionTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update active content
-                    regionContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === region) {
-                            content.classList.add('active');
-                        }
-                    });
-                });
+            // Remove active class from all tabs
+            document.querySelectorAll('.region-tab').forEach(tab => {
+                tab.classList.remove('active');
             });
             
-            // Calculate and display progress
-            function updateProgress() {
-                const totalCheckboxes = checkboxes.length;
-                const checkedBoxes = Array.from(checkboxes).filter(cb => cb.checked).length;
-                const progress = Math.round((checkedBoxes / totalCheckboxes) * 100);
-                
-                // Update progress indicator if it exists
-                const progressIndicator = document.querySelector('.progress-indicator');
-                if (progressIndicator) {
-                    progressIndicator.textContent = `${progress}% Complete`;
-                }
+            // Show selected region
+            const selectedRegion = document.getElementById(regionId);
+            if (selectedRegion) {
+                selectedRegion.classList.add('active');
             }
             
-            // Initial progress calculation
-            updateProgress();
+            // Add active class to clicked tab
+            const clickedTab = event.target;
+            clickedTab.classList.add('active');
             
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
+            // Track analytics
+            if (window.gtag) {
+                gtag('event', 'region_selected', {
+                    event_category: 'User Interaction',
+                    event_label: regionId
+                });
+            }
+        }
+        
+        // Emergency alert management
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+        
+        // Enhanced navigation functionality
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
+            
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
+            
+            // Focus management for accessibility
+            if (!isOpen) {
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
+            }
+        }
+        
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update URL
+                    history.pushState(null, null, `#${targetId}`);
+                    
+                    // Focus for accessibility
+                    targetElement.tabIndex = -1;
+                    targetElement.focus();
+                }
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Close menu with Escape
+            if (e.key === 'Escape') {
+                closeNavMenu();
+            }
+            
+            // Handle Enter and Space for custom buttons
+            if ((e.key === 'Enter' || e.key === ' ') && 
+                e.target.hasAttribute('role') && 
+                e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+        
+        // Handle clicks outside menu to close
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !navMenuBtn.contains(e.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    event_category: 'Prevention Guide',
+                    event_label: 'prevention_page_loaded'
+                });
+            }
+            
+            // Auto-scroll to hash on load
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
+                        });
+                    }
+                }, 500);
+            }
+            
+            // Enhanced checklist interaction tracking
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (window.gtag && this.checked) {
+                        gtag('event', 'checklist_item_completed', {
+                            event_category: 'User Engagement',
+                            event_label: this.id || 'unnamed_checklist_item'
                         });
                     }
                 });
             });
         });
+        
+        // Placeholder location functionality (to be integrated with main app)
+        function findUserLocation() {
+            alert('Location functionality will be available when integrated with the main application.');
+        }
+        
+        // Placeholder for place management
+        function addPlace(event) {
+            event.preventDefault();
+            alert('Place management will be available when integrated with the main application.');
+        }
     </script>
 </body>
 </html>
