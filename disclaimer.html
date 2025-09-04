@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Legal disclaimers for Eye on the Fire - Important limitations regarding wildfire data accuracy, emergency use, and service reliability.">
+    <meta name="keywords" content="disclaimer, data accuracy, emergency limitations, wildfire tracking disclaimer">
+    <meta name="author" content="Eye on the Fire">
+    <title>Disclaimer | Eye on the Fire - Data Accuracy & Emergency Use Limitations</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#dc2626">
+    <meta name="robots" content="index, follow">
+    
+    <style>
+        .legal-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem 8rem 1rem;
+            padding-top: calc(60px + 2rem);
+            background: white;
+            min-height: 100vh;
+        }
+        
+        .legal-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .legal-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+        
+        .legal-subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .critical-warning {
+            background: #dc2626;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .critical-warning h2 {
+            color: white;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+        }
+        
+        .legal-content {
+            line-height: 1.8;
+            color: #374151;
+        }
+        
+        .legal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #dc2626;
+            margin: 2.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dc2626;
+        }
+        
+        .legal-content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #374151;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .legal-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .legal-content li {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+        
+        .legal-content strong {
+            color: #111827;
+            font-weight: 600;
+        }
+        
+        .warning-box {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 6px solid #dc2626;
+        }
+        
+        .warning-box h3 {
+            color: #dc2626;
+            margin-top: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .data-limitation {
+            background: #fffbeb;
+            border: 2px solid #fed7aa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 6px solid #f59e0b;
+        }
+        
+        .data-limitation h3 {
+            color: #d97706;
+            margin-top: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .emergency-section {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .emergency-section h3 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .contact-info {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-info h3 {
+            margin-top: 0;
+            color: #111827;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: color 0.2s ease;
+        }
+        
+        .back-link:hover,
+        .back-link:focus {
+            color: #b91c1c;
+        }
+        
+        .data-sources {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 6px solid #0284c7;
+        }
+        
+        .data-sources h3 {
+            color: #0284c7;
+            margin-top: 0;
+        }
+        
+        .limitation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .limitation-card {
+            background: white;
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.1);
+        }
+        
+        .limitation-card h4 {
+            color: #dc2626;
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .limitation-card p {
+            margin: 0;
+            color: #374151;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .legal-container {
+                padding: 1rem 1rem 6rem 1rem;
+                padding-top: calc(60px + 1rem);
+            }
+            
+            .legal-title {
+                font-size: 2rem;
+            }
+            
+            .limitation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <div class="nav-controls">
+            <div class="nav-status">
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span class="live-text">Live</span>
+                </div>
+            </div>
+            
+            <button class="nav-menu-btn" onclick="history.back()" aria-label="Go back">
+                <span style="font-size: 1.2rem;">←</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="legal-container">
+        <a href="/" class="back-link">
+            ← Back to Fire Map
+        </a>
+        
+        <header class="legal-header">
+            <h1 class="legal-title">Disclaimer</h1>
+            <p class="legal-subtitle">Important limitations regarding wildfire data accuracy, emergency use, and service reliability</p>
+        </header>
+
+        <div class="critical-warning">
+            <h2>CRITICAL EMERGENCY NOTICE</h2>
+            <p>This platform provides wildfire detection information for situational awareness ONLY. In any life-threatening emergency, call 911 immediately. Always follow official evacuation orders and emergency instructions from local authorities. Do not rely solely on this service for emergency decision-making.</p>
+        </div>
+
+        <div class="legal-content">
+            <h2>General Disclaimer</h2>
+            <p>Eye on the Fire provides wildfire tracking and safety information as a public service. While we strive to provide accurate and timely information, this service has inherent limitations and should not be used as the sole source for emergency decision-making.</p>
+            
+            <p><strong>By using this service, you acknowledge and accept these limitations and agree to use the information responsibly.</strong></p>
+
+            <h2>Data Accuracy and Limitations</h2>
+            
+            <div class="data-limitation">
+                <h3>Satellite Detection Limitations</h3>
+                <p>Our fire detection data comes primarily from NASA's FIRMS (Fire Information for Resource Management System), which uses satellite imagery to detect thermal anomalies. This system has significant limitations:</p>
+            </div>
+            
+            <div class="limitation-grid">
+                <div class="limitation-card">
+                    <h4>Time Delays</h4>
+                    <p>Fire detection data can be delayed by 3-12 hours depending on satellite pass times and data processing. Fast-moving fires may not appear until hours after ignition.</p>
+                </div>
+                
+                <div class="limitation-card">
+                    <h4>Weather Interference</h4>
+                    <p>Clouds, heavy smoke, and atmospheric conditions can prevent satellites from detecting fires, resulting in gaps in coverage during critical periods.</p>
+                </div>
+                
+                <div class="limitation-card">
+                    <h4>Size Thresholds</h4>
+                    <p>Satellites can only detect fires above certain size thresholds. Small fires, spot fires, and fires in their early stages may not be detected.</p>
+                </div>
+                
+                <div class="limitation-card">
+                    <h4>False Positives</h4>
+                    <p>The system may detect other heat sources as fires, including industrial facilities, gas flares, volcanoes, and reflected sunlight.</p>
+                </div>
+                
+                <div class="limitation-card">
+                    <h4>Geographic Limitations</h4>
+                    <p>Satellite coverage varies by location. Some remote areas may have limited or delayed coverage, especially at high latitudes.</p>
+                </div>
+                
+                <div class="limitation-card">
+                    <h4>Extinguished Fires</h4>
+                    <p>The system may continue to show fires that have been extinguished, as satellite data reflects conditions from hours earlier.</p>
+                </div>
+            </div>
+
+            <h2>Emergency Use Limitations</h2>
+            
+            <div class="emergency-section">
+                <h3>NOT AN EMERGENCY SERVICE</h3>
+                <p>Eye on the Fire is not an emergency service provider and cannot:</p>
+                <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                    <li>Provide real-time emergency response</li>
+                    <li>Issue official evacuation orders</li>
+                    <li>Replace communication with emergency services</li>
+                    <li>Guarantee current fire conditions</li>
+                    <li>Provide professional emergency advice</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h3>Critical Decision-Making Warning</h3>
+                <p><strong>Do not base life-safety decisions solely on information from this platform.</strong> Fire conditions can change rapidly and unpredictably. Wind shifts, weather changes, and fire behavior can create dangerous situations within minutes that may not be reflected in satellite data.</p>
+            </div>
+
+            <h3>Official Sources for Emergency Information</h3>
+            <p>Always consult official sources for emergency information:</p>
+            <ul>
+                <li><strong>911 Emergency Services</strong> - Immediate emergency response</li>
+                <li><strong>Local Fire Departments</strong> - Current fire status and evacuation orders</li>
+                <li><strong>County Emergency Management</strong> - Official alerts and instructions</li>
+                <li><strong>National Weather Service</strong> - Weather warnings and fire danger</li>
+                <li><strong>CAL FIRE</strong> (California) or state fire agencies - Official fire information</li>
+                <li><strong>Wireless Emergency Alerts (WEA)</strong> - Official mobile alerts</li>
+                <li><strong>Local Media</strong> - Emergency broadcasts and updates</li>
+            </ul>
+
+            <h2>Service Availability and Reliability</h2>
+            
+            <h3>No Guarantee of Service</h3>
+            <p>We cannot guarantee uninterrupted service availability. The platform may be unavailable due to:</p>
+            <ul>
+                <li>Technical failures or maintenance</li>
+                <li>Third-party service disruptions (NASA FIRMS, mapping services)</li>
+                <li>Network connectivity issues</li>
+                <li>High traffic during emergency situations</li>
+                <li>Cyber attacks or security incidents</li>
+                <li>Natural disasters affecting infrastructure</li>
+            </ul>
+            
+            <h3>Data Source Dependencies</h3>
+            <div class="data-sources">
+                <h3>Third-Party Data Dependencies</h3>
+                <p>Our service relies on external data sources that are beyond our control:</p>
+                <ul>
+                    <li><strong>NASA FIRMS:</strong> Primary fire detection data source</li>
+                    <li><strong>NOAA:</strong> Weather and atmospheric data</li>
+                    <li><strong>USGS:</strong> Geographic and satellite imagery</li>
+                    <li><strong>OpenStreetMap:</strong> Mapping and location services</li>
+                    <li><strong>State/Local Agencies:</strong> Regional fire information</li>
+                </ul>
+                <p>Disruptions to any of these sources may affect our service quality and data availability.</p>
+            </div>
+
+            <h2>Geographic and Location Disclaimers</h2>
+            
+            <h3>Location Accuracy</h3>
+            <ul>
+                <li><strong>GPS Limitations:</strong> Device location may be inaccurate, especially indoors or in areas with poor satellite reception</li>
+                <li><strong>Address Geocoding:</strong> Address-to-coordinate conversion may contain errors or be outdated</li>
+                <li><strong>Map Accuracy:</strong> Underlying map data may contain inaccuracies or be outdated</li>
+                <li><strong>Coordinate Systems:</strong> Minor variations in coordinate system interpretations may affect precision</li>
+            </ul>
+            
+            <h3>Coverage Areas</h3>
+            <p>While our platform provides global fire detection capabilities, coverage quality varies:</p>
+            <ul>
+                <li><strong>Primary Coverage:</strong> United States (especially California) with enhanced features</li>
+                <li><strong>Secondary Coverage:</strong> Other countries with satellite coverage</li>
+                <li><strong>Limited Coverage:</strong> Polar regions, some remote areas, and locations with restricted data access</li>
+            </ul>
+
+            <h2>Health and Safety Disclaimers</h2>
+            
+            <h3>Medical and Safety Advice</h3>
+            <p>Information provided about wildfire safety, evacuation procedures, and emergency preparedness is for educational purposes only and does not constitute professional medical or safety advice.</p>
+            
+            <ul>
+                <li>Consult with medical professionals for health-related emergency planning</li>
+                <li>Follow guidance from certified emergency management professionals</li>
+                <li>Consider individual health conditions and mobility limitations in emergency planning</li>
+                <li>Seek professional training for emergency response techniques</li>
+            </ul>
+            
+            <h3>Physical and Mental Health Considerations</h3>
+            <p>Wildfire emergencies can cause significant stress and health impacts:</p>
+            <ul>
+                <li>Smoke exposure can cause serious respiratory problems</li>
+                <li>Evacuation stress can trigger existing medical conditions</li>
+                <li>Property loss and displacement can cause mental health impacts</li>
+                <li>Emergency situations may require immediate medical attention</li>
+            </ul>
+
+            <h2>Technology and Accessibility Limitations</h2>
+            
+            <h3>Device and Browser Compatibility</h3>
+            <p>Our service may not function optimally on all devices or browsers:</p>
+            <ul>
+                <li>Older browsers may not support all features</li>
+                <li>Mobile devices may have limited functionality</li>
+                <li>Slow internet connections may affect real-time updates</li>
+                <li>Some accessibility features may not be available on all platforms</li>
+            </ul>
+            
+            <h3>Accessibility Limitations</h3>
+            <p>While we strive to make our service accessible, some limitations may exist for users with disabilities. We are committed to ongoing improvements in accessibility compliance.</p>
+
+            <h2>Legal and Liability Limitations</h2>
+            
+            <div class="warning-box">
+                <h3>Limitation of Liability</h3>
+                <p><strong>Eye on the Fire, LLC and its affiliates shall not be liable for any damages, losses, injuries, or deaths resulting from:</strong></p>
+                <ul>
+                    <li>Reliance on information provided by this service</li>
+                    <li>Delays or inaccuracies in fire detection data</li>
+                    <li>Service outages or technical failures</li>
+                    <li>Emergency response decisions based on our information</li>
+                    <li>Property damage or loss related to wildfire events</li>
+                </ul>
+            </div>
+            
+            <h3>Jurisdictional Variations</h3>
+            <p>Emergency procedures, fire danger levels, and evacuation protocols vary by jurisdiction. Users are responsible for understanding and following local emergency procedures and regulations.</p>
+
+            <h2>Commercial and Advertising Disclaimers</h2>
+            
+            <h3>Advertising Relationships</h3>
+            <p>Our platform may display advertisements from emergency preparedness retailers and other partners. These commercial relationships:</p>
+            <ul>
+                <li>Do not influence our fire detection data or safety recommendations</li>
+                <li>Are clearly marked as advertisements</li>
+                <li>Link to third-party websites with their own terms and policies</li>
+                <li>Help support our free service to the public</li>
+            </ul>
+            
+            <h3>Product Recommendations</h3>
+            <p>Any emergency preparedness products or services mentioned are for informational purposes only. We do not guarantee the effectiveness or suitability of any products for your specific situation.</p>
+
+            <h2>Updates and Changes</h2>
+            
+            <p>This disclaimer may be updated periodically to reflect changes in our service, technology, or legal requirements. Users are encouraged to review this disclaimer regularly.</p>
+            
+            <p><strong>Last Updated:</strong> January 1, 2025</p>
+
+            <div class="emergency-section">
+                <h3>Remember: Emergency Situations</h3>
+                <p><strong>Call 911 immediately for any life-threatening emergency.</strong></p>
+                <p>Follow official evacuation orders and emergency instructions from local authorities.</p>
+                <p>Have multiple sources of emergency information and communication.</p>
+                <p>Develop and practice emergency evacuation plans with your family.</p>
+            </div>
+
+            <div class="contact-info">
+                <h3>Questions About This Disclaimer</h3>
+                <p>If you have questions about this disclaimer or our service limitations, please contact us:</p>
+                <ul>
+                    <li><strong>Email:</strong> legal@eyeonthefire.com</li>
+                    <li><strong>Subject Line:</strong> "Disclaimer Inquiry"</li>
+                    <li><strong>Response Time:</strong> We respond to inquiries within 5 business days</li>
+                </ul>
+                <p><strong>For emergency situations, do not contact us. Call 911 immediately.</strong></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple navigation functionality
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+        
+        // Track page view
+        if (window.gtag) {
+            gtag('event', 'page_view', {
+                event_category: 'Legal',
+                event_label: 'disclaimer'
+            });
+        }
+        
+        // Add smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+        
+        // Add attention-grabbing effect to critical warnings
+        document.addEventListener('DOMContentLoaded', function() {
+            const criticalWarning = document.querySelector('.critical-warning');
+            if (criticalWarning) {
+                // Add subtle pulsing effect
+                setInterval(() => {
+                    criticalWarning.style.transform = 'scale(1.01)';
+                    setTimeout(() => {
+                        criticalWarning.style.transform = 'scale(1)';
+                    }, 500);
+                }, 3000);
+            }
+            
+            // Track user scroll to measure engagement with disclaimer
+            let hasScrolledHalfway = false;
+            window.addEventListener('scroll', function() {
+                const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                
+                if (scrollPercentage > 50 && !hasScrolledHalfway) {
+                    hasScrolledHalfway = true;
+                    if (window.gtag) {
+                        gtag('event', 'disclaimer_halfway_read', {
+                            event_category: 'Legal Engagement',
+                            event_label: 'user_scrolled_50_percent'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
