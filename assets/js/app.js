@@ -8,7 +8,7 @@ let map;
 let fireMarkers = [];
 let userLocationMarker;
 let fireData = [];
-var userLocation = null;  // 'var' for safety against any redeclaration
+var userLocation = null;  // 'var' for safety
 let isLoading = false;
 let lastUpdateTime = null;
 let userState = null;
