@@ -2,843 +2,1294 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildfire Safety Guide | Eye on the Fire - Emergency Preparedness</title>
-    <meta name="description" content="Comprehensive wildfire safety guide with emergency evacuation plans, defensible space tips, and fire-resistant home preparation. Expert advice for wildfire preparedness.">
-    <meta name="keywords" content="wildfire safety, evacuation plan, defensible space, emergency preparedness, fire safety tips, wildfire prevention">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Comprehensive wildfire safety guide with evacuation procedures, emergency protocols, and life-saving resources from Eye on the Fire.">
+    <meta name="keywords" content="wildfire safety, evacuation procedures, emergency protocols, fire safety, wildfire survival, emergency preparedness">
+    <meta name="author" content="Eye on the Fire">
+    <title>Wildfire Safety Center | Eye on the Fire - Emergency Procedures & Resources</title>
     
-    <!-- Open Graph / Facebook -->
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8RE6KDBEW', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Critical Path Optimization -->
+    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/css/safety.css" as="style">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/safety.css">
+    
+    <!-- App Manifest & Icons -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#dc2626">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Wildfire Safety Center - Eye on the Fire">
+    <meta property="og:description" content="Essential wildfire safety procedures, evacuation protocols, and emergency resources to protect you and your family.">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com/safety.html">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/safety/">
-    <meta property="og:title" content="Complete Wildfire Safety Guide | Eye on the Fire">
-    <meta property="og:description" content="Expert wildfire safety guidance including evacuation planning, defensible space creation, and emergency preparedness tips.">
-    <meta property="og:image" content="https://eyeonthefire.com/assets/og-safety.jpg">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://eyeonthefire.com/safety/">
-    <meta property="twitter:title" content="Wildfire Safety Guide | Eye on the Fire">
-    <meta property="twitter:description" content="Complete wildfire safety and emergency preparedness guide with expert tips.">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://eyeonthefire.com/safety/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wildfire Safety Center - Eye on the Fire">
+    <meta name="twitter:description" content="Life-saving wildfire safety procedures and emergency protocols.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Complete Wildfire Safety Guide",
-        "description": "Comprehensive guide to wildfire safety including evacuation planning, defensible space, and emergency preparedness",
-        "author": {
-            "@type": "Organization",
-            "name": "Eye on the Fire"
-        },
-        "publisher": {
+        "@type": "EmergencyService",
+        "name": "Eye on the Fire Safety Center",
+        "description": "Wildfire safety procedures and emergency protocols",
+        "url": "https://eyeonthefire.com/safety.html",
+        "provider": {
             "@type": "Organization",
             "name": "Eye on the Fire",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://eyeonthefire.com/images/eyeonthefire-logo.png"
-            }
+            "logo": "https://eyeonthefire.com/images/eyeonthefire-logo.png"
         },
-        "datePublished": "2025-01-01",
-        "dateModified": "2025-01-15"
+        "areaServed": "United States",
+        "serviceType": "Emergency Information Service"
     }
     </script>
 </head>
-<body class="safety-page">
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo-container">
-                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo-image">
-                <div class="logo-text-wrapper">
-                    <span class="logo-text">Eye on the Fire</span>
-                    <span class="logo-tagline">Real-Time Wildfire Intelligence</span>
+<body>
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    <a href="#emergency-contacts" class="skip-link">Skip to emergency contacts</a>
+    
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
+        <div class="alert-content">
+            <span class="alert-icon" aria-hidden="true">⚠️</span>
+            <span class="alert-text" id="alert-message"></span>
+            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
+        <!-- Clickable Brand -->
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Live Status -->
+            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
+                <div class="live-indicator">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-text">Live</span>
                 </div>
+            </div>
+            
+            <!-- Emergency Button -->
+            <a href="tel:911" class="emergency-btn" 
+               aria-label="Call 911 for immediate emergency assistance"
+               title="Call 911 - Emergency Services">
+                <span class="button-icon" aria-hidden="true">🚨</span>
+                <span class="button-text">Call 911</span>
             </a>
             
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item"><a href="/">Home</a></li>
-                <li class="nav-item"><a href="/#map">Live Map</a></li>
-                <li class="nav-item"><a href="/safety/" class="active">Safety</a></li>
-                <li class="nav-item"><a href="/prevention/">Prevention</a></li>
-                <li class="nav-item"><a href="/alerts/">Alerts</a></li>
-                <li class="nav-item"><a href="/about/">About</a></li>
-            </ul>
+            <!-- Locate Me Button -->
+            <button class="locate-me-btn" 
+                    id="locateMeBtn" 
+                    onclick="findUserLocation()" 
+                    aria-label="Find fires near my current location"
+                    title="Get personalized fire alerts for your area">
+                <span class="button-icon" aria-hidden="true">📍</span>
+                <span class="button-text">Locate Me</span>
+            </button>
             
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
-                <i class="fas fa-bars"></i>
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
             </button>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
-    <section class="hero safety-hero">
-        <div class="hero-content">
-            <h1>Wildfire Safety Guide</h1>
-            <p class="hero-subtitle">
-                Protect your family and property with expert safety guidance. Learn how to prepare for, survive, and recover from wildfire emergencies.
-            </p>
-            <div class="hero-actions">
-                <a href="#evacuation-plan" class="btn btn-primary">
-                    <i class="fas fa-route"></i>
-                    Create Evacuation Plan
-                </a>
-                <a href="#emergency-kit" class="btn btn-secondary">
-                    <i class="fas fa-first-aid"></i>
-                    Emergency Kit Checklist
-                </a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Quick Action Cards -->
-    <section class="quick-actions">
-        <div class="container">
-            <div class="action-cards">
-                <div class="action-card emergency">
-                    <div class="card-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <h3>Emergency Now?</h3>
-                    <p>If you're facing immediate danger</p>
-                    <a href="#emergency-actions" class="card-link">Get Help Now</a>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
                 </div>
-                
-                <div class="action-card evacuation">
-                    <div class="card-icon">
-                        <i class="fas fa-running"></i>
-                    </div>
-                    <h3>Evacuation Order</h3>
-                    <p>What to do if ordered to evacuate</p>
-                    <a href="#evacuation-steps" class="card-link">Evacuation Steps</a>
-                </div>
-                
-                <div class="action-card preparation">
-                    <div class="card-icon">
-                        <i class="fas fa-clipboard-check"></i>
-                    </div>
-                    <h3>Prepare Now</h3>
-                    <p>Get ready before fire season</p>
-                    <a href="#preparation-checklist" class="card-link">View Checklist</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Emergency Actions Section -->
-    <section id="emergency-actions" class="content-section emergency-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>🚨 Emergency Actions - If Fire Threatens Now</h2>
-                <p class="emergency-notice">If you are in immediate danger, call 911 and evacuate immediately</p>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
             </div>
             
-            <div class="emergency-steps">
-                <div class="step-card critical">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>Call 911</h4>
-                        <p>Report the fire location and request emergency assistance. Give your exact location and number of people present.</p>
-                    </div>
-                </div>
-                
-                <div class="step-card critical">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Evacuate Immediately</h4>
-                        <p>Leave now if ordered or if you feel threatened. Don't wait for official evacuation orders if you're in immediate danger.</p>
-                    </div>
-                </div>
-                
-                <div class="step-card critical">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Follow Evacuation Routes</h4>
-                        <p>Use predetermined evacuation routes. If blocked, turn around and find an alternative route. Never drive through flames or heavy smoke.</p>
-                    </div>
-                </div>
-                
-                <div class="step-card critical">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Stay Connected</h4>
-                        <p>Keep your phone charged and monitor emergency alerts. Text "HELP" to 911 if you can't make voice calls.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Evacuation Planning -->
-    <section id="evacuation-plan" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Evacuation Planning</h2>
-                <p class="section-subtitle">
-                    A well-planned evacuation can save your life. Create and practice your plan before you need it.
-                </p>
-            </div>
-            
-            <div class="planning-grid">
-                <div class="planning-card">
-                    <div class="card-header">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <h3>Route Planning</h3>
-                    </div>
-                    <div class="card-content">
-                        <ul class="checklist">
-                            <li>
-                                <input type="checkbox" id="route-1">
-                                <label for="route-1">Identify 2-3 different evacuation routes from your home</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="route-2">
-                                <label for="route-2">Drive each route and time how long it takes</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="route-3">
-                                <label for="route-3">Note potential bottlenecks or obstacles</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="route-4">
-                                <label for="route-4">Share routes with all household members</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="route-5">
-                                <label for="route-5">Keep paper maps in your vehicle</label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="planning-card">
-                    <div class="card-header">
-                        <i class="fas fa-users"></i>
-                        <h3>Family Communication</h3>
-                    </div>
-                    <div class="card-content">
-                        <ul class="checklist">
-                            <li>
-                                <input type="checkbox" id="comm-1">
-                                <label for="comm-1">Choose an out-of-state contact person</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="comm-2">
-                                <label for="comm-2">Program emergency contacts in all phones</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="comm-3">
-                                <label for="comm-3">Plan where to meet if separated</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="comm-4">
-                                <label for="comm-4">Ensure everyone knows the meeting location</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="comm-5">
-                                <label for="comm-5">Practice the communication plan</label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="planning-card">
-                    <div class="card-header">
-                        <i class="fas fa-home"></i>
-                        <h3>Home Preparation</h3>
-                    </div>
-                    <div class="card-content">
-                        <ul class="checklist">
-                            <li>
-                                <input type="checkbox" id="home-1">
-                                <label for="home-1">Know how to shut off utilities (gas, water, electricity)</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="home-2">
-                                <label for="home-2">Keep important documents in fireproof safe</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="home-3">
-                                <label for="home-3">Create digital copies of important documents</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="home-4">
-                                <label for="home-4">Plan for pets and livestock</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" id="home-5">
-                                <label for="home-5">Keep vehicles fueled and ready</label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Emergency Kit Section -->
-    <section id="emergency-kit" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Emergency Kit Essentials</h2>
-                <p class="section-subtitle">
-                    Pack these items in advance and keep your kit easily accessible. Plan for at least 3 days of supplies.
-                </p>
-            </div>
-            
-            <div class="kit-categories">
-                <div class="kit-category">
-                    <div class="category-header">
-                        <i class="fas fa-tint"></i>
-                        <h3>Water & Food</h3>
-                        <span class="category-note">1 gallon water per person per day</span>
-                    </div>
-                    <div class="category-items">
-                        <div class="kit-item">
-                            <input type="checkbox" id="water-1">
-                            <label for="water-1">Water (1 gallon per person per day for 3 days)</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="water-2">
-                            <label for="water-2">Water purification tablets</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="food-1">
-                            <label for="food-1">Non-perishable food (3-day supply per person)</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="food-2">
-                            <label for="food-2">Manual can opener</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="food-3">
-                            <label for="food-3">Pet food and supplies</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="kit-category">
-                    <div class="category-header">
-                        <i class="fas fa-first-aid"></i>
-                        <h3>Medical & Safety</h3>
-                        <span class="category-note">Include prescription medications</span>
-                    </div>
-                    <div class="category-items">
-                        <div class="kit-item">
-                            <input type="checkbox" id="medical-1">
-                            <label for="medical-1">First aid kit</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="medical-2">
-                            <label for="medical-2">Prescription medications (7-day supply)</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="medical-3">
-                            <label for="medical-3">N95 masks for smoke protection</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="medical-4">
-                            <label for="medical-4">Emergency contact information</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="medical-5">
-                            <label for="medical-5">Copies of medical records</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="kit-category">
-                    <div class="category-header">
-                        <i class="fas fa-tools"></i>
-                        <h3>Tools & Electronics</h3>
-                        <span class="category-note">Keep batteries fresh</span>
-                    </div>
-                    <div class="category-items">
-                        <div class="kit-item">
-                            <input type="checkbox" id="tools-1">
-                            <label for="tools-1">Battery-powered or hand crank radio</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="tools-2">
-                            <label for="tools-2">Flashlights and extra batteries</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="tools-3">
-                            <label for="tools-3">Portable phone chargers/power banks</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="tools-4">
-                            <label for="tools-4">Multi-tool or Swiss Army knife</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="tools-5">
-                            <label for="tools-5">Local area maps (paper)</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="kit-category">
-                    <div class="category-header">
-                        <i class="fas fa-file-alt"></i>
-                        <h3>Documents & Money</h3>
-                        <span class="category-note">Keep in waterproof container</span>
-                    </div>
-                    <div class="category-items">
-                        <div class="kit-item">
-                            <input type="checkbox" id="docs-1">
-                            <label for="docs-1">Copies of important documents (waterproof container)</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="docs-2">
-                            <label for="docs-2">Cash and credit cards</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="docs-3">
-                            <label for="docs-3">Insurance policies</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="docs-4">
-                            <label for="docs-4">Bank account information</label>
-                        </div>
-                        <div class="kit-item">
-                            <input type="checkbox" id="docs-5">
-                            <label for="docs-5">Family photos (digital and physical)</label>
-                        </div>
-                    </div>
+            <!-- Emergency Contacts Section -->
+            <div class="emergency-contacts-section">
+                <h3 class="section-title">🚨 Emergency Contacts</h3>
+                <div class="emergency-contacts">
+                    <a href="tel:911" class="emergency-contact primary">
+                        <span class="contact-icon">🚨</span>
+                        <span class="contact-info">
+                            <span class="contact-number">911</span>
+                            <span class="contact-label">Emergency Services</span>
+                        </span>
+                    </a>
+                    <a href="tel:211" class="emergency-contact">
+                        <span class="contact-icon">ℹ️</span>
+                        <span class="contact-info">
+                            <span class="contact-number">211</span>
+                            <span class="contact-label">Information & Referral</span>
+                        </span>
+                    </a>
+                    <a href="tel:511" class="emergency-contact">
+                        <span class="contact-icon">🚗</span>
+                        <span class="contact-info">
+                            <span class="contact-number">511</span>
+                            <span class="contact-label">Traffic & Transportation</span>
+                        </span>
+                    </a>
                 </div>
             </div>
             
-            <div class="kit-tips">
-                <div class="tip-card">
-                    <h4><i class="fas fa-lightbulb"></i> Pro Tips</h4>
-                    <ul>
-                        <li>Store your emergency kit in a easily accessible location</li>
-                        <li>Check expiration dates every 6 months</li>
-                        <li>Keep a smaller "go bag" ready for immediate evacuation</li>
-                        <li>Consider the needs of elderly family members or those with disabilities</li>
-                        <li>Include comfort items for children (toys, books, games)</li>
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link" role="menuitem">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
+                
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="page-container" id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section class="safety-hero" role="banner">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Wildfire Safety Center</h1>
+                    <p class="hero-subtitle">Life-saving procedures and emergency protocols for wildfire situations</p>
+                    <div class="hero-actions">
+                        <a href="#evacuation" class="hero-btn primary">Evacuation Guide</a>
+                        <a href="tel:911" class="hero-btn emergency">Call 911</a>
+                    </div>
+                </div>
+                <div class="alert-levels">
+                    <div class="alert-level extreme">
+                        <span class="level-icon">🔥</span>
+                        <span class="level-text">EXTREME DANGER</span>
+                        <span class="level-description">Evacuate Immediately</span>
+                    </div>
+                    <div class="alert-level high">
+                        <span class="level-icon">⚠️</span>
+                        <span class="level-text">HIGH DANGER</span>
+                        <span class="level-description">Be Ready to Leave</span>
+                    </div>
+                    <div class="alert-level moderate">
+                        <span class="level-icon">🟡</span>
+                        <span class="level-text">MODERATE RISK</span>
+                        <span class="level-description">Stay Alert</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Emergency Actions -->
+        <section class="emergency-actions">
+            <div class="actions-grid">
+                <div class="action-card critical">
+                    <div class="action-icon">🚨</div>
+                    <h3>Immediate Danger</h3>
+                    <p>If fire is visible or you hear evacuation orders</p>
+                    <div class="action-buttons">
+                        <a href="tel:911" class="action-btn primary">Call 911</a>
+                        <a href="#evacuation" class="action-btn secondary">Evacuation Steps</a>
+                    </div>
+                </div>
+                <div class="action-card warning">
+                    <div class="action-icon">📦</div>
+                    <h3>Prepare to Leave</h3>
+                    <p>Fire approaching your area within hours</p>
+                    <div class="action-buttons">
+                        <a href="#go-bag" class="action-btn primary">Pack Go-Bag</a>
+                        <a href="#vehicle-prep" class="action-btn secondary">Prep Vehicle</a>
+                    </div>
+                </div>
+                <div class="action-card info">
+                    <div class="action-icon">📡</div>
+                    <h3>Stay Informed</h3>
+                    <p>Monitor conditions and official alerts</p>
+                    <div class="action-buttons">
+                        <a href="#alerts" class="action-btn primary">Alert Sources</a>
+                        <a href="/" class="action-btn secondary">Live Map</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evacuation Procedures -->
+        <section id="evacuation" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🚗 Evacuation Procedures</h2>
+                    <p class="section-description">
+                        Follow these step-by-step evacuation procedures to safely leave a wildfire area. 
+                        Time is critical - practice these steps before an emergency occurs.
+                    </p>
+                </div>
+
+                <div class="evacuation-timeline">
+                    <div class="timeline-phase immediate">
+                        <div class="phase-header">
+                            <div class="phase-icon">⚡</div>
+                            <h3>Immediate Action (0-10 minutes)</h3>
+                            <span class="phase-urgency">CRITICAL</span>
+                        </div>
+                        <div class="phase-content">
+                            <ol class="evacuation-steps">
+                                <li class="evacuation-step">
+                                    <div class="step-icon">1</div>
+                                    <div class="step-content">
+                                        <h4>Call 911 if not already done</h4>
+                                        <p>Report your location and situation to emergency services</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">2</div>
+                                    <div class="step-content">
+                                        <h4>Alert family members</h4>
+                                        <p>Account for all family members, pets, and livestock</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">3</div>
+                                    <div class="step-content">
+                                        <h4>Grab emergency go-bag</h4>
+                                        <p>Pre-packed bag with essentials (documents, medications, water)</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">4</div>
+                                    <div class="step-content">
+                                        <h4>Get in vehicle immediately</h4>
+                                        <p>Do not waste time gathering items - your life is more important</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase urgent">
+                        <div class="phase-header">
+                            <div class="phase-icon">🚗</div>
+                            <h3>Departure (10-30 minutes)</h3>
+                            <span class="phase-urgency">URGENT</span>
+                        </div>
+                        <div class="phase-content">
+                            <ol class="evacuation-steps" start="5">
+                                <li class="evacuation-step">
+                                    <div class="step-icon">5</div>
+                                    <div class="step-content">
+                                        <h4>Follow evacuation routes</h4>
+                                        <p>Use designated evacuation routes, avoid shortcuts</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">6</div>
+                                    <div class="step-content">
+                                        <h4>Keep windows closed</h4>
+                                        <p>Turn on AC to recirculate air, avoid outside air</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">7</div>
+                                    <div class="step-content">
+                                        <h4>Stay calm and focused</h4>
+                                        <p>Drive safely, follow traffic laws, be patient with congestion</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">8</div>
+                                    <div class="step-content">
+                                        <h4>Go to evacuation center</h4>
+                                        <p>Head to designated evacuation center or safe location</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase safety">
+                        <div class="phase-header">
+                            <div class="phase-icon">🏛️</div>
+                            <h3>At Safety (After evacuation)</h3>
+                            <span class="phase-urgency">SAFE</span>
+                        </div>
+                        <div class="phase-content">
+                            <ol class="evacuation-steps" start="9">
+                                <li class="evacuation-step">
+                                    <div class="step-icon">9</div>
+                                    <div class="step-content">
+                                        <h4>Check in with authorities</h4>
+                                        <p>Register at evacuation center, let them know you're safe</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">10</div>
+                                    <div class="step-content">
+                                        <h4>Contact family and friends</h4>
+                                        <p>Use text messages to preserve phone capacity for emergencies</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">11</div>
+                                    <div class="step-content">
+                                        <h4>Monitor official updates</h4>
+                                        <p>Stay informed about fire status and return instructions</p>
+                                    </div>
+                                </li>
+                                <li class="evacuation-step">
+                                    <div class="step-icon">12</div>
+                                    <div class="step-content">
+                                        <h4>Do NOT return early</h4>
+                                        <p>Wait for official all-clear from authorities before returning</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fire Survival if Trapped -->
+        <section id="trapped" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header emergency-header">
+                    <h2>🆘 If You Cannot Evacuate</h2>
+                    <div class="emergency-warning">
+                        <strong>LAST RESORT ONLY:</strong> These procedures are for when evacuation is impossible
+                    </div>
+                </div>
+
+                <div class="survival-scenarios">
+                    <!-- Trapped in Vehicle -->
+                    <div class="survival-scenario">
+                        <h3>🚗 Trapped in Vehicle</h3>
+                        <div class="scenario-steps">
+                            <div class="survival-step critical">
+                                <strong>1. Stay in vehicle</strong> - Better protection than being outside
+                            </div>
+                            <div class="survival-step critical">
+                                <strong>2. Call 911 immediately</strong> - Report exact location
+                            </div>
+                            <div class="survival-step">
+                                <strong>3. Park away from vegetation</strong> - Find open area, road center
+                            </div>
+                            <div class="survival-step">
+                                <strong>4. Close all windows and vents</strong> - Turn off AC/heat
+                            </div>
+                            <div class="survival-step">
+                                <strong>5. Get on floor</strong> - Cover with blankets, clothing
+                            </div>
+                            <div class="survival-step">
+                                <strong>6. Stay low until fire passes</strong> - Usually 15-30 minutes
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trapped in Building -->
+                    <div class="survival-scenario">
+                        <h3>🏠 Trapped in Building</h3>
+                        <div class="scenario-steps">
+                            <div class="survival-step critical">
+                                <strong>1. Call 911</strong> - Report your location and situation
+                            </div>
+                            <div class="survival-step critical">
+                                <strong>2. Stay inside</strong> - Buildings offer better protection
+                            </div>
+                            <div class="survival-step">
+                                <strong>3. Close all doors and windows</strong> - Seal gaps with wet towels
+                            </div>
+                            <div class="survival-step">
+                                <strong>4. Turn off gas and propane</strong> - Prevent explosions
+                            </div>
+                            <div class="survival-step">
+                                <strong>5. Fill bathtubs and sinks</strong> - Water for firefighting/drinking
+                            </div>
+                            <div class="survival-step">
+                                <strong>6. Move to safest room</strong> - Away from windows, multiple exits
+                            </div>
+                            <div class="survival-step">
+                                <strong>7. Monitor radio/phone</strong> - Stay connected to authorities
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trapped Outside -->
+                    <div class="survival-scenario">
+                        <h3>🏃 Trapped Outside</h3>
+                        <div class="scenario-steps">
+                            <div class="survival-step critical">
+                                <strong>1. Find shelter immediately</strong> - Buildings, vehicles, or depressions
+                            </div>
+                            <div class="survival-step critical">
+                                <strong>2. Stay low to ground</strong> - Smoke and heat rise
+                            </div>
+                            <div class="survival-step">
+                                <strong>3. Cover exposed skin</strong> - Use clothing, blankets, dirt
+                            </div>
+                            <div class="survival-step">
+                                <strong>4. Find water source</strong> - Stream, pond, or irrigation
+                            </div>
+                            <div class="survival-step">
+                                <strong>5. Avoid canyons and ridges</strong> - Fire moves faster uphill
+                            </div>
+                            <div class="survival-step">
+                                <strong>6. Signal for help</strong> - Whistle, bright clothing, mirror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="survival-tips">
+                    <h3>💡 Critical Survival Tips</h3>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">💨</div>
+                            <h4>Smoke Safety</h4>
+                            <ul>
+                                <li>Stay low - smoke rises</li>
+                                <li>Breathe through wet cloth</li>
+                                <li>Exit quickly through smoke</li>
+                                <li>If trapped, seal room from smoke</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🔥</div>
+                            <h4>Heat Protection</h4>
+                            <ul>
+                                <li>Cover all exposed skin</li>
+                                <li>Use natural fiber clothing</li>
+                                <li>Avoid synthetic materials</li>
+                                <li>Stay hydrated if possible</li>
+                            </ul>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">📍</div>
+                            <h4>Location Awareness</h4>
+                            <ul>
+                                <li>Know your exact address</li>
+                                <li>Share location with 911</li>
+                                <li>Identify nearest landmarks</li>
+                                <li>Stay in contact with authorities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communication & Alerts -->
+        <section id="alerts" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>📡 Emergency Alerts & Communication</h2>
+                    <p class="section-description">
+                        Stay connected and informed during wildfire emergencies through multiple alert systems 
+                        and communication channels.
+                    </p>
+                </div>
+
+                <div class="alert-systems">
+                    <div class="alert-category">
+                        <h3>🚨 Official Alert Systems</h3>
+                        <div class="alert-sources">
+                            <div class="alert-source">
+                                <div class="source-header">
+                                    <div class="source-icon">📱</div>
+                                    <h4>Wireless Emergency Alerts (WEA)</h4>
+                                    <span class="source-badge official">OFFICIAL</span>
+                                </div>
+                                <p>Automatic alerts sent to all cell phones in affected areas</p>
+                                <ul class="source-features">
+                                    <li>✅ No sign-up required</li>
+                                    <li>✅ Works on all modern phones</li>
+                                    <li>✅ Bypasses Do Not Disturb</li>
+                                    <li>⚠️ Cannot be turned off for Presidential alerts</li>
+                                </ul>
+                            </div>
+
+                            <div class="alert-source">
+                                <div class="source-header">
+                                    <div class="source-icon">📺</div>
+                                    <h4>Emergency Alert System (EAS)</h4>
+                                    <span class="source-badge official">OFFICIAL</span>
+                                </div>
+                                <p>Alerts broadcast on TV, radio, and cable systems</p>
+                                <ul class="source-features">
+                                    <li>✅ Interrupts regular programming</li>
+                                    <li>✅ Available 24/7</li>
+                                    <li>✅ Multiple languages</li>
+                                    <li>⚠️ Requires access to broadcast media</li>
+                                </ul>
+                            </div>
+
+                            <div class="alert-source">
+                                <div class="source-header">
+                                    <div class="source-icon">📻</div>
+                                    <h4>NOAA Weather Radio</h4>
+                                    <span class="source-badge official">OFFICIAL</span>
+                                </div>
+                                <p>Continuous weather and emergency information</p>
+                                <ul class="source-features">
+                                    <li>✅ 24/7 operation</li>
+                                    <li>✅ Battery backup available</li>
+                                    <li>✅ Specific location targeting</li>
+                                    <li>⚠️ Requires special radio</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert-category">
+                        <h3>🌐 Local Alert Systems</h3>
+                        <div class="local-systems">
+                            <div class="local-system">
+                                <h4>County/City Emergency Systems</h4>
+                                <ul>
+                                    <li><strong>California:</strong> AlertCA, Nixle, local county systems</li>
+                                    <li><strong>Oregon:</strong> ORAlert system</li>
+                                    <li><strong>Washington:</strong> WA State Emergency Management</li>
+                                    <li><strong>Colorado:</strong> CDEM alerts</li>
+                                    <li><strong>Texas:</strong> TxDPS alerts</li>
+                                </ul>
+                                <a href="#sign-up" class="sign-up-btn">Find Your Local System</a>
+                            </div>
+
+                            <div class="local-system">
+                                <h4>Fire Department Alerts</h4>
+                                <ul>
+                                    <li>CAL FIRE (California)</li>
+                                    <li>Local fire department social media</li>
+                                    <li>Fire district websites</li>
+                                    <li>Community notification systems</li>
+                                </ul>
+                                <a href="support.html" class="sign-up-btn">Emergency Contacts</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert-category">
+                        <h3>📱 Communication During Emergencies</h3>
+                        <div class="communication-tips">
+                            <div class="comm-tip">
+                                <h4>📲 Use Text Messages</h4>
+                                <p>Text messages often work when phone calls don't</p>
+                                <ul>
+                                    <li>Requires less bandwidth</li>
+                                    <li>Can be delayed but will eventually deliver</li>
+                                    <li>Preserves network capacity for emergency calls</li>
+                                </ul>
+                            </div>
+
+                            <div class="comm-tip">
+                                <h4>📧 Email and Social Media</h4>
+                                <p>Alternative communication methods</p>
+                                <ul>
+                                    <li>Post status on Facebook/Twitter</li>
+                                    <li>Use WiFi when cellular is down</li>
+                                    <li>Email updates to family contact list</li>
+                                </ul>
+                            </div>
+
+                            <div class="comm-tip">
+                                <h4>📞 Family Communication Plan</h4>
+                                <p>Establish an out-of-area contact</p>
+                                <ul>
+                                    <li>Choose contact outside your region</li>
+                                    <li>All family members should have the number</li>
+                                    <li>Update contact with your status</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Supplies -->
+        <section id="go-bag" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🎒 Emergency Go-Bag Essentials</h2>
+                    <p class="section-description">
+                        Pre-pack emergency supplies for immediate evacuation. Keep your go-bag accessible 
+                        and ready for departure within minutes.
+                    </p>
+                </div>
+
+                <div class="go-bag-checklist">
+                    <div class="bag-priorities">
+                        <div class="priority-level critical">
+                            <h3>🔴 Critical Items (Grab First)</h3>
+                            <div class="priority-items">
+                                <div class="item-category">
+                                    <h4>Essential Documents</h4>
+                                    <ul class="item-list">
+                                        <li><input type="checkbox"> Driver's license / ID</li>
+                                        <li><input type="checkbox"> Insurance papers (home, auto, health)</li>
+                                        <li><input type="checkbox"> Bank account information</li>
+                                        <li><input type="checkbox"> Medical information & prescriptions</li>
+                                        <li><input type="checkbox"> Emergency contacts list</li>
+                                        <li><input type="checkbox"> Cash in small bills</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="item-category">
+                                    <h4>Life-Sustaining Items</h4>
+                                    <ul class="item-list">
+                                        <li><input type="checkbox"> Prescription medications (7-day supply)</li>
+                                        <li><input type="checkbox"> Water (1 gallon per person)</li>
+                                        <li><input type="checkbox"> Non-perishable food (2-day supply)</li>
+                                        <li><input type="checkbox"> First aid kit</li>
+                                        <li><input type="checkbox"> Phone chargers & power banks</li>
+                                        <li><input type="checkbox"> Flashlight & extra batteries</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="priority-level important">
+                            <h3>🟡 Important Items (If Time Permits)</h3>
+                            <div class="priority-items">
+                                <div class="item-category">
+                                    <h4>Clothing & Protection</h4>
+                                    <ul class="item-list">
+                                        <li><input type="checkbox"> Change of clothes (3 days)</li>
+                                        <li><input type="checkbox"> Sturdy shoes & socks</li>
+                                        <li><input type="checkbox"> Rain gear or warm clothing</li>
+                                        <li><input type="checkbox"> Work gloves</li>
+                                        <li><input type="checkbox"> N95 masks or respirators</li>
+                                        <li><input type="checkbox"> Blankets or sleeping bags</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="item-category">
+                                    <h4>Tools & Supplies</h4>
+                                    <ul class="item-list">
+                                        <li><input type="checkbox"> Multi-tool or knife</li>
+                                        <li><input type="checkbox"> Duct tape</li>
+                                        <li><input type="checkbox"> Plastic bags (waterproof storage)</li>
+                                        <li><input type="checkbox"> Hand sanitizer</li>
+                                        <li><input type="checkbox"> Hygiene items</li>
+                                        <li><input type="checkbox"> Paper plates & utensils</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="priority-level comfort">
+                            <h3>🟢 Comfort Items (Space Permitting)</h3>
+                            <div class="priority-items">
+                                <div class="item-category">
+                                    <h4>Personal & Family</h4>
+                                    <ul class="item-list">
+                                        <li><input type="checkbox"> Important photos/keepsakes</li>
+                                        <li><input type="checkbox"> Children's comfort items</li>
+                                        <li><input type="checkbox"> Books or games</li>
+                                        <li><input type="checkbox"> Pet supplies & carriers</li>
+                                        <li><input type="checkbox"> Special dietary needs</li>
+                                        <li><input type="checkbox"> Religious items</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bag-tips">
+                        <h3>💡 Go-Bag Preparation Tips</h3>
+                        <div class="tips-container">
+                            <div class="tip-item">
+                                <h4>🎒 Choose the Right Bag</h4>
+                                <ul>
+                                    <li>Use a sturdy backpack or wheeled bag</li>
+                                    <li>Easy to carry for extended periods</li>
+                                    <li>Multiple compartments for organization</li>
+                                    <li>Weather-resistant material</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip-item">
+                                <h4>📅 Maintenance Schedule</h4>
+                                <ul>
+                                    <li>Check/rotate food and water every 6 months</li>
+                                    <li>Update medications before expiration</li>
+                                    <li>Replace batteries annually</li>
+                                    <li>Update documents and contacts yearly</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip-item">
+                                <h4>📍 Storage Location</h4>
+                                <ul>
+                                    <li>Keep near main exit or in car</li>
+                                    <li>Multiple family members should know location</li>
+                                    <li>Consider one bag per vehicle</li>
+                                    <li>Protect from extreme temperatures</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vehicle Preparation -->
+        <section id="vehicle-prep" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🚗 Vehicle Emergency Preparedness</h2>
+                    <p class="section-description">
+                        Ensure your vehicle is ready for emergency evacuation with proper maintenance 
+                        and emergency supplies.
+                    </p>
+                </div>
+
+                <div class="vehicle-checklist">
+                    <div class="vehicle-maintenance">
+                        <h3>🔧 Regular Maintenance</h3>
+                        <div class="maintenance-grid">
+                            <div class="maintenance-item">
+                                <h4>⛽ Fuel System</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Keep tank at least half full</li>
+                                    <li><input type="checkbox"> Test fuel gauge accuracy</li>
+                                    <li><input type="checkbox"> Know local gas stations</li>
+                                    <li><input type="checkbox"> Consider extra fuel container</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="maintenance-item">
+                                <h4>🔋 Electrical System</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Test battery & charging system</li>
+                                    <li><input type="checkbox"> Clean battery terminals</li>
+                                    <li><input type="checkbox"> Check all lights & signals</li>
+                                    <li><input type="checkbox"> Test horn and emergency flashers</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="maintenance-item">
+                                <h4>🛞 Tires & Brakes</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Check tire pressure monthly</li>
+                                    <li><input type="checkbox"> Inspect tire tread depth</li>
+                                    <li><input type="checkbox"> Test spare tire condition</li>
+                                    <li><input type="checkbox"> Ensure jack & tools present</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="maintenance-item">
+                                <h4>🌡️ Cooling System</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Check coolant levels</li>
+                                    <li><input type="checkbox"> Test radiator & hoses</li>
+                                    <li><input type="checkbox"> Clean air filter</li>
+                                    <li><input type="checkbox"> Carry extra coolant/water</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-emergency-kit">
+                        <h3>🧰 Vehicle Emergency Kit</h3>
+                        <div class="kit-items">
+                            <div class="kit-category">
+                                <h4>🚗 Automotive Supplies</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Jumper cables or jump starter</li>
+                                    <li><input type="checkbox"> Tire pressure gauge & inflator</li>
+                                    <li><input type="checkbox"> Basic tool kit</li>
+                                    <li><input type="checkbox"> Motor oil & fluids</li>
+                                    <li><input type="checkbox"> Duct tape & zip ties</li>
+                                    <li><input type="checkbox"> Tow strap</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="kit-category">
+                                <h4>🆘 Emergency Supplies</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Fire extinguisher (ABC type)</li>
+                                    <li><input type="checkbox"> First aid kit</li>
+                                    <li><input type="checkbox"> Emergency water (1 gallon)</li>
+                                    <li><input type="checkbox"> Non-perishable snacks</li>
+                                    <li><input type="checkbox"> Emergency blankets</li>
+                                    <li><input type="checkbox"> Road flares or reflectors</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="kit-category">
+                                <h4>📱 Communication</h4>
+                                <ul>
+                                    <li><input type="checkbox"> Car phone charger</li>
+                                    <li><input type="checkbox"> Emergency radio</li>
+                                    <li><input type="checkbox"> Whistle</li>
+                                    <li><input type="checkbox"> Paper & pen</li>
+                                    <li><input type="checkbox"> Local maps (not GPS dependent)</li>
+                                    <li><input type="checkbox"> Emergency contact list</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="evacuation-routes">
+                        <h3>🗺️ Know Your Evacuation Routes</h3>
+                        <div class="route-planning">
+                            <div class="route-tip">
+                                <h4>📍 Primary & Secondary Routes</h4>
+                                <ul>
+                                    <li>Identify multiple ways out of your area</li>
+                                    <li>Practice driving alternate routes</li>
+                                    <li>Consider different times of day/traffic</li>
+                                    <li>Know which roads can handle heavy traffic</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="route-tip">
+                                <h4>🏛️ Evacuation Centers</h4>
+                                <ul>
+                                    <li>Locate nearest evacuation centers</li>
+                                    <li>Know their addresses and routes</li>
+                                    <li>Understand their capacity and services</li>
+                                    <li>Have backup centers identified</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="route-tip">
+                                <h4>📱 Stay Updated</h4>
+                                <ul>
+                                    <li>Monitor traffic apps during evacuation</li>
+                                    <li>Listen to emergency radio broadcasts</li>
+                                    <li>Follow official social media accounts</li>
+                                    <li>Don't rely solely on GPS navigation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Home Depot Ad Banner -->
+    <aside class="ad-banner" 
+           role="complementary" 
+           aria-labelledby="ad-title">
+        <div class="ad-content">
+            <div class="ad-header">Advertisement - Home Depot Partnership</div>
+            
+            <div class="ad-logo">
+                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
+            </div>
+            
+            <div class="ad-text">
+                <h2 class="ad-title" id="ad-title">Emergency Safety & Evacuation Supplies</h2>
+                <p class="ad-description">Fire extinguishers, emergency kits, first aid supplies, vehicle safety gear & evacuation essentials</p>
+            </div>
+            
+            <a href="https://www.homedepot.com/c/emergency_safety" 
+               class="ad-cta" 
+               target="_blank" 
+               rel="noopener nofollow"
+               aria-label="Shop emergency safety supplies at Home Depot - opens in new tab"
+               onclick="trackAdClick('safety_page', 'emergency_safety_supplies')">
+                <span aria-hidden="true">🛡️</span>
+                Shop Safety Supplies
+            </a>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and safety education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌐 Global Coverage</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="support.html" class="footer-link">Emergency Contacts</a></li>
+                        <li><a href="blog.html" class="footer-link">Fire Safety Blog</a></li>
+                        <li><a href="api.html" class="footer-link">Developer API</a></li>
+                        <li><a href="research.html" class="footer-link">Research & Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- During a Fire Section -->
-    <section id="during-fire" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>During a Wildfire</h2>
-                <p class="section-subtitle">
-                    What to do when a wildfire is approaching or threatening your area
-                </p>
-            </div>
             
-            <div class="during-fire-grid">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <i class="fas fa-home"></i>
-                        <h3>If You're at Home</h3>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="action-list">
-                            <div class="action-item">
-                                <span class="action-number">1</span>
-                                <div class="action-text">
-                                    <strong>Monitor alerts</strong>
-                                    <p>Stay tuned to emergency radio or alerts on your phone</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">2</span>
-                                <div class="action-text">
-                                    <strong>Prepare to evacuate</strong>
-                                    <p>Have your emergency kit and important items ready</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">3</span>
-                                <div class="action-text">
-                                    <strong>Close all windows and doors</strong>
-                                    <p>Remove lightweight curtains and shut off gas valves</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">4</span>
-                                <div class="action-text">
-                                    <strong>Water your roof and surroundings</strong>
-                                    <p>If time permits and it's safe to do so</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
                 </div>
                 
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <i class="fas fa-car"></i>
-                        <h3>If You're in a Vehicle</h3>
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
                     </div>
-                    <div class="scenario-content">
-                        <div class="action-list">
-                            <div class="action-item">
-                                <span class="action-number">1</span>
-                                <div class="action-text">
-                                    <strong>Don't drive through flames</strong>
-                                    <p>Turn around and find an alternative route</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">2</span>
-                                <div class="action-text">
-                                    <strong>If trapped by fire</strong>
-                                    <p>Park away from vegetation, close windows, stay low</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">3</span>
-                                <div class="action-text">
-                                    <strong>Call 911</strong>
-                                    <p>Report your location and situation</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">4</span>
-                                <div class="action-text">
-                                    <strong>Cover yourself</strong>
-                                    <p>Use floor mats or clothing to protect from radiant heat</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <i class="fas fa-tree"></i>
-                        <h3>If You're Outdoors</h3>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="action-list">
-                            <div class="action-item">
-                                <span class="action-number">1</span>
-                                <div class="action-text">
-                                    <strong>Find a safe area</strong>
-                                    <p>Look for areas with sparse vegetation or bodies of water</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">2</span>
-                                <div class="action-text">
-                                    <strong>Stay low to ground</strong>
-                                    <p>Smoke and heat rise, so get as low as possible</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">3</span>
-                                <div class="action-text">
-                                    <strong>Cover nose and mouth</strong>
-                                    <p>Use clothing or wet cloth to filter smoke</p>
-                                </div>
-                            </div>
-                            <div class="action-item">
-                                <span class="action-number">4</span>
-                                <div class="action-text">
-                                    <strong>Call for help</strong>
-                                    <p>Signal your location with bright colors or noise</p>
-                                </div>
-                            </div>
-                        </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Smoke Safety -->
-    <section id="smoke-safety" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Protecting Yourself from Smoke</h2>
-                <p class="section-subtitle">
-                    Wildfire smoke can be dangerous to your health even from fires miles away
-                </p>
-            </div>
-            
-            <div class="smoke-safety-content">
-                <div class="smoke-effects">
-                    <h3>Health Effects of Smoke</h3>
-                    <div class="effects-grid">
-                        <div class="effect-item mild">
-                            <div class="effect-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="effect-content">
-                                <h4>Mild Effects</h4>
-                                <ul>
-                                    <li>Eye irritation</li>
-                                    <li>Runny nose</li>
-                                    <li>Mild cough</li>
-                                    <li>Phlegm production</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="effect-item moderate">
-                            <div class="effect-icon">
-                                <i class="fas fa-lungs"></i>
-                            </div>
-                            <div class="effect-content">
-                                <h4>Moderate Effects</h4>
-                                <ul>
-                                    <li>Shortness of breath</li>
-                                    <li>Wheezing</li>
-                                    <li>Chest tightness</li>
-                                    <li>Heart palpitations</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="effect-item severe">
-                            <div class="effect-icon">
-                                <i class="fas fa-heartbeat"></i>
-                            </div>
-                            <div class="effect-content">
-                                <h4>Severe Effects</h4>
-                                <ul>
-                                    <li>Severe breathing difficulty</li>
-                                    <li>Chest pain</li>
-                                    <li>Rapid heartbeat</li>
-                                    <li>Dizziness or fainting</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="smoke-protection">
-                    <h3>Protection Strategies</h3>
-                    <div class="protection-methods">
-                        <div class="method-card">
-                            <div class="method-header">
-                                <i class="fas fa-home"></i>
-                                <h4>Indoor Protection</h4>
-                            </div>
-                            <ul class="method-list">
-                                <li>Keep windows and doors closed</li>
-                                <li>Use air purifiers with HEPA filters</li>
-                                <li>Create a "clean room" with minimal air leaks</li>
-                                <li>Avoid activities that create more particles (smoking, candles)</li>
-                                <li>Use air conditioning on recirculate mode</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="method-card">
-                            <div class="method-header">
-                                <i class="fas fa-mask"></i>
-                                <h4>Personal Protection</h4>
-                            </div>
-                            <ul class="method-list">
-                                <li>Use N95 or P100 masks when outdoors</li>
-                                <li>Limit outdoor activities, especially exercise</li>
-                                <li>Stay indoors when air quality is poor</li>
-                                <li>Seek medical attention if symptoms worsen</li>
-                                <li>Follow local air quality alerts</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- After the Fire -->
-    <section id="after-fire" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>After the Fire</h2>
-                <p class="section-subtitle">
-                    Recovery and safety steps to take once the immediate threat has passed
-                </p>
-            </div>
-            
-            <div class="recovery-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-clock"></i>
-                        <span>Immediate</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>First 24-48 Hours</h4>
-                        <ul>
-                            <li>Wait for official all-clear before returning home</li>
-                            <li>Be cautious of hazards like hot ash, damaged power lines</li>
-                            <li>Check with authorities about water safety</li>
-                            <li>Document damage with photos for insurance</li>
-                            <li>Contact your insurance company as soon as possible</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-calendar-week"></i>
-                        <span>First Week</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>Initial Recovery</h4>
-                        <ul>
-                            <li>Begin cleanup only after getting professional assessment</li>
-                            <li>Hire certified contractors for major damage</li>
-                            <li>Keep receipts for all fire-related expenses</li>
-                            <li>Contact FEMA if federal disaster declared</li>
-                            <li>Reach out to local disaster relief organizations</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Long-term</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>Long-term Recovery</h4>
-                        <ul>
-                            <li>Consider counseling for trauma and stress</li>
-                            <li>Review and update your emergency plan</li>
-                            <li>Implement fire-resistant improvements when rebuilding</li>
-                            <li>Join community recovery and preparedness groups</li>
-                            <li>Help neighbors and share lessons learned</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Call to Action -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Take Action Today</h2>
-                <p>Don't wait until fire season starts. Begin your preparation now to protect what matters most.</p>
-                <div class="cta-buttons">
-                    <a href="/prevention/" class="btn btn-primary">
-                        <i class="fas fa-shield-alt"></i>
-                        Learn Fire Prevention
-                    </a>
-                    <a href="/#map" class="btn btn-secondary">
-                        <i class="fas fa-map-marked-alt"></i>
-                        Monitor Fire Activity
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Eye on the Fire</h4>
-                <p>America's premier wildfire tracking platform, providing real-time fire intelligence and safety resources to protect communities nationwide.</p>
-                <div class="social-links">
-                    <a href="https://twitter.com/eyeonthefire" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://facebook.com/eyeonthefire" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/eyeonthefire" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Safety Resources</h4>
-                <ul class="footer-links">
-                    <li><a href="#evacuation-plan">Evacuation Planning</a></li>
-                    <li><a href="#emergency-kit">Emergency Kit</a></li>
-                    <li><a href="#smoke-safety">Smoke Protection</a></li>
-                    <li><a href="/prevention/">Fire Prevention</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Emergency Contacts</h4>
-                <ul class="footer-links">
-                    <li><a href="tel:911">Emergency: 911</a></li>
-                    <li><a href="tel:211">Community Resources: 211</a></li>
-                    <li><a href="https://www.redcross.org" target="_blank">American Red Cross</a></li>
-                    <li><a href="https://www.ready.gov" target="_blank">Ready.gov</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Platform</h4>
-                <ul class="footer-links">
-                    <li><a href="/">Live Fire Map</a></li>
-                    <li><a href="/alerts/">Fire Alerts</a></li>
-                    <li><a href="/about/">About Us</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Eye on the Fire. All rights reserved. Information provided for educational purposes. Always follow official emergency guidance.</p>
         </div>
     </footer>
-    
+
     <!-- Scripts -->
-    <script src="/assets/js/app.js"></script>
-    
-    <!-- Page-specific functionality -->
     <script>
-        // Save checklist progress to localStorage
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            
-            // Load saved checkbox states
-            checkboxes.forEach(checkbox => {
-                const saved = localStorage.getItem(`safety_checklist_${checkbox.id}`);
-                if (saved === 'true') {
-                    checkbox.checked = true;
-                }
-                
-                // Save state when changed
-                checkbox.addEventListener('change', function() {
-                    localStorage.setItem(`safety_checklist_${this.id}`, this.checked);
+        // Emergency button styling
+        const emergencyBtn = document.querySelector('.emergency-btn');
+        if (emergencyBtn) {
+            emergencyBtn.style.background = '#dc2626';
+            emergencyBtn.style.color = 'white';
+            emergencyBtn.style.fontWeight = '700';
+            emergencyBtn.style.padding = '0.5rem 1rem';
+            emergencyBtn.style.borderRadius = '0.5rem';
+            emergencyBtn.style.textDecoration = 'none';
+            emergencyBtn.style.display = 'flex';
+            emergencyBtn.style.alignItems = 'center';
+            emergencyBtn.style.gap = '0.25rem';
+            emergencyBtn.style.minHeight = '44px';
+            emergencyBtn.style.whiteSpace = 'nowrap';
+        }
+        
+        // Ad click tracking
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
                 });
-            });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Emergency alert management
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+        
+        // Navigation functionality
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
             
-            // Smooth scrolling for internal links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
+            
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
+            
+            if (!isOpen) {
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
+            }
+        }
+        
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('.main-nav').offsetHeight;
+                    const elementPosition = targetElement.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    history.pushState(null, null, `#${targetId}`);
+                    targetElement.tabIndex = -1;
+                    targetElement.focus();
+                }
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeNavMenu();
+            }
+            
+            if ((e.key === 'Enter' || e.key === ' ') && 
+                e.target.hasAttribute('role') && 
+                e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+        
+        // Handle clicks outside menu
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !navMenuBtn.contains(e.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    event_category: 'Safety Center',
+                    event_label: 'safety_page_loaded'
+                });
+            }
+            
+            // Auto-scroll to hash on load
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('.main-nav').offsetHeight;
+                        const elementPosition = targetElement.offsetTop - navHeight - 20;
+                        
+                        window.scrollTo({
+                            top: elementPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 500);
+            }
+            
+            // Checklist interaction tracking
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (window.gtag && this.checked) {
+                        gtag('event', 'safety_checklist_completed', {
+                            event_category: 'User Engagement',
+                            event_label: this.id || 'unnamed_safety_item'
                         });
                     }
                 });
             });
+            
+            // Add visual feedback for emergency actions
+            const actionCards = document.querySelectorAll('.action-card');
+            actionCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (this.classList.contains('critical')) {
+                        this.style.transform = 'scale(1.02)';
+                        this.style.boxShadow = '0 8px 25px rgba(220, 38, 38, 0.3)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
         });
+        
+        // Placeholder location functionality
+        function findUserLocation() {
+            alert('Location functionality will be available when integrated with the main application.');
+        }
+        
+        // Placeholder for place management  
+        function addPlace(event) {
+            event.preventDefault();
+            alert('Place management will be available when integrated with the main application.');
+        }
     </script>
 </body>
 </html>
