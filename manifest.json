@@ -1,156 +1,166 @@
 {
-  "name": "Eye on the Fire - Wildfire Tracking Platform",
-  "short_name": "Eye on the Fire",
-  "description": "America's premier real-time wildfire tracking platform. Monitor active fires, get evacuation alerts, and access expert safety guides.",
+  "name": "Eye on the Fire - Real-Time Wildfire Tracking",
+  "short_name": "Eye on Fire",
+  "description": "Real-time wildfire tracking and emergency preparedness powered by NASA satellite data",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FF4444",
-  "orientation": "any",
+  "orientation": "portrait-primary",
+  "theme_color": "#dc2626",
+  "background_color": "#f9fafb",
   "scope": "/",
   "lang": "en-US",
-  "categories": ["news", "utilities", "weather"],
+  "dir": "ltr",
+  
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile fire map view with real-time wildfire locations"
+    },
+    {
+      "src": "/screenshots/mobile-2.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Fire details popup with emergency information"
+    },
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1920x1080", 
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop fire tracking dashboard"
+    }
+  ],
+  
+  "categories": [
+    "emergency",
+    "weather", 
+    "navigation",
+    "safety",
+    "news"
+  ],
+  
   "shortcuts": [
     {
-      "name": "Live Fire Map",
-      "short_name": "Fire Map",
-      "description": "View real-time wildfire tracking map",
-      "url": "/#map",
+      "name": "Locate Me",
+      "short_name": "Location",
+      "description": "Find fires near my location",
+      "url": "/?action=locate",
       "icons": [
         {
-          "src": "/images/icons/shortcut-map-96x96.png",
+          "src": "/icons/shortcut-location.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "Safety Guide",
-      "short_name": "Safety",
-      "description": "Access wildfire safety information",
-      "url": "/safety/",
+      "name": "Emergency Info",
+      "short_name": "Emergency",
+      "description": "View emergency preparedness information",
+      "url": "/?action=emergency",
       "icons": [
         {
-          "src": "/images/icons/shortcut-safety-96x96.png",
+          "src": "/icons/shortcut-emergency.png",
           "sizes": "96x96", 
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "Fire Prevention",
-      "short_name": "Prevention",
-      "description": "Learn fire prevention techniques",
-      "url": "/prevention/",
+      "name": "Refresh Fires",
+      "short_name": "Refresh",
+      "description": "Reload latest fire data",
+      "url": "/?action=refresh",
       "icons": [
         {
-          "src": "/images/icons/shortcut-prevention-96x96.png",
+          "src": "/icons/shortcut-refresh.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     }
   ],
-  "icons": [
-    {
-      "src": "/images/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-96x96.png", 
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-128x128.png",
-      "sizes": "128x128", 
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/images/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/images/screenshots/desktop-home.png",
-      "sizes": "1280x800",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Eye on the Fire homepage with live fire map"
-    },
-    {
-      "src": "/images/screenshots/mobile-map.png", 
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Interactive fire tracking map on mobile"
-    }
-  ],
+  
   "related_applications": [],
   "prefer_related_applications": false,
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+fire",
+      "url": "/?fire=%s"
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  
   "edge_side_panel": {
     "preferred_width": 400
   },
-  "file_handlers": [
-    {
-      "action": "/",
-      "accept": {
-        "text/csv": [".csv"]
-      },
-      "launch_type": "single-client"
-    }
-  ],
-  "protocol_handlers": [
-    {
-      "protocol": "web+eyeonthefire",
-      "url": "/#%s"
-    }
-  ],
-  "share_target": {
-    "action": "/share/",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text", 
-      "url": "url",
-      "files": [
-        {
-          "name": "files",
-          "accept": ["image/*", ".csv", ".kml"]
-        }
-      ]
-    }
+  
+  "launch_handler": {
+    "client_mode": "focus-existing"
   }
 }
