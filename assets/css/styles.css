@@ -1730,3 +1730,331 @@ textarea:focus {
     /* Optional: Add dark mode styles if needed */
     /* Currently maintaining light theme for emergency visibility */
 }
+/* Add these styles to your existing styles.css file */
+/* Eye on the Fire - Targeted Improvements for Fire Icons & Enhanced Features */
+
+/* === Unified Fire Icon System === */
+.unified-fire-marker {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fire-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1 !important;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.fire-icon.fire-high {
+  animation: fireFlicker 2s ease-in-out infinite;
+}
+
+.fire-icon.fire-medium {
+  animation: fireFlicker 3s ease-in-out infinite;
+}
+
+@keyframes fireFlicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  25% { opacity: 0.9; transform: scale(1.05); }
+  50% { opacity: 1; transform: scale(0.98); }
+  75% { opacity: 0.95; transform: scale(1.02); }
+}
+
+/* === Enhanced User Location Marker === */
+.user-location-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.user-marker {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-pulse {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  animation: userPulse 2s ease-out infinite;
+}
+
+.user-dot {
+  position: relative;
+  z-index: 2;
+  font-size: 16px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes userPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* === Enhanced Fire Popup Styling === */
+.fire-popup-content {
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.popup-header {
+  background: linear-gradient(135deg, #dc2626, #ea580c);
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.popup-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.popup-status {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.popup-status.status-danger {
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.popup-status.status-warning {
+  background: rgba(234, 88, 12, 0.9);
+}
+
+.popup-status.status-caution {
+  background: rgba(245, 158, 11, 0.9);
+}
+
+.popup-distance {
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+}
+
+.popup-metrics {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #f9fafb;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+}
+
+.metric-value.confidence-high {
+  color: #16a34a;
+}
+
+.metric-value.confidence-medium {
+  color: #ea580c;
+}
+
+.metric-value.confidence-low {
+  color: #dc2626;
+}
+
+.popup-location {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.location-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.coordinates {
+  font-family: 'Monaco', 'Menlo', monospace;
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.coordinates-copy {
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.coordinates-copy:hover {
+  color: #ea580c;
+}
+
+.popup-detection {
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.detection-label {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.detection-time {
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 13px;
+}
+
+.popup-actions {
+  display: flex;
+  border-top: 1px solid #e5e7eb;
+}
+
+.action-btn {
+  flex: 1;
+  border: none;
+  padding: 12px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  color: #374151;
+  border-right: 1px solid #e5e7eb;
+}
+
+.action-btn:last-child {
+  border-right: none;
+}
+
+.action-btn:hover {
+  background: #f9fafb;
+}
+
+.action-btn.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: #1d4ed8;
+}
+
+.action-btn.secondary:hover {
+  background: #ea580c;
+  color: white;
+}
+
+.action-btn.tertiary:hover {
+  background: #16a34a;
+  color: white;
+}
+
+/* === Mobile Optimizations === */
+@media (max-width: 768px) {
+  .fire-popup-content {
+    min-width: 260px;
+    max-width: 280px;
+  }
+  
+  .popup-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+  
+  .action-btn {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-metrics {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .metric {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  .fire-popup-content {
+    min-width: 240px;
+    max-width: 260px;
+  }
+}
+
+/* === Performance Optimizations === */
+.leaflet-marker-icon {
+  transform-origin: center;
+}
+
+/* === Accessibility === */
+button:focus,
+.action-btn:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* === Reduced Motion Support === */
+@media (prefers-reduced-motion: reduce) {
+  .fire-icon,
+  .user-pulse {
+    animation: none !important;
+  }
+  
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
