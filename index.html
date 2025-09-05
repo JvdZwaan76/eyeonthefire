@@ -11,9 +11,11 @@
     <!-- Impact Site Verification -->
     <meta name='impact-site-verification' value='5135b3c5-99d2-452f-8041-6191024afe84'>
     
+    <!-- Content Security Policy - Fixed for Google Analytics -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://unpkg.com https://fonts.googleapis.com https://nominatim.openstreetmap.org https://server.arcgisonline.com https://*.tile.openstreetmap.org https://www.homedepot.com; frame-src 'none'; base-uri 'self'; form-action 'self';">
+    
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
@@ -255,7 +257,7 @@
             <!-- Prominent Locate Me Button -->
             <button class="locate-me-btn" 
                     id="locateMeBtn" 
-                    onclick="findUserLocation()" 
+                    onclick="window.eyeOnTheFire?.findUserLocation?.()" 
                     aria-label="Find fires near my current location"
                     title="Get personalized fire alerts for your area">
                 <span class="button-icon" aria-hidden="true">📍</span>
@@ -408,7 +410,7 @@
             <div class="quick-actions" role="group" aria-label="Map navigation actions">
                 <button class="action-button primary" 
                         id="showAllBtn" 
-                        onclick="showAllFires()" 
+                        onclick="window.eyeOnTheFire?.showAllFires?.()" 
                         aria-label="Show all active fires on the map">
                     <span class="button-icon" aria-hidden="true">🔥</span>
                     <span class="button-label">All Fires</span>
@@ -416,7 +418,7 @@
                 
                 <button class="action-button" 
                         id="refreshBtn" 
-                        onclick="refreshFireData()" 
+                        onclick="window.eyeOnTheFire?.refreshFireData?.()" 
                         aria-label="Refresh fire data from NASA satellites">
                     <span class="button-icon" aria-hidden="true">🔄</span>
                     <span class="button-label">Refresh</span>
@@ -424,7 +426,7 @@
                 
                 <button class="action-button" 
                         id="nearbyBtn" 
-                        onclick="showNearbyFires()" 
+                        onclick="window.eyeOnTheFire?.showNearbyFires?.()" 
                         aria-label="Show fires near your location"
                         style="display: none;">
                     <span class="button-icon" aria-hidden="true">📍</span>
@@ -446,7 +448,7 @@
                     Fires Near Your Location
                 </h3>
                 <button class="panel-close" 
-                        onclick="closeNearbyPanel()" 
+                        onclick="window.eyeOnTheFire?.closeNearbyPanel?.()" 
                         aria-label="Close nearby fires panel">×</button>
             </div>
             
@@ -522,11 +524,11 @@
 
     <!-- Location Permission Request Modal -->
     <div id="locationModal" class="location-modal" style="display: none;" role="dialog" aria-labelledby="location-modal-title" aria-modal="true">
-        <div class="modal-overlay" onclick="closeLocationModal()"></div>
+        <div class="modal-overlay" onclick="window.eyeOnTheFire?.closeLocationModal?.()"></div>
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="location-modal-title">📍 Enable Location Services</h3>
-                <button class="modal-close" onclick="closeLocationModal()" aria-label="Close modal">×</button>
+                <button class="modal-close" onclick="window.eyeOnTheFire?.closeLocationModal?.()" aria-label="Close modal">×</button>
             </div>
             <div class="modal-body">
                 <p>Allow location access to:</p>
@@ -540,7 +542,7 @@
             </div>
             <div class="modal-actions">
                 <button class="modal-btn primary" onclick="requestLocationPermission()">Enable Location</button>
-                <button class="modal-btn secondary" onclick="closeLocationModal()">Maybe Later</button>
+                <button class="modal-btn secondary" onclick="window.eyeOnTheFire?.closeLocationModal?.()">Maybe Later</button>
             </div>
         </div>
     </div>
@@ -552,10 +554,8 @@
         let loadSteps = 0;
         const totalSteps = 4;
         
-        // State variables
-        let userLocation = null;
+        // State variables - REMOVED duplicate userLocation to fix error
         let savedPlaces = [];
-        let isLocationEnabled = false;
         
         // Ad click tracking for analytics
         function trackAdClick(placement, content) {
@@ -615,6 +615,14 @@
             navMenu.classList.remove('active');
             navMenu.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+        }
+        
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+                alert.setAttribute('aria-hidden', 'true');
+            }
         }
         
         // Add Places functionality with cookies
@@ -728,168 +736,13 @@
             }
         }
         
-        // Enhanced Location Services
-        function findUserLocation() {
-            const button = document.getElementById('locateMeBtn');
-            const locationStatus = document.getElementById('locationStatus');
-            const locationText = document.getElementById('locationText');
-            
-            // Check if browser supports geolocation
-            if (!navigator.geolocation) {
-                alert('Geolocation is not supported by your browser. Please enter your location manually in the "Add Places" section.');
-                return;
-            }
-            
-            // Show location permission modal first
-            showLocationModal();
-        }
-        
-        function showLocationModal() {
-            const modal = document.getElementById('locationModal');
-            modal.style.display = 'flex';
-            modal.setAttribute('aria-hidden', 'false');
-            
-            // Focus on primary button
-            const primaryBtn = modal.querySelector('.modal-btn.primary');
-            if (primaryBtn) {
-                setTimeout(() => primaryBtn.focus(), 100);
-            }
-        }
-        
-        function closeLocationModal() {
-            const modal = document.getElementById('locationModal');
-            modal.style.display = 'none';
-            modal.setAttribute('aria-hidden', 'true');
-        }
-        
+        // Location Services - Updated to use global API
         async function requestLocationPermission() {
-            const button = document.getElementById('locateMeBtn');
-            const locationStatus = document.getElementById('locationStatus');
-            const locationText = document.getElementById('locationText');
-            const nearbyBtn = document.getElementById('nearbyBtn');
-            
-            closeLocationModal();
-            
-            // Update button state
-            const originalContent = button.innerHTML;
-            button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Finding...</span>';
-            button.disabled = true;
-            
-            // Show location status
-            locationStatus.style.display = 'flex';
-            locationText.textContent = 'Getting your location...';
-            
-            try {
-                const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(
-                        resolve,
-                        reject,
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 15000,
-                            maximumAge: 300000 // 5 minutes
-                        }
-                    );
-                });
-                
-                userLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    accuracy: position.coords.accuracy
-                };
-                
-                isLocationEnabled = true;
-                
-                // Update UI elements
-                button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Location Found</span>';
-                button.style.background = '#16a34a'; // Green for success
-                
-                // Show nearby button
-                nearbyBtn.style.display = 'flex';
-                
-                // Determine user's location context
-                await determineLocationContext();
-                
-                // Auto-show nearby fires
-                if (window.eyeOnTheFire && window.eyeOnTheFire.showNearbyFires) {
-                    await window.eyeOnTheFire.showNearbyFires();
-                }
-                
-                // Track analytics
-                if (window.gtag) {
-                    gtag('event', 'location_enabled', {
-                        event_category: 'User Engagement',
-                        event_label: 'geolocation_success'
-                    });
-                }
-                
-            } catch (error) {
-                console.error('Geolocation error:', error);
-                
-                let errorMessage = 'Unable to determine location.';
-                if (error.code === 1) {
-                    errorMessage = 'Location access denied. You can manually add places to monitor in the menu.';
-                } else if (error.code === 2) {
-                    errorMessage = 'Location unavailable. Please check your device settings.';
-                } else if (error.code === 3) {
-                    errorMessage = 'Location request timed out. Please try again.';
-                }
-                
-                locationText.textContent = errorMessage;
-                button.innerHTML = '<span class="button-icon">📍</span><span class="button-text">Try Again</span>';
-                button.style.background = '#dc2626'; // Red for error
-                
-                // Track analytics
-                if (window.gtag) {
-                    gtag('event', 'location_error', {
-                        event_category: 'User Engagement',
-                        event_label: `geolocation_error_${error.code}`,
-                        non_interaction: true
-                    });
-                }
-                
-            } finally {
-                button.disabled = false;
-                setTimeout(() => {
-                    locationStatus.style.display = 'none';
-                }, 3000);
-            }
-        }
-        
-        async function determineLocationContext() {
-            if (!userLocation) return;
-            
-            try {
-                // Use reverse geocoding to determine state/country
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLocation.lat}&lon=${userLocation.lng}&zoom=5&addressdetails=1`,
-                    { headers: { 'User-Agent': 'EyeOnTheFire/2.0 (https://eyeonthefire.com)' }}
-                );
-                
-                const data = await response.json();
-                const locationText = document.getElementById('locationText');
-                
-                if (data && data.address) {
-                    const state = data.address.state;
-                    const country = data.address.country;
-                    
-                    userLocation.state = state;
-                    userLocation.country = country;
-                    
-                    if (country === 'United States') {
-                        if (state === 'California') {
-                            locationText.textContent = `📍 California - Showing CA fires`;
-                        } else {
-                            locationText.textContent = `📍 ${state} - Showing fires nationwide`;
-                        }
-                    } else {
-                        locationText.textContent = `📍 ${country} - Limited fire data available`;
-                    }
-                }
-                
-            } catch (error) {
-                console.error('Error determining location context:', error);
-                document.getElementById('locationText').textContent = '📍 Location found - Loading fire data';
+            if (window.eyeOnTheFire && window.eyeOnTheFire.findUserLocation) {
+                await window.eyeOnTheFire.findUserLocation();
+            } else {
+                console.warn('Main application not loaded yet, trying fallback location method');
+                // Fallback method will be available once app.js loads
             }
         }
         
@@ -908,13 +761,17 @@
                 // Close menu with Escape
                 if (event.key === 'Escape') {
                     closeNavMenu();
-                    closeLocationModal();
+                    if (window.eyeOnTheFire?.closeLocationModal) {
+                        window.eyeOnTheFire.closeLocationModal();
+                    }
                 }
                 
                 // Quick location shortcut (Ctrl/Cmd + L)
                 if ((event.ctrlKey || event.metaKey) && event.key === 'l') {
                     event.preventDefault();
-                    findUserLocation();
+                    if (window.eyeOnTheFire?.findUserLocation) {
+                        window.eyeOnTheFire.findUserLocation();
+                    }
                 }
             });
             
@@ -941,15 +798,6 @@
             enhanceKeyboardNavigation();
             
             updateProgress(2, 'Initializing application components...');
-            
-            // Check for saved location preference
-            const savedLocationPref = localStorage.getItem('eyeonthefire_location_enabled');
-            if (savedLocationPref === 'true') {
-                // Auto-request location if previously enabled
-                setTimeout(() => {
-                    requestLocationPermission();
-                }, 2000);
-            }
             
             // Announce app ready to screen readers
             setTimeout(() => {
