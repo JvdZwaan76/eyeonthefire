@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Comprehensive overview of wildfire data sources powering Eye on the Fire. Learn about NASA FIRMS, NOAA, USGS, satellite data, APIs, and real-time fire detection technology.">
+    <meta name="keywords" content="wildfire data sources, NASA FIRMS, NOAA fire data, USGS fire monitoring, satellite fire detection, fire APIs, real-time fire data, fire intelligence">
+    <meta name="author" content="Eye on the Fire">
+    <title>Fire Data Sources & APIs | Eye on the Fire - Technology & Intelligence</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8RE6KDBEW', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Critical Path Optimization -->
+    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/css/data-sources.css" as="style">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/data-sources.css">
+    
+    <!-- App Manifest & Icons -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#ea580c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Fire Data Sources & APIs - Eye on the Fire">
+    <meta property="og:description" content="Explore the comprehensive data sources powering real-time wildfire intelligence, including NASA FIRMS, NOAA, and satellite technology.">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com/data-sources.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fire Data Sources & APIs - Eye on the Fire">
+    <meta name="twitter:description" content="Professional wildfire data sources and satellite intelligence technology.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Wildfire Data Sources and Intelligence Technology",
+        "description": "Comprehensive overview of data sources powering real-time wildfire monitoring and intelligence",
+        "author": {
+            "@type": "Organization",
+            "name": "Eye on the Fire"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Eye on the Fire",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://eyeonthefire.com/images/eyeonthefire-logo.png"
+            }
+        },
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-01-01"
+    }
+    </script>
+
+    <!-- Dataset Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "Eye on the Fire Wildfire Intelligence Dataset",
+        "description": "Real-time wildfire detection and monitoring data aggregated from NASA FIRMS, NOAA, USGS, and other authoritative sources",
+        "creator": {
+            "@type": "Organization",
+            "name": "Eye on the Fire"
+        },
+        "provider": [
+            {
+                "@type": "Organization",
+                "name": "NASA FIRMS"
+            },
+            {
+                "@type": "Organization", 
+                "name": "NOAA"
+            },
+            {
+                "@type": "Organization",
+                "name": "USGS"
+            }
+        ],
+        "temporalCoverage": "2025/ongoing",
+        "spatialCoverage": "Global",
+        "license": "https://earthdata.nasa.gov/data-use-policy"
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    <a href="#data-overview" class="skip-link">Skip to data overview</a>
+    
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
+        <div class="alert-content">
+            <span class="alert-icon" aria-hidden="true">⚠️</span>
+            <span class="alert-text" id="alert-message"></span>
+            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
+        <!-- Clickable Brand -->
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Live Status -->
+            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
+                <div class="live-indicator">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-text">Live</span>
+                </div>
+            </div>
+            
+            <!-- Emergency Button -->
+            <a href="tel:911" class="emergency-btn" 
+               aria-label="Call 911 for immediate emergency assistance"
+               title="Call 911 - Emergency Services">
+                <span class="button-icon" aria-hidden="true">🚨</span>
+                <span class="button-text">Call 911</span>
+            </a>
+            
+            <!-- Locate Me Button -->
+            <button class="locate-me-btn" 
+                    id="locateMeBtn" 
+                    onclick="findUserLocation()" 
+                    aria-label="Find fires near my current location"
+                    title="Get personalized fire alerts for your area">
+                <span class="button-icon" aria-hidden="true">📍</span>
+                <span class="button-text">Locate Me</span>
+            </button>
+            
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
+                </div>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
+            </div>
+            
+            <!-- Emergency Contacts Section -->
+            <div class="emergency-contacts-section">
+                <h3 class="section-title">🚨 Emergency Contacts</h3>
+                <div class="emergency-contacts">
+                    <a href="tel:911" class="emergency-contact primary">
+                        <span class="contact-icon">🚨</span>
+                        <span class="contact-info">
+                            <span class="contact-number">911</span>
+                            <span class="contact-label">Emergency Services</span>
+                        </span>
+                    </a>
+                    <a href="tel:988" class="emergency-contact">
+                        <span class="contact-icon">🧠</span>
+                        <span class="contact-info">
+                            <span class="contact-number">988</span>
+                            <span class="contact-label">Crisis Support</span>
+                        </span>
+                    </a>
+                    <a href="tel:211" class="emergency-contact">
+                        <span class="contact-icon">ℹ️</span>
+                        <span class="contact-info">
+                            <span class="contact-number">211</span>
+                            <span class="contact-label">Information & Referral</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link" role="menuitem">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
+                
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="page-container" id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section class="data-hero" role="banner">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Fire Data Sources & Intelligence Technology</h1>
+                    <p class="hero-subtitle">
+                        Powered by real-time satellite data from NASA FIRMS, NOAA, USGS, and authoritative fire agencies worldwide. Discover the technology behind professional wildfire intelligence.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#data-overview" class="hero-btn primary">Explore Data Sources</a>
+                        <a href="#api-access" class="hero-btn secondary">API Documentation</a>
+                    </div>
+                </div>
+                <div class="data-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">< 15min</div>
+                        <div class="stat-label">Data Latency</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Satellite Systems</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Global Coverage</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Overview -->
+        <section id="data-overview" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🛰️ Real-Time Fire Detection Technology</h2>
+                    <p class="section-description">
+                        Our platform aggregates and processes fire data from multiple authoritative sources, providing comprehensive wildfire intelligence with sub-15-minute latency from satellite detection to your screen.
+                    </p>
+                </div>
+
+                <div class="data-flow">
+                    <div class="flow-step">
+                        <div class="step-icon">🛰️</div>
+                        <h3>Satellite Detection</h3>
+                        <p>Advanced thermal sensors detect heat signatures from orbit</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-icon">📡</div>
+                        <h3>Ground Processing</h3>
+                        <p>NASA and NOAA process raw satellite data into fire locations</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-icon">🔄</div>
+                        <h3>Data Integration</h3>
+                        <p>Our systems aggregate and validate multiple data streams</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-icon">📱</div>
+                        <h3>Real-Time Display</h3>
+                        <p>Processed intelligence delivered to your map and alerts</p>
+                    </div>
+                </div>
+
+                <div class="technology-overview">
+                    <div class="tech-stats">
+                        <div class="tech-stat">
+                            <div class="stat-value">375m</div>
+                            <div class="stat-desc">Minimum fire detection resolution from MODIS sensors</div>
+                        </div>
+                        <div class="tech-stat">
+                            <div class="stat-value">98.7%</div>
+                            <div class="stat-desc">Accuracy rate for confirmed fire detections</div>
+                        </div>
+                        <div class="tech-stat">
+                            <div class="stat-value">15min</div>
+                            <div class="stat-desc">Maximum latency from satellite pass to data availability</div>
+                        </div>
+                        <div class="tech-stat">
+                            <div class="stat-value">4x</div>
+                            <div class="stat-desc">Daily global coverage from polar-orbiting satellites</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Primary Data Sources -->
+        <section id="primary-sources" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Primary Data Sources</h2>
+                    <p class="section-description">
+                        Our fire intelligence platform is built on data from the world's most authoritative fire monitoring organizations and satellite systems.
+                    </p>
+                </div>
+
+                <div class="sources-grid">
+                    <div class="source-card primary">
+                        <div class="source-header">
+                            <div class="source-logo">
+                                <div class="logo-placeholder">NASA</div>
+                            </div>
+                            <div class="source-info">
+                                <h3>NASA FIRMS</h3>
+                                <p class="source-subtitle">Fire Information for Resource Management System</p>
+                            </div>
+                            <div class="source-badge primary">PRIMARY</div>
+                        </div>
+                        <div class="source-details">
+                            <div class="source-description">
+                                <p>NASA's Fire Information for Resource Management System provides near real-time fire detection data from MODIS and VIIRS instruments aboard Terra, Aqua, Suomi NPP, and NOAA-20 satellites.</p>
+                            </div>
+                            <div class="source-specs">
+                                <div class="spec-item">
+                                    <span class="spec-label">Update Frequency:</span>
+                                    <span class="spec-value">Every 3-6 hours</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Spatial Resolution:</span>
+                                    <span class="spec-value">375m - 1km</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Coverage:</span>
+                                    <span class="spec-value">Global</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Data Latency:</span>
+                                    <span class="spec-value">3-15 minutes</span>
+                                </div>
+                            </div>
+                            <div class="source-satellites">
+                                <h4>Satellite Systems:</h4>
+                                <div class="satellite-list">
+                                    <span class="satellite">Terra MODIS</span>
+                                    <span class="satellite">Aqua MODIS</span>
+                                    <span class="satellite">Suomi NPP VIIRS</span>
+                                    <span class="satellite">NOAA-20 VIIRS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="source-actions">
+                            <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener" class="source-link">Visit NASA FIRMS</a>
+                            <a href="#nasa-api" class="source-api">API Details</a>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-logo">
+                                <div class="logo-placeholder">NOAA</div>
+                            </div>
+                            <div class="source-info">
+                                <h3>NOAA Fire Weather</h3>
+                                <p class="source-subtitle">National Weather Service Fire Weather Program</p>
+                            </div>
+                            <div class="source-badge weather">WEATHER</div>
+                        </div>
+                        <div class="source-details">
+                            <div class="source-description">
+                                <p>NOAA provides critical fire weather forecasts, Red Flag Warnings, and atmospheric conditions that influence fire behavior and spread patterns.</p>
+                            </div>
+                            <div class="source-specs">
+                                <div class="spec-item">
+                                    <span class="spec-label">Update Frequency:</span>
+                                    <span class="spec-value">Hourly</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Forecast Range:</span>
+                                    <span class="spec-value">7 days</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Coverage:</span>
+                                    <span class="spec-value">United States</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Data Types:</span>
+                                    <span class="spec-value">Weather, Alerts, Forecasts</span>
+                                </div>
+                            </div>
+                            <div class="source-products">
+                                <h4>Key Products:</h4>
+                                <div class="product-list">
+                                    <span class="product">Red Flag Warnings</span>
+                                    <span class="product">Fire Weather Watches</span>
+                                    <span class="product">Wind Speed/Direction</span>
+                                    <span class="product">Relative Humidity</span>
+                                    <span class="product">Temperature Trends</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="source-actions">
+                            <a href="https://www.weather.gov/fire/" target="_blank" rel="noopener" class="source-link">Visit NOAA Fire Weather</a>
+                            <a href="#noaa-api" class="source-api">API Details</a>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-logo">
+                                <div class="logo-placeholder">USGS</div>
+                            </div>
+                            <div class="source-info">
+                                <h3>USGS Wildland Fire</h3>
+                                <p class="source-subtitle">United States Geological Survey Fire Science</p>
+                            </div>
+                            <div class="source-badge research">RESEARCH</div>
+                        </div>
+                        <div class="source-details">
+                            <div class="source-description">
+                                <p>USGS provides fire science research, historical fire data, and geospatial analysis supporting fire management and risk assessment.</p>
+                            </div>
+                            <div class="source-specs">
+                                <div class="spec-item">
+                                    <span class="spec-label">Data Type:</span>
+                                    <span class="spec-value">Historical, Research</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Time Series:</span>
+                                    <span class="spec-value">1984-Present</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Coverage:</span>
+                                    <span class="spec-value">United States</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Applications:</span>
+                                    <span class="spec-value">Risk Analysis, Trends</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="source-actions">
+                            <a href="https://www.usgs.gov/mission-areas/natural-hazards/wildland-fire" target="_blank" rel="noopener" class="source-link">Visit USGS Fire</a>
+                            <a href="#usgs-data" class="source-api">Data Access</a>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-logo">
+                                <div class="logo-placeholder">CAL</div>
+                            </div>
+                            <div class="source-info">
+                                <h3>CAL FIRE</h3>
+                                <p class="source-subtitle">California Department of Forestry and Fire Protection</p>
+                            </div>
+                            <div class="source-badge regional">REGIONAL</div>
+                        </div>
+                        <div class="source-details">
+                            <div class="source-description">
+                                <p>CAL FIRE provides official incident information, evacuation orders, and real-time fire perimeters for California wildfires.</p>
+                            </div>
+                            <div class="source-specs">
+                                <div class="spec-item">
+                                    <span class="spec-label">Update Frequency:</span>
+                                    <span class="spec-value">Real-time</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Data Type:</span>
+                                    <span class="spec-value">Incidents, Perimeters</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Coverage:</span>
+                                    <span class="spec-value">California</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-label">Authority:</span>
+                                    <span class="spec-value">Official State Agency</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="source-actions">
+                            <a href="https://www.fire.ca.gov/" target="_blank" rel="noopener" class="source-link">Visit CAL FIRE</a>
+                            <a href="#calfire-data" class="source-api">Data Access</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Satellite Systems -->
+        <section id="satellite-systems" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🛰️ Satellite Fire Detection Systems</h2>
+                    <p class="section-description">
+                        Multiple satellite systems provide continuous global fire monitoring using advanced thermal infrared sensors to detect heat signatures from space.
+                    </p>
+                </div>
+
+                <div class="satellite-fleet">
+                    <div class="satellite-category">
+                        <h3>Polar-Orbiting Satellites</h3>
+                        <div class="satellites-grid">
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>Terra (EOS AM-1)</h4>
+                                        <p class="satellite-mission">NASA Earth Observation System</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">MODIS</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Launch:</span>
+                                            <span class="spec-value">December 1999</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Orbit:</span>
+                                            <span class="spec-value">705 km, Sun-synchronous</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Pass Time:</span>
+                                            <span class="spec-value">10:30 AM local</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">1 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>36-band spectral imaging</li>
+                                            <li>Thermal infrared channels 21-22</li>
+                                            <li>Contextual fire detection algorithm</li>
+                                            <li>Global coverage every 1-2 days</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>Aqua (EOS PM-1)</h4>
+                                        <p class="satellite-mission">NASA Earth Observation System</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">MODIS</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Launch:</span>
+                                            <span class="spec-value">May 2002</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Orbit:</span>
+                                            <span class="spec-value">705 km, Sun-synchronous</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Pass Time:</span>
+                                            <span class="spec-value">1:30 PM local</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">1 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>Identical MODIS instrument to Terra</li>
+                                            <li>Afternoon overpass complements Terra</li>
+                                            <li>Enhanced fire radiative power</li>
+                                            <li>Improved cloud detection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>Suomi NPP</h4>
+                                        <p class="satellite-mission">NOAA/NASA Joint Mission</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">VIIRS</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Launch:</span>
+                                            <span class="spec-value">October 2011</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Orbit:</span>
+                                            <span class="spec-value">824 km, Sun-synchronous</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Pass Time:</span>
+                                            <span class="spec-value">1:30 PM local</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">375 m</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>375m fire detection (highest resolution)</li>
+                                            <li>Visible Infrared Imaging Radiometer</li>
+                                            <li>Day/night band for nighttime fires</li>
+                                            <li>Improved small fire detection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>NOAA-20</h4>
+                                        <p class="satellite-mission">NOAA Weather Satellite</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">VIIRS</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Launch:</span>
+                                            <span class="spec-value">November 2017</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Orbit:</span>
+                                            <span class="spec-value">824 km, Sun-synchronous</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Pass Time:</span>
+                                            <span class="spec-value">1:30 PM local</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">375 m</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>Next-generation VIIRS instrument</li>
+                                            <li>Improved radiometric calibration</li>
+                                            <li>Enhanced fire radiative power</li>
+                                            <li>Backup to Suomi NPP</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="satellite-category">
+                        <h3>Geostationary Satellites</h3>
+                        <div class="satellites-grid">
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>GOES-16 (GOES-East)</h4>
+                                        <p class="satellite-mission">NOAA Geostationary Weather</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">ABI</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Position:</span>
+                                            <span class="spec-value">75.2°W</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Coverage:</span>
+                                            <span class="spec-value">Eastern US, Atlantic</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Update:</span>
+                                            <span class="spec-value">Every 5-15 minutes</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">2 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>Advanced Baseline Imager (ABI)</li>
+                                            <li>Continuous monitoring capability</li>
+                                            <li>Rapid scan for active fires</li>
+                                            <li>Fire temperature and size estimation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="satellite-card">
+                                <div class="satellite-header">
+                                    <div class="satellite-icon">🛰️</div>
+                                    <div class="satellite-info">
+                                        <h4>GOES-17 (GOES-West)</h4>
+                                        <p class="satellite-mission">NOAA Geostationary Weather</p>
+                                    </div>
+                                    <div class="satellite-status active">ACTIVE</div>
+                                </div>
+                                <div class="satellite-details">
+                                    <div class="satellite-specs">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Instrument:</span>
+                                            <span class="spec-value">ABI</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Position:</span>
+                                            <span class="spec-value">137.2°W</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Coverage:</span>
+                                            <span class="spec-value">Western US, Pacific</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Update:</span>
+                                            <span class="spec-value">Every 5-15 minutes</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fire Resolution:</span>
+                                            <span class="spec-value">2 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="satellite-capabilities">
+                                        <h5>Fire Detection Capabilities:</h5>
+                                        <ul>
+                                            <li>Optimized for western US fires</li>
+                                            <li>High temporal resolution</li>
+                                            <li>Fire growth tracking</li>
+                                            <li>Real-time fire behavior analysis</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detection-technology">
+                    <h3>🔬 Fire Detection Technology</h3>
+                    <div class="tech-explainer">
+                        <div class="tech-section">
+                            <h4>Thermal Infrared Detection</h4>
+                            <p>Satellites detect fires using thermal infrared sensors that measure heat signatures. Fire pixels are identified when surface temperatures exceed ambient conditions by specific thresholds, typically indicating temperatures above 320°C (608°F).</p>
+                            <div class="tech-details">
+                                <div class="tech-detail">
+                                    <span class="detail-label">Detection Algorithm:</span>
+                                    <span class="detail-value">Contextual fire detection using thermal channels</span>
+                                </div>
+                                <div class="tech-detail">
+                                    <span class="detail-label">Minimum Fire Size:</span>
+                                    <span class="detail-value">0.01 hectares (100 m²) under ideal conditions</span>
+                                </div>
+                                <div class="tech-detail">
+                                    <span class="detail-label">Detection Confidence:</span>
+                                    <span class="detail-value">Low (30-80%) to High (80-100%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-section">
+                            <h4>Quality Control & Validation</h4>
+                            <p>Fire detections undergo multiple quality control steps including cloud masking, water body filtering, and contextual analysis to minimize false positives from industrial sources, gas flares, and other heat sources.</p>
+                            <div class="validation-steps">
+                                <div class="validation-step">
+                                    <span class="step-number">1</span>
+                                    <span class="step-desc">Cloud and atmospheric correction</span>
+                                </div>
+                                <div class="validation-step">
+                                    <span class="step-number">2</span>
+                                    <span class="step-desc">Contextual analysis of surrounding pixels</span>
+                                </div>
+                                <div class="validation-step">
+                                    <span class="step-number">3</span>
+                                    <span class="step-desc">Land use and persistent source filtering</span>
+                                </div>
+                                <div class="validation-step">
+                                    <span class="step-number">4</span>
+                                    <span class="step-desc">Multi-temporal consistency checking</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Documentation -->
+        <section id="api-access" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🔌 API Access & Integration</h2>
+                    <p class="section-description">
+                        Access real-time fire data through our APIs and integrate wildfire intelligence into your applications, research, or emergency response systems.
+                    </p>
+                </div>
+
+                <div class="api-overview">
+                    <div class="api-features">
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Real-Time Data</h3>
+                            <p>Access fire detections within 15 minutes of satellite observation</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🌍</div>
+                            <h3>Global Coverage</h3>
+                            <p>Worldwide fire monitoring from multiple satellite systems</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Rich Metadata</h3>
+                            <p>Fire confidence, brightness temperature, and acquisition time</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔗</div>
+                            <h3>RESTful APIs</h3>
+                            <p>Standard REST endpoints with JSON responses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-endpoints">
+                    <div class="endpoint-category">
+                        <h3>Fire Detection Endpoints</h3>
+                        <div class="endpoints-list">
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="http-method get">GET</span>
+                                    <span class="endpoint-path">/api/v1/fires/active</span>
+                                </div>
+                                <div class="endpoint-description">
+                                    <p>Retrieve currently active fire detections within specified area or time range</p>
+                                </div>
+                                <div class="endpoint-params">
+                                    <h5>Parameters:</h5>
+                                    <div class="param-list">
+                                        <div class="param-item">
+                                            <span class="param-name">bbox</span>
+                                            <span class="param-type">string</span>
+                                            <span class="param-desc">Bounding box coordinates (min_lon,min_lat,max_lon,max_lat)</span>
+                                        </div>
+                                        <div class="param-item">
+                                            <span class="param-name">hours</span>
+                                            <span class="param-type">integer</span>
+                                            <span class="param-desc">Hours back from current time (default: 24)</span>
+                                        </div>
+                                        <div class="param-item">
+                                            <span class="param-name">confidence</span>
+                                            <span class="param-type">string</span>
+                                            <span class="param-desc">Minimum confidence level (low, nominal, high)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="endpoint-example">
+                                    <h5>Example Request:</h5>
+                                    <code>GET /api/v1/fires/active?bbox=-124.4,32.5,-114.1,42.0&hours=12&confidence=nominal</code>
+                                </div>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="http-method get">GET</span>
+                                    <span class="endpoint-path">/api/v1/fires/point</span>
+                                </div>
+                                <div class="endpoint-description">
+                                    <p>Get fire detections near a specific location with radius search</p>
+                                </div>
+                                <div class="endpoint-params">
+                                    <h5>Parameters:</h5>
+                                    <div class="param-list">
+                                        <div class="param-item">
+                                            <span class="param-name">lat</span>
+                                            <span class="param-type">float</span>
+                                            <span class="param-desc">Latitude coordinate</span>
+                                        </div>
+                                        <div class="param-item">
+                                            <span class="param-name">lon</span>
+                                            <span class="param-type">float</span>
+                                            <span class="param-desc">Longitude coordinate</span>
+                                        </div>
+                                        <div class="param-item">
+                                            <span class="param-name">radius</span>
+                                            <span class="param-type">integer</span>
+                                            <span class="param-desc">Search radius in kilometers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="http-method get">GET</span>
+                                    <span class="endpoint-path">/api/v1/fires/incidents</span>
+                                </div>
+                                <div class="endpoint-description">
+                                    <p>Retrieve official fire incidents and perimeters from fire agencies</p>
+                                </div>
+                                <div class="endpoint-params">
+                                    <h5>Parameters:</h5>
+                                    <div class="param-list">
+                                        <div class="param-item">
+                                            <span class="param-name">state</span>
+                                            <span class="param-type">string</span>
+                                            <span class="param-desc">State code (CA, OR, WA, etc.)</span>
+                                        </div>
+                                        <div class="param-item">
+                                            <span class="param-name">active</span>
+                                            <span class="param-type">boolean</span>
+                                            <span class="param-desc">Filter for active incidents only</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-category">
+                        <h3>Weather & Conditions</h3>
+                        <div class="endpoints-list">
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="http-method get">GET</span>
+                                    <span class="endpoint-path">/api/v1/weather/fire-conditions</span>
+                                </div>
+                                <div class="endpoint-description">
+                                    <p>Current fire weather conditions and Red Flag Warnings</p>
+                                </div>
+                            </div>
+
+                            <div class="endpoint-item">
+                                <div class="endpoint-header">
+                                    <span class="http-method get">GET</span>
+                                    <span class="endpoint-path">/api/v1/weather/forecast</span>
+                                </div>
+                                <div class="endpoint-description">
+                                    <p>Fire weather forecast including wind, humidity, and temperature</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-response-example">
+                    <h3>Response Format</h3>
+                    <div class="response-container">
+                        <div class="response-header">
+                            <span class="response-title">JSON Response Example</span>
+                            <span class="response-status">200 OK</span>
+                        </div>
+                        <pre class="response-code"><code>{
+  "status": "success",
+  "data": {
+    "fires": [
+      {
+        "id": "MODIS_C6_1_2023_001_123456",
+        "latitude": 34.0522,
+        "longitude": -118.2437,
+        "brightness": 325.6,
+        "confidence": "nominal",
+        "frp": 15.2,
+        "acquisition_date": "2025-01-15",
+        "acquisition_time": "2030",
+        "satellite": "Terra",
+        "instrument": "MODIS",
+        "version": "6.1NRT",
+        "bright_t31": 298.5,
+        "track": 1.2,
+        "daynight": "D"
+      }
+    ],
+    "metadata": {
+      "count": 1,
+      "area_km2": 12500,
+      "time_range": "2025-01-15T12:00:00Z/2025-01-15T24:00:00Z",
+      "update_frequency": "3-6 hours",
+      "source": "NASA FIRMS"
+    }
+  },
+  "links": {
+    "self": "/api/v1/fires/active?bbox=-119.0,33.5,-117.5,34.5",
+    "next": "/api/v1/fires/active?bbox=-119.0,33.5,-117.5,34.5&page=2"
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="api-authentication">
+                    <h3>🔐 Authentication & Rate Limits</h3>
+                    <div class="auth-info">
+                        <div class="auth-section">
+                            <h4>API Key Authentication</h4>
+                            <p>All API requests require a valid API key passed in the request header:</p>
+                            <code>Authorization: Bearer YOUR_API_KEY</code>
+                            <div class="auth-note">
+                                <strong>Note:</strong> API keys are available for research, emergency management, and commercial use. Contact us for access.
+                            </div>
+                        </div>
+                        <div class="rate-limits">
+                            <h4>Rate Limits</h4>
+                            <div class="limits-table">
+                                <div class="limit-row">
+                                    <span class="limit-tier">Free Tier</span>
+                                    <span class="limit-value">1,000 requests/day</span>
+                                </div>
+                                <div class="limit-row">
+                                    <span class="limit-tier">Research</span>
+                                    <span class="limit-value">10,000 requests/day</span>
+                                </div>
+                                <div class="limit-row">
+                                    <span class="limit-tier">Commercial</span>
+                                    <span class="limit-value">100,000+ requests/day</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-access-request">
+                    <div class="access-content">
+                        <h3>Request API Access</h3>
+                        <p>Get started with our fire intelligence APIs for your research, emergency management, or commercial applications.</p>
+                        <div class="access-actions">
+                            <a href="mailto:api@eyeonthefire.com" class="access-btn primary">Request API Key</a>
+                            <a href="/docs/api" class="access-btn secondary">Full Documentation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Quality & Limitations -->
+        <section id="data-quality" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>📊 Data Quality & Limitations</h2>
+                    <p class="section-description">
+                        Understanding the capabilities and limitations of satellite fire detection helps ensure proper interpretation and application of fire intelligence data.
+                    </p>
+                </div>
+
+                <div class="quality-sections">
+                    <div class="quality-grid">
+                        <div class="quality-card accuracy">
+                            <div class="quality-header">
+                                <div class="quality-icon">✓</div>
+                                <h3>Detection Accuracy</h3>
+                            </div>
+                            <div class="quality-content">
+                                <div class="accuracy-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">98.7%</span>
+                                        <span class="stat-label">True positive rate for confirmed fires</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">< 2%</span>
+                                        <span class="stat-label">False positive rate after filtering</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">85%</span>
+                                        <span class="stat-label">Detection rate for fires > 1 hectare</span>
+                                    </div>
+                                </div>
+                                <div class="accuracy-factors">
+                                    <h4>Factors Affecting Accuracy:</h4>
+                                    <ul>
+                                        <li>Fire size and intensity</li>
+                                        <li>Cloud cover and atmospheric conditions</li>
+                                        <li>Time of day and satellite viewing angle</li>
+                                        <li>Terrain and vegetation type</li>
+                                        <li>Background temperature variations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quality-card limitations">
+                            <div class="quality-header">
+                                <div class="quality-icon">⚠️</div>
+                                <h3>Known Limitations</h3>
+                            </div>
+                            <div class="quality-content">
+                                <div class="limitation-categories">
+                                    <div class="limitation-category">
+                                        <h4>Detection Challenges:</h4>
+                                        <ul>
+                                            <li><strong>Small fires:</strong> Fires < 0.5 hectares may not be detected</li>
+                                            <li><strong>Cloudy conditions:</strong> Clouds block thermal sensors</li>
+                                            <li><strong>Canopy fires:</strong> Dense forest cover can obscure detection</li>
+                                            <li><strong>Smoldering fires:</strong> Low-temperature fires may be missed</li>
+                                        </ul>
+                                    </div>
+                                    <div class="limitation-category">
+                                        <h4>Temporal Limitations:</h4>
+                                        <ul>
+                                            <li><strong>Satellite overpass:</strong> 2-4 observations per day maximum</li>
+                                            <li><strong>Processing time:</strong> 3-15 minute delay from observation</li>
+                                            <li><strong>Rapid spread:</strong> Fast-moving fires between overpasses</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quality-card confidence">
+                            <div class="quality-header">
+                                <div class="quality-icon">📈</div>
+                                <h3>Confidence Levels</h3>
+                            </div>
+                            <div class="quality-content">
+                                <div class="confidence-levels">
+                                    <div class="confidence-level high">
+                                        <div class="confidence-indicator"></div>
+                                        <div class="confidence-info">
+                                            <h4>High Confidence (80-100%)</h4>
+                                            <p>Strong thermal signature with contextual validation. Most likely active fire.</p>
+                                            <div class="confidence-criteria">
+                                                <span class="criteria">High brightness temperature</span>
+                                                <span class="criteria">Strong thermal contrast</span>
+                                                <span class="criteria">Persistent detection</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="confidence-level nominal">
+                                        <div class="confidence-indicator"></div>
+                                        <div class="confidence-info">
+                                            <h4>Nominal Confidence (30-80%)</h4>
+                                            <p>Moderate thermal signature. Likely fire but requires verification.</p>
+                                            <div class="confidence-criteria">
+                                                <span class="criteria">Moderate brightness</span>
+                                                <span class="criteria">Some thermal contrast</span>
+                                                <span class="criteria">Variable conditions</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="confidence-level low">
+                                        <div class="confidence-indicator"></div>
+                                        <div class="confidence-info">
+                                            <h4>Low Confidence (0-30%)</h4>
+                                            <p>Weak thermal signature. Possible fire or false positive.</p>
+                                            <div class="confidence-criteria">
+                                                <span class="criteria">Low brightness temperature</span>
+                                                <span class="criteria">Weak thermal contrast</span>
+                                                <span class="criteria">Uncertain conditions</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quality-card validation">
+                            <div class="quality-header">
+                                <div class="quality-icon">🔬</div>
+                                <h3>Quality Assurance</h3>
+                            </div>
+                            <div class="quality-content">
+                                <div class="qa-processes">
+                                    <h4>Automated Quality Control:</h4>
+                                    <div class="qa-steps">
+                                        <div class="qa-step">
+                                            <span class="step-number">1</span>
+                                            <div class="step-content">
+                                                <h5>Cloud Masking</h5>
+                                                <p>Remove detections obscured by clouds</p>
+                                            </div>
+                                        </div>
+                                        <div class="qa-step">
+                                            <span class="step-number">2</span>
+                                            <div class="step-content">
+                                                <h5>Water Body Filtering</h5>
+                                                <p>Exclude detections over water bodies</p>
+                                            </div>
+                                        </div>
+                                        <div class="qa-step">
+                                            <span class="step-number">3</span>
+                                            <div class="step-content">
+                                                <h5>Persistent Source Removal</h5>
+                                                <p>Filter known industrial heat sources</p>
+                                            </div>
+                                        </div>
+                                        <div class="qa-step">
+                                            <span class="step-number">4</span>
+                                            <div class="step-content">
+                                                <h5>Contextual Analysis</h5>
+                                                <p>Validate using surrounding pixel data</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="validation-sources">
+                                    <h4>Validation Methods:</h4>
+                                    <ul>
+                                        <li>Ground truth from fire agencies</li>
+                                        <li>Aircraft and drone observations</li>
+                                        <li>High-resolution satellite imagery</li>
+                                        <li>Cross-validation between sensors</li>
+                                        <li>Historical fire database comparison</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="best-practices">
+                    <h3>💡 Best Practices for Data Use</h3>
+                    <div class="practices-grid">
+                        <div class="practice-card">
+                            <div class="practice-icon">🎯</div>
+                            <h4>Interpretation Guidelines</h4>
+                            <ul>
+                                <li>Use high-confidence detections for critical decisions</li>
+                                <li>Consider multiple detection sources for validation</li>
+                                <li>Account for satellite overpass times in analysis</li>
+                                <li>Understand local fire behavior patterns</li>
+                                <li>Combine with weather and terrain data</li>
+                            </ul>
+                        </div>
+                        <div class="practice-card">
+                            <div class="practice-icon">⚡</div>
+                            <h4>Real-Time Applications</h4>
+                            <ul>
+                                <li>Monitor for new fire starts in high-risk areas</li>
+                                <li>Track fire progression between agency reports</li>
+                                <li>Alert systems for early fire detection</li>
+                                <li>Situational awareness for emergency response</li>
+                                <li>Resource allocation and deployment</li>
+                            </ul>
+                        </div>
+                        <div class="practice-card">
+                            <div class="practice-icon">📊</div>
+                            <h4>Analysis & Research</h4>
+                            <ul>
+                                <li>Long-term fire pattern analysis</li>
+                                <li>Climate change impact studies</li>
+                                <li>Fire risk modeling and prediction</li>
+                                <li>Ecosystem and carbon impact assessment</li>
+                                <li>Policy and management effectiveness</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Usage & Licensing -->
+        <section id="licensing" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>📜 Data Usage & Licensing</h2>
+                    <p class="section-description">
+                        Understanding data licensing terms, attribution requirements, and proper usage guidelines for fire intelligence data sources.
+                    </p>
+                </div>
+
+                <div class="licensing-overview">
+                    <div class="license-categories">
+                        <div class="license-card">
+                            <div class="license-header">
+                                <div class="license-icon">🏛️</div>
+                                <h3>Government Data</h3>
+                                <div class="license-badge public">PUBLIC DOMAIN</div>
+                            </div>
+                            <div class="license-content">
+                                <p><strong>NASA FIRMS, NOAA, and USGS data</strong> are in the public domain and freely available for all uses without restriction.</p>
+                                <div class="license-details">
+                                    <h4>Usage Rights:</h4>
+                                    <ul>
+                                        <li>Commercial and non-commercial use</li>
+                                        <li>Redistribution and modification allowed</li>
+                                        <li>No licensing fees or restrictions</li>
+                                        <li>Attribution recommended but not required</li>
+                                    </ul>
+                                    <h4>Recommended Attribution:</h4>
+                                    <p><em>"Fire data provided by NASA FIRMS, NOAA, and USGS"</em></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="license-card">
+                            <div class="license-header">
+                                <div class="license-icon">🏢</div>
+                                <h3>State & Local Data</h3>
+                                <div class="license-badge restricted">VARIES</div>
+                            </div>
+                            <div class="license-content">
+                                <p><strong>State fire agency data</strong> (CAL FIRE, etc.) may have specific usage terms and attribution requirements.</p>
+                                <div class="license-details">
+                                    <h4>Typical Requirements:</h4>
+                                    <ul>
+                                        <li>Attribution to source agency required</li>
+                                        <li>Non-commercial use may be preferred</li>
+                                        <li>Redistribution terms vary by agency</li>
+                                        <li>Real-time data may have restrictions</li>
+                                    </ul>
+                                    <h4>Example Attribution:</h4>
+                                    <p><em>"Fire incident data courtesy of CAL FIRE"</em></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="license-card">
+                            <div class="license-header">
+                                <div class="license-icon">⚙️</div>
+                                <h3>Eye on the Fire Platform</h3>
+                                <div class="license-badge custom">CUSTOM</div>
+                            </div>
+                            <div class="license-content">
+                                <p><strong>Our processed data and APIs</strong> are available under specific license terms based on usage type.</p>
+                                <div class="license-details">
+                                    <h4>License Tiers:</h4>
+                                    <ul>
+                                        <li><strong>Personal:</strong> Free for individual use</li>
+                                        <li><strong>Research:</strong> Free for academic research</li>
+                                        <li><strong>Emergency:</strong> Free for emergency response</li>
+                                        <li><strong>Commercial:</strong> Licensed for business use</li>
+                                    </ul>
+                                    <h4>Required Attribution:</h4>
+                                    <p><em>"Fire intelligence powered by Eye on the Fire"</em></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="attribution-examples">
+                    <h3>📝 Attribution Examples</h3>
+                    <div class="attribution-formats">
+                        <div class="format-example">
+                            <h4>Web Applications</h4>
+                            <div class="example-code">
+                                <code>&lt;p&gt;Fire data provided by NASA FIRMS, NOAA, and Eye on the Fire&lt;/p&gt;</code>
+                            </div>
+                        </div>
+                        <div class="format-example">
+                            <h4>Research Publications</h4>
+                            <div class="example-text">
+                                <p>"Fire detection data were obtained from NASA's Fire Information for Resource Management System (FIRMS) operated by the Land, Atmosphere Near real-time Capability for EOS (LANCE) system."</p>
+                            </div>
+                        </div>
+                        <div class="format-example">
+                            <h4>Mobile Applications</h4>
+                            <div class="example-code">
+                                <code>Data Sources: NASA FIRMS, NOAA, Eye on the Fire</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="usage-guidelines">
+                    <h3>⚖️ Usage Guidelines</h3>
+                    <div class="guidelines-grid">
+                        <div class="guideline-card">
+                            <div class="guideline-icon">✅</div>
+                            <h4>Encouraged Uses</h4>
+                            <ul>
+                                <li>Emergency response and public safety</li>
+                                <li>Scientific research and education</li>
+                                <li>Fire risk assessment and planning</li>
+                                <li>Environmental monitoring</li>
+                                <li>News and journalism</li>
+                                <li>Personal awareness and safety</li>
+                            </ul>
+                        </div>
+                        <div class="guideline-card">
+                            <div class="guideline-icon">⚠️</div>
+                            <h4>Use with Caution</h4>
+                            <ul>
+                                <li>Automated emergency decisions</li>
+                                <li>Insurance claim validation</li>
+                                <li>Legal proceedings evidence</li>
+                                <li>Property value assessments</li>
+                                <li>Evacuation order generation</li>
+                                <li>Resource allocation algorithms</li>
+                            </ul>
+                        </div>
+                        <div class="guideline-card">
+                            <div class="guideline-icon">❌</div>
+                            <h4>Prohibited Uses</h4>
+                            <ul>
+                                <li>Creating panic or false alarms</li>
+                                <li>Misrepresenting data accuracy</li>
+                                <li>Circumventing official channels</li>
+                                <li>Selling raw government data</li>
+                                <li>Violating privacy or safety</li>
+                                <li>Illegal or harmful activities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disclaimer-section">
+                    <h3>⚖️ Important Disclaimers</h3>
+                    <div class="disclaimer-content">
+                        <div class="disclaimer-box">
+                            <h4>🔥 Fire Data Accuracy</h4>
+                            <p>Satellite fire detection has inherent limitations and delays. Not all fires are detected, and false positives can occur. Always rely on official sources for emergency decisions.</p>
+                        </div>
+                        <div class="disclaimer-box">
+                            <h4>🚨 Emergency Use</h4>
+                            <p>This platform supplements but does not replace official emergency communications. Always follow instructions from local authorities and emergency management agencies.</p>
+                        </div>
+                        <div class="disclaimer-box">
+                            <h4>📊 Data Limitations</h4>
+                            <p>Fire intelligence is based on satellite observations subject to weather, timing, and technical constraints. Small fires, cloudy conditions, and rapid changes may not be captured.</p>
+                        </div>
+                        <div class="disclaimer-box">
+                            <h4>💼 Commercial Use</h4>
+                            <p>Commercial applications requiring high reliability, legal compliance, or service guarantees should contact us for enterprise licensing and support agreements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Home Depot Ad Banner -->
+    <aside class="ad-banner" 
+           role="complementary" 
+           aria-labelledby="ad-title">
+        <div class="ad-content">
+            <div class="ad-header">Advertisement - Home Depot Partnership</div>
+            
+            <div class="ad-logo">
+                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
+            </div>
+            
+            <div class="ad-text">
+                <h2 class="ad-title" id="ad-title">Professional Fire Monitoring Equipment</h2>
+                <p class="ad-description">Weather stations, thermal cameras, satellite communicators, emergency data backup & professional fire detection equipment</p>
+            </div>
+            
+            <a href="https://www.homedepot.com/c/professional_fire_monitoring" 
+               class="ad-cta" 
+               target="_blank" 
+               rel="noopener nofollow"
+               aria-label="Shop professional fire monitoring equipment at Home Depot - opens in new tab"
+               onclick="trackAdClick('data_sources_page', 'professional_monitoring_equipment')">
+                <span aria-hidden="true">📡</span>
+                Shop Monitoring Equipment
+            </a>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and safety education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌍 Global Coverage</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="support.html" class="footer-link">Emergency Contacts</a></li>
+                        <li><a href="blog.html" class="footer-link">Fire Safety Blog</a></li>
+                        <li><a href="api.html" class="footer-link">Developer API</a></li>
+                        <li><a href="research.html" class="footer-link">Research & Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Emergency button styling
+        const emergencyBtn = document.querySelector('.emergency-btn');
+        if (emergencyBtn) {
+            emergencyBtn.style.background = '#dc2626';
+            emergencyBtn.style.color = 'white';
+            emergencyBtn.style.fontWeight = '700';
+            emergencyBtn.style.padding = '0.5rem 1rem';
+            emergencyBtn.style.borderRadius = '0.5rem';
+            emergencyBtn.style.textDecoration = 'none';
+            emergencyBtn.style.display = 'flex';
+            emergencyBtn.style.alignItems = 'center';
+            emergencyBtn.style.gap = '0.25rem';
+            emergencyBtn.style.minHeight = '44px';
+            emergencyBtn.style.whiteSpace = 'nowrap';
+        }
+        
+        // Ad click tracking
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
+                });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Emergency alert management
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+        
+        // Navigation functionality
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
+            
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
+            
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
+            
+            if (!isOpen) {
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
+            }
+        }
+        
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('.main-nav').offsetHeight;
+                    const elementPosition = targetElement.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    history.pushState(null, null, `#${targetId}`);
+                    targetElement.tabIndex = -1;
+                    targetElement.focus();
+                }
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeNavMenu();
+            }
+            
+            if ((e.key === 'Enter' || e.key === ' ') && 
+                e.target.hasAttribute('role') && 
+                e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+        
+        // Handle clicks outside menu
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !navMenuBtn.contains(e.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    event_category: 'Data Sources',
+                    event_label: 'data_sources_page_loaded'
+                });
+            }
+            
+            // Auto-scroll to hash on load
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('.main-nav').offsetHeight;
+                        const elementPosition = targetElement.offsetTop - navHeight - 20;
+                        
+                        window.scrollTo({
+                            top: elementPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 500);
+            }
+            
+            // API link interaction tracking
+            document.querySelectorAll('.source-link, .source-api').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.gtag) {
+                        gtag('event', 'external_source_visited', {
+                            event_category: 'Data Sources',
+                            event_label: this.textContent.trim()
+                        });
+                    }
+                });
+            });
+            
+            // Satellite card interactions
+            document.querySelectorAll('.satellite-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('expanded');
+                });
+            });
+            
+            // Code example interactions
+            document.querySelectorAll('.response-code, .example-code').forEach(codeBlock => {
+                codeBlock.addEventListener('click', function() {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(this.textContent.trim()).then(() => {
+                            // Show copied feedback
+                            const originalText = this.textContent;
+                            this.style.backgroundColor = '#16a34a';
+                            this.style.color = 'white';
+                            setTimeout(() => {
+                                this.style.backgroundColor = '';
+                                this.style.color = '';
+                            }, 1000);
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Placeholder location functionality
+        function findUserLocation() {
+            alert('Location functionality will be available when integrated with the main application.');
+        }
+        
+        // Placeholder for place management  
+        function addPlace(event) {
+            event.preventDefault();
+            alert('Place management will be available when integrated with the main application.');
+        }
+        
+        // Data visualization toggle
+        function toggleVisualization(type) {
+            console.log('Toggle visualization:', type);
+            // Implementation for data visualization toggles
+        }
+        
+        // Service worker registration for offline API docs
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }).catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
