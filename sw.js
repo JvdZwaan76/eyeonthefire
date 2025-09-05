@@ -1,7 +1,7 @@
 /**
  * Eye on the Fire - Service Worker
  * PWA functionality for offline capabilities and caching
- * Version: 1.0.0
+ * Version: 1.0.0 - Production Ready
  */
 
 const CACHE_NAME = 'eyeonthefire-v1.0.0';
