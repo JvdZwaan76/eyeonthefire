@@ -746,6 +746,9 @@
             }
         }
         
+        // Global fallback for immediate access
+        window.requestLocationPermission = requestLocationPermission;
+        
         // Enhanced keyboard accessibility
         function enhanceKeyboardNavigation() {
             // Add keyboard support for buttons and interactive elements
