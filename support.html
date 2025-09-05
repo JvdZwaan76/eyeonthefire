@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Comprehensive wildfire emergency contacts and support resources. Find emergency numbers, evacuation centers, disaster relief, mental health support, and local fire department contacts nationwide.">
+    <meta name="keywords" content="wildfire emergency contacts, fire department phone numbers, evacuation centers, disaster relief, emergency services, crisis support, wildfire help, emergency assistance">
+    <meta name="author" content="Eye on the Fire">
+    <title>Emergency Contacts & Support Resources | Wildfire Help & Assistance</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8RE6KDBEW', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Critical Path Optimization -->
+    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/css/support.css" as="style">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/support.css">
+    
+    <!-- App Manifest & Icons -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#ea580c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Emergency Contacts & Wildfire Support Resources">
+    <meta property="og:description" content="Find emergency contacts, evacuation centers, disaster relief, and comprehensive wildfire support resources for your area.">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com/support.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wildfire Emergency Contacts & Support">
+    <meta name="twitter:description" content="Comprehensive emergency contacts and support resources for wildfire situations.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
+    
+    <!-- Structured Data for Emergency Services -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EmergencyService",
+        "name": "Wildfire Emergency Support Resources",
+        "url": "https://eyeonthefire.com/support.html",
+        "description": "Comprehensive wildfire emergency contacts and support resources",
+        "areaServed": "United States",
+        "serviceType": "Emergency Information Service",
+        "provider": {
+            "@type": "Organization",
+            "name": "Eye on the Fire",
+            "url": "https://eyeonthefire.com"
+        }
+    }
+    </script>
+
+    <!-- Local Business Schema for Emergency Services -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Emergency Contacts for Wildfire Situations",
+        "itemListElement": [
+            {
+                "@type": "EmergencyService",
+                "name": "Emergency Services",
+                "telephone": "911",
+                "description": "Immediate emergency assistance for life-threatening situations"
+            },
+            {
+                "@type": "EmergencyService", 
+                "name": "National Suicide Prevention Lifeline",
+                "telephone": "988",
+                "description": "24/7 mental health crisis support"
+            },
+            {
+                "@type": "EmergencyService",
+                "name": "American Red Cross",
+                "telephone": "1-800-733-2767",
+                "description": "Disaster relief and emergency assistance"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    <a href="#emergency-contacts" class="skip-link">Skip to emergency contacts</a>
+    
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
+        <div class="alert-content">
+            <span class="alert-icon" aria-hidden="true">⚠️</span>
+            <span class="alert-text" id="alert-message"></span>
+            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
+        <!-- Clickable Brand -->
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Live Status -->
+            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
+                <div class="live-indicator">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-text">Live</span>
+                </div>
+            </div>
+            
+            <!-- Emergency Button -->
+            <a href="tel:911" class="emergency-btn" 
+               aria-label="Call 911 for immediate emergency assistance"
+               title="Call 911 - Emergency Services">
+                <span class="button-icon" aria-hidden="true">🚨</span>
+                <span class="button-text">Call 911</span>
+            </a>
+            
+            <!-- Locate Me Button -->
+            <button class="locate-me-btn" 
+                    id="locateMeBtn" 
+                    onclick="findUserLocation()" 
+                    aria-label="Find fires near my current location"
+                    title="Get personalized fire alerts for your area">
+                <span class="button-icon" aria-hidden="true">📍</span>
+                <span class="button-text">Locate Me</span>
+            </button>
+            
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
+                </div>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
+            </div>
+            
+            <!-- Emergency Contacts Section -->
+            <div class="emergency-contacts-section">
+                <h3 class="section-title">🚨 Emergency Contacts</h3>
+                <div class="emergency-contacts">
+                    <a href="tel:911" class="emergency-contact primary">
+                        <span class="contact-icon">🚨</span>
+                        <span class="contact-info">
+                            <span class="contact-number">911</span>
+                            <span class="contact-label">Emergency Services</span>
+                        </span>
+                    </a>
+                    <a href="tel:988" class="emergency-contact">
+                        <span class="contact-icon">🧠</span>
+                        <span class="contact-info">
+                            <span class="contact-number">988</span>
+                            <span class="contact-label">Crisis Support</span>
+                        </span>
+                    </a>
+                    <a href="tel:211" class="emergency-contact">
+                        <span class="contact-icon">ℹ️</span>
+                        <span class="contact-info">
+                            <span class="contact-number">211</span>
+                            <span class="contact-label">Information & Referral</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link" role="menuitem">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
+                
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="page-container" id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section class="support-hero" role="banner">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Emergency Contacts & Support Resources</h1>
+                    <p class="hero-subtitle">
+                        Comprehensive emergency contacts, evacuation centers, disaster relief resources, and support services for wildfire situations. Get help when you need it most.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="tel:911" class="hero-btn emergency">Call 911 Now</a>
+                        <a href="#emergency-contacts" class="hero-btn secondary">Find Local Contacts</a>
+                    </div>
+                </div>
+                <div class="emergency-quick-access">
+                    <div class="quick-contact">
+                        <a href="tel:911" class="quick-btn critical">
+                            <span class="btn-icon">🚨</span>
+                            <span class="btn-text">Emergency Services</span>
+                            <span class="btn-number">911</span>
+                        </a>
+                    </div>
+                    <div class="quick-contact">
+                        <a href="tel:988" class="quick-btn mental">
+                            <span class="btn-icon">🧠</span>
+                            <span class="btn-text">Crisis Support</span>
+                            <span class="btn-number">988</span>
+                        </a>
+                    </div>
+                    <div class="quick-contact">
+                        <a href="tel:211" class="quick-btn info">
+                            <span class="btn-icon">ℹ️</span>
+                            <span class="btn-text">Information</span>
+                            <span class="btn-number">211</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Critical Emergency Contacts -->
+        <section id="emergency-contacts" class="content-section">
+            <div class="section-container">
+                <div class="section-header emergency-header">
+                    <h2>🚨 Critical Emergency Contacts</h2>
+                    <div class="emergency-warning">
+                        <strong>For immediate life-threatening emergencies, always call 911 first</strong>
+                    </div>
+                </div>
+
+                <div class="emergency-grid">
+                    <div class="emergency-card primary">
+                        <div class="card-header">
+                            <div class="card-icon">🚨</div>
+                            <div class="card-info">
+                                <h3>Emergency Services</h3>
+                                <p class="card-description">Fire, Police, Medical Emergency</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:911" class="contact-btn primary">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">911</span>
+                            </a>
+                            <div class="contact-note">Available 24/7 nationwide</div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-card mental-health">
+                        <div class="card-header">
+                            <div class="card-icon">🧠</div>
+                            <div class="card-info">
+                                <h3>Crisis & Mental Health Support</h3>
+                                <p class="card-description">Suicide Prevention & Crisis Counseling</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:988" class="contact-btn mental">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">988</span>
+                            </a>
+                            <div class="contact-note">24/7 confidential support</div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-card information">
+                        <div class="card-header">
+                            <div class="card-icon">ℹ️</div>
+                            <div class="card-info">
+                                <h3>Information & Referral</h3>
+                                <p class="card-description">Local Services & Resources</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:211" class="contact-btn info">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">211</span>
+                            </a>
+                            <div class="contact-note">Free, multilingual support</div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-card disaster">
+                        <div class="card-header">
+                            <div class="card-icon">🏠</div>
+                            <div class="card-info">
+                                <h3>Disaster Relief</h3>
+                                <p class="card-description">American Red Cross</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:1-800-733-2767" class="contact-btn disaster">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">(800) 733-2767</span>
+                            </a>
+                            <div class="contact-note">Shelter, food, emergency aid</div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-card federal">
+                        <div class="card-header">
+                            <div class="card-icon">🏛️</div>
+                            <div class="card-info">
+                                <h3>FEMA Disaster Assistance</h3>
+                                <p class="card-description">Federal Emergency Support</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:1-800-621-3362" class="contact-btn federal">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">(800) 621-3362</span>
+                            </a>
+                            <div class="contact-note">Financial assistance programs</div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-card poison">
+                        <div class="card-header">
+                            <div class="card-icon">☢️</div>
+                            <div class="card-info">
+                                <h3>Poison Control</h3>
+                                <p class="card-description">Smoke Inhalation & Poisoning</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="tel:1-800-222-1222" class="contact-btn poison">
+                                <span class="btn-label">Call</span>
+                                <span class="btn-number">(800) 222-1222</span>
+                            </a>
+                            <div class="contact-note">24/7 expert guidance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- State Emergency Resources -->
+        <section id="state-resources" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>State Emergency Management Agencies</h2>
+                    <p class="section-description">
+                        Contact your state emergency management agency for local evacuation information, shelter locations, and state-specific emergency resources.
+                    </p>
+                </div>
+
+                <div class="state-selector">
+                    <label for="stateSelect" class="selector-label">Select Your State:</label>
+                    <select id="stateSelect" class="state-dropdown" onchange="showStateInfo(this.value)">
+                        <option value="">Choose your state...</option>
+                        <option value="california">California</option>
+                        <option value="colorado">Colorado</option>
+                        <option value="oregon">Oregon</option>
+                        <option value="washington">Washington</option>
+                        <option value="arizona">Arizona</option>
+                        <option value="montana">Montana</option>
+                        <option value="idaho">Idaho</option>
+                        <option value="nevada">Nevada</option>
+                        <option value="newmexico">New Mexico</option>
+                        <option value="texas">Texas</option>
+                        <option value="utah">Utah</option>
+                        <option value="wyoming">Wyoming</option>
+                        <option value="other">Other State</option>
+                    </select>
+                </div>
+
+                <div class="state-info-container">
+                    <!-- California -->
+                    <div id="california-info" class="state-info" style="display: none;">
+                        <div class="state-header">
+                            <h3>California Emergency Resources</h3>
+                            <div class="state-badge">High Fire Risk State</div>
+                        </div>
+                        <div class="state-contacts">
+                            <div class="contact-group">
+                                <h4>🔥 CAL FIRE</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Emergency Line:</span>
+                                    <a href="tel:911" class="contact-link">911</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Non-Emergency:</span>
+                                    <a href="tel:1-916-653-7772" class="contact-link">(916) 653-7772</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Website:</span>
+                                    <a href="https://www.fire.ca.gov/" target="_blank" rel="noopener" class="contact-link">fire.ca.gov</a>
+                                </div>
+                            </div>
+                            <div class="contact-group">
+                                <h4>🏛️ Cal OES (Emergency Services)</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Main Line:</span>
+                                    <a href="tel:1-916-845-8510" class="contact-link">(916) 845-8510</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Website:</span>
+                                    <a href="https://www.caloes.ca.gov/" target="_blank" rel="noopener" class="contact-link">caloes.ca.gov</a>
+                                </div>
+                            </div>
+                            <div class="contact-group">
+                                <h4>📱 Alert Systems</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Wireless Emergency Alerts:</span>
+                                    <span class="contact-note">Automatic to all phones</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Local Alert Systems:</span>
+                                    <span class="contact-note">Check county websites</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colorado -->
+                    <div id="colorado-info" class="state-info" style="display: none;">
+                        <div class="state-header">
+                            <h3>Colorado Emergency Resources</h3>
+                            <div class="state-badge">High Fire Risk State</div>
+                        </div>
+                        <div class="state-contacts">
+                            <div class="contact-group">
+                                <h4>🏛️ Colorado Division of Emergency Management</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Emergency Line:</span>
+                                    <a href="tel:911" class="contact-link">911</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Main Line:</span>
+                                    <a href="tel:1-720-852-6600" class="contact-link">(720) 852-6600</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Website:</span>
+                                    <a href="https://dhsem.colorado.gov/" target="_blank" rel="noopener" class="contact-link">dhsem.colorado.gov</a>
+                                </div>
+                            </div>
+                            <div class="contact-group">
+                                <h4>🔥 Colorado State Forest Service</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Main Line:</span>
+                                    <a href="tel:1-970-491-6303" class="contact-link">(970) 491-6303</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Oregon -->
+                    <div id="oregon-info" class="state-info" style="display: none;">
+                        <div class="state-header">
+                            <h3>Oregon Emergency Resources</h3>
+                            <div class="state-badge">High Fire Risk State</div>
+                        </div>
+                        <div class="state-contacts">
+                            <div class="contact-group">
+                                <h4>🏛️ Oregon Emergency Management</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Emergency Line:</span>
+                                    <a href="tel:911" class="contact-link">911</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Main Line:</span>
+                                    <a href="tel:1-503-378-2911" class="contact-link">(503) 378-2911</a>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-label">Website:</span>
+                                    <a href="https://www.oregon.gov/oem/" target="_blank" rel="noopener" class="contact-link">oregon.gov/oem</a>
+                                </div>
+                            </div>
+                            <div class="contact-group">
+                                <h4>🔥 Oregon Department of Forestry</h4>
+                                <div class="contact-item">
+                                    <span class="contact-label">Fire Reports:</span>
+                                    <a href="tel:1-503-945-7200" class="contact-link">(503) 945-7200</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Default message for other states -->
+                    <div id="other-info" class="state-info" style="display: none;">
+                        <div class="state-header">
+                            <h3>Find Your State Resources</h3>
+                        </div>
+                        <div class="generic-resources">
+                            <p>For states not listed above, use these resources to find local emergency contacts:</p>
+                            <ul class="resource-list">
+                                <li><strong>Search "your state + emergency management"</strong> - Most states have dedicated emergency management websites</li>
+                                <li><strong>Contact your local fire department</strong> - They can provide area-specific emergency contacts</li>
+                                <li><strong>Call 211</strong> - Free information and referral service available nationwide</li>
+                                <li><strong>Visit ready.gov</strong> - Federal emergency preparedness resources and state links</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evacuation Centers -->
+        <section id="evacuation-centers" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🏠 Evacuation Centers & Shelters</h2>
+                    <p class="section-description">
+                        Find emergency shelters, evacuation centers, and temporary housing resources during wildfire evacuations. Centers are activated based on current emergency conditions.
+                    </p>
+                </div>
+
+                <div class="evacuation-info">
+                    <div class="evacuation-types">
+                        <div class="shelter-type">
+                            <div class="type-icon">🏫</div>
+                            <h3>Emergency Shelters</h3>
+                            <p>Immediate temporary housing with basic necessities including food, water, cots, and restroom facilities. Pet-friendly options often available.</p>
+                            <div class="type-features">
+                                <span class="feature">✓ Free accommodation</span>
+                                <span class="feature">✓ Basic meals provided</span>
+                                <span class="feature">✓ Medical support available</span>
+                                <span class="feature">✓ Pet areas (varies by location)</span>
+                            </div>
+                        </div>
+
+                        <div class="shelter-type">
+                            <div class="type-icon">🚐</div>
+                            <h3>RV Parks & Campgrounds</h3>
+                            <p>Alternative housing for those with RVs or camping equipment. Many offer discounted rates during emergencies.</p>
+                            <div class="type-features">
+                                <span class="feature">✓ Hookups available</span>
+                                <span class="feature">✓ Shower facilities</span>
+                                <span class="feature">✓ Pet-friendly</span>
+                                <span class="feature">✓ Extended stay options</span>
+                            </div>
+                        </div>
+
+                        <div class="shelter-type">
+                            <div class="type-icon">🏨</div>
+                            <h3>Emergency Housing</h3>
+                            <p>Temporary housing assistance through FEMA, Red Cross, and local organizations for displaced families.</p>
+                            <div class="type-features">
+                                <span class="feature">✓ Extended accommodations</span>
+                                <span class="feature">✓ Family units available</span>
+                                <span class="feature">✓ Financial assistance</span>
+                                <span class="feature">✓ Case management support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shelter-finder">
+                        <h3>How to Find Open Shelters</h3>
+                        <div class="finder-methods">
+                            <div class="finder-method">
+                                <div class="method-icon">📱</div>
+                                <h4>Red Cross Shelter Finder</h4>
+                                <p>Use the Red Cross "Find Open Shelters" tool online or call their hotline</p>
+                                <div class="method-actions">
+                                    <a href="https://www.redcross.org/get-help/disaster-relief-and-recovery-services/find-an-open-shelter" target="_blank" rel="noopener" class="method-link">Find Shelters Online</a>
+                                    <a href="tel:1-800-733-2767" class="method-phone">(800) 733-2767</a>
+                                </div>
+                            </div>
+
+                            <div class="finder-method">
+                                <div class="method-icon">📻</div>
+                                <h4>Local Emergency Broadcasts</h4>
+                                <p>Monitor local radio and TV stations for evacuation center announcements</p>
+                                <div class="method-actions">
+                                    <span class="method-note">Tune to local news stations</span>
+                                </div>
+                            </div>
+
+                            <div class="finder-method">
+                                <div class="method-icon">🏛️</div>
+                                <h4>Emergency Management</h4>
+                                <p>Contact your county or state emergency management office</p>
+                                <div class="method-actions">
+                                    <a href="tel:211" class="method-phone">Call 211 for referrals</a>
+                                </div>
+                            </div>
+
+                            <div class="finder-method">
+                                <div class="method-icon">📲</div>
+                                <h4>Emergency Alert Apps</h4>
+                                <p>Download your county's emergency alert app for real-time shelter information</p>
+                                <div class="method-actions">
+                                    <span class="method-note">Search "[your county] emergency app"</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shelter-tips">
+                        <h3>💡 Evacuation Shelter Tips</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>What to Bring</h4>
+                                <ul>
+                                    <li>Government-issued ID</li>
+                                    <li>Medications and medical supplies</li>
+                                    <li>Change of clothes and personal items</li>
+                                    <li>Important documents (copies)</li>
+                                    <li>Cash and credit cards</li>
+                                    <li>Pet supplies and carriers</li>
+                                    <li>Phone chargers</li>
+                                </ul>
+                            </div>
+
+                            <div class="tip-card">
+                                <h4>What's Typically Provided</h4>
+                                <ul>
+                                    <li>Cots or sleeping arrangements</li>
+                                    <li>Meals and snacks</li>
+                                    <li>Drinking water</li>
+                                    <li>Restroom and shower facilities</li>
+                                    <li>Basic first aid</li>
+                                    <li>Information and referral services</li>
+                                    <li>Communication access</li>
+                                </ul>
+                            </div>
+
+                            <div class="tip-card">
+                                <h4>Special Needs</h4>
+                                <ul>
+                                    <li>Medical equipment and oxygen</li>
+                                    <li>Wheelchair accessibility</li>
+                                    <li>Service animal accommodation</li>
+                                    <li>Interpreter services</li>
+                                    <li>Dietary restrictions</li>
+                                    <li>Mental health support</li>
+                                    <li>Children's needs and activities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mental Health & Crisis Support -->
+        <section id="mental-health" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🧠 Mental Health & Crisis Support</h2>
+                    <p class="section-description">
+                        Wildfire emergencies can cause significant stress, anxiety, and trauma. Professional mental health support is available 24/7 for those affected by wildfires.
+                    </p>
+                </div>
+
+                <div class="crisis-warning">
+                    <div class="warning-content">
+                        <div class="warning-icon">⚠️</div>
+                        <div class="warning-text">
+                            <h3>If you're having thoughts of suicide or self-harm</h3>
+                            <p>Call 988 (Suicide & Crisis Lifeline) immediately or go to your nearest emergency room. You are not alone.</p>
+                        </div>
+                        <div class="warning-actions">
+                            <a href="tel:988" class="crisis-btn">Call 988 Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mental-health-resources">
+                    <div class="resource-category">
+                        <h3>🆘 Crisis Support</h3>
+                        <div class="resource-list">
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>988 Suicide & Crisis Lifeline</h4>
+                                    <a href="tel:988" class="resource-phone">988</a>
+                                </div>
+                                <p>24/7 crisis support, suicide prevention, and emotional support. Free, confidential, and available nationwide.</p>
+                                <div class="resource-features">
+                                    <span class="feature">24/7 availability</span>
+                                    <span class="feature">Multilingual support</span>
+                                    <span class="feature">Chat and text options</span>
+                                </div>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Crisis Text Line</h4>
+                                    <a href="sms:741741" class="resource-phone">Text HOME to 741741</a>
+                                </div>
+                                <p>Free crisis counseling via text message. Trained counselors available 24/7 for anyone in crisis.</p>
+                                <div class="resource-features">
+                                    <span class="feature">Text-based support</span>
+                                    <span class="feature">Anonymous and confidential</span>
+                                    <span class="feature">All ages welcome</span>
+                                </div>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>SAMHSA Disaster Distress Helpline</h4>
+                                    <a href="tel:1-800-985-5990" class="resource-phone">(800) 985-5990</a>
+                                </div>
+                                <p>24/7 counseling for disaster-related emotional distress. Specifically trained for disaster situations.</p>
+                                <div class="resource-features">
+                                    <span class="feature">Disaster-specific support</span>
+                                    <span class="feature">Multilingual</span>
+                                    <span class="feature">Text TalkWithUs to 66746</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-category">
+                        <h3>👨‍⚕️ Professional Support</h3>
+                        <div class="resource-list">
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Psychology Today Provider Directory</h4>
+                                    <a href="https://www.psychologytoday.com/us/therapists" target="_blank" rel="noopener" class="resource-link">Find Therapists</a>
+                                </div>
+                                <p>Search for mental health professionals in your area who specialize in trauma, PTSD, and disaster recovery.</p>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Your Insurance Provider</h4>
+                                    <span class="resource-note">Call member services number on your insurance card</span>
+                                </div>
+                                <p>Most insurance plans cover mental health services. Many offer telehealth options during emergencies.</p>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Community Health Centers</h4>
+                                    <a href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener" class="resource-link">Find Health Centers</a>
+                                </div>
+                                <p>Federally qualified health centers often provide mental health services on a sliding fee scale.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-category">
+                        <h3>👨‍👩‍👧‍👦 Support Groups</h3>
+                        <div class="resource-list">
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>National Alliance on Mental Illness (NAMI)</h4>
+                                    <a href="tel:1-800-950-6264" class="resource-phone">(800) 950-NAMI</a>
+                                </div>
+                                <p>Free support groups, education programs, and helpline for mental health support.</p>
+                                <div class="resource-actions">
+                                    <a href="https://www.nami.org/Support-Education/Support-Groups" target="_blank" rel="noopener" class="action-link">Find Support Groups</a>
+                                </div>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Local Faith Communities</h4>
+                                    <span class="resource-note">Contact your local religious organizations</span>
+                                </div>
+                                <p>Many faith communities offer counseling services, support groups, and pastoral care during crises.</p>
+                            </div>
+
+                            <div class="resource-item">
+                                <div class="resource-header">
+                                    <h4>Disaster Recovery Support Groups</h4>
+                                    <span class="resource-note">Check with local mental health centers</span>
+                                </div>
+                                <p>Specialized support groups for people affected by natural disasters and traumatic events.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="self-care-tips">
+                    <h3>🌟 Self-Care During Wildfire Stress</h3>
+                    <div class="self-care-grid">
+                        <div class="self-care-item">
+                            <div class="care-icon">😌</div>
+                            <h4>Manage Information Intake</h4>
+                            <p>Limit news consumption to prevent overwhelm. Get updates from official sources only.</p>
+                        </div>
+
+                        <div class="self-care-item">
+                            <div class="care-icon">💪</div>
+                            <h4>Maintain Routines</h4>
+                            <p>Keep regular sleep, meal, and exercise schedules when possible to provide stability.</p>
+                        </div>
+
+                        <div class="self-care-item">
+                            <div class="care-icon">🤝</div>
+                            <h4>Stay Connected</h4>
+                            <p>Maintain contact with family and friends for emotional support and practical help.</p>
+                        </div>
+
+                        <div class="self-care-item">
+                            <div class="care-icon">🧘</div>
+                            <h4>Practice Relaxation</h4>
+                            <p>Use deep breathing, meditation, or other calming techniques to manage stress.</p>
+                        </div>
+
+                        <div class="self-care-item">
+                            <div class="care-icon">💊</div>
+                            <h4>Take Care of Physical Health</h4>
+                            <p>Stay hydrated, eat regular meals, and take medications as prescribed.</p>
+                        </div>
+
+                        <div class="self-care-item">
+                            <div class="care-icon">🚫</div>
+                            <h4>Avoid Unhealthy Coping</h4>
+                            <p>Limit alcohol and avoid drugs, which can worsen anxiety and depression.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insurance & Financial Resources -->
+        <section id="insurance-resources" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>💰 Insurance & Financial Resources</h2>
+                    <p class="section-description">
+                        Navigate insurance claims, find financial assistance, and access emergency funds after wildfire damage. Document everything and act quickly to protect your rights.
+                    </p>
+                </div>
+
+                <div class="financial-resources">
+                    <div class="resource-section">
+                        <h3>🏠 Insurance Claims Process</h3>
+                        <div class="process-steps">
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Contact Your Insurance Company Immediately</h4>
+                                    <p>Report the loss as soon as possible. Many insurers have 24/7 claim reporting hotlines.</p>
+                                    <div class="step-tips">
+                                        <span class="tip">Have your policy number ready</span>
+                                        <span class="tip">Report even if damage is unknown</span>
+                                        <span class="tip">Ask about immediate living expenses</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Document Everything</h4>
+                                    <p>Take photos and videos of all damage. Keep receipts for any emergency expenses.</p>
+                                    <div class="step-tips">
+                                        <span class="tip">Photo/video all damage</span>
+                                        <span class="tip">Make detailed lists of lost items</span>
+                                        <span class="tip">Save all evacuation expense receipts</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Prevent Further Damage</h4>
+                                    <p>Take reasonable steps to protect property from additional damage when safe to do so.</p>
+                                    <div class="step-tips">
+                                        <span class="tip">Board up openings</span>
+                                        <span class="tip">Cover damaged roofs</span>
+                                        <span class="tip">Remove water if possible</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Work with Insurance Adjuster</h4>
+                                    <p>Cooperate with the adjuster but know your rights. Consider hiring a public adjuster for major losses.</p>
+                                    <div class="step-tips">
+                                        <span class="tip">Be present during inspection</span>
+                                        <span class="tip">Point out all damage</span>
+                                        <span class="tip">Get estimates for repairs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="insurance-contacts">
+                            <h4>Key Insurance Resources</h4>
+                            <div class="contact-grid">
+                                <div class="contact-card">
+                                    <h5>California Department of Insurance</h5>
+                                    <div class="contact-details">
+                                        <a href="tel:1-800-927-4357" class="contact-phone">(800) 927-4357</a>
+                                        <a href="https://www.insurance.ca.gov/" target="_blank" rel="noopener" class="contact-link">insurance.ca.gov</a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-card">
+                                    <h5>National Association of Insurance Commissioners</h5>
+                                    <div class="contact-details">
+                                        <a href="https://www.naic.org/" target="_blank" rel="noopener" class="contact-link">naic.org</a>
+                                        <span class="contact-note">Find your state insurance department</span>
+                                    </div>
+                                </div>
+
+                                <div class="contact-card">
+                                    <h5>United Policyholders</h5>
+                                    <div class="contact-details">
+                                        <a href="tel:1-415-393-9990" class="contact-phone">(415) 393-9990</a>
+                                        <a href="https://uphelp.org/" target="_blank" rel="noopener" class="contact-link">uphelp.org</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-section">
+                        <h3>🏛️ Federal Financial Assistance</h3>
+                        <div class="assistance-programs">
+                            <div class="program-card">
+                                <div class="program-header">
+                                    <h4>FEMA Individual Assistance</h4>
+                                    <div class="program-contact">
+                                        <a href="tel:1-800-621-3362" class="contact-phone">(800) 621-3362</a>
+                                    </div>
+                                </div>
+                                <p>Federal grants for temporary housing, home repairs, and other disaster-related expenses.</p>
+                                <div class="program-details">
+                                    <h5>What's Covered:</h5>
+                                    <ul>
+                                        <li>Temporary housing assistance</li>
+                                        <li>Home repair and replacement</li>
+                                        <li>Personal property replacement</li>
+                                        <li>Medical and funeral expenses</li>
+                                        <li>Transportation costs</li>
+                                    </ul>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="https://www.disasterassistance.gov/" target="_blank" rel="noopener" class="action-btn">Apply Online</a>
+                                    <span class="action-note">Available when President declares disaster</span>
+                                </div>
+                            </div>
+
+                            <div class="program-card">
+                                <div class="program-header">
+                                    <h4>SBA Disaster Loans</h4>
+                                    <div class="program-contact">
+                                        <a href="tel:1-800-659-2955" class="contact-phone">(800) 659-2955</a>
+                                    </div>
+                                </div>
+                                <p>Low-interest loans for homeowners, renters, and businesses to repair or replace property.</p>
+                                <div class="program-details">
+                                    <h5>Loan Types:</h5>
+                                    <ul>
+                                        <li>Home disaster loans (up to $200,000)</li>
+                                        <li>Personal property loans (up to $40,000)</li>
+                                        <li>Business loans (up to $2 million)</li>
+                                        <li>Economic injury loans</li>
+                                    </ul>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="https://www.sba.gov/funding-programs/disaster-assistance" target="_blank" rel="noopener" class="action-btn">Learn More</a>
+                                    <span class="action-note">Interest rates as low as 1.563%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-section">
+                        <h3>🤝 Non-Profit Financial Assistance</h3>
+                        <div class="nonprofit-grid">
+                            <div class="nonprofit-card">
+                                <h4>American Red Cross</h4>
+                                <p>Emergency financial assistance for immediate needs like food, clothing, and temporary lodging.</p>
+                                <div class="nonprofit-contact">
+                                    <a href="tel:1-800-733-2767" class="contact-phone">(800) 733-2767</a>
+                                    <a href="https://www.redcross.org/" target="_blank" rel="noopener" class="contact-link">redcross.org</a>
+                                </div>
+                            </div>
+
+                            <div class="nonprofit-card">
+                                <h4>Salvation Army</h4>
+                                <p>Financial assistance, food, clothing, and shelter services for disaster victims.</p>
+                                <div class="nonprofit-contact">
+                                    <a href="tel:1-800-725-2769" class="contact-phone">(800) 725-2769</a>
+                                    <a href="https://www.salvationarmyusa.org/" target="_blank" rel="noopener" class="contact-link">salvationarmyusa.org</a>
+                                </div>
+                            </div>
+
+                            <div class="nonprofit-card">
+                                <h4>United Way</h4>
+                                <p>Local United Way chapters often provide disaster relief funds and connect victims with resources.</p>
+                                <div class="nonprofit-contact">
+                                    <a href="tel:211" class="contact-phone">Call 211</a>
+                                    <a href="https://www.unitedway.org/" target="_blank" rel="noopener" class="contact-link">unitedway.org</a>
+                                </div>
+                            </div>
+
+                            <div class="nonprofit-card">
+                                <h4>Catholic Charities USA</h4>
+                                <p>Emergency assistance regardless of religious affiliation, including financial aid and case management.</p>
+                                <div class="nonprofit-contact">
+                                    <a href="https://www.catholiccharitiesusa.org/" target="_blank" rel="noopener" class="contact-link">catholiccharitiesusa.org</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pet & Animal Resources -->
+        <section id="pet-resources" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>🐕 Pet & Animal Emergency Resources</h2>
+                    <p class="section-description">
+                        Protect your pets and livestock during wildfire emergencies. Find pet-friendly shelters, evacuation resources, and animal rescue services.
+                    </p>
+                </div>
+
+                <div class="pet-resources">
+                    <div class="pet-emergency-plan">
+                        <h3>🚨 Pet Emergency Preparedness</h3>
+                        <div class="prep-categories">
+                            <div class="prep-category">
+                                <div class="category-icon">🎒</div>
+                                <h4>Emergency Kit for Pets</h4>
+                                <ul class="prep-list">
+                                    <li>3-day supply of food and water</li>
+                                    <li>Medications and medical records</li>
+                                    <li>Collar with ID tags and current contact info</li>
+                                    <li>Pet carriers or crates (one per pet)</li>
+                                    <li>Leashes and harnesses</li>
+                                    <li>Comfort items (toys, blankets)</li>
+                                    <li>Waste bags and litter</li>
+                                    <li>Recent photos of your pets</li>
+                                </ul>
+                            </div>
+
+                            <div class="prep-category">
+                                <div class="category-icon">📋</div>
+                                <h4>Important Documents</h4>
+                                <ul class="prep-list">
+                                    <li>Vaccination records</li>
+                                    <li>Medical history and medications</li>
+                                    <li>Registration and license information</li>
+                                    <li>Microchip information</li>
+                                    <li>Contact info for veterinarian</li>
+                                    <li>Pet insurance policies</li>
+                                    <li>Emergency contact for pet care</li>
+                                </ul>
+                            </div>
+
+                            <div class="prep-category">
+                                <div class="category-icon">🏠</div>
+                                <h4>Evacuation Planning</h4>
+                                <ul class="prep-list">
+                                    <li>Identify pet-friendly hotels/motels</li>
+                                    <li>Research boarding facilities outside fire zones</li>
+                                    <li>Connect with friends/family who can help</li>
+                                    <li>Know location of animal shelters</li>
+                                    <li>Plan multiple evacuation routes</li>
+                                    <li>Practice loading pets into carriers</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pet-services">
+                        <h3>🏥 Pet Emergency Services</h3>
+                        <div class="service-grid">
+                            <div class="service-card">
+                                <div class="service-header">
+                                    <div class="service-icon">🐾</div>
+                                    <h4>ASPCA Disaster Relief</h4>
+                                </div>
+                                <p>Emergency sheltering, search and rescue, and veterinary care for animals affected by disasters.</p>
+                                <div class="service-contact">
+                                    <a href="https://www.aspca.org/animal-protection/disaster-cruelty-response" target="_blank" rel="noopener" class="contact-link">aspca.org/disaster-response</a>
+                                </div>
+                            </div>
+
+                            <div class="service-card">
+                                <div class="service-header">
+                                    <div class="service-icon">🐕‍🦺</div>
+                                    <h4>American Humane Rescue</h4>
+                                </div>
+                                <p>Emergency animal sheltering and reunification services during natural disasters.</p>
+                                <div class="service-contact">
+                                    <a href="https://www.americanhumane.org/initiative/rescue/" target="_blank" rel="noopener" class="contact-link">americanhumane.org/rescue</a>
+                                </div>
+                            </div>
+
+                            <div class="service-card">
+                                <div class="service-header">
+                                    <div class="service-icon">❤️</div>
+                                    <h4>Best Friends Animal Society</h4>
+                                </div>
+                                <p>Rapid response team providing emergency sheltering and veterinary care.</p>
+                                <div class="service-contact">
+                                    <a href="https://bestfriends.org/no-kill-2025/rapid-response" target="_blank" rel="noopener" class="contact-link">bestfriends.org/rapid-response</a>
+                                </div>
+                            </div>
+
+                            <div class="service-card">
+                                <div class="service-header">
+                                    <div class="service-icon">🏩</div>
+                                    <h4>RedRover Emergency Boarding</h4>
+                                </div>
+                                <p>Grants for emergency boarding when families are displaced by disasters.</p>
+                                <div class="service-contact">
+                                    <a href="tel:1-916-429-2457" class="contact-phone">(916) 429-2457</a>
+                                    <a href="https://redrover.org/relief/" target="_blank" rel="noopener" class="contact-link">redrover.org/relief</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="livestock-resources">
+                        <h3>🐄 Livestock & Large Animal Resources</h3>
+                        <div class="livestock-info">
+                            <div class="livestock-planning">
+                                <h4>Evacuation Planning for Large Animals</h4>
+                                <ul class="livestock-tips">
+                                    <li><strong>Transportation:</strong> Arrange for trailers, trucks, or professional livestock haulers in advance</li>
+                                    <li><strong>Destination:</strong> Identify fairgrounds, farms, or facilities willing to house evacuated animals</li>
+                                    <li><strong>Documentation:</strong> Keep health certificates, ownership papers, and identification readily available</li>
+                                    <li><strong>Feed and Water:</strong> Plan for 3-day supply at minimum, transport containers if possible</li>
+                                    <li><strong>Emergency Contacts:</strong> Maintain list of veterinarians, haulers, and temporary housing options</li>
+                                </ul>
+                            </div>
+
+                            <div class="livestock-contacts">
+                                <h4>Key Livestock Resources</h4>
+                                <div class="resource-items">
+                                    <div class="resource-item">
+                                        <h5>UC Davis Veterinary Emergency Response Team</h5>
+                                        <p>Emergency veterinary care and animal evacuation assistance</p>
+                                        <a href="https://www.vetmed.ucdavis.edu/hospitals/vert" target="_blank" rel="noopener" class="resource-link">vetmed.ucdavis.edu/vert</a>
+                                    </div>
+
+                                    <div class="resource-item">
+                                        <h5>California Animal Response Emergency System (CARES)</h5>
+                                        <p>Coordinates animal emergency response throughout California</p>
+                                        <a href="https://www.oes.ca.gov/animal-safety/" target="_blank" rel="noopener" class="resource-link">oes.ca.gov/animal-safety</a>
+                                    </div>
+
+                                    <div class="resource-item">
+                                        <h5>Local County Fair Grounds</h5>
+                                        <p>Many fairgrounds serve as evacuation sites for livestock during emergencies</p>
+                                        <span class="resource-note">Contact your county agricultural extension office</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pet-finder">
+                        <h3>🔍 Lost Pet Resources</h3>
+                        <div class="finder-grid">
+                            <div class="finder-service">
+                                <h4>Finding Lost Pets After Disasters</h4>
+                                <ul class="finder-tips">
+                                    <li><strong>Report immediately:</strong> Contact local animal control and shelters within 24 hours</li>
+                                    <li><strong>Use technology:</strong> Post on social media, PawBoost, Finding Rover, and Petco Love Lost</li>
+                                    <li><strong>Visit shelters in person:</strong> Animals may look different after trauma, visit frequently</li>
+                                    <li><strong>Expand search area:</strong> Scared animals can travel far from home</li>
+                                    <li><strong>Leave familiar scents:</strong> Place your clothing or pet's bedding outside your home</li>
+                                </ul>
+                            </div>
+
+                            <div class="finder-services">
+                                <div class="finder-service-item">
+                                    <h5>PawBoost</h5>
+                                    <a href="https://www.pawboost.com/" target="_blank" rel="noopener" class="service-link">pawboost.com</a>
+                                    <p>Free lost and found pet database with social media amplification</p>
+                                </div>
+
+                                <div class="finder-service-item">
+                                    <h5>Finding Rover</h5>
+                                    <a href="https://www.findingrover.com/" target="_blank" rel="noopener" class="service-link">findingrover.com</a>
+                                    <p>Facial recognition technology to match lost pets with found pets</p>
+                                </div>
+
+                                <div class="finder-service-item">
+                                    <h5>Petco Love Lost</h5>
+                                    <a href="https://petcolove.org/lost/" target="_blank" rel="noopener" class="service-link">petcolove.org/lost</a>
+                                    <p>Database connecting lost pets with local shelters using photo matching</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Needs Resources -->
+        <section id="special-needs" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>♿ Special Needs & Accessibility Resources</h2>
+                    <p class="section-description">
+                        Emergency assistance and resources for individuals with disabilities, medical needs, and those requiring special accommodations during wildfire evacuations.
+                    </p>
+                </div>
+
+                <div class="special-needs-resources">
+                    <div class="needs-categories">
+                        <div class="needs-category">
+                            <div class="category-header">
+                                <div class="category-icon">♿</div>
+                                <h3>Mobility & Physical Disabilities</h3>
+                            </div>
+                            <div class="category-content">
+                                <h4>Emergency Planning Considerations</h4>
+                                <ul class="needs-list">
+                                    <li>Register with local emergency management for priority assistance</li>
+                                    <li>Plan accessible evacuation routes and transportation</li>
+                                    <li>Ensure emergency supplies include backup power for medical equipment</li>
+                                    <li>Identify accessible shelters and accommodations</li>
+                                    <li>Maintain list of personal care attendants and backup providers</li>
+                                </ul>
+
+                                <h4>Key Resources</h4>
+                                <div class="resource-contacts">
+                                    <div class="contact-item">
+                                        <strong>Independent Living Centers:</strong>
+                                        <a href="https://www.acl.gov/programs/aging-and-disability-networks/state-and-local-resources" target="_blank" rel="noopener" class="contact-link">Find Local Centers</a>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>Disability.gov Emergency Preparedness:</strong>
+                                        <a href="https://www.disability.gov/emergencypreparedness" target="_blank" rel="noopener" class="contact-link">disability.gov/emergencypreparedness</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="needs-category">
+                            <div class="category-header">
+                                <div class="category-icon">👁️</div>
+                                <h3>Vision & Hearing Impairments</h3>
+                            </div>
+                            <div class="category-content">
+                                <h4>Communication & Alert Systems</h4>
+                                <ul class="needs-list">
+                                    <li>Sign up for text-based emergency alerts</li>
+                                    <li>Ensure access to battery-powered radio with NOAA weather alerts</li>
+                                    <li>Plan for guide dog or service animal evacuation needs</li>
+                                    <li>Identify friends/family who can provide emergency communication assistance</li>
+                                    <li>Keep extra batteries for hearing aids and communication devices</li>
+                                </ul>
+
+                                <h4>Key Resources</h4>
+                                <div class="resource-contacts">
+                                    <div class="contact-item">
+                                        <strong>National Federation of the Blind:</strong>
+                                        <a href="tel:1-410-659-9314" class="contact-phone">(410) 659-9314</a>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>Hearing Loss Association of America:</strong>
+                                        <a href="tel:1-301-657-2248" class="contact-phone">(301) 657-2248</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="needs-category">
+                            <div class="category-header">
+                                <div class="category-icon">🧠</div>
+                                <h3>Cognitive & Developmental Disabilities</h3>
+                            </div>
+                            <div class="category-content">
+                                <h4>Special Considerations</h4>
+                                <ul class="needs-list">
+                                    <li>Create visual emergency plans and practice evacuation procedures</li>
+                                    <li>Ensure identification includes emergency contact and medical information</li>
+                                    <li>Plan for comfort items and familiar objects during displacement</li>
+                                    <li>Identify caregivers and support staff who can assist during emergencies</li>
+                                    <li>Prepare clear instructions for any special care needs</li>
+                                </ul>
+
+                                <h4>Key Resources</h4>
+                                <div class="resource-contacts">
+                                    <div class="contact-item">
+                                        <strong>The Arc (Intellectual & Developmental Disabilities):</strong>
+                                        <a href="tel:1-800-433-5255" class="contact-phone">(800) 433-5255</a>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>Autism Society Emergency Preparedness:</strong>
+                                        <a href="https://www.autism-society.org/living-with-autism/autism-and-safety/emergency-preparedness/" target="_blank" rel="noopener" class="contact-link">autism-society.org/emergency-preparedness</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="needs-category">
+                            <div class="category-header">
+                                <div class="category-icon">💊</div>
+                                <h3>Medical Needs & Chronic Conditions</h3>
+                            </div>
+                            <div class="category-content">
+                                <h4>Medical Emergency Planning</h4>
+                                <ul class="needs-list">
+                                    <li>Maintain 7-14 day supply of all medications</li>
+                                    <li>Keep medical equipment backup power sources charged</li>
+                                    <li>Create medical information cards with conditions, medications, and emergency contacts</li>
+                                    <li>Identify healthcare providers and pharmacies in potential evacuation areas</li>
+                                    <li>Plan for oxygen, dialysis, or other life-sustaining treatment needs</li>
+                                </ul>
+
+                                <h4>Medical Emergency Contacts</h4>
+                                <div class="resource-contacts">
+                                    <div class="contact-item">
+                                        <strong>Your Healthcare Provider:</strong>
+                                        <span class="contact-note">Primary doctor, specialists, and 24/7 nurse line</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>Pharmacy:</strong>
+                                        <span class="contact-note">For emergency prescription transfers</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>Medical Equipment Supplier:</strong>
+                                        <span class="contact-note">For oxygen, CPAP, wheelchairs, etc.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="registration-programs">
+                        <h3>📝 Emergency Registry Programs</h3>
+                        <div class="registry-info">
+                            <p>Many counties maintain registries of residents who may need special assistance during emergencies. Registration helps ensure you receive priority assistance during evacuations.</p>
+                            
+                            <div class="registry-benefits">
+                                <h4>Benefits of Registration:</h4>
+                                <ul>
+                                    <li>Priority notification of evacuation orders</li>
+                                    <li>Assistance with evacuation transportation</li>
+                                    <li>Connection to accessible emergency shelters</li>
+                                    <li>Coordination with medical equipment providers</li>
+                                    <li>Family notification assistance</li>
+                                </ul>
+                            </div>
+
+                            <div class="how-to-register">
+                                <h4>How to Register:</h4>
+                                <ol>
+                                    <li>Contact your county emergency management office</li>
+                                    <li>Visit your county's official website and search for "special needs registry"</li>
+                                    <li>Call 211 for referral to local registry programs</li>
+                                    <li>Contact your local fire department for guidance</li>
+                                </ol>
+                                
+                                <div class="registry-contact">
+                                    <strong>General Information:</strong>
+                                    <a href="tel:211" class="contact-phone">Call 211</a>
+                                    <span class="contact-note">Free information and referral service</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessibility-rights">
+                        <h3>⚖️ Your Rights During Emergencies</h3>
+                        <div class="rights-info">
+                            <p>Under federal law, individuals with disabilities have the right to equal access to emergency services and accommodations.</p>
+                            
+                            <div class="rights-list">
+                                <h4>Key Rights Include:</h4>
+                                <ul>
+                                    <li>Accessible emergency shelters and facilities</li>
+                                    <li>Communication assistance (interpreters, accessible formats)</li>
+                                    <li>Service animal accommodation in shelters</li>
+                                    <li>Assistance with evacuation if needed</li>
+                                    <li>Access to medical care and equipment</li>
+                                    <li>Reasonable modifications to policies and procedures</li>
+                                </ul>
+                            </div>
+
+                            <div class="advocacy-resources">
+                                <h4>Advocacy & Legal Support:</h4>
+                                <div class="advocacy-contacts">
+                                    <div class="contact-item">
+                                        <strong>Disability Rights Advocates:</strong>
+                                        <a href="tel:1-510-451-8644" class="contact-phone">(510) 451-8644</a>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>National Disability Rights Network:</strong>
+                                        <a href="https://www.ndrn.org/" target="_blank" rel="noopener" class="contact-link">ndrn.org</a>
+                                    </div>
+                                    <div class="contact-item">
+                                        <strong>ADA Information Line:</strong>
+                                        <a href="tel:1-800-514-0301" class="contact-phone">(800) 514-0301</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 24/7 Hotlines Directory -->
+        <section id="hotlines" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>📞 24/7 Emergency Hotlines Directory</h2>
+                    <p class="section-description">
+                        Comprehensive directory of emergency hotlines available 24 hours a day, 7 days a week for immediate assistance during wildfire emergencies.
+                    </p>
+                </div>
+
+                <div class="hotlines-directory">
+                    <div class="hotline-category">
+                        <h3>🚨 Emergency Services</h3>
+                        <div class="hotline-grid">
+                            <div class="hotline-card priority">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🚨</div>
+                                    <div class="hotline-info">
+                                        <h4>Emergency Services</h4>
+                                        <p>Fire, Police, Medical Emergency</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:911" class="hotline-number">911</a>
+                                    <span class="hotline-note">Life-threatening emergencies only</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">☢️</div>
+                                    <div class="hotline-info">
+                                        <h4>Poison Control Center</h4>
+                                        <p>Poisoning & Toxic Exposure</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-222-1222" class="hotline-number">(800) 222-1222</a>
+                                    <span class="hotline-note">Smoke inhalation guidance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotline-category">
+                        <h3>🧠 Mental Health & Crisis Support</h3>
+                        <div class="hotline-grid">
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🧠</div>
+                                    <div class="hotline-info">
+                                        <h4>988 Suicide & Crisis Lifeline</h4>
+                                        <p>Suicide Prevention & Crisis Counseling</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:988" class="hotline-number">988</a>
+                                    <span class="hotline-note">24/7 confidential support</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">💬</div>
+                                    <div class="hotline-info">
+                                        <h4>Crisis Text Line</h4>
+                                        <p>Text-Based Crisis Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="sms:741741" class="hotline-number">Text HOME to 741741</a>
+                                    <span class="hotline-note">Anonymous text counseling</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏛️</div>
+                                    <div class="hotline-info">
+                                        <h4>SAMHSA Disaster Distress Helpline</h4>
+                                        <p>Disaster-Related Emotional Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-985-5990" class="hotline-number">(800) 985-5990</a>
+                                    <span class="hotline-note">Disaster-specific counseling</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏠</div>
+                                    <div class="hotline-info">
+                                        <h4>National Domestic Violence Hotline</h4>
+                                        <p>Domestic Violence Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-799-7233" class="hotline-number">(800) 799-7233</a>
+                                    <span class="hotline-note">Safe housing & support</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🍷</div>
+                                    <div class="hotline-info">
+                                        <h4>SAMHSA Substance Abuse Helpline</h4>
+                                        <p>Addiction & Substance Abuse Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-662-4357" class="hotline-number">(800) 662-HELP</a>
+                                    <span class="hotline-note">Treatment referrals & support</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotline-category">
+                        <h3>🏠 Disaster Relief & Assistance</h3>
+                        <div class="hotline-grid">
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">❤️</div>
+                                    <div class="hotline-info">
+                                        <h4>American Red Cross</h4>
+                                        <p>Disaster Relief & Emergency Assistance</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-733-2767" class="hotline-number">(800) 733-2767</a>
+                                    <span class="hotline-note">Shelter, food, emergency aid</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏛️</div>
+                                    <div class="hotline-info">
+                                        <h4>FEMA Disaster Assistance</h4>
+                                        <p>Federal Emergency Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-621-3362" class="hotline-number">(800) 621-3362</a>
+                                    <span class="hotline-note">Financial assistance programs</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏪</div>
+                                    <div class="hotline-info">
+                                        <h4>Salvation Army</h4>
+                                        <p>Emergency Assistance & Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-725-2769" class="hotline-number">(800) 725-2769</a>
+                                    <span class="hotline-note">Food, shelter, financial aid</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">ℹ️</div>
+                                    <div class="hotline-info">
+                                        <h4>211 Information & Referral</h4>
+                                        <p>Local Services & Resources</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:211" class="hotline-number">211</a>
+                                    <span class="hotline-note">Free, multilingual assistance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotline-category">
+                        <h3>👨‍👩‍👧‍👦 Family & Child Services</h3>
+                        <div class="hotline-grid">
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">👶</div>
+                                    <div class="hotline-info">
+                                        <h4>National Child Abuse Hotline</h4>
+                                        <p>Child Protection & Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-4-a-child" class="hotline-number">(800) 4-A-CHILD</a>
+                                    <span class="hotline-note">Crisis counseling & referrals</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">👵</div>
+                                    <div class="hotline-info">
+                                        <h4>National Elder Abuse Hotline</h4>
+                                        <p>Elder Protection & Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-677-1116" class="hotline-number">(800) 677-1116</a>
+                                    <span class="hotline-note">Elder abuse reporting & support</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏃</div>
+                                    <div class="hotline-info">
+                                        <h4>National Runaway Safeline</h4>
+                                        <p>Youth Crisis Support</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-786-2929" class="hotline-number">(800) RUNAWAY</a>
+                                    <span class="hotline-note">24/7 crisis support for youth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotline-category">
+                        <h3>💰 Financial & Legal Assistance</h3>
+                        <div class="hotline-grid">
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">💳</div>
+                                    <div class="hotline-info">
+                                        <h4>SBA Disaster Loans</h4>
+                                        <p>Low-Interest Disaster Loans</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-659-2955" class="hotline-number">(800) 659-2955</a>
+                                    <span class="hotline-note">Business & personal property loans</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">⚖️</div>
+                                    <div class="hotline-info">
+                                        <h4>Legal Aid Association</h4>
+                                        <p>Free Legal Assistance</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:211" class="hotline-number">Call 211 for local referrals</a>
+                                    <span class="hotline-note">Low-income legal services</span>
+                                </div>
+                            </div>
+
+                            <div class="hotline-card">
+                                <div class="hotline-header">
+                                    <div class="hotline-icon">🏠</div>
+                                    <div class="hotline-info">
+                                        <h4>HUD Housing Counseling</h4>
+                                        <p>Housing Assistance & Counseling</p>
+                                    </div>
+                                </div>
+                                <div class="hotline-contact">
+                                    <a href="tel:1-800-569-4287" class="hotline-number">(800) 569-4287</a>
+                                    <span class="hotline-note">Foreclosure prevention & housing</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-tips">
+                    <h3>📋 Tips for Calling Emergency Hotlines</h3>
+                    <div class="tips-container">
+                        <div class="tip-section">
+                            <h4>Before You Call</h4>
+                            <ul>
+                                <li>Find a quiet location if possible</li>
+                                <li>Have pen and paper ready to take notes</li>
+                                <li>Gather relevant information (ID numbers, addresses, etc.)</li>
+                                <li>Be prepared to wait - hotlines may have high call volumes during disasters</li>
+                            </ul>
+                        </div>
+
+                        <div class="tip-section">
+                            <h4>During the Call</h4>
+                            <ul>
+                                <li>Stay calm and speak clearly</li>
+                                <li>Provide your location and contact information</li>
+                                <li>Be specific about your needs or situation</li>
+                                <li>Ask for a reference number if available</li>
+                                <li>Write down any instructions or follow-up steps</li>
+                            </ul>
+                        </div>
+
+                        <div class="tip-section">
+                            <h4>Language & Accessibility</h4>
+                            <ul>
+                                <li>Most hotlines offer multilingual support</li>
+                                <li>TTY services available for hearing impaired (dial 711 for relay)</li>
+                                <li>Ask for interpreter services if needed</li>
+                                <li>Many hotlines also offer text or online chat options</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Home Depot Ad Banner -->
+    <aside class="ad-banner" 
+           role="complementary" 
+           aria-labelledby="ad-title">
+        <div class="ad-content">
+            <div class="ad-header">Advertisement - Home Depot Partnership</div>
+            
+            <div class="ad-logo">
+                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
+            </div>
+            
+            <div class="ad-text">
+                <h2 class="ad-title" id="ad-title">Emergency Contacts & Communication Supplies</h2>
+                <p class="ad-description">Battery-powered radios, emergency phones, backup power, first aid kits & communication devices for disaster preparedness</p>
+            </div>
+            
+            <a href="https://www.homedepot.com/c/emergency_communication" 
+               class="ad-cta" 
+               target="_blank" 
+               rel="noopener nofollow"
+               aria-label="Shop emergency communication supplies at Home Depot - opens in new tab"
+               onclick="trackAdClick('support_page', 'emergency_communication')">
+                <span aria-hidden="true">📞</span>
+                Shop Communication Supplies
+            </a>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and safety education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌍 Global Coverage</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="support.html" class="footer-link">Emergency Contacts</a></li>
+                        <li><a href="blog.html" class="footer-link">Fire Safety Blog</a></li>
+                        <li><a href="api.html" class="footer-link">Developer API</a></li>
+                        <li><a href="research.html" class="footer-link">Research & Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Emergency button styling
+        const emergencyBtn = document.querySelector('.emergency-btn');
+        if (emergencyBtn) {
+            emergencyBtn.style.background = '#dc2626';
+            emergencyBtn.style.color = 'white';
+            emergencyBtn.style.fontWeight = '700';
+            emergencyBtn.style.padding = '0.5rem 1rem';
+            emergencyBtn.style.borderRadius = '0.5rem';
+            emergencyBtn.style.textDecoration = 'none';
+            emergencyBtn.style.display = 'flex';
+            emergencyBtn.style.alignItems = 'center';
+            emergencyBtn.style.gap = '0.25rem';
+            emergencyBtn.style.minHeight = '44px';
+            emergencyBtn.style.whiteSpace = 'nowrap';
+        }
+        
+        // Ad click tracking
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
+                });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Emergency alert management
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+        
+        // Navigation functionality
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
+            
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
+            
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
+            
+            if (!isOpen) {
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
+            }
+        }
+        
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // State info display function
+        function showStateInfo(state) {
+            // Hide all state info divs
+            const allStateInfo = document.querySelectorAll('.state-info');
+            allStateInfo.forEach(info => {
+                info.style.display = 'none';
+            });
+            
+            // Show selected state info
+            if (state && state !== '') {
+                const selectedInfo = document.getElementById(state + '-info');
+                if (selectedInfo) {
+                    selectedInfo.style.display = 'block';
+                } else {
+                    // Show generic info for unlisted states
+                    const otherInfo = document.getElementById('other-info');
+                    if (otherInfo) {
+                        otherInfo.style.display = 'block';
+                    }
+                }
+            }
+        }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('.main-nav').offsetHeight;
+                    const elementPosition = targetElement.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    history.pushState(null, null, `#${targetId}`);
+                    targetElement.tabIndex = -1;
+                    targetElement.focus();
+                }
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeNavMenu();
+            }
+            
+            if ((e.key === 'Enter' || e.key === ' ') && 
+                e.target.hasAttribute('role') && 
+                e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+        
+        // Handle clicks outside menu
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !navMenuBtn.contains(e.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    event_category: 'Support Center',
+                    event_label: 'support_page_loaded'
+                });
+            }
+            
+            // Auto-scroll to hash on load
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('.main-nav').offsetHeight;
+                        const elementPosition = targetElement.offsetTop - navHeight - 20;
+                        
+                        window.scrollTo({
+                            top: elementPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 500);
+            }
+            
+            // State selector change tracking
+            const stateSelect = document.getElementById('stateSelect');
+            if (stateSelect) {
+                stateSelect.addEventListener('change', function() {
+                    if (window.gtag && this.value) {
+                        gtag('event', 'state_selected', {
+                            event_category: 'User Interaction',
+                            event_label: this.value
+                        });
+                    }
+                });
+            }
+            
+            // Emergency contact interaction tracking
+            document.querySelectorAll('.contact-btn, .hotline-number').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (window.gtag) {
+                        gtag('event', 'emergency_contact_clicked', {
+                            event_category: 'Emergency Action',
+                            event_label: this.textContent.trim()
+                        });
+                    }
+                });
+            });
+            
+            // Crisis button tracking
+            document.querySelectorAll('.crisis-btn, .quick-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (window.gtag) {
+                        gtag('event', 'crisis_support_accessed', {
+                            event_category: 'Mental Health',
+                            event_label: this.textContent.trim()
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Placeholder location functionality
+        function findUserLocation() {
+            alert('Location functionality will be available when integrated with the main application.');
+        }
+        
+        // Placeholder for place management  
+        function addPlace(event) {
+            event.preventDefault();
+            alert('Place management will be available when integrated with the main application.');
+        }
+        
+        // Print functionality
+        function printPage() {
+            window.print();
+        }
+        
+        // Share functionality
+        function shareSupport() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Emergency Contacts & Support Resources',
+                    text: 'Comprehensive wildfire emergency contacts and support resources',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                // Fallback: copy URL to clipboard
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(() => {
+                    alert('Please copy this link: ' + window.location.href);
+                });
+            }
+        }
+        
+        // Accessibility enhancements
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+        
+        // Service worker registration for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }).catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
