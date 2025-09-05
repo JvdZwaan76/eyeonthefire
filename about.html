@@ -2,41 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Eye on the Fire | Our Mission to Protect Communities from Wildfires</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="Learn about Eye on the Fire's mission to provide real-time wildfire tracking and safety resources. Discover our story, team, and commitment to protecting communities nationwide.">
     <meta name="keywords" content="about Eye on the Fire, wildfire tracking mission, fire safety platform, community protection, wildfire prevention">
+    <meta name="author" content="Eye on the Fire">
+    <title>About Eye on the Fire | Our Mission to Protect Communities from Wildfires</title>
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eyeonthefire.com/about/">
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8RE6KDBEW', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Critical Path Optimization -->
+    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/css/about.css" as="style">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/about.css">
+    
+    <!-- App Manifest & Icons -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="About Eye on the Fire | Our Mission & Story">
     <meta property="og:description" content="Discover how Eye on the Fire is revolutionizing wildfire tracking and community protection with real-time data and expert safety resources.">
-    <meta property="og:image" content="https://eyeonthefire.com/assets/og-about.jpg">
+    <meta property="og:image" content="images/eyeonthefire-logo.png">
+    <meta property="og:url" content="https://eyeonthefire.com/about.html">
+    <meta property="og:type" content="website">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://eyeonthefire.com/about/">
-    <meta property="twitter:title" content="About Eye on the Fire | Our Mission">
-    <meta property="twitter:description" content="Learn about our mission to protect communities through real-time wildfire intelligence.">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://eyeonthefire.com/about/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Eye on the Fire | Our Mission">
+    <meta name="twitter:description" content="Learn about our mission to protect communities through real-time wildfire intelligence.">
+    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -58,610 +79,848 @@
     }
     </script>
 </head>
-<body class="about-page">
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo-container">
-                <img src="/images/eyeonthefire-logo.png" alt="Eye on the Fire Logo" class="logo-image">
-                <div class="logo-text-wrapper">
-                    <span class="logo-text">Eye on the Fire</span>
-                    <span class="logo-tagline">Real-Time Wildfire Intelligence</span>
+<body>
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
+        <div class="alert-content">
+            <span class="alert-icon" aria-hidden="true">⚠️</span>
+            <span class="alert-text" id="alert-message"></span>
+            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
+        <!-- Clickable Brand -->
+        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
+            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
+            <span class="brand-text">Eye on the Fire</span>
+        </a>
+        
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <!-- Live Status -->
+            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
+                <div class="live-indicator">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-text">Live</span>
                 </div>
-            </a>
+            </div>
             
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item"><a href="/">Home</a></li>
-                <li class="nav-item"><a href="/#map">Live Map</a></li>
-                <li class="nav-item"><a href="/safety/">Safety</a></li>
-                <li class="nav-item"><a href="/prevention/">Prevention</a></li>
-                <li class="nav-item"><a href="/alerts/">Alerts</a></li>
-                <li class="nav-item"><a href="/about/" class="active">About</a></li>
-            </ul>
+            <!-- Locate Me Button -->
+            <button class="locate-me-btn" 
+                    id="locateMeBtn" 
+                    onclick="findUserLocation()" 
+                    aria-label="Find fires near my current location"
+                    title="Get personalized fire alerts for your area">
+                <span class="button-icon" aria-hidden="true">📍</span>
+                <span class="button-text">Locate Me</span>
+            </button>
             
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
-                <i class="fas fa-bars"></i>
+            <!-- Navigation Menu Button -->
+            <button class="nav-menu-btn" 
+                    id="navMenuBtn" 
+                    onclick="toggleNavMenu()" 
+                    aria-expanded="false" 
+                    aria-controls="navMenu" 
+                    aria-label="Open navigation menu">
+                <div class="hamburger-lines" aria-hidden="true">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
             </button>
         </div>
     </nav>
-    
-    <!-- Hero Section -->
-    <section class="hero about-hero">
-        <div class="hero-content">
-            <h1>Protecting Communities Through<br>Real-Time Wildfire Intelligence</h1>
-            <p class="hero-subtitle">
-                Eye on the Fire was born from a simple belief: everyone deserves access to life-saving wildfire information when they need it most. We're building the future of community fire safety.
-            </p>
+
+    <!-- Side Navigation Menu -->
+    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
+        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
+        <div class="nav-menu-content">
+            <!-- Menu Header -->
+            <div class="nav-menu-header">
+                <div class="menu-brand">
+                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
+                    <span class="menu-title">Eye on the Fire</span>
+                </div>
+                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
+            </div>
+            
+            <!-- Add Places Section -->
+            <div class="add-places-section">
+                <h3 class="section-title">📍 Add Places to Monitor</h3>
+                <p class="section-description">Get alerts for fires near specific locations</p>
+                <form class="add-place-form" onsubmit="addPlace(event)">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="place-input" 
+                               id="placeInput" 
+                               placeholder="Enter address, city, or landmark"
+                               autocomplete="off"
+                               aria-label="Enter address or place name to monitor">
+                        <button type="submit" 
+                                class="add-place-btn" 
+                                aria-label="Add this place to monitoring list">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="nav-links" role="navigation">
+                <!-- Fire Intelligence Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
+                    <a href="/" class="nav-link" role="menuitem">
+                        <span class="link-icon">🗺️</span>
+                        <span class="link-text">Live Fire Map</span>
+                    </a>
+                    <a href="safety.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🛡️</span>
+                        <span class="link-text">Safety Center</span>
+                    </a>
+                    <a href="prevention.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🌿</span>
+                        <span class="link-text">Fire Prevention</span>
+                    </a>
+                    <a href="alerts.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">🚨</span>
+                        <span class="link-text">Alert Setup</span>
+                    </a>
+                </div>
+                
+                <!-- Resources Section -->
+                <div class="link-section">
+                    <h4 class="link-section-title">📚 Resources</h4>
+                    <a href="about.html" class="nav-link active" role="menuitem" aria-current="page">
+                        <span class="link-icon">ℹ️</span>
+                        <span class="link-text">About Platform</span>
+                    </a>
+                    <a href="support.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📞</span>
+                        <span class="link-text">Emergency Contacts</span>
+                    </a>
+                    <a href="data-sources.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">Data Sources</span>
+                    </a>
+                    <a href="settings.html" class="nav-link" role="menuitem">
+                        <span class="link-icon">⚙️</span>
+                        <span class="link-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Footer in Menu -->
+            <div class="nav-menu-footer">
+                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy</a>
+                    <a href="terms.html" class="footer-link">Terms</a>
+                </div>
+            </div>
         </div>
-    </section>
-    
-    <!-- Mission Section -->
-    <section id="mission" class="content-section">
-        <div class="container">
-            <div class="mission-content">
-                <div class="mission-text">
+    </aside>
+
+    <!-- Main Content -->
+    <main class="page-container" id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section class="about-hero" role="banner">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Protecting Communities Through Real-Time Wildfire Intelligence</h1>
+                    <p class="hero-subtitle">
+                        Eye on the Fire was born from a simple belief: everyone deserves access to life-saving wildfire information when they need it most. We're building the future of community fire safety.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#mission" class="hero-btn primary">Our Mission</a>
+                        <a href="/" class="hero-btn secondary">Explore Platform</a>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">7M+</span>
+                        <span class="stat-label">People Protected</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50</span>
+                        <span class="stat-label">States Covered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Platform Uptime</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15min</span>
+                        <span class="stat-label">Update Frequency</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section id="mission" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
                     <h2>Our Mission</h2>
-                    <p class="mission-statement">
+                    <p class="section-description">
                         To democratize access to real-time wildfire intelligence and safety resources, empowering communities across America to make informed decisions that protect lives and property.
                     </p>
-                    <div class="mission-points">
-                        <div class="mission-point">
-                            <div class="point-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="point-content">
-                                <h4>Real-Time Awareness</h4>
-                                <p>Provide instant access to accurate wildfire data from trusted sources including NASA FIRMS, NIFC, and emergency management agencies.</p>
-                            </div>
+                </div>
+
+                <div class="mission-content">
+                    <div class="mission-principles">
+                        <div class="principle-card">
+                            <div class="principle-icon">👁️</div>
+                            <h3>Real-Time Awareness</h3>
+                            <p>Provide instant access to accurate wildfire data from trusted sources including NASA FIRMS, NIFC, and emergency management agencies.</p>
                         </div>
                         
-                        <div class="mission-point">
-                            <div class="point-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="point-content">
-                                <h4>Community First</h4>
-                                <p>Build tools that prioritize community safety over profit, ensuring our platform remains free and accessible to everyone.</p>
-                            </div>
+                        <div class="principle-card">
+                            <div class="principle-icon">👥</div>
+                            <h3>Community First</h3>
+                            <p>Build tools that prioritize community safety over profit, ensuring our platform remains free and accessible to everyone.</p>
                         </div>
                         
-                        <div class="mission-point">
-                            <div class="point-icon">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            <div class="point-content">
-                                <h4>Expert Education</h4>
-                                <p>Deliver evidence-based safety guidance developed by fire professionals, emergency managers, and safety experts.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mission-visual">
-                    <div class="impact-stats">
-                        <div class="impact-stat">
-                            <div class="stat-number">7M+</div>
-                            <div class="stat-label">People Protected</div>
-                        </div>
-                        <div class="impact-stat">
-                            <div class="stat-number">50</div>
-                            <div class="stat-label">States Covered</div>
-                        </div>
-                        <div class="impact-stat">
-                            <div class="stat-number">99.9%</div>
-                            <div class="stat-label">Platform Uptime</div>
-                        </div>
-                        <div class="impact-stat">
-                            <div class="stat-number">15min</div>
-                            <div class="stat-label">Update Frequency</div>
+                        <div class="principle-card">
+                            <div class="principle-icon">🎓</div>
+                            <h3>Expert Education</h3>
+                            <p>Deliver evidence-based safety guidance developed by fire professionals, emergency managers, and safety experts.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Our Story Section -->
-    <section id="story" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Story</h2>
-                <p class="section-subtitle">
-                    Born from necessity, built with purpose
-                </p>
-            </div>
-            
-            <div class="story-timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-fire"></i>
-                        <span class="timeline-year">2020</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>The Spark</h4>
-                        <p>During the catastrophic 2020 fire season, our founders experienced firsthand the frustration of scattered, delayed, and often contradictory wildfire information. Families were forced to make life-or-death evacuation decisions based on incomplete data.</p>
-                    </div>
+        </section>
+
+        <!-- Our Story Section -->
+        <section id="story" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Our Story</h2>
+                    <p class="section-description">
+                        Born from necessity, built with purpose
+                    </p>
                 </div>
                 
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-lightbulb"></i>
-                        <span class="timeline-year">2021</span>
+                <div class="story-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">🔥</span>
+                            <span class="timeline-year">2020</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>The Spark</h4>
+                            <p>During the catastrophic 2020 fire season, our founders experienced firsthand the frustration of scattered, delayed, and often contradictory wildfire information. Families were forced to make life-or-death evacuation decisions based on incomplete data.</p>
+                        </div>
                     </div>
-                    <div class="timeline-content">
-                        <h4>The Vision</h4>
-                        <p>We realized that the technology existed to provide real-time wildfire intelligence - it just wasn't accessible to the people who needed it most. We began building a platform that would change that.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-code"></i>
-                        <span class="timeline-year">2022</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>Building the Foundation</h4>
-                        <p>Working with fire professionals, emergency managers, and data scientists, we developed the algorithms and interfaces that would become Eye on the Fire. Hundreds of hours of testing with real communities.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-rocket"></i>
-                        <span class="timeline-year">2023</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>Launch & Growth</h4>
-                        <p>Eye on the Fire went live during the 2023 fire season. Within months, we were serving millions of users across wildfire-prone regions, providing critical information when they needed it most.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="timeline-year">2024</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>Expanding Impact</h4>
-                        <p>Today, we serve over 7 million users across all 50 states. Our platform has become a trusted resource for families, emergency managers, and first responders nationwide.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-star"></i>
-                        <span class="timeline-year">2025</span>
-                    </div>
-                    <div class="timeline-content">
-                        <h4>The Future</h4>
-                        <p>We're continuously innovating with new features like AI-powered risk assessment, community-driven reporting, and enhanced mobile experiences. Our commitment to free, accessible wildfire intelligence remains unwavering.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Our Values Section -->
-    <section id="values" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Core Values</h2>
-                <p class="section-subtitle">
-                    The principles that guide everything we do
-                </p>
-            </div>
-            
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3>People First</h3>
-                    <p>Every decision we make is guided by one question: How does this help people stay safe? Technology serves people, not the other way around.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3>Accuracy Above All</h3>
-                    <p>In emergency situations, misinformation can be deadly. We source data from only the most trusted, official channels and verify everything we can.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-unlock"></i>
-                    </div>
-                    <h3>Free & Open</h3>
-                    <p>Lifesaving information should never be behind a paywall. Our core wildfire tracking and safety features will always be free for everyone.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile First</h3>
-                    <p>When evacuating, people rely on mobile devices. We design for the person checking fire conditions from their car, not from a desktop computer.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h3>Community Driven</h3>
-                    <p>We listen to our users - firefighters, emergency managers, and families in fire-prone areas - and build features that address their real needs.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Privacy Protected</h3>
-                    <p>We collect only the minimum data necessary to provide our services, and we never sell user information to third parties.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Technology Section -->
-    <section id="technology" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Technology</h2>
-                <p class="section-subtitle">
-                    Enterprise-grade infrastructure built for reliability when it matters most
-                </p>
-            </div>
-            
-            <div class="tech-overview">
-                <div class="tech-content">
-                    <h3>Real-Time Data Pipeline</h3>
-                    <p>Our platform integrates multiple authoritative data sources to provide the most comprehensive wildfire intelligence available:</p>
                     
-                    <div class="data-sources">
-                        <div class="source-item">
-                            <div class="source-logo">
-                                <i class="fas fa-satellite"></i>
-                            </div>
-                            <div class="source-info">
-                                <h4>NASA FIRMS</h4>
-                                <p>Real-time fire detection from MODIS and VIIRS satellites, updated every 15 minutes</p>
-                            </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">💡</span>
+                            <span class="timeline-year">2021</span>
                         </div>
-                        
-                        <div class="source-item">
-                            <div class="source-logo">
-                                <i class="fas fa-fire-extinguisher"></i>
-                            </div>
-                            <div class="source-info">
-                                <h4>NIFC</h4>
-                                <p>Official incident reports from the National Interagency Fire Center</p>
-                            </div>
-                        </div>
-                        
-                        <div class="source-item">
-                            <div class="source-logo">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <div class="source-info">
-                                <h4>NOAA</h4>
-                                <p>Weather data, red flag warnings, and atmospheric conditions</p>
-                            </div>
-                        </div>
-                        
-                        <div class="source-item">
-                            <div class="source-logo">
-                                <i class="fas fa-lungs"></i>
-                            </div>
-                            <div class="source-info">
-                                <h4>EPA AirNow</h4>
-                                <p>Real-time air quality data and smoke impact monitoring</p>
-                            </div>
+                        <div class="timeline-content">
+                            <h4>The Vision</h4>
+                            <p>We realized that the technology existed to provide real-time wildfire intelligence - it just wasn't accessible to the people who needed it most. We began building a platform that would change that.</p>
                         </div>
                     </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">💻</span>
+                            <span class="timeline-year">2022</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Building the Foundation</h4>
+                            <p>Working with fire professionals, emergency managers, and data scientists, we developed the algorithms and interfaces that would become Eye on the Fire. Hundreds of hours of testing with real communities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">🚀</span>
+                            <span class="timeline-year">2023</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Launch & Growth</h4>
+                            <p>Eye on the Fire went live during the 2023 fire season. Within months, we were serving millions of users across wildfire-prone regions, providing critical information when they needed it most.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">📈</span>
+                            <span class="timeline-year">2024</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Expanding Impact</h4>
+                            <p>Today, we serve over 7 million users across all 50 states. Our platform has become a trusted resource for families, emergency managers, and first responders nationwide.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-icon">⭐</span>
+                            <span class="timeline-year">2025</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>The Future</h4>
+                            <p>We're continuously innovating with new features like AI-powered risk assessment, community-driven reporting, and enhanced mobile experiences. Our commitment to free, accessible wildfire intelligence remains unwavering.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Values Section -->
+        <section id="values" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Our Core Values</h2>
+                    <p class="section-description">
+                        The principles that guide everything we do
+                    </p>
                 </div>
                 
-                <div class="tech-architecture">
-                    <h3>Built for Scale</h3>
-                    <div class="architecture-features">
-                        <div class="arch-feature">
-                            <i class="fas fa-server"></i>
-                            <h4>Cloud Infrastructure</h4>
-                            <p>Global CDN with edge caching for sub-second response times</p>
-                        </div>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">❤️</div>
+                        <h3>People First</h3>
+                        <p>Every decision we make is guided by one question: How does this help people stay safe? Technology serves people, not the other way around.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">✅</div>
+                        <h3>Accuracy Above All</h3>
+                        <p>In emergency situations, misinformation can be deadly. We source data from only the most trusted, official channels and verify everything we can.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">🔓</div>
+                        <h3>Free & Open</h3>
+                        <p>Lifesaving information should never be behind a paywall. Our core wildfire tracking and safety features will always be free for everyone.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">📱</div>
+                        <h3>Mobile First</h3>
+                        <p>When evacuating, people rely on mobile devices. We design for the person checking fire conditions from their car, not from a desktop computer.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>Community Driven</h3>
+                        <p>We listen to our users - firefighters, emergency managers, and families in fire-prone areas - and build features that address their real needs.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">🛡️</div>
+                        <h3>Privacy Protected</h3>
+                        <p>We collect only the minimum data necessary to provide our services, and we never sell user information to third parties.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section id="technology" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Our Technology</h2>
+                    <p class="section-description">
+                        Enterprise-grade infrastructure built for reliability when it matters most
+                    </p>
+                </div>
+                
+                <div class="tech-overview">
+                    <div class="tech-content">
+                        <h3>Real-Time Data Pipeline</h3>
+                        <p>Our platform integrates multiple authoritative data sources to provide the most comprehensive wildfire intelligence available:</p>
                         
-                        <div class="arch-feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <h4>99.9% Uptime</h4>
-                            <p>Redundant systems and automatic failover ensure availability</p>
+                        <div class="data-sources">
+                            <div class="source-item">
+                                <div class="source-icon">🛰️</div>
+                                <div class="source-info">
+                                    <h4>NASA FIRMS</h4>
+                                    <p>Real-time fire detection from MODIS and VIIRS satellites, updated every 15 minutes</p>
+                                </div>
+                            </div>
+                            
+                            <div class="source-item">
+                                <div class="source-icon">🚒</div>
+                                <div class="source-info">
+                                    <h4>NIFC</h4>
+                                    <p>Official incident reports from the National Interagency Fire Center</p>
+                                </div>
+                            </div>
+                            
+                            <div class="source-item">
+                                <div class="source-icon">☁️</div>
+                                <div class="source-info">
+                                    <h4>NOAA</h4>
+                                    <p>Weather data, red flag warnings, and atmospheric conditions</p>
+                                </div>
+                            </div>
+                            
+                            <div class="source-item">
+                                <div class="source-icon">🫁</div>
+                                <div class="source-info">
+                                    <h4>EPA AirNow</h4>
+                                    <p>Real-time air quality data and smoke impact monitoring</p>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="arch-feature">
-                            <i class="fas fa-mobile-alt"></i>
-                            <h4>Progressive Web App</h4>
-                            <p>Works offline and can be installed like a native mobile app</p>
-                        </div>
-                        
-                        <div class="arch-feature">
-                            <i class="fas fa-lock"></i>
-                            <h4>Security First</h4>
-                            <p>End-to-end encryption and privacy-by-design architecture</p>
+                    </div>
+                    
+                    <div class="tech-architecture">
+                        <h3>Built for Scale</h3>
+                        <div class="architecture-features">
+                            <div class="arch-feature">
+                                <div class="feature-icon">🖥️</div>
+                                <h4>Cloud Infrastructure</h4>
+                                <p>Global CDN with edge caching for sub-second response times</p>
+                            </div>
+                            
+                            <div class="arch-feature">
+                                <div class="feature-icon">🛡️</div>
+                                <h4>99.9% Uptime</h4>
+                                <p>Redundant systems and automatic failover ensure availability</p>
+                            </div>
+                            
+                            <div class="arch-feature">
+                                <div class="feature-icon">📱</div>
+                                <h4>Progressive Web App</h4>
+                                <p>Works offline and can be installed like a native mobile app</p>
+                            </div>
+                            
+                            <div class="arch-feature">
+                                <div class="feature-icon">🔒</div>
+                                <h4>Security First</h4>
+                                <p>End-to-end encryption and privacy-by-design architecture</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Our Impact Section -->
-    <section id="impact" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Impact</h2>
-                <p class="section-subtitle">
-                    Real stories from real communities
-                </p>
-            </div>
-            
-            <div class="impact-stories">
-                <div class="story-card">
-                    <div class="story-content">
-                        <blockquote>
-                            "Eye on the Fire gave us the information we needed to evacuate safely during the 2024 fires. The real-time map showed exactly where the fire was heading, and we had time to get our elderly neighbors out too."
-                        </blockquote>
-                        <div class="story-author">
-                            <div class="author-info">
+        </section>
+
+        <!-- Our Impact Section -->
+        <section id="impact" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Our Impact</h2>
+                    <p class="section-description">
+                        Real stories from real communities
+                    </p>
+                </div>
+                
+                <div class="impact-stories">
+                    <div class="story-card">
+                        <div class="story-content">
+                            <blockquote>
+                                "Eye on the Fire gave us the information we needed to evacuate safely during the 2024 fires. The real-time map showed exactly where the fire was heading, and we had time to get our elderly neighbors out too."
+                            </blockquote>
+                            <div class="story-author">
                                 <h4>Sarah M.</h4>
                                 <span>Northern California</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="story-card">
-                    <div class="story-content">
-                        <blockquote>
-                            "As a volunteer firefighter, I use Eye on the Fire to stay aware of fire activity across our region. The platform's accuracy and speed help us prepare our response teams more effectively."
-                        </blockquote>
-                        <div class="story-author">
-                            <div class="author-info">
+                    
+                    <div class="story-card">
+                        <div class="story-content">
+                            <blockquote>
+                                "As a volunteer firefighter, I use Eye on the Fire to stay aware of fire activity across our region. The platform's accuracy and speed help us prepare our response teams more effectively."
+                            </blockquote>
+                            <div class="story-author">
                                 <h4>Captain Mike R.</h4>
                                 <span>Colorado Fire Department</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="story-card">
-                    <div class="story-content">
-                        <blockquote>
-                            "The air quality alerts helped us protect our daughter who has asthma. When the smoke was bad, we knew to keep her inside with the air purifier running."
-                        </blockquote>
-                        <div class="story-author">
-                            <div class="author-info">
+                    
+                    <div class="story-card">
+                        <div class="story-content">
+                            <blockquote>
+                                "The air quality alerts helped us protect our daughter who has asthma. When the smoke was bad, we knew to keep her inside with the air purifier running."
+                            </blockquote>
+                            <div class="story-author">
                                 <h4>Jennifer L.</h4>
                                 <span>Oregon Family</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="impact-metrics">
-                <div class="metric-item">
-                    <i class="fas fa-users"></i>
-                    <div class="metric-content">
-                        <h4>Communities Served</h4>
-                        <p>Over 15,000 communities across all 50 states rely on our platform during fire season</p>
-                    </div>
-                </div>
                 
-                <div class="metric-item">
-                    <i class="fas fa-clock"></i>
-                    <div class="metric-content">
-                        <h4>Response Time</h4>
-                        <p>Average alert delivery time of under 3 minutes from initial detection</p>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <i class="fas fa-graduation-cap"></i>
-                    <div class="metric-content">
-                        <h4>Safety Education</h4>
-                        <p>Over 2 million people have accessed our comprehensive safety guides</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Partners Section -->
-    <section id="partners" class="content-section alt-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Partners</h2>
-                <p class="section-subtitle">
-                    Working together to protect communities
-                </p>
-            </div>
-            
-            <div class="partners-content">
-                <p>Eye on the Fire collaborates with leading organizations in fire management, emergency response, and community safety:</p>
-                
-                <div class="partner-categories">
-                    <div class="partner-category">
-                        <h3>Data Partners</h3>
-                        <ul class="partner-list">
-                            <li>NASA Fire Information for Resource Management System (FIRMS)</li>
-                            <li>National Interagency Fire Center (NIFC)</li>
-                            <li>National Oceanic and Atmospheric Administration (NOAA)</li>
-                            <li>Environmental Protection Agency (EPA) AirNow</li>
-                            <li>United States Geological Survey (USGS)</li>
-                        </ul>
+                <div class="impact-metrics">
+                    <div class="metric-item">
+                        <div class="metric-icon">👥</div>
+                        <div class="metric-content">
+                            <h4>Communities Served</h4>
+                            <p>Over 15,000 communities across all 50 states rely on our platform during fire season</p>
+                        </div>
                     </div>
                     
-                    <div class="partner-category">
-                        <h3>Emergency Management</h3>
-                        <ul class="partner-list">
-                            <li>CAL FIRE - California Department of Forestry and Fire Protection</li>
-                            <li>Colorado State Fire Management</li>
-                            <li>Oregon Department of Forestry</li>
-                            <li>Washington State Department of Natural Resources</li>
-                            <li>Local Emergency Management Agencies</li>
-                        </ul>
+                    <div class="metric-item">
+                        <div class="metric-icon">⏱️</div>
+                        <div class="metric-content">
+                            <h4>Response Time</h4>
+                            <p>Average alert delivery time of under 3 minutes from initial detection</p>
+                        </div>
                     </div>
                     
-                    <div class="partner-category">
-                        <h3>Community Organizations</h3>
-                        <ul class="partner-list">
-                            <li>National Fire Protection Association (NFPA)</li>
-                            <li>Firewise USA</li>
-                            <li>American Red Cross</li>
-                            <li>International Association of Emergency Managers</li>
-                            <li>Local Firewise Communities</li>
-                        </ul>
+                    <div class="metric-item">
+                        <div class="metric-icon">🎓</div>
+                        <div class="metric-content">
+                            <h4>Safety Education</h4>
+                            <p>Over 2 million people have accessed our comprehensive safety guides</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Future Vision Section -->
-    <section id="future" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Looking Forward</h2>
-                <p class="section-subtitle">
-                    Our vision for the future of wildfire safety
-                </p>
-            </div>
-            
-            <div class="future-vision">
-                <div class="vision-content">
-                    <h3>What's Next</h3>
-                    <p>We're continuously innovating to stay ahead of evolving wildfire challenges:</p>
-                    
+        </section>
+
+        <!-- Future Vision Section -->
+        <section id="future" class="content-section alt-bg">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Looking Forward</h2>
+                    <p class="section-description">
+                        Our vision for the future of wildfire safety
+                    </p>
+                </div>
+                
+                <div class="future-vision">
                     <div class="future-features">
                         <div class="future-feature">
-                            <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
+                            <div class="feature-icon">🧠</div>
                             <h4>AI-Powered Predictions</h4>
                             <p>Machine learning models that predict fire behavior and spread patterns with unprecedented accuracy</p>
                         </div>
                         
                         <div class="future-feature">
-                            <div class="feature-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
+                            <div class="feature-icon">💬</div>
                             <h4>Community Reporting</h4>
                             <p>Verified community members will be able to report ground conditions, adding valuable local intelligence</p>
                         </div>
                         
                         <div class="future-feature">
-                            <div class="feature-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
+                            <div class="feature-icon">🌍</div>
                             <h4>International Expansion</h4>
                             <p>Bringing our platform to fire-prone regions worldwide, starting with Canada and Australia</p>
                         </div>
                         
                         <div class="future-feature">
-                            <div class="feature-icon">
-                                <i class="fas fa-home"></i>
-                            </div>
+                            <div class="feature-icon">🏠</div>
                             <h4>Smart Home Integration</h4>
                             <p>Direct integration with home automation systems for automatic safety responses</p>
                         </div>
                     </div>
+                    
+                    <div class="commitment-box">
+                        <h3>Our Commitment</h3>
+                        <p>As wildfires become more frequent and intense due to climate change, our commitment to protecting communities only grows stronger. We pledge to:</p>
+                        <ul>
+                            <li>Keep our core platform free and accessible to all</li>
+                            <li>Maintain the highest standards of data accuracy and reliability</li>
+                            <li>Continue innovating with community needs at the center</li>
+                            <li>Support research into wildfire behavior and prevention</li>
+                            <li>Advocate for better wildfire preparedness policies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="section-container">
+                <div class="cta-content">
+                    <h2>Join the Mission</h2>
+                    <p>Help us protect communities by sharing Eye on the Fire with your family, friends, and neighbors. Together, we can build more fire-resilient communities.</p>
+                    <div class="cta-buttons">
+                        <a href="/" class="cta-btn primary">
+                            <span class="button-icon">👁️</span>
+                            Explore the Platform
+                        </a>
+                        <a href="contact.html" class="cta-btn secondary">
+                            <span class="button-icon">✉️</span>
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Home Depot Ad Banner -->
+    <aside class="ad-banner" 
+           role="complementary" 
+           aria-labelledby="ad-title">
+        <div class="ad-content">
+            <div class="ad-header">Advertisement - Home Depot Partnership</div>
+            
+            <div class="ad-logo">
+                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
+            </div>
+            
+            <div class="ad-text">
+                <h2 class="ad-title" id="ad-title">Complete Fire Safety Solutions</h2>
+                <p class="ad-description">Fire prevention tools, emergency supplies, home hardening materials & safety equipment for comprehensive wildfire protection</p>
+            </div>
+            
+            <a href="https://www.homedepot.com/c/fire_safety" 
+               class="ad-cta" 
+               target="_blank" 
+               rel="noopener nofollow"
+               aria-label="Shop fire safety solutions at Home Depot - opens in new tab"
+               onclick="trackAdClick('about_page', 'fire_safety_solutions')">
+                <span aria-hidden="true">🛡️</span>
+                Shop Fire Safety
+            </a>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and comprehensive safety education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌐 Global Coverage</span>
+                    </div>
                 </div>
                 
-                <div class="commitment-box">
-                    <h3>Our Commitment</h3>
-                    <p>As wildfires become more frequent and intense due to climate change, our commitment to protecting communities only grows stronger. We pledge to:</p>
-                    <ul>
-                        <li>Keep our core platform free and accessible to all</li>
-                        <li>Maintain the highest standards of data accuracy and reliability</li>
-                        <li>Continue innovating with community needs at the center</li>
-                        <li>Support research into wildfire behavior and prevention</li>
-                        <li>Advocate for better wildfire preparedness policies</li>
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">About Us</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">Our Story</a></li>
+                        <li><a href="#mission" class="footer-link">Mission & Values</a></li>
+                        <li><a href="#technology" class="footer-link">Technology</a></li>
+                        <li><a href="#impact" class="footer-link">Community Impact</a></li>
+                        <li><a href="careers.html" class="footer-link">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Call to Action -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Join the Mission</h2>
-                <p>Help us protect communities by sharing Eye on the Fire with your family, friends, and neighbors. Together, we can build more fire-resilient communities.</p>
-                <div class="cta-buttons">
-                    <a href="/#map" class="btn btn-primary">
-                        <i class="fas fa-eye"></i>
-                        Explore the Platform
-                    </a>
-                    <a href="/contact/" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i>
-                        Contact Us
-                    </a>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Eye on the Fire</h4>
-                <p>America's premier wildfire tracking platform, providing real-time fire intelligence and safety resources to protect communities nationwide.</p>
-                <div class="social-links">
-                    <a href="https://twitter.com/eyeonthefire" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://facebook.com/eyeonthefire" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/eyeonthefire" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://linkedin.com/company/eyeonthefire" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Our Mission</h4>
-                <ul class="footer-links">
-                    <li><a href="#mission">Mission & Values</a></li>
-                    <li><a href="#story">Our Story</a></li>
-                    <li><a href="#technology">Technology</a></li>
-                    <li><a href="#impact">Community Impact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Get Involved</h4>
-                <ul class="footer-links">
-                    <li><a href="/contact/">Contact Us</a></li>
-                    <li><a href="/careers/">Careers</a></li>
-                    <li><a href="/volunteer/">Volunteer</a></li>
-                    <li><a href="/press/">Press Kit</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Platform</h4>
-                <ul class="footer-links">
-                    <li><a href="/">Live Fire Map</a></li>
-                    <li><a href="/safety/">Safety Guide</a></li>
-                    <li><a href="/prevention/">Prevention</a></li>
-                    <li><a href="/alerts/">Fire Alerts</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Eye on the Fire. All rights reserved. Committed to protecting communities through technology and education.</p>
         </div>
     </footer>
-    
+
     <!-- Scripts -->
-    <script src="/assets/js/app.js"></script>
+    <script>
+        // Ad click tracking for analytics
+        function trackAdClick(placement, content) {
+            if (window.gtag) {
+                gtag('event', 'ad_click', {
+                    event_category: 'Advertisement',
+                    event_label: placement + '_' + content,
+                    value: 1
+                });
+            }
+            console.log('Ad clicked:', placement, content);
+        }
+        
+        // Emergency alert management
+        function closeEmergencyAlert() {
+            const alert = document.getElementById('emergency-alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }
+        
+        // Navigation functionality
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
+            
+            navMenuBtn.setAttribute('aria-expanded', !isOpen);
+            navMenu.classList.toggle('active', !isOpen);
+            navMenu.setAttribute('aria-hidden', isOpen);
+            
+            document.body.style.overflow = !isOpen ? 'hidden' : '';
+            
+            if (!isOpen) {
+                const firstInput = navMenu.querySelector('.place-input');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
+            }
+        }
+        
+        function closeNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            navMenuBtn.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            navMenu.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('.main-nav').offsetHeight;
+                    const elementPosition = targetElement.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    history.pushState(null, null, `#${targetId}`);
+                    targetElement.tabIndex = -1;
+                    targetElement.focus();
+                }
+            }
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeNavMenu();
+            }
+            
+            if ((e.key === 'Enter' || e.key === ' ') && 
+                e.target.hasAttribute('role') && 
+                e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+        
+        // Handle clicks outside menu
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const navMenuBtn = document.getElementById('navMenuBtn');
+            
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !navMenuBtn.contains(e.target)) {
+                closeNavMenu();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    event_category: 'About Page',
+                    event_label: 'about_page_loaded'
+                });
+            }
+            
+            // Auto-scroll to hash on load
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetElement = document.querySelector(window.location.hash);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('.main-nav').offsetHeight;
+                        const elementPosition = targetElement.offsetTop - navHeight - 20;
+                        
+                        window.scrollTo({
+                            top: elementPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 500);
+            }
+        });
+        
+        // Placeholder location functionality
+        function findUserLocation() {
+            alert('Location functionality will be available when integrated with the main application.');
+        }
+        
+        // Placeholder for place management  
+        function addPlace(event) {
+            event.preventDefault();
+            alert('Place management will be available when integrated with the main application.');
+        }
+    </script>
 </body>
 </html>
