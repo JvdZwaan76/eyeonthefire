@@ -1,432 +1,557 @@
 /**
- * Eye on the Fire - Service Worker
- * PWA functionality for offline capabilities and caching
- * Version: 1.0.0 - Production Ready
+ * Eye on the Fire - Service Worker v3.0
+ * Aggressive caching for mobile performance and offline support
  */
 
-const CACHE_NAME = 'eyeonthefire-v1.0.0';
-const STATIC_CACHE_NAME = `${CACHE_NAME}-static`;
-const DYNAMIC_CACHE_NAME = `${CACHE_NAME}-dynamic`;
+const CACHE_VERSION = 'eyeonthefire-v3.0.1';
+const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
+const TILES_CACHE = `${CACHE_VERSION}-tiles`;
+const FIRE_DATA_CACHE = `${CACHE_VERSION}-firedata`;
 
-// Files to cache on install
-const STATIC_FILES = [
-    '/',
-    '/index.html',
-    '/safety/',
-    '/prevention/',
-    '/assets/css/styles.css',
-    '/assets/js/app.js',
-    '/images/eyeonthefire-logo.png',
-    '/favicon.ico',
-    '/manifest.json',
-    // External dependencies (cached with network fallback)
-    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
+// Cache duration constants
+const CACHE_DURATIONS = {
+  STATIC: 7 * 24 * 60 * 60 * 1000,      // 7 days
+  TILES: 30 * 24 * 60 * 60 * 1000,      // 30 days  
+  FIRE_DATA: 30 * 60 * 1000,            // 30 minutes
+  GEOCODING: 24 * 60 * 60 * 1000        // 24 hours
+};
+
+// Essential files to cache immediately
+const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/css/app.css',
+  '/js/app.js',
+  '/manifest.json',
+  '/favicon.svg',
+  '/favicon.png',
+  '/apple-touch-icon.png',
+  // Leaflet core files
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
 ];
 
-// Files that should always come from network (dynamic content)
+// URLs that should always go to network first
 const NETWORK_FIRST_URLS = [
-    '/api/',
-    '/api/nasa/firms'
+  '/api/fires',
+  '/api/nasa/firms',
+  'analytics.google.com',
+  'cloudflareinsights.com'
 ];
 
-// Install event - cache static resources
+// Install Service Worker
 self.addEventListener('install', event => {
-    console.log('Service Worker: Installing...');
-    
-    event.waitUntil(
-        caches.open(STATIC_CACHE_NAME)
-            .then(cache => {
-                console.log('Service Worker: Caching static files');
-                return cache.addAll(STATIC_FILES);
-            })
-            .catch(error => {
-                console.error('Service Worker: Failed to cache static files', error);
-            })
-    );
-    
-    // Force activation of new service worker
-    self.skipWaiting();
+  console.log('ServiceWorker: Installing v' + CACHE_VERSION);
+  
+  event.waitUntil(
+    caches.open(STATIC_CACHE)
+      .then(cache => {
+        console.log('ServiceWorker: Caching static assets');
+        return cache.addAll(STATIC_ASSETS.map(url => new Request(url, {
+          cache: 'reload' // Force fresh download
+        })));
+      })
+      .then(() => {
+        console.log('ServiceWorker: Static assets cached successfully');
+        return self.skipWaiting(); // Activate immediately
+      })
+      .catch(error => {
+        console.error('ServiceWorker: Failed to cache static assets:', error);
+      })
+  );
 });
 
-// Activate event - cleanup old caches
+// Activate Service Worker
 self.addEventListener('activate', event => {
-    console.log('Service Worker: Activating...');
-    
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames
-                    .filter(cacheName => {
-                        // Remove old versions of our cache
-                        return cacheName.startsWith('eyeonthefire-') && 
-                               cacheName !== STATIC_CACHE_NAME && 
-                               cacheName !== DYNAMIC_CACHE_NAME;
-                    })
-                    .map(cacheName => {
-                        console.log('Service Worker: Removing old cache', cacheName);
-                        return caches.delete(cacheName);
-                    })
-            );
-        })
-    );
-    
-    // Take control of all pages
-    self.clients.claim();
+  console.log('ServiceWorker: Activating v' + CACHE_VERSION);
+  
+  event.waitUntil(
+    Promise.all([
+      // Clean up old caches
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames
+            .filter(cacheName => {
+              return cacheName.startsWith('eyeonthefire-') && 
+                     !cacheName.includes(CACHE_VERSION);
+            })
+            .map(cacheName => {
+              console.log('ServiceWorker: Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            })
+        );
+      }),
+      
+      // Take control of all pages immediately
+      self.clients.claim()
+    ])
+  );
 });
 
-// Fetch event - serve cached content when offline
+// Fetch Event Handler
 self.addEventListener('fetch', event => {
-    const { request } = event;
-    const url = new URL(request.url);
-    
-    // Skip non-GET requests
-    if (request.method !== 'GET') {
-        return;
-    }
-    
-    // Handle API requests with network-first strategy
-    if (isNetworkFirstUrl(url.pathname)) {
-        event.respondWith(networkFirst(request));
-        return;
-    }
-    
-    // Handle static assets with cache-first strategy
-    if (isStaticAsset(url)) {
-        event.respondWith(cacheFirst(request));
-        return;
-    }
-    
-    // Handle navigation requests with network-first, cache fallback
-    if (isNavigationRequest(request)) {
-        event.respondWith(networkFirstWithOfflineFallback(request));
-        return;
-    }
-    
-    // Default: stale-while-revalidate strategy
-    event.respondWith(staleWhileRevalidate(request));
+  const { request } = event;
+  const url = new URL(request.url);
+  
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+  
+  // Skip chrome-extension and other non-http requests
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
+  
+  // Route requests to appropriate strategy
+  if (isStaticAsset(url)) {
+    event.respondWith(cacheFirst(request, STATIC_CACHE));
+  } else if (isTileRequest(url)) {
+    event.respondWith(staleWhileRevalidate(request, TILES_CACHE));
+  } else if (isFireDataRequest(url)) {
+    event.respondWith(networkFirstWithFallback(request, FIRE_DATA_CACHE));
+  } else if (isGeocodingRequest(url)) {
+    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
+  } else if (isNetworkFirstUrl(url)) {
+    event.respondWith(networkFirst(request));
+  } else {
+    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
+  }
 });
 
-// Network-first strategy for dynamic content
-async function networkFirst(request) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        // Cache successful responses
-        if (networkResponse && networkResponse.status === 200) {
-            const cache = await caches.open(DYNAMIC_CACHE_NAME);
-            cache.put(request, networkResponse.clone());
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.log('Service Worker: Network failed, trying cache', error);
-        
-        const cachedResponse = await caches.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-        
-        // Return offline page or error response
-        return createOfflineResponse(request);
-    }
-}
+// Caching Strategies
 
-// Cache-first strategy for static assets
-async function cacheFirst(request) {
-    const cachedResponse = await caches.match(request);
+/**
+ * Cache First - For static assets that rarely change
+ */
+async function cacheFirst(request, cacheName) {
+  try {
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request);
     
-    if (cachedResponse) {
-        return cachedResponse;
+    if (cached) {
+      // Check if cached version is still fresh
+      const cachedDate = new Date(cached.headers.get('sw-cached-date') || 0);
+      const isStale = Date.now() - cachedDate.getTime() > CACHE_DURATIONS.STATIC;
+      
+      if (!isStale) {
+        return cached;
+      }
     }
     
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse && networkResponse.status === 200) {
-            const cache = await caches.open(STATIC_CACHE_NAME);
-            cache.put(request, networkResponse.clone());
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.log('Service Worker: Failed to fetch static asset', error);
-        return createOfflineResponse(request);
-    }
-}
-
-// Network-first with offline fallback for navigation
-async function networkFirstWithOfflineFallback(request) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse && networkResponse.status === 200) {
-            const cache = await caches.open(DYNAMIC_CACHE_NAME);
-            cache.put(request, networkResponse.clone());
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.log('Service Worker: Network failed for navigation', error);
-        
-        // Try to serve from cache
-        const cachedResponse = await caches.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-        
-        // Serve offline page
-        const offlinePage = await caches.match('/offline.html');
-        if (offlinePage) {
-            return offlinePage;
-        }
-        
-        // Last resort: create minimal offline response
-        return createMinimalOfflineResponse();
-    }
-}
-
-// Stale-while-revalidate strategy
-async function staleWhileRevalidate(request) {
-    const cachedResponse = await caches.match(request);
+    // Fetch fresh version
+    const response = await fetch(request);
     
-    const fetchPromise = fetch(request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200) {
-            const cache = caches.open(DYNAMIC_CACHE_NAME);
-            cache.then(c => c.put(request, networkResponse.clone()));
-        }
-        return networkResponse;
-    }).catch(error => {
-        console.log('Service Worker: Network failed in stale-while-revalidate', error);
+    if (response.ok) {
+      const responseClone = response.clone();
+      const headers = new Headers(responseClone.headers);
+      headers.set('sw-cached-date', new Date().toISOString());
+      
+      const responseWithTimestamp = new Response(responseClone.body, {
+        status: responseClone.status,
+        statusText: responseClone.statusText,
+        headers: headers
+      });
+      
+      await cache.put(request, responseWithTimestamp);
+    }
+    
+    return response;
+    
+  } catch (error) {
+    console.error('Cache first strategy failed:', error);
+    
+    // Fallback to cache even if stale
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    // Ultimate fallback for HTML requests
+    if (request.headers.get('accept')?.includes('text/html')) {
+      return caches.match('/index.html');
+    }
+    
+    throw error;
+  }
+}
+
+/**
+ * Stale While Revalidate - For assets that can be stale
+ */
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  
+  // Fetch fresh version in background
+  const fetchPromise = fetch(request)
+    .then(response => {
+      if (response.ok) {
+        const responseClone = response.clone();
+        const headers = new Headers(responseClone.headers);
+        headers.set('sw-cached-date', new Date().toISOString());
+        
+        const responseWithTimestamp = new Response(responseClone.body, {
+          status: responseClone.status,
+          statusText: responseClone.statusText,
+          headers: headers
+        });
+        
+        cache.put(request, responseWithTimestamp);
+      }
+      return response;
+    })
+    .catch(error => {
+      console.warn('Background fetch failed:', error);
+      return cached; // Return cached version if fetch fails
     });
-    
-    return cachedResponse || fetchPromise;
+  
+  // Return cached version immediately if available
+  if (cached) {
+    return cached;
+  }
+  
+  // Otherwise wait for fetch
+  return fetchPromise;
 }
 
-// Helper functions
-function isNetworkFirstUrl(pathname) {
-    return NETWORK_FIRST_URLS.some(url => pathname.startsWith(url));
+/**
+ * Network First with Fallback - For critical real-time data
+ */
+async function networkFirstWithFallback(request, cacheName) {
+  try {
+    const response = await fetch(request);
+    
+    if (response.ok) {
+      const cache = await caches.open(cacheName);
+      const responseClone = response.clone();
+      const headers = new Headers(responseClone.headers);
+      headers.set('sw-cached-date', new Date().toISOString());
+      
+      const responseWithTimestamp = new Response(responseClone.body, {
+        status: responseClone.status,
+        statusText: responseClone.statusText,
+        headers: headers
+      });
+      
+      await cache.put(request, responseWithTimestamp);
+    }
+    
+    return response;
+    
+  } catch (error) {
+    console.warn('Network first failed, trying cache:', error);
+    
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      // Check if cached data is not too old for fire data
+      const cachedDate = new Date(cached.headers.get('sw-cached-date') || 0);
+      const isStale = Date.now() - cachedDate.getTime() > CACHE_DURATIONS.FIRE_DATA;
+      
+      if (!isStale) {
+        return cached;
+      }
+      
+      // Return stale data with warning header
+      const headers = new Headers(cached.headers);
+      headers.set('sw-cache-status', 'stale');
+      
+      return new Response(cached.body, {
+        status: cached.status,
+        statusText: cached.statusText,
+        headers: headers
+      });
+    }
+    
+    throw error;
+  }
 }
+
+/**
+ * Network First - For analytics and tracking
+ */
+async function networkFirst(request) {
+  try {
+    return await fetch(request);
+  } catch (error) {
+    // Fail silently for analytics requests
+    return new Response('', { status: 204 });
+  }
+}
+
+// URL Classification Functions
 
 function isStaticAsset(url) {
-    const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2'];
-    const pathname = url.pathname.toLowerCase();
-    return staticExtensions.some(ext => pathname.endsWith(ext)) || 
-           url.hostname === 'fonts.googleapis.com' ||
-           url.hostname === 'fonts.gstatic.com' ||
-           url.hostname === 'cdnjs.cloudflare.com';
+  const pathname = url.pathname;
+  return pathname.includes('/css/') ||
+         pathname.includes('/js/') ||
+         pathname.includes('/images/') ||
+         pathname.includes('/fonts/') ||
+         pathname.endsWith('.css') ||
+         pathname.endsWith('.js') ||
+         pathname.endsWith('.woff2') ||
+         pathname.endsWith('.woff') ||
+         pathname.endsWith('.svg') ||
+         pathname.endsWith('.png') ||
+         pathname.endsWith('.jpg') ||
+         pathname.endsWith('.ico') ||
+         pathname.endsWith('/manifest.json') ||
+         url.hostname === 'unpkg.com';
 }
 
-function isNavigationRequest(request) {
-    return request.mode === 'navigate' || 
-           (request.method === 'GET' && request.headers.get('accept').includes('text/html'));
+function isTileRequest(url) {
+  return url.hostname.includes('openstreetmap.org') ||
+         url.hostname.includes('tile.openstreetmap.org') ||
+         url.hostname.includes('arcgisonline.com') ||
+         url.pathname.includes('/tile/') ||
+         /\/\d+\/\d+\/\d+\.png$/.test(url.pathname);
 }
 
-function createOfflineResponse(request) {
-    const url = new URL(request.url);
-    
-    // For HTML requests, return basic offline page
-    if (request.headers.get('accept').includes('text/html')) {
-        return new Response(
-            createOfflineHTML(),
-            {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'text/html; charset=utf-8'
-                }
-            }
-        );
-    }
-    
-    // For other requests, return appropriate offline response
-    if (url.pathname.startsWith('/api/')) {
-        return new Response(
-            JSON.stringify({
-                error: 'Offline',
-                message: 'No internet connection. Please try again when online.',
-                offline: true
-            }),
-            {
-                status: 503,
-                statusText: 'Service Unavailable',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-    }
-    
-    return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+function isFireDataRequest(url) {
+  return url.pathname.includes('/api/fires') ||
+         url.pathname.includes('/api/nasa/firms') ||
+         url.pathname.includes('fire') && url.pathname.includes('.csv');
 }
 
-function createMinimalOfflineResponse() {
-    return new Response(
-        createOfflineHTML(),
-        {
-            status: 200,
-            statusText: 'OK',
-            headers: {
-                'Content-Type': 'text/html; charset=utf-8'
-            }
-        }
-    );
+function isGeocodingRequest(url) {
+  return url.hostname.includes('nominatim.openstreetmap.org') ||
+         url.pathname.includes('/geocode') ||
+         url.pathname.includes('/reverse');
 }
 
-function createOfflineHTML() {
-    return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offline - Eye on the Fire</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #FF4444 0%, #FF6B35 100%);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-        }
-        .offline-container {
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .offline-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        .retry-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .retry-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-    </style>
-</head>
-<body>
-    <div class="offline-container">
-        <div class="offline-icon">🔥</div>
-        <h1>You're Offline</h1>
-        <p>No internet connection detected. Eye on the Fire requires an active internet connection to provide real-time wildfire data.</p>
-        <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
-    </div>
-</body>
-</html>
-    `;
+function isNetworkFirstUrl(url) {
+  return NETWORK_FIRST_URLS.some(pattern => 
+    url.hostname.includes(pattern) || url.pathname.includes(pattern)
+  );
 }
 
-// Background sync for when connectivity is restored
+// Background Sync for Fire Data Updates
 self.addEventListener('sync', event => {
-    if (event.tag === 'background-sync') {
-        console.log('Service Worker: Background sync triggered');
-        event.waitUntil(syncFireData());
-    }
+  if (event.tag === 'fire-data-sync') {
+    event.waitUntil(syncFireData());
+  }
 });
 
 async function syncFireData() {
-    try {
-        // Attempt to fetch latest fire data when back online
-        const response = await fetch('/api/nasa/firms?source=MODIS_NRT&days=1&area=usa');
-        if (response.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE_NAME);
-            cache.put('/api/nasa/firms?source=MODIS_NRT&days=1&area=usa', response.clone());
-            console.log('Service Worker: Fire data synced successfully');
-            
-            // Notify all clients that new data is available
-            const clients = await self.clients.matchAll();
-            clients.forEach(client => {
-                client.postMessage({
-                    type: 'DATA_SYNC_COMPLETE',
-                    timestamp: Date.now()
-                });
-            });
-        }
-    } catch (error) {
-        console.log('Service Worker: Failed to sync fire data', error);
+  try {
+    console.log('ServiceWorker: Background syncing fire data');
+    
+    const response = await fetch('/api/fires.csv');
+    if (response.ok) {
+      const cache = await caches.open(FIRE_DATA_CACHE);
+      const headers = new Headers(response.headers);
+      headers.set('sw-cached-date', new Date().toISOString());
+      headers.set('sw-sync-update', 'true');
+      
+      const responseWithTimestamp = new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: headers
+      });
+      
+      await cache.put('/api/fires.csv', responseWithTimestamp);
+      
+      // Notify clients of new data
+      const clients = await self.clients.matchAll();
+      clients.forEach(client => {
+        client.postMessage({
+          type: 'FIRE_DATA_UPDATED',
+          timestamp: Date.now()
+        });
+      });
     }
+  } catch (error) {
+    console.error('ServiceWorker: Background sync failed:', error);
+  }
 }
 
-// Push notification handling (for future fire alerts)
+// Push Notifications for Fire Alerts
 self.addEventListener('push', event => {
-    if (event.data) {
-        const data = event.data.json();
-        const options = {
-            body: data.body,
-            icon: '/images/eyeonthefire-logo.png',
-            badge: '/images/notification-badge.png',
-            tag: 'fire-alert',
-            requireInteraction: true,
-            actions: [
-                {
-                    action: 'view',
-                    title: 'View Map',
-                    icon: '/images/map-icon.png'
-                },
-                {
-                    action: 'dismiss',
-                    title: 'Dismiss'
-                }
-            ]
-        };
-        
-        event.waitUntil(
-            self.registration.showNotification(data.title || 'Fire Alert', options)
-        );
-    }
+  if (!event.data) return;
+  
+  try {
+    const data = event.data.json();
+    
+    const options = {
+      body: data.body || 'New wildfire activity detected in your area',
+      icon: '/favicon.png',
+      badge: '/badge.png',
+      tag: data.tag || 'fire-alert',
+      requireInteraction: true,
+      actions: [
+        {
+          action: 'view',
+          title: 'View on Map',
+          icon: '/action-view.png'
+        },
+        {
+          action: 'dismiss',
+          title: 'Dismiss',
+          icon: '/action-dismiss.png'
+        }
+      ],
+      data: {
+        url: data.url || '/',
+        lat: data.lat,
+        lng: data.lng
+      }
+    };
+    
+    event.waitUntil(
+      self.registration.showNotification(
+        data.title || 'Fire Alert - Eye on the Fire',
+        options
+      )
+    );
+  } catch (error) {
+    console.error('ServiceWorker: Push notification error:', error);
+  }
 });
 
 // Handle notification clicks
 self.addEventListener('notificationclick', event => {
-    event.notification.close();
-    
-    if (event.action === 'view') {
-        event.waitUntil(
-            clients.openWindow('/#map')
-        );
-    }
+  event.notification.close();
+  
+  const { action, data } = event;
+  let url = data?.url || '/';
+  
+  if (action === 'view' && data?.lat && data?.lng) {
+    url = `/?lat=${data.lat}&lng=${data.lng}&zoom=12`;
+  }
+  
+  if (action !== 'dismiss') {
+    event.waitUntil(
+      clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then(clientList => {
+          // Focus existing window if open
+          for (const client of clientList) {
+            if (client.url.includes(self.location.origin)) {
+              client.navigate(url);
+              return client.focus();
+            }
+          }
+          
+          // Open new window
+          return clients.openWindow(url);
+        })
+    );
+  }
 });
 
-// Handle service worker updates
+// Message handler for communication with main app
 self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
-    }
+  const { type, data } = event.data;
+  
+  switch (type) {
+    case 'SKIP_WAITING':
+      self.skipWaiting();
+      break;
+      
+    case 'GET_CACHE_STATUS':
+      getCacheStatus().then(status => {
+        event.ports[0].postMessage(status);
+      });
+      break;
+      
+    case 'CLEAR_CACHE':
+      clearAllCaches().then(() => {
+        event.ports[0].postMessage({ success: true });
+      });
+      break;
+      
+    case 'PREFETCH_TILES':
+      prefetchTiles(data.bounds, data.zoomLevel);
+      break;
+  }
 });
 
-console.log('Service Worker: Script loaded successfully');
+// Cache management functions
+async function getCacheStatus() {
+  const cacheNames = await caches.keys();
+  const status = {};
+  
+  for (const cacheName of cacheNames) {
+    if (cacheName.startsWith('eyeonthefire-')) {
+      const cache = await caches.open(cacheName);
+      const keys = await cache.keys();
+      status[cacheName] = {
+        size: keys.length,
+        lastUpdate: cacheName.includes(CACHE_VERSION) ? 'current' : 'outdated'
+      };
+    }
+  }
+  
+  return status;
+}
+
+async function clearAllCaches() {
+  const cacheNames = await caches.keys();
+  
+  return Promise.all(
+    cacheNames
+      .filter(name => name.startsWith('eyeonthefire-'))
+      .map(name => caches.delete(name))
+  );
+}
+
+// Tile prefetching for better performance
+async function prefetchTiles(bounds, zoomLevel) {
+  if (!bounds || !zoomLevel) return;
+  
+  const cache = await caches.open(TILES_CACHE);
+  const tileUrls = generateTileUrls(bounds, zoomLevel);
+  
+  // Limit concurrent requests
+  const batchSize = 5;
+  for (let i = 0; i < tileUrls.length; i += batchSize) {
+    const batch = tileUrls.slice(i, i + batchSize);
+    
+    await Promise.allSettled(
+      batch.map(async url => {
+        try {
+          const cached = await cache.match(url);
+          if (!cached) {
+            const response = await fetch(url);
+            if (response.ok) {
+              await cache.put(url, response);
+            }
+          }
+        } catch (error) {
+          console.warn('Tile prefetch failed:', url, error);
+        }
+      })
+    );
+    
+    // Small delay between batches
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+}
+
+function generateTileUrls(bounds, zoomLevel) {
+  // Simple tile URL generation - can be enhanced
+  const urls = [];
+  const { north, south, east, west } = bounds;
+  
+  // Convert lat/lng bounds to tile coordinates
+  const northTile = Math.floor((1 - Math.log(Math.tan(north * Math.PI / 180) + 1 / Math.cos(north * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoomLevel));
+  const southTile = Math.floor((1 - Math.log(Math.tan(south * Math.PI / 180) + 1 / Math.cos(south * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoomLevel));
+  const westTile = Math.floor((west + 180) / 360 * Math.pow(2, zoomLevel));
+  const eastTile = Math.floor((east + 180) / 360 * Math.pow(2, zoomLevel));
+  
+  for (let x = westTile; x <= eastTile; x++) {
+    for (let y = northTile; y <= southTile; y++) {
+      const subdomains = ['a', 'b', 'c'];
+      const subdomain = subdomains[(x + y) % 3];
+      urls.push(`https://${subdomain}.tile.openstreetmap.org/${zoomLevel}/${x}/${y}.png`);
+    }
+  }
+  
+  return urls.slice(0, 50); // Limit to prevent excessive requests
+}
+
+console.log('ServiceWorker: Script loaded v' + CACHE_VERSION);
