@@ -2,898 +2,683 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Real-time wildfire tracking and safety alerts powered by NASA satellite data. Emergency preparedness tools and supplies from Home Depot.">
-    <meta name="keywords" content="wildfire tracking, fire safety, emergency preparedness, NASA satellite data, Home Depot emergency supplies">
-    <meta name="author" content="Eye on the Fire">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eye on the Fire | Real-Time Wildfire Tracking & Emergency Preparedness</title>
+    <meta name="description" content="Real-time wildfire tracking for California. Monitor active fires, get emergency alerts, and plan evacuation routes with live NASA satellite data.">
     
-    <!-- Impact Site Verification -->
-    <meta name='impact-site-verification' value='5135b3c5-99d2-452f-8041-6191024afe84'>
+    <!-- Content Security Policy - Updated to fix the analytics issues -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' 
+            https://www.googletagmanager.com 
+            https://www.google-analytics.com 
+            https://unpkg.com 
+            https://cdnjs.cloudflare.com;
+        connect-src 'self' 
+            https://*.cloudflare.com 
+            https://unpkg.com 
+            https://fonts.googleapis.com 
+            https://www.google-analytics.com
+            https://analytics.google.com;
+        style-src 'self' 'unsafe-inline' 
+            https://unpkg.com 
+            https://fonts.googleapis.com;
+        img-src 'self' data: blob: 
+            https://*.tile.openstreetmap.org 
+            https://cdnjs.cloudflare.com
+            https://www.google-analytics.com;
+        font-src 'self' 
+            https://fonts.gstatic.com;
+        frame-src 'none';
+        object-src 'none';
+    ">
     
-    <!-- Content Security Policy - Fixed for Google Analytics -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://unpkg.com https://fonts.googleapis.com https://nominatim.openstreetmap.org https://server.arcgisonline.com https://*.tile.openstreetmap.org https://www.homedepot.com; frame-src 'none'; base-uri 'self'; form-action 'self';">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
     
-    <!-- Security Headers -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!-- Custom CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff4444, #cc2200);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(255, 68, 68, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .emergency-alert {
+            background: #ff0000;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .controls {
+            background: #2a2a2a;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff00;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .refresh-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .refresh-btn:hover {
+            background: #ff6666;
+        }
+        
+        .map-container {
+            position: relative;
+            height: calc(100vh - 200px);
+            min-height: 400px;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .fire-popup {
+            font-family: inherit;
+        }
+        
+        .fire-popup h3 {
+            color: #ff4444;
+            margin-bottom: 0.5rem;
+        }
+        
+        .saved-place-popup {
+            font-family: inherit;
+        }
+        
+        .saved-place-popup h3 {
+            color: #4444ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .saved-place-popup button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .footer {
+            background: #2a2a2a;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff4444;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .control-group {
+                justify-content: center;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .map-container {
+                height: calc(100vh - 250px);
+            }
+        }
+    </style>
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8RE6KDBEW"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-T8RE6KDBEW', {
-        anonymize_ip: true,
-        cookie_flags: 'SameSite=None;Secure'
-      });
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T8RE6KDBEW', {
+            anonymize_ip: true
+        });
     </script>
-    
-    <!-- Critical Path Optimization -->
-    <link rel="preload" href="images/eyeonthefire-logo.png" as="image">
-    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style">
-    <link rel="preload" href="assets/css/styles.css" as="style">
-    <link rel="dns-prefetch" href="//unpkg.com">
-    <link rel="dns-prefetch" href="//nominatim.openstreetmap.org">
-    <link rel="dns-prefetch" href="//www.homedepot.com">
-    
-    <!-- External CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="assets/css/styles.css">
-    
-    <!-- App Manifest & Icons -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="images/eyeonthefire-logo.png">
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Mobile Optimization -->
-    <meta name="theme-color" content="#dc2626">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Eye on the Fire">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Eye on the Fire - Real-Time Wildfire Tracking">
-    <meta property="og:description" content="Professional wildfire tracking platform with real-time NASA satellite data and emergency preparedness resources.">
-    <meta property="og:image" content="images/eyeonthefire-logo.png">
-    <meta property="og:url" content="https://eyeonthefire.com">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Eye on the Fire - Real-Time Wildfire Tracking">
-    <meta name="twitter:description" content="Professional wildfire tracking with NASA satellite data and emergency preparedness resources.">
-    <meta name="twitter:image" content="images/eyeonthefire-logo.png">
-    
-    <!-- Critical Path CSS -->
-    <style>
-        :root {
-            --danger-red: #dc2626;
-            --hd-orange: #F96302;
-            --gray-900: #111827;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --white: #ffffff;
-            --info-blue: #2563eb;
-            --touch-target: 44px;
-        }
-        
-        * { 
-            box-sizing: border-box; 
-        }
-        
-        body { 
-            margin: 0; 
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            background: var(--gray-50);
-            line-height: 1.5;
-            color: var(--gray-900);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: var(--danger-red);
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            z-index: 10000;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        
-        .skip-link:focus {
-            top: 6px;
-        }
-        
-        .loading-screen { 
-            position: fixed; 
-            inset: 0; 
-            background: var(--gray-900); 
-            color: white; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 9999;
-            flex-direction: column;
-        }
-        
-        .main-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--gray-200);
-            z-index: 1000;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            justify-content: space-between;
-        }
-        
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            color: var(--danger-red);
-        }
-        
-        .map-container { 
-            position: fixed; 
-            top: 60px; 
-            left: 0; 
-            right: 0; 
-            bottom: 240px;
-        }
-        
-        .fire-map { 
-            width: 100%; 
-            height: 100%; 
-        }
-        
-        .ad-banner {
-            position: fixed;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            min-height: 120px;
-            background: white;
-            border-top: 2px solid var(--hd-orange);
-            z-index: 5;
-        }
-        
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: var(--gray-900);
-            z-index: 4;
-        }
-        
-        @keyframes fadeIn { 
-            to { opacity: 1; } 
-        }
-        
-        @media (prefers-contrast: high) {
-            .main-nav {
-                background: white;
-                border-bottom: 2px solid black;
-            }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Skip Links for Accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <a href="#navigation" class="skip-link">Skip to navigation</a>
-    <a href="#emergency-info" class="skip-link">Skip to emergency information</a>
+    <div class="emergency-alert">
+        Emergency Information: In case of immediate danger from wildfire, call 911 immediately. 
+        This map shows real-time fire detection data but should not be your only source for emergency decision-making. 
+        Always follow official evacuation orders.
+    </div>
     
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen" aria-hidden="true" role="dialog" aria-label="Loading application">
-        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire Logo - Wildfire tracking platform" class="loading-logo">
-        <h1>Eye on the Fire</h1>
-        <p>Loading real-time fire intelligence...</p>
-        <div class="loading-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Application loading progress">
-            <div class="progress-bar"></div>
+    <header class="header">
+        <h1>🔥 Eye on the Fire</h1>
+        <p>Real-Time Wildfire Tracking & Emergency Preparedness</p>
+    </header>
+    
+    <div class="controls">
+        <div class="control-group">
+            <div class="status-indicator">
+                <div class="status-light"></div>
+                <span>Live Updates Active</span>
+            </div>
+            <span>Active Fires: <strong id="fire-count">Loading...</strong></span>
         </div>
-        <div class="loading-status" id="loadingStatus" aria-live="polite">Initializing...</div>
+        
+        <div class="control-group">
+            <span>Last Updated: <span id="last-updated">Loading...</span></span>
+            <button class="refresh-btn" id="refresh-btn">Refresh Data</button>
+        </div>
     </div>
-
-    <!-- Emergency Alert Banner -->
-    <div id="emergency-alert" class="emergency-alert" role="alert" aria-live="assertive" aria-hidden="true" style="display: none;">
-        <div class="alert-content">
-            <span class="alert-icon" aria-hidden="true">⚠️</span>
-            <span class="alert-text" id="alert-message"></span>
-            <button class="alert-close" onclick="closeEmergencyAlert()" aria-label="Close emergency alert">×</button>
+    
+    <div class="map-container">
+        <div id="map"></div>
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading fire data...</p>
         </div>
     </div>
-
-    <!-- Main Navigation - WatchDuty Style -->
-    <nav class="main-nav" role="navigation" aria-label="Main navigation" id="navigation">
-        <!-- Clickable Brand -->
-        <a href="/" class="nav-brand" aria-label="Eye on the Fire - Go to homepage">
-            <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="brand-logo">
-            <span class="brand-text">Eye on the Fire</span>
-        </a>
-        
-        <!-- Navigation Controls -->
-        <div class="nav-controls">
-            <!-- Live Status -->
-            <div class="nav-status" role="status" aria-live="polite" aria-label="Application status">
-                <div class="live-indicator">
-                    <span class="live-dot" aria-hidden="true"></span>
-                    <span class="live-text">Live</span>
-                </div>
-            </div>
-            
-            <!-- Location Status -->
-            <div class="location-status" id="locationStatus" style="display: none;">
-                <span class="location-icon">📍</span>
-                <span class="location-text" id="locationText">Finding location...</span>
-            </div>
-            
-            <!-- Prominent Locate Me Button -->
-            <button class="locate-me-btn" 
-                    id="locateMeBtn" 
-                    onclick="window.eyeOnTheFire?.findUserLocation?.()" 
-                    aria-label="Find fires near my current location"
-                    title="Get personalized fire alerts for your area">
-                <span class="button-icon" aria-hidden="true">📍</span>
-                <span class="button-text">Locate Me</span>
-            </button>
-            
-            <!-- Navigation Menu Button -->
-            <button class="nav-menu-btn" 
-                    id="navMenuBtn" 
-                    onclick="toggleNavMenu()" 
-                    aria-expanded="false" 
-                    aria-controls="navMenu" 
-                    aria-label="Open navigation menu">
-                <div class="hamburger-lines" aria-hidden="true">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </div>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Side Navigation Menu -->
-    <aside class="nav-menu" id="navMenu" role="menu" aria-hidden="true">
-        <div class="nav-menu-overlay" onclick="closeNavMenu()"></div>
-        <div class="nav-menu-content">
-            <!-- Menu Header -->
-            <div class="nav-menu-header">
-                <div class="menu-brand">
-                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="menu-logo">
-                    <span class="menu-title">Eye on the Fire</span>
-                </div>
-                <button class="menu-close" onclick="closeNavMenu()" aria-label="Close navigation menu">×</button>
-            </div>
-            
-            <!-- Add Places Section -->
-            <div class="add-places-section">
-                <h3 class="section-title">📍 Add Places to Monitor</h3>
-                <p class="section-description">Get alerts for fires near specific locations</p>
-                <form class="add-place-form" onsubmit="addPlace(event)">
-                    <div class="input-group">
-                        <input type="text" 
-                               class="place-input" 
-                               id="placeInput" 
-                               placeholder="Enter address, city, or landmark"
-                               autocomplete="off"
-                               aria-label="Enter address or place name to monitor">
-                        <button type="submit" 
-                                class="add-place-btn" 
-                                aria-label="Add this place to monitoring list">
-                            Add
-                        </button>
-                    </div>
-                </form>
-                <div class="saved-places" id="savedPlaces" aria-label="Saved places for monitoring">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-            
-            <!-- Navigation Links -->
-            <nav class="nav-links" role="navigation">
-                <!-- Fire Intelligence Section -->
-                <div class="link-section">
-                    <h4 class="link-section-title">🔥 Fire Intelligence</h4>
-                    <a href="/" class="nav-link active" role="menuitem" aria-current="page">
-                        <span class="link-icon">🗺️</span>
-                        <span class="link-text">Live Fire Map</span>
-                    </a>
-                    <a href="safety.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">🛡️</span>
-                        <span class="link-text">Safety Center</span>
-                    </a>
-                    <a href="prevention.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">🌿</span>
-                        <span class="link-text">Fire Prevention</span>
-                    </a>
-                    <a href="alerts.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">🚨</span>
-                        <span class="link-text">Alert Setup</span>
-                    </a>
-                </div>
-                
-                <!-- Resources Section -->
-                <div class="link-section">
-                    <h4 class="link-section-title">📚 Resources</h4>
-                    <a href="about.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">ℹ️</span>
-                        <span class="link-text">About Platform</span>
-                    </a>
-                    <a href="support.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">📞</span>
-                        <span class="link-text">Emergency Contacts</span>
-                    </a>
-                    <a href="data-sources.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">📊</span>
-                        <span class="link-text">Data Sources</span>
-                    </a>
-                    <a href="settings.html" class="nav-link" role="menuitem">
-                        <span class="link-icon">⚙️</span>
-                        <span class="link-text">Settings</span>
-                    </a>
-                </div>
-            </nav>
-            
-            <!-- Footer in Menu -->
-            <div class="nav-menu-footer">
-                <p class="footer-text">Real-time satellite data from NASA FIRMS</p>
-                <div class="footer-links">
-                    <a href="privacy.html" class="footer-link">Privacy</a>
-                    <a href="terms.html" class="footer-link">Terms</a>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Map Container -->
-    <main class="map-container" role="main" id="main-content" tabindex="-1">
-        <div id="map" class="fire-map" 
-             aria-label="Interactive wildfire tracking map showing active fires" 
-             role="application"
-             aria-describedby="map-instructions"></div>
-        
-        <!-- Hidden instructions for screen readers -->
-        <div id="map-instructions" class="sr-only">
-            Interactive map showing real-time wildfire locations. Use arrow keys to pan the map. Use plus and minus keys to zoom. Click on fire markers to view detailed information. Press Tab to navigate through fire locations.
-        </div>
-        
-        <!-- Emergency Information Section -->
-        <section id="emergency-info" class="sr-only">
-            <h2>Emergency Information</h2>
-            <p>In case of immediate danger from wildfire, call 911 immediately. This map shows real-time fire detection data but should not be your only source for emergency decision-making. Always follow official evacuation orders.</p>
-        </section>
-        
-        <!-- Map Controls Overlay -->
-        <div class="map-controls" role="toolbar" aria-label="Map controls and fire status">
-            <!-- Status Panel -->
-            <section class="status-panel" role="region" aria-labelledby="fire-status-title">
-                <div class="status-header">
-                    <h2 class="status-title" id="fire-status-title">
-                        <span class="count-number" id="fireCount" aria-live="polite" aria-atomic="true">--</span>
-                        <span class="count-label">Active Fires</span>
-                    </h2>
-                    <div class="update-time">
-                        <span id="lastUpdate" aria-live="polite" aria-label="Last data update time">Loading...</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Quick Action Buttons -->
-            <div class="quick-actions" role="group" aria-label="Map navigation actions">
-                <button class="action-button primary" 
-                        id="showAllBtn" 
-                        onclick="window.eyeOnTheFire?.showAllFires?.()" 
-                        aria-label="Show all active fires on the map">
-                    <span class="button-icon" aria-hidden="true">🔥</span>
-                    <span class="button-label">All Fires</span>
-                </button>
-                
-                <button class="action-button" 
-                        id="refreshBtn" 
-                        onclick="window.eyeOnTheFire?.refreshFireData?.()" 
-                        aria-label="Refresh fire data from NASA satellites">
-                    <span class="button-icon" aria-hidden="true">🔄</span>
-                    <span class="button-label">Refresh</span>
-                </button>
-                
-                <button class="action-button" 
-                        id="nearbyBtn" 
-                        onclick="window.eyeOnTheFire?.showNearbyFires?.()" 
-                        aria-label="Show fires near your location"
-                        style="display: none;">
-                    <span class="button-icon" aria-hidden="true">📍</span>
-                    <span class="button-label">Nearby</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Nearby Fires Panel -->
-        <aside class="nearby-panel" 
-               id="nearbyPanel" 
-               role="complementary" 
-               aria-labelledby="nearby-title"
-               aria-hidden="true" 
-               style="display: none;">
-            <div class="panel-header">
-                <h3 class="panel-title" id="nearby-title">
-                    <span class="panel-icon" aria-hidden="true">📍</span>
-                    Fires Near Your Location
-                </h3>
-                <button class="panel-close" 
-                        onclick="window.eyeOnTheFire?.closeNearbyPanel?.()" 
-                        aria-label="Close nearby fires panel">×</button>
-            </div>
-            
-            <div class="nearby-content">
-                <div class="user-location" role="status" aria-live="polite">
-                    <span class="location-icon" aria-hidden="true">📍</span>
-                    <span class="location-text" id="userLocationText">Determining your location...</span>
-                </div>
-                
-                <div class="nearby-list" 
-                     id="nearbyList" 
-                     role="list" 
-                     aria-labelledby="nearby-title">
-                    <!-- Populated dynamically with fire data -->
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <!-- Home Depot Ad Banner -->
-    <aside class="ad-banner" 
-           role="complementary" 
-           aria-labelledby="ad-title">
-        <div class="ad-content">
-            <div class="ad-header">Advertisement - Home Depot Partnership</div>
-            
-            <div class="ad-logo">
-                <div class="hd-logo-placeholder" aria-label="Home Depot logo">HD</div>
-            </div>
-            
-            <div class="ad-text">
-                <h2 class="ad-title" id="ad-title">Emergency Preparedness & Fire Safety</h2>
-                <p class="ad-description">Fire extinguishers, emergency generators, evacuation supplies & safety equipment - Be ready for wildfire season</p>
-            </div>
-            
-            <a href="https://www.homedepot.com/c/emergency_preparedness" 
-               class="ad-cta" 
-               target="_blank" 
-               rel="noopener nofollow"
-               aria-label="Shop emergency preparedness supplies at Home Depot - opens in new tab"
-               onclick="trackAdClick('banner', 'emergency_prep')">
-                <span aria-hidden="true">🛒</span>
-                Shop Emergency Supplies
-            </a>
-        </div>
-    </aside>
-
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-brand">
-                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
-                    <span class="footer-title">Eye on the Fire</span>
-                </div>
-                <p class="footer-tagline">Real-time wildfire intelligence</p>
-            </div>
-            
-            <div class="footer-links">
-                <a href="privacy.html" class="footer-link">Privacy Policy</a>
-                <a href="terms.html" class="footer-link">Terms of Service</a>
-                <a href="accessibility.html" class="footer-link">Accessibility</a>
-                <a href="contact.html" class="footer-link">Contact</a>
-                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
-            </div>
-            
-            <div class="footer-info">
-                <p class="footer-copyright">© 2025 Eye on the Fire. All rights reserved.</p>
-                <p class="footer-data">Data provided by NASA FIRMS</p>
-            </div>
-        </div>
+    
+    <footer class="footer">
+        <p>Data provided by NASA FIRMS | Fire detection from VIIRS and MODIS satellites | 
+        Updates every 5 minutes | Click on map to save locations</p>
     </footer>
-
-    <!-- Location Permission Request Modal -->
-    <div id="locationModal" class="location-modal" style="display: none;" role="dialog" aria-labelledby="location-modal-title" aria-modal="true">
-        <div class="modal-overlay" onclick="window.eyeOnTheFire?.closeLocationModal?.()"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="location-modal-title">📍 Enable Location Services</h3>
-                <button class="modal-close" onclick="window.eyeOnTheFire?.closeLocationModal?.()" aria-label="Close modal">×</button>
-            </div>
-            <div class="modal-body">
-                <p>Allow location access to:</p>
-                <ul>
-                    <li>🔥 Find fires near your current location</li>
-                    <li>🚨 Receive personalized fire alerts</li>
-                    <li>📍 Show distance to active fires</li>
-                    <li>🗺️ Center map on your area</li>
-                </ul>
-                <p class="privacy-note">Your location is never stored or shared. It's only used to show nearby fire activity.</p>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn primary" onclick="requestLocationPermission()">Enable Location</button>
-                <button class="modal-btn secondary" onclick="window.eyeOnTheFire?.closeLocationModal?.()">Maybe Later</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Performance Monitoring & Critical Scripts -->
+    
+    <!-- Scripts - Load in proper order to prevent conflicts -->
+    
+    <!-- 1. Leaflet Library (must be loaded first) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    
+    <!-- 2. Main Application Script (load ONLY ONCE) -->
     <script>
-        // Performance and accessibility tracking
-        const perfStart = performance.now();
-        let loadSteps = 0;
-        const totalSteps = 4;
-        
-        // State variables - REMOVED duplicate userLocation to fix error
-        let savedPlaces = [];
-        
-        // Ad click tracking for analytics
-        function trackAdClick(placement, content) {
-            if (window.gtag) {
-                gtag('event', 'ad_click', {
-                    event_category: 'Advertisement',
-                    event_label: placement + '_' + content,
-                    value: 1
-                });
-            }
-            console.log('Ad clicked:', placement, content);
-        }
-        
-        // Progress tracking with accessibility
-        function updateProgress(step, status) {
-            loadSteps = step;
-            const progress = (step / totalSteps) * 100;
-            const statusEl = document.getElementById('loadingStatus');
-            const progressBar = document.querySelector('.progress-bar');
-            const progressContainer = document.querySelector('.loading-progress');
+        // Prevent multiple script loading
+        if (!window.fireMapLoaded) {
+            window.fireMapLoaded = true;
             
-            if (statusEl) statusEl.textContent = status;
-            if (progressBar) progressBar.style.width = progress + '%';
-            if (progressContainer) {
-                progressContainer.setAttribute('aria-valuenow', progress);
-                progressContainer.setAttribute('aria-valuetext', status + ' - ' + Math.round(progress) + '% complete');
-            }
-        }
-        
-        // Navigation menu management
-        function toggleNavMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const navMenuBtn = document.getElementById('navMenuBtn');
-            const isOpen = navMenuBtn.getAttribute('aria-expanded') === 'true';
-            
-            navMenuBtn.setAttribute('aria-expanded', !isOpen);
-            navMenu.classList.toggle('active', !isOpen);
-            navMenu.setAttribute('aria-hidden', isOpen);
-            
-            // Prevent body scroll when menu is open
-            document.body.style.overflow = !isOpen ? 'hidden' : '';
-            
-            // Focus management for accessibility
-            if (!isOpen) {
-                const firstInput = navMenu.querySelector('.place-input');
-                if (firstInput) {
-                    setTimeout(() => firstInput.focus(), 100);
-                }
-            }
-        }
-        
-        function closeNavMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const navMenuBtn = document.getElementById('navMenuBtn');
-            
-            navMenuBtn.setAttribute('aria-expanded', 'false');
-            navMenu.classList.remove('active');
-            navMenu.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-        
-        function closeEmergencyAlert() {
-            const alert = document.getElementById('emergency-alert');
-            if (alert) {
-                alert.style.display = 'none';
-                alert.setAttribute('aria-hidden', 'true');
-            }
-        }
-        
-        // Add Places functionality with cookies
-        function addPlace(event) {
-            event.preventDefault();
-            const input = document.getElementById('placeInput');
-            const placeName = input.value.trim();
-            
-            if (!placeName) return;
-            
-            // Check if place already exists
-            if (savedPlaces.includes(placeName)) {
-                alert('This place is already in your monitoring list.');
-                return;
-            }
-            
-            // Add new place
-            savedPlaces.push(placeName);
-            setSavedPlaces(savedPlaces);
-            
-            // Clear input and refresh display
-            input.value = '';
-            renderSavedPlaces();
-            
-            // Track analytics
-            if (window.gtag) {
-                gtag('event', 'place_added', {
-                    event_category: 'User Engagement',
-                    event_label: 'places_monitoring'
-                });
-            }
-            
-            console.log('Added place:', placeName);
-        }
-        
-        function removePlace(placeName) {
-            savedPlaces = savedPlaces.filter(place => place !== placeName);
-            setSavedPlaces(savedPlaces);
-            renderSavedPlaces();
-            
-            if (window.gtag) {
-                gtag('event', 'place_removed', {
-                    event_category: 'User Engagement',
-                    event_label: 'places_monitoring'
-                });
-            }
-        }
-        
-        function getSavedPlaces() {
-            try {
-                // Try localStorage first
-                const places = localStorage.getItem('eyeonthefire_saved_places');
-                if (places) return JSON.parse(places);
+            // FIRE MAP APPLICATION CODE - SINGLE DECLARATION VERSION
+            (function() {
+                'use strict';
                 
-                // Fallback to cookies
-                const cookies = document.cookie.split(';');
-                for (let cookie of cookies) {
-                    let [name, value] = cookie.trim().split('=');
-                    if (name === 'saved_places') {
-                        return JSON.parse(decodeURIComponent(value));
-                    }
-                }
-                return [];
-            } catch (e) {
-                return [];
-            }
-        }
-        
-        function setSavedPlaces(places) {
-            try {
-                // Save to localStorage
-                localStorage.setItem('eyeonthefire_saved_places', JSON.stringify(places));
-                
-                // Also set as cookie for 30 days
-                const expires = new Date();
-                expires.setTime(expires.getTime() + (30 * 24 * 60 * 60 * 1000));
-                document.cookie = `saved_places=${encodeURIComponent(JSON.stringify(places))}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-            } catch (e) {
-                console.warn('Could not save places:', e);
-            }
-        }
-        
-        function renderSavedPlaces() {
-            const container = document.getElementById('savedPlaces');
-            const places = getSavedPlaces();
-            
-            if (places.length === 0) {
-                container.innerHTML = '<p class="no-places">No places added yet</p>';
-                return;
-            }
-            
-            container.innerHTML = places.map(place => `
-                <div class="saved-place">
-                    <button class="place-name" onclick="searchPlace('${place.replace(/'/g, '\\\'')}')" 
-                          aria-label="View fires near ${place}">
-                        <span class="place-icon">📍</span>
-                        <span class="place-text">${place}</span>
-                    </button>
-                    <button class="remove-place" 
-                            onclick="removePlace('${place.replace(/'/g, '\\\'')}')"
-                            aria-label="Remove ${place} from monitoring"
-                            title="Remove from monitoring">×</button>
-                </div>
-            `).join('');
-        }
-        
-        function searchPlace(placeName) {
-            closeNavMenu();
-            if (window.eyeOnTheFire && window.eyeOnTheFire.searchLocation) {
-                window.eyeOnTheFire.searchLocation(placeName);
-            }
-        }
-        
-        // Location Services - Updated to use global API
-        async function requestLocationPermission() {
-            if (window.eyeOnTheFire && window.eyeOnTheFire.findUserLocation) {
-                await window.eyeOnTheFire.findUserLocation();
-            } else {
-                console.warn('Main application not loaded yet, trying fallback location method');
-                // Fallback method will be available once app.js loads
-            }
-        }
-        
-        // Global fallback for immediate access
-        window.requestLocationPermission = requestLocationPermission;
-        
-        // Enhanced keyboard accessibility
-        function enhanceKeyboardNavigation() {
-            // Add keyboard support for buttons and interactive elements
-            document.addEventListener('keydown', (event) => {
-                // Handle Enter and Space for custom buttons
-                if ((event.key === 'Enter' || event.key === ' ') && 
-                    event.target.hasAttribute('role') && 
-                    event.target.getAttribute('role') === 'button') {
-                    event.preventDefault();
-                    event.target.click();
+                // Check if already initialized to prevent double initialization
+                if (window.fireMapInitialized) {
+                    console.log('Fire map already initialized, skipping...');
+                    return;
                 }
                 
-                // Close menu with Escape
-                if (event.key === 'Escape') {
-                    closeNavMenu();
-                    if (window.eyeOnTheFire?.closeLocationModal) {
-                        window.eyeOnTheFire.closeLocationModal();
+                // Mark as initialized
+                window.fireMapInitialized = true;
+                
+                // Global variables - single declaration only
+                let savedPlaces = [];
+                let map = null;
+                let fireMarkers = [];
+                let savedPlaceMarkers = [];
+                
+                // Configuration
+                const CONFIG = {
+                    DEFAULT_CENTER: [36.7783, -119.4179], // California center
+                    DEFAULT_ZOOM: 6,
+                    API_BASE_URL: window.location.origin + '/api',
+                    UPDATE_INTERVAL: 300000, // 5 minutes
+                    MAX_RETRIES: 3
+                };
+                
+                // Initialize the application
+                function initializeApp() {
+                    try {
+                        console.log('Initializing Fire Map Application...');
+                        
+                        // Hide loading indicator initially
+                        const loading = document.getElementById('loading');
+                        if (loading) loading.style.display = 'none';
+                        
+                        // Initialize map
+                        initializeMap();
+                        
+                        // Load initial fire data
+                        loadFireData();
+                        
+                        // Set up periodic updates
+                        setInterval(loadFireData, CONFIG.UPDATE_INTERVAL);
+                        
+                        // Initialize saved places
+                        initializeSavedPlaces();
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                        
+                        console.log('Fire Map Application initialized successfully');
+                        
+                    } catch (error) {
+                        console.error('Error initializing Fire Map Application:', error);
+                        showErrorMessage('Failed to initialize fire map. Please refresh the page.');
                     }
                 }
                 
-                // Quick location shortcut (Ctrl/Cmd + L)
-                if ((event.ctrlKey || event.metaKey) && event.key === 'l') {
-                    event.preventDefault();
-                    if (window.eyeOnTheFire?.findUserLocation) {
-                        window.eyeOnTheFire.findUserLocation();
+                function initializeMap() {
+                    if (typeof L === 'undefined') {
+                        throw new Error('Leaflet library not loaded');
+                    }
+                    
+                    // Initialize the map
+                    map = L.map('map', {
+                        center: CONFIG.DEFAULT_CENTER,
+                        zoom: CONFIG.DEFAULT_ZOOM,
+                        zoomControl: true,
+                        scrollWheelZoom: true
+                    });
+                    
+                    // Add tile layer
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors',
+                        maxZoom: 18
+                    }).addTo(map);
+                    
+                    console.log('Map initialized successfully');
+                }
+                
+                async function loadFireData() {
+                    const loading = document.getElementById('loading');
+                    if (loading) loading.style.display = 'block';
+                    
+                    let attempts = 0;
+                    const maxAttempts = CONFIG.MAX_RETRIES;
+                    
+                    while (attempts < maxAttempts) {
+                        try {
+                            console.log(`Loading fire data (attempt ${attempts + 1}/${maxAttempts})...`);
+                            
+                            const response = await fetch(`${CONFIG.API_BASE_URL}/nasa/firms?source=VIIRS_NOAA20_NRT&days=3&area=california`, {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'text/csv',
+                                    'Content-Type': 'text/csv'
+                                }
+                            });
+                            
+                            if (!response.ok) {
+                                throw new Error(`API responded with status: ${response.status}`);
+                            }
+                            
+                            const csvData = await response.text();
+                            console.log('Fire data loaded successfully');
+                            
+                            parseAndDisplayFireData(csvData);
+                            updateLastUpdated();
+                            
+                            if (loading) loading.style.display = 'none';
+                            return; // Success, exit the retry loop
+                            
+                        } catch (error) {
+                            attempts++;
+                            console.error(`Error loading fire data (attempt ${attempts}):`, error);
+                            
+                            if (attempts >= maxAttempts) {
+                                if (loading) loading.style.display = 'none';
+                                showErrorMessage('Failed to load fire data. Please check your connection and try again.');
+                                break;
+                            }
+                            
+                            // Wait before retrying (exponential backoff)
+                            await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, attempts - 1)));
+                        }
                     }
                 }
-            });
-            
-            // Handle clicks outside menu to close
-            document.addEventListener('click', (event) => {
-                const navMenu = document.getElementById('navMenu');
-                const navMenuBtn = document.getElementById('navMenuBtn');
                 
-                if (navMenu.classList.contains('active') && 
-                    !navMenu.contains(event.target) && 
-                    !navMenuBtn.contains(event.target)) {
-                    closeNavMenu();
+                function parseAndDisplayFireData(csvData) {
+                    try {
+                        // Clear existing markers
+                        clearFireMarkers();
+                        
+                        const lines = csvData.split('\n');
+                        const headers = lines[0].split(',');
+                        
+                        let fireCount = 0;
+                        
+                        for (let i = 1; i < lines.length; i++) {
+                            const line = lines[i].trim();
+                            if (!line || line.startsWith('#')) continue;
+                            
+                            const values = line.split(',');
+                            if (values.length < headers.length) continue;
+                            
+                            const lat = parseFloat(values[0]);
+                            const lon = parseFloat(values[1]);
+                            const brightness = parseFloat(values[2]);
+                            const confidence = parseFloat(values[8]);
+                            const acqDate = values[5];
+                            const acqTime = values[6];
+                            
+                            if (isNaN(lat) || isNaN(lon)) continue;
+                            
+                            // Create fire marker
+                            const marker = createFireMarker(lat, lon, brightness, confidence, acqDate, acqTime);
+                            if (marker) {
+                                fireMarkers.push(marker);
+                                fireCount++;
+                            }
+                        }
+                        
+                        console.log(`Displayed ${fireCount} fire locations`);
+                        updateFireCount(fireCount);
+                        
+                    } catch (error) {
+                        console.error('Error parsing fire data:', error);
+                        showErrorMessage('Error displaying fire data. Data may be corrupted.');
+                    }
                 }
-            });
+                
+                function createFireMarker(lat, lon, brightness, confidence, acqDate, acqTime) {
+                    try {
+                        // Determine marker color based on brightness and confidence
+                        let color = '#ff4444'; // Default red
+                        if (brightness > 350) color = '#ff0000'; // Bright red for very hot fires
+                        else if (brightness > 320) color = '#ff6600'; // Orange for hot fires
+                        else if (confidence < 50) color = '#ffaa00'; // Yellow for low confidence
+                        
+                        const marker = L.circleMarker([lat, lon], {
+                            radius: Math.min(8, Math.max(3, brightness / 50)),
+                            fillColor: color,
+                            color: '#000',
+                            weight: 1,
+                            opacity: 0.8,
+                            fillOpacity: 0.6
+                        });
+                        
+                        // Create popup content
+                        const popupContent = `
+                            <div class="fire-popup">
+                                <h3>🔥 Fire Detection</h3>
+                                <p><strong>Location:</strong> ${lat.toFixed(4)}, ${lon.toFixed(4)}</p>
+                                <p><strong>Brightness:</strong> ${brightness}K</p>
+                                <p><strong>Confidence:</strong> ${confidence}%</p>
+                                <p><strong>Detected:</strong> ${acqDate} ${acqTime}</p>
+                            </div>
+                        `;
+                        
+                        marker.bindPopup(popupContent);
+                        marker.addTo(map);
+                        
+                        return marker;
+                        
+                    } catch (error) {
+                        console.error('Error creating fire marker:', error);
+                        return null;
+                    }
+                }
+                
+                function clearFireMarkers() {
+                    fireMarkers.forEach(marker => {
+                        map.removeLayer(marker);
+                    });
+                    fireMarkers = [];
+                }
+                
+                function initializeSavedPlaces() {
+                    try {
+                        // Load saved places from localStorage
+                        const saved = localStorage.getItem('eyeonthefire-saved-places');
+                        if (saved) {
+                            savedPlaces = JSON.parse(saved);
+                        }
+                        
+                        // Display saved places on map
+                        displaySavedPlaces();
+                        
+                        console.log(`Loaded ${savedPlaces.length} saved places`);
+                        
+                    } catch (error) {
+                        console.error('Error initializing saved places:', error);
+                        savedPlaces = [];
+                    }
+                }
+                
+                function displaySavedPlaces() {
+                    // Clear existing saved place markers
+                    savedPlaceMarkers.forEach(marker => {
+                        map.removeLayer(marker);
+                    });
+                    savedPlaceMarkers = [];
+                    
+                    // Add markers for each saved place
+                    savedPlaces.forEach(place => {
+                        const marker = L.marker([place.lat, place.lon], {
+                            icon: L.icon({
+                                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41]
+                            })
+                        });
+                        
+                        marker.bindPopup(`
+                            <div class="saved-place-popup">
+                                <h3>📍 ${place.name}</h3>
+                                <p>${place.lat.toFixed(4)}, ${place.lon.toFixed(4)}</p>
+                                <button onclick="removeSavedPlace('${place.id}')">Remove</button>
+                            </div>
+                        `);
+                        
+                        marker.addTo(map);
+                        savedPlaceMarkers.push(marker);
+                    });
+                }
+                
+                function setupEventListeners() {
+                    // Map click event for adding saved places
+                    map.on('click', function(e) {
+                        const lat = e.latlng.lat;
+                        const lon = e.latlng.lng;
+                        
+                        const name = prompt('Enter a name for this location:');
+                        if (name) {
+                            addSavedPlace(name, lat, lon);
+                        }
+                    });
+                    
+                    // Refresh button
+                    const refreshBtn = document.getElementById('refresh-btn');
+                    if (refreshBtn) {
+                        refreshBtn.addEventListener('click', loadFireData);
+                    }
+                }
+                
+                function addSavedPlace(name, lat, lon) {
+                    const place = {
+                        id: Date.now().toString(),
+                        name: name,
+                        lat: lat,
+                        lon: lon,
+                        created: new Date().toISOString()
+                    };
+                    
+                    savedPlaces.push(place);
+                    localStorage.setItem('eyeonthefire-saved-places', JSON.stringify(savedPlaces));
+                    
+                    displaySavedPlaces();
+                    console.log('Saved place added:', place);
+                }
+                
+                // Make removeSavedPlace globally accessible
+                window.removeSavedPlace = function(id) {
+                    savedPlaces = savedPlaces.filter(place => place.id !== id);
+                    localStorage.setItem('eyeonthefire-saved-places', JSON.stringify(savedPlaces));
+                    displaySavedPlaces();
+                    console.log('Saved place removed:', id);
+                };
+                
+                function updateFireCount(count) {
+                    const countElement = document.getElementById('fire-count');
+                    if (countElement) {
+                        countElement.textContent = count;
+                    }
+                }
+                
+                function updateLastUpdated() {
+                    const timeElement = document.getElementById('last-updated');
+                    if (timeElement) {
+                        timeElement.textContent = new Date().toLocaleString();
+                    }
+                }
+                
+                function showErrorMessage(message) {
+                    // Create or update error message element
+                    let errorDiv = document.getElementById('error-message');
+                    if (!errorDiv) {
+                        errorDiv = document.createElement('div');
+                        errorDiv.id = 'error-message';
+                        errorDiv.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: #ff4444;
+                            color: white;
+                            padding: 10px 15px;
+                            border-radius: 5px;
+                            z-index: 1000;
+                            max-width: 300px;
+                        `;
+                        document.body.appendChild(errorDiv);
+                    }
+                    
+                    errorDiv.textContent = message;
+                    errorDiv.style.display = 'block';
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        if (errorDiv) {
+                            errorDiv.style.display = 'none';
+                        }
+                    }, 5000);
+                }
+                
+                // Initialize when DOM is ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initializeApp);
+                } else {
+                    initializeApp();
+                }
+                
+            })(); // End of IIFE
+            
+            console.log('Fire Map JavaScript loaded successfully - no duplicate declarations');
         }
-        
-        // Initialize on DOM load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load saved places
-            savedPlaces = getSavedPlaces();
-            renderSavedPlaces();
-            
-            // Enhance accessibility
-            enhanceKeyboardNavigation();
-            
-            updateProgress(2, 'Initializing application components...');
-            
-            // Announce app ready to screen readers
-            setTimeout(() => {
-                const announcement = document.createElement('div');
-                announcement.setAttribute('aria-live', 'polite');
-                announcement.className = 'sr-only';
-                announcement.textContent = 'Eye on the Fire wildfire tracking application is now ready for use';
-                document.body.appendChild(announcement);
-                setTimeout(() => announcement.remove(), 5000);
-            }, 1500);
-        });
-        
-        updateProgress(1, 'Loading map engine...');
     </script>
     
-    <!-- External Libraries -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
-            onload="updateProgress(3, 'Loading fire data systems...')"
-            onerror="console.error('Failed to load Leaflet library')"></script>
-    
-    <!-- Main Application Script -->
-    <script src="assets/js/app.js" 
-            defer 
-            onload="updateProgress(4, 'Application ready!')"
-            onerror="console.error('Failed to load main application script')"></script>
-
-    <!-- Service Worker for Progressive Web App -->
+    <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
+            window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                        if (window.gtag) {
-                            gtag('event', 'sw_registered', {
-                                event_category: 'Performance'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed:', error);
-                    });
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
             });
         }
-        
-        // Performance monitoring and cleanup
-        window.addEventListener('load', () => {
-            const loadTime = performance.now() - perfStart;
-            
-            // Analytics tracking
-            if (window.gtag) {
-                gtag('event', 'page_load_complete', {
-                    event_category: 'Performance',
-                    event_label: 'homepage',
-                    value: Math.round(loadTime)
-                });
-            }
-            
-            // Final loading screen cleanup
-            setTimeout(() => {
-                const loadingScreen = document.getElementById('loading-screen');
-                if (loadingScreen) {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        loadingScreen.setAttribute('aria-hidden', 'true');
-                    }, 300);
-                }
-            }, 1000);
-        });
-        
-        // Global error handling
-        window.addEventListener('error', (event) => {
-            console.error('Global error:', event.error);
-            if (window.gtag) {
-                gtag('event', 'js_error', {
-                    event_category: 'Error',
-                    event_label: event.error ? event.error.message : 'Unknown error',
-                    non_interaction: true
-                });
-            }
-        });
-        
-        window.addEventListener('unhandledrejection', (event) => {
-            console.error('Unhandled promise rejection:', event.reason);
-            if (window.gtag) {
-                gtag('event', 'promise_rejection', {
-                    event_category: 'Error', 
-                    event_label: event.reason ? event.reason.toString() : 'Unknown rejection',
-                    non_interaction: true
-                });
-            }
-        });
     </script>
 </body>
 </html>
