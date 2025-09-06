@@ -1,4 +1,191 @@
-/* Safety Page Specific Styles - FIXED CSS Conflicts */
+/* TARGETED FIX: Add this to the TOP of your safety.css */
+/* This specifically addresses the floating text and line issues */
+
+/* === FORCE CONTAIN HERO SECTION === */
+.safety-page .safety-hero {
+    overflow: hidden !important; /* This is key - contain everything */
+    position: relative !important;
+    z-index: 1 !important;
+    isolation: isolate !important; /* Create new stacking context */
+}
+
+.safety-page .hero-content {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 2rem 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: visible !important; /* Content can be visible within hero */
+    contain: layout style !important; /* Contain layout calculations */
+}
+
+.safety-page .hero-text {
+    width: 100% !important;
+    max-width: 800px !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 3 !important;
+    overflow: visible !important;
+    contain: layout !important;
+}
+
+.safety-page .hero-title {
+    width: 100% !important;
+    margin: 0 0 1rem 0 !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 4 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.safety-page .hero-subtitle {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 2rem 0 !important;
+    font-size: clamp(1.2rem, 4vw, 1.8rem) !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 4 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    /* Ensure no floating or absolute positioning */
+    float: none !important;
+    clear: both !important;
+}
+
+/* === CLEAR ANY PSEUDO ELEMENTS === */
+.safety-page .hero-title::before,
+.safety-page .hero-title::after,
+.safety-page .hero-subtitle::before,
+.safety-page .hero-subtitle::after,
+.safety-page .hero-content::before,
+.safety-page .hero-content::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* === FORCE CLEAR SECTIONS BELOW HERO === */
+.safety-page .emergency-actions {
+    clear: both !important;
+    position: relative !important;
+    z-index: 5 !important;
+    margin-top: 0 !important;
+    padding-top: 3rem !important;
+    isolation: isolate !important;
+}
+
+.safety-page .actions-grid {
+    position: relative !important;
+    z-index: 6 !important;
+    clear: both !important;
+}
+
+.safety-page .action-card {
+    position: relative !important;
+    z-index: 7 !important;
+    isolation: isolate !important;
+}
+
+/* === PREVENT ANY ABSOLUTE/FIXED POSITIONING IN HERO === */
+.safety-page .safety-hero * {
+    position: relative !important;
+    float: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+}
+
+/* === EXCEPTION: Allow the background pseudo-element === */
+.safety-page .safety-hero::before {
+    position: absolute !important;
+    z-index: 1 !important;
+}
+
+/* === FORCE CONTAINER CONTAINMENT === */
+.safety-page .page-container {
+    overflow-x: hidden !important;
+    position: relative !important;
+}
+
+/* === MOBILE SPECIFIC FIXES === */
+@media (max-width: 768px) {
+    .safety-page .safety-hero {
+        min-height: 350px !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .safety-page .hero-content {
+        padding: 1rem !important;
+        gap: 1.5rem !important;
+    }
+    
+    .safety-page .hero-title {
+        font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .safety-page .hero-subtitle {
+        font-size: clamp(1rem, 4vw, 1.3rem) !important;
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .safety-page .safety-hero {
+        min-height: 320px !important;
+        padding: 1rem 0.5rem !important;
+    }
+    
+    .safety-page .hero-content {
+        padding: 0.5rem !important;
+        gap: 1rem !important;
+    }
+    
+    .safety-page .hero-title {
+        font-size: clamp(1.5rem, 7vw, 2rem) !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .safety-page .hero-subtitle {
+        font-size: clamp(0.95rem, 5vw, 1.2rem) !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* === DEBUG: Temporarily add borders to see containers === */
+/* Remove these after confirming the fix works */
+/*
+.safety-page .safety-hero {
+    border: 2px solid lime !important;
+}
+.safety-page .hero-content {
+    border: 2px solid blue !important;
+}
+.safety-page .hero-text {
+    border: 2px solid orange !important;
+}
+.safety-page .emergency-actions {
+    border: 2px solid purple !important;
+}
+*//* Safety Page Specific Styles - FIXED CSS Conflicts */
 /* Emergency-focused design with high contrast and accessibility */
 
 /* === Root Variables for Safety === */
