@@ -1872,6 +1872,72 @@
     box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
 }
 
+/* === Emergency Contacts Section === */
+.emergency-contacts-section {
+    padding: var(--data-spacing-lg);
+    border-bottom: 1px solid var(--gray-200);
+    background: var(--gray-50);
+}
+
+.emergency-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--data-spacing-md);
+}
+
+.emergency-contact {
+    display: flex;
+    align-items: center;
+    gap: var(--data-spacing-md);
+    padding: var(--data-spacing-md);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: 60px;
+    border: 2px solid transparent;
+}
+
+.emergency-contact.primary {
+    background: var(--emergency-critical);
+    color: white;
+    border-color: var(--emergency-critical);
+}
+
+.emergency-contact:not(.primary) {
+    background: white;
+    color: var(--gray-700);
+    border-color: var(--gray-200);
+}
+
+.emergency-contact:hover,
+.emergency-contact:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.contact-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.contact-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
 /* === Footer Enhancements === */
 .footer {
     background: var(--gray-900);
@@ -2111,4 +2177,119 @@
         grid-template-columns: 1fr;
     }
     
-    .guidelines-
+    .guidelines-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-badges {
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        padding-bottom: 240px;
+    }
+    
+    .content-section {
+        padding: var(--data-spacing-xl) var(--data-spacing-md);
+    }
+    
+    .hero-btn {
+        min-width: 100%;
+    }
+    
+    .auth-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .access-actions {
+        flex-direction: column;
+    }
+    
+    .access-btn {
+        min-width: 100%;
+    }
+}
+
+/* === Utility Classes === */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.focus-visible {
+    outline: 2px solid var(--data-primary);
+    outline-offset: 2px;
+}
+
+/* === Print Styles === */
+@media print {
+    .data-hero {
+        background: white;
+        color: var(--gray-900);
+        padding: var(--data-spacing-lg);
+    }
+    
+    .source-card,
+    .satellite-card,
+    .quality-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--gray-300);
+    }
+    
+    .footer,
+    .emergency-contacts-section,
+    .nav-menu {
+        display: none;
+    }
+}
+
+/* === High Contrast Mode === */
+@media (prefers-contrast: high) {
+    :root {
+        --data-primary: #0066cc;
+        --data-secondary: #004499;
+        --data-success: #00aa00;
+        --data-warning: #ff9900;
+        --data-error: #cc0000;
+        --gray-50: #ffffff;
+        --gray-900: #000000;
+    }
+    
+    .source-card,
+    .satellite-card,
+    .quality-card {
+        border: 2px solid var(--gray-900);
+    }
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .flow-step:hover,
+    .source-card:hover,
+    .satellite-card:hover {
+        transform: none;
+    }
+}
