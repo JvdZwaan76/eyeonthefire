@@ -1,12 +1,18 @@
-/* TARGETED FIX: Add this to the TOP of your safety.css */
-/* This specifically addresses the floating text and line issues */
+/* Safety Page Specific Styles - COMPLETE FIXED VERSION */
+/* Emergency-focused design with high contrast and accessibility */
+/* All text clipping and footer issues resolved */
+
+/* === CRITICAL FIXES FOR STRAY TEXT AND CONTAINERS === */
+.safety-page * {
+    box-sizing: border-box;
+}
 
 /* === FORCE CONTAIN HERO SECTION === */
 .safety-page .safety-hero {
-    overflow: hidden !important; /* This is key - contain everything */
+    overflow: hidden !important;
     position: relative !important;
     z-index: 1 !important;
-    isolation: isolate !important; /* Create new stacking context */
+    isolation: isolate !important;
 }
 
 .safety-page .hero-content {
@@ -21,8 +27,8 @@
     gap: 2rem !important;
     justify-content: center !important;
     align-items: center !important;
-    overflow: visible !important; /* Content can be visible within hero */
-    contain: layout style !important; /* Contain layout calculations */
+    overflow: visible !important;
+    contain: layout style !important;
 }
 
 .safety-page .hero-text {
@@ -33,40 +39,6 @@
     z-index: 3 !important;
     overflow: visible !important;
     contain: layout !important;
-}
-
-.safety-page .hero-title {
-    width: 100% !important;
-    margin: 0 0 1rem 0 !important;
-    font-size: clamp(2rem, 5vw, 3.5rem) !important;
-    line-height: 1.2 !important;
-    text-align: center !important;
-    position: relative !important;
-    z-index: 4 !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-}
-
-.safety-page .hero-subtitle {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 0 2rem 0 !important;
-    font-size: clamp(1.2rem, 4vw, 1.8rem) !important;
-    line-height: 1.5 !important;
-    text-align: center !important;
-    position: relative !important;
-    z-index: 4 !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    /* Ensure no floating or absolute positioning */
-    float: none !important;
-    clear: both !important;
 }
 
 /* === CLEAR ANY PSEUDO ELEMENTS === */
@@ -119,75 +91,6 @@
     z-index: 1 !important;
 }
 
-/* === FORCE CONTAINER CONTAINMENT === */
-.safety-page .page-container {
-    overflow-x: hidden !important;
-    position: relative !important;
-}
-
-/* === MOBILE SPECIFIC FIXES === */
-@media (max-width: 768px) {
-    .safety-page .safety-hero {
-        min-height: 350px !important;
-        padding: 1.5rem 1rem !important;
-    }
-    
-    .safety-page .hero-content {
-        padding: 1rem !important;
-        gap: 1.5rem !important;
-    }
-    
-    .safety-page .hero-title {
-        font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
-        margin-bottom: 0.75rem !important;
-    }
-    
-    .safety-page .hero-subtitle {
-        font-size: clamp(1rem, 4vw, 1.3rem) !important;
-        margin-bottom: 1.5rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .safety-page .safety-hero {
-        min-height: 320px !important;
-        padding: 1rem 0.5rem !important;
-    }
-    
-    .safety-page .hero-content {
-        padding: 0.5rem !important;
-        gap: 1rem !important;
-    }
-    
-    .safety-page .hero-title {
-        font-size: clamp(1.5rem, 7vw, 2rem) !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    .safety-page .hero-subtitle {
-        font-size: clamp(0.95rem, 5vw, 1.2rem) !important;
-        margin-bottom: 1rem !important;
-    }
-}
-
-/* === DEBUG: Temporarily add borders to see containers === */
-/* Remove these after confirming the fix works */
-/*
-.safety-page .safety-hero {
-    border: 2px solid lime !important;
-}
-.safety-page .hero-content {
-    border: 2px solid blue !important;
-}
-.safety-page .hero-text {
-    border: 2px solid orange !important;
-}
-.safety-page .emergency-actions {
-    border: 2px solid purple !important;
-}
-*//* Safety Page Specific Styles - FIXED CSS Conflicts */
-/* Emergency-focused design with high contrast and accessibility */
-
 /* === Root Variables for Safety === */
 :root {
     /* Emergency color system */
@@ -215,10 +118,12 @@
 /* === FIXED: Page Layout Override === */
 .page-container {
     padding-top: 60px;
-    padding-bottom: 200px;
+    padding-bottom: 100px !important;
     min-height: 100vh;
     overflow: visible;
     width: 100%;
+    overflow-x: hidden !important;
+    position: relative !important;
 }
 
 /* === FIXED: Safety Hero Section === */
@@ -240,7 +145,6 @@
     display: flex;
     align-items: center;
     position: relative;
-    overflow: visible;
     width: 100%;
     box-sizing: border-box;
 }
@@ -268,18 +172,15 @@
     gap: var(--safety-spacing-2xl);
     position: relative;
     z-index: 2;
-    min-height: auto;
-    height: auto;
-    overflow: visible;
     justify-content: center;
+    align-items: center;
     padding: 2rem 1rem;
 }
 
 .hero-text {
     text-align: center;
     width: 100%;
-    max-width: none;
-    overflow: visible;
+    max-width: 800px;
     padding: 0 var(--safety-spacing-lg);
     box-sizing: border-box;
 }
@@ -297,6 +198,10 @@
     overflow: visible;
     text-overflow: clip;
     hyphens: auto;
+    position: relative !important;
+    z-index: 4 !important;
+    float: none !important;
+    clear: both !important;
 }
 
 .hero-subtitle {
@@ -315,6 +220,10 @@
     overflow: visible;
     text-overflow: clip;
     hyphens: auto;
+    position: relative !important;
+    z-index: 4 !important;
+    float: none !important;
+    clear: both !important;
 }
 
 .hero-actions {
@@ -1441,198 +1350,168 @@
     box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
 }
 
-/* === Footer Enhancements === */
-.footer {
-    background: var(--gray-900);
-    color: white;
-    padding: var(--safety-spacing-2xl) 0 var(--safety-spacing-lg) 0;
+/* === COMPLETE FOOTER FIX === */
+.safety-page .footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 80px !important;
+    background: var(--gray-900) !important;
+    color: white !important;
+    z-index: 4 !important;
+    border-top: 1px solid var(--gray-800) !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
-.footer-main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--safety-spacing-xl);
-    margin-bottom: var(--safety-spacing-xl);
-    padding: 0 var(--safety-spacing-lg);
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+.safety-page .footer-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    height: 100% !important;
+    padding: 0 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1rem !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
-.footer-section-title {
-    color: white;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: var(--safety-spacing-md);
+/* === HIDE THE COMPLEX FOOTER LAYOUT ON SAFETY PAGE === */
+.safety-page .footer-main {
+    display: none !important;
 }
 
-.footer-links {
-    list-style: none;
+.safety-page .footer-bottom {
+    display: none !important;
 }
 
-.footer-links li {
-    margin-bottom: var(--safety-spacing-sm);
+/* === SIMPLE FOOTER LAYOUT FOR SAFETY PAGE === */
+.safety-page .footer-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    flex-shrink: 0 !important;
 }
 
-.footer-link {
-    color: var(--gray-400);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
+.safety-page .footer-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    flex-shrink: 0 !important;
 }
 
-.footer-link:hover,
-.footer-link:focus {
-    color: white;
+.safety-page .footer-logo {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    flex-shrink: 0 !important;
 }
 
-.footer-link.emergency {
-    color: var(--emergency-critical);
-    font-weight: 600;
+.safety-page .footer-title {
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    white-space: nowrap !important;
 }
 
-.footer-link.emergency:hover,
-.footer-link.emergency:focus {
-    color: #f87171;
+.safety-page .footer-tagline {
+    display: none !important;
 }
 
-.footer-bottom {
-    border-top: 1px solid var(--gray-700);
-    padding: var(--safety-spacing-lg) var(--safety-spacing-lg) 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--safety-spacing-lg);
-    align-items: center;
+/* === FOOTER LINKS === */
+.safety-page .footer-links {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
 }
 
-.footer-info {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    line-height: 1.5;
+.safety-page .footer-link {
+    font-size: 0.75rem !important;
+    color: var(--gray-400) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
 }
 
-.footer-copyright,
-.footer-data,
-.footer-disclaimer {
-    margin-bottom: var(--safety-spacing-sm);
+.safety-page .footer-link:hover,
+.safety-page .footer-link:focus {
+    color: white !important;
 }
 
-.footer-badges {
-    display: flex;
-    flex-direction: column;
-    gap: var(--safety-spacing-md);
-    align-items: flex-end;
+/* === FOOTER INFO === */
+.safety-page .footer-info {
+    text-align: right !important;
+    font-size: 0.75rem !important;
+    color: var(--gray-500) !important;
+    flex-shrink: 1 !important;
+    overflow: hidden !important;
 }
 
-.data-sources {
-    display: flex;
-    gap: var(--safety-spacing-sm);
-    flex-wrap: wrap;
+.safety-page .footer-copyright {
+    margin: 0 !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
-.source-badge {
-    background: var(--gray-700);
-    color: var(--gray-300);
-    padding: var(--safety-spacing-xs) var(--safety-spacing-sm);
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
+.safety-page .footer-data,
+.safety-page .footer-disclaimer {
+    display: none !important;
 }
 
-.social-links {
-    display: flex;
-    gap: var(--safety-spacing-sm);
+/* === HIDE PROBLEMATIC FOOTER ELEMENTS === */
+.safety-page .footer-description {
+    display: none !important;
 }
 
-.social-link {
-    color: var(--gray-400);
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: all 0.2s ease;
+.safety-page .footer-certifications {
+    display: none !important;
 }
 
-.social-link:hover,
-.social-link:focus {
-    color: white;
-    transform: scale(1.1);
+.safety-page .footer-badges {
+    display: none !important;
 }
 
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--safety-spacing-md);
-    margin-bottom: var(--safety-spacing-lg);
+.safety-page .data-sources {
+    display: none !important;
 }
 
-.footer-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
+.safety-page .social-links {
+    display: none !important;
 }
 
-.brand-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: white;
-}
-
-.footer-tagline {
-    font-size: 0.85rem;
-    color: var(--gray-400);
-    margin: 0;
-}
-
-.footer-description {
-    color: var(--gray-400);
-    line-height: 1.6;
-    margin-bottom: var(--safety-spacing-lg);
-    font-size: 0.9rem;
-}
-
-.footer-certifications {
-    display: flex;
-    gap: var(--safety-spacing-sm);
-    flex-wrap: wrap;
-}
-
-.cert-badge {
-    background: var(--gray-700);
-    color: var(--gray-300);
-    padding: var(--safety-spacing-xs) var(--safety-spacing-sm);
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid var(--gray-600);
+/* === AD BANNER POSITIONING === */
+.safety-page .ad-banner {
+    bottom: 80px !important;
 }
 
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 768px) {
-    .safety-hero {
+    .safety-page .safety-hero {
         min-height: 350px;
         padding: var(--safety-spacing-xl) var(--safety-spacing-md);
     }
     
-    .hero-content {
+    .safety-page .hero-content {
         flex-direction: column;
         text-align: center;
         gap: var(--safety-spacing-xl);
         padding: 1rem;
     }
     
-    .hero-title {
+    .safety-page .hero-title {
         font-size: clamp(1.8rem, 6vw, 2.5rem);
         line-height: 1.2;
         margin-bottom: var(--safety-spacing-md);
     }
     
-    .hero-subtitle {
+    .safety-page .hero-subtitle {
         font-size: clamp(1rem, 4vw, 1.3rem);
         line-height: 1.4;
         margin-bottom: var(--safety-spacing-lg);
@@ -1687,13 +1566,19 @@
         grid-template-columns: 1fr;
     }
     
-    .footer-bottom {
-        grid-template-columns: 1fr;
-        text-align: center;
+    .safety-page .footer-tagline {
+        display: block !important;
+        font-size: 0.75rem !important;
+        color: var(--gray-400) !important;
+        margin: 0 !important;
     }
     
-    .footer-badges {
-        align-items: center;
+    .safety-page .footer-links {
+        gap: 1.5rem !important;
+    }
+    
+    .safety-page .footer-link {
+        font-size: 0.8rem !important;
     }
 }
 
@@ -1702,17 +1587,17 @@
         padding: var(--safety-spacing-xl) var(--safety-spacing-md);
     }
     
-    .safety-hero {
+    .safety-page .safety-hero {
         min-height: 320px;
         padding: var(--safety-spacing-lg) var(--safety-spacing-sm);
     }
     
-    .hero-title {
+    .safety-page .hero-title {
         font-size: clamp(1.5rem, 7vw, 2rem);
         line-height: 1.3;
     }
     
-    .hero-subtitle {
+    .safety-page .hero-subtitle {
         font-size: clamp(0.95rem, 5vw, 1.2rem);
         line-height: 1.5;
         padding: 0;
@@ -1739,6 +1624,43 @@
     
     .action-btn {
         width: 100%;
+    }
+    
+    .safety-page .footer {
+        height: 60px !important;
+    }
+    
+    .safety-page .footer-content {
+        padding: 0 0.5rem !important;
+        gap: 0.5rem !important;
+    }
+    
+    .safety-page .footer-title {
+        font-size: 0.8rem !important;
+    }
+    
+    .safety-page .footer-links {
+        gap: 0.75rem !important;
+    }
+    
+    .safety-page .footer-link {
+        font-size: 0.7rem !important;
+    }
+    
+    .safety-page .footer-info {
+        font-size: 0.7rem !important;
+    }
+    
+    .safety-page .footer-copyright {
+        font-size: 0.7rem !important;
+    }
+    
+    .safety-page .page-container {
+        padding-bottom: 80px !important;
+    }
+    
+    .safety-page .ad-banner {
+        bottom: 60px !important;
     }
 }
 
