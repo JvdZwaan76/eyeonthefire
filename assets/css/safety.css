@@ -1768,20 +1768,106 @@
     
     /* Small Mobile Footer */
     .safety-page .footer {
-        height: 200px !important;
+        height: 220px !important;
+        padding: 0.75rem 0 0.5rem 0 !important;
     }
     
     .safety-page .page-container {
-        padding-bottom: 220px !important;
+        padding-bottom: 240px !important;
     }
     
     .safety-page .ad-banner {
-        bottom: 200px !important;
+        bottom: 220px !important;
+    }
+    
+    .safety-page .footer-content {
+        padding: 0 1rem !important;
     }
     
     .safety-page .footer-main {
         grid-template-columns: 1fr !important;
-        gap: 0.5rem !important;
+        gap: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .safety-page .footer-section:first-child {
+        grid-column: 1 !important;
+        margin-bottom: 0.75rem !important;
+        text-align: center !important;
+    }
+    
+    .safety-page .footer-brand {
+        justify-content: center !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .safety-page .footer-description {
+        text-align: center !important;
+        font-size: 0.6rem !important;
+    }
+    
+    .safety-page .footer-certifications {
+        justify-content: center !important;
+        gap: 0.25rem !important;
+    }
+    
+    .safety-page .cert-badge {
+        font-size: 0.5rem !important;
+        padding: 0.15rem 0.3rem !important;
+    }
+    
+    .safety-page .footer-section-title {
+        font-size: 0.65rem !important;
+        text-align: center !important;
+    }
+    
+    .safety-page .footer-links {
+        align-items: center !important;
+        gap: 0.25rem !important;
+    }
+    
+    .safety-page .footer-link {
+        font-size: 0.65rem !important;
+        text-align: center !important;
+    }
+    
+    .safety-page .footer-bottom {
+        padding-top: 0.5rem !important;
+        text-align: center !important;
+    }
+    
+    .safety-page .footer-info {
+        text-align: center !important;
+        font-size: 0.55rem !important;
+        order: 2 !important;
+    }
+    
+    .safety-page .footer-badges {
+        order: 1 !important;
+        justify-content: center !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .safety-page .data-sources {
+        justify-content: center !important;
+        gap: 0.3rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .safety-page .source-badge {
+        font-size: 0.5rem !important;
+        padding: 0.15rem 0.3rem !important;
+    }
+    
+    .safety-page .social-links {
+        justify-content: center !important;
+        gap: 0.3rem !important;
+    }
+    
+    .safety-page .social-link {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.9rem !important;
     }
 }
 
