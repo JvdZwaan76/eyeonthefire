@@ -27,10 +27,11 @@
 
 /* === FIXED: Page Layout Override === */
 .page-container {
-    padding-top: 60px !important; /* Account for fixed navigation */
-    padding-bottom: 200px !important; /* Account for ad + footer */
+    padding-top: 60px;
+    padding-bottom: 200px;
     min-height: 100vh;
-    overflow: visible !important; /* FIXED: Prevent text clipping */
+    overflow: visible;
+    width: 100%;
 }
 
 /* === FIXED: Safety Hero Section === */
@@ -47,16 +48,16 @@
     );
     color: white;
     padding: var(--safety-spacing-2xl) var(--safety-spacing-lg);
-    min-height: 500px; /* FIXED: Increased from 400px */
+    min-height: 400px;
+    height: auto;
     display: flex;
     align-items: center;
     position: relative;
-    overflow: visible !important; /* FIXED: Allow content to show */
+    overflow: visible;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* FIXED: Hero background overlay */
 .safety-hero::before {
     content: '';
     position: absolute;
@@ -71,7 +72,6 @@
     z-index: 1;
 }
 
-/* FIXED: Hero content container */
 .hero-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -81,47 +81,53 @@
     gap: var(--safety-spacing-2xl);
     position: relative;
     z-index: 2;
-    min-height: auto !important; /* FIXED: Remove height constraints */
-    overflow: visible !important; /* FIXED: Ensure content visibility */
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+    justify-content: center;
+    padding: 2rem 1rem;
 }
 
-/* FIXED: Hero text container */
 .hero-text {
     text-align: center;
     width: 100%;
     max-width: none;
-    overflow: visible !important; /* FIXED: Prevent text clipping */
+    overflow: visible;
     padding: 0 var(--safety-spacing-lg);
     box-sizing: border-box;
 }
 
-/* FIXED: Hero title sizing */
 .hero-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
-    line-height: 1.2; /* FIXED: Increased from 1.1 for better spacing */
+    line-height: 1.2;
     margin-bottom: var(--safety-spacing-lg);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: normal !important; /* FIXED: Allow text wrapping */
+    white-space: normal;
     width: 100%;
+    overflow: visible;
+    text-overflow: clip;
+    hyphens: auto;
 }
 
-/* FIXED: Hero subtitle with better responsive sizing */
 .hero-subtitle {
-    font-size: clamp(1.2rem, 4vw, 1.8rem); /* FIXED: Better size range */
-    line-height: 1.5; /* FIXED: Increased line height */
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    line-height: 1.5;
     margin-bottom: var(--safety-spacing-xl);
     opacity: 0.95;
     font-weight: 500;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: normal !important; /* FIXED: Allow text wrapping */
+    white-space: normal;
     width: 100%;
-    max-width: 800px; /* FIXED: Constrain width for readability */
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    overflow: visible;
+    text-overflow: clip;
+    hyphens: auto;
 }
 
 .hero-actions {
@@ -184,12 +190,13 @@
     }
 }
 
-/* === Alert Levels === */
+/* === FIXED: Alert Levels === */
 .alert-levels {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--safety-spacing-lg);
     margin-top: var(--safety-spacing-xl);
+    overflow: visible;
 }
 
 .alert-level {
@@ -200,6 +207,9 @@
     padding: var(--safety-spacing-lg);
     text-align: center;
     transition: all 0.3s ease;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
 }
 
 .alert-level:hover {
@@ -230,18 +240,30 @@
 
 .level-text {
     font-weight: 700;
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* FIXED: Responsive sizing */
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     display: block;
     margin-bottom: var(--safety-spacing-xs);
     color: white;
     line-height: 1.2;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    height: auto;
+    max-height: none;
+    word-wrap: break-word;
 }
 
 .level-description {
-    font-size: clamp(0.8rem, 2vw, 0.9rem); /* FIXED: Responsive sizing */
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
     opacity: 0.9;
     font-weight: 500;
     line-height: 1.3;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    height: auto;
+    max-height: none;
+    word-wrap: break-word;
 }
 
 /* === Emergency Actions Section === */
@@ -256,6 +278,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--safety-spacing-xl);
+    overflow: visible;
 }
 
 .action-card {
@@ -373,6 +396,9 @@
 .section-container {
     max-width: 1200px;
     margin: 0 auto;
+    overflow: visible;
+    width: 100%;
+    padding: 0 1rem;
 }
 
 .section-header {
@@ -393,11 +419,12 @@
     color: var(--gray-600);
     max-width: 800px;
     margin: 0 auto;
-    overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     hyphens: auto;
-    overflow: visible !important;
-    text-overflow: clip !important;
 }
 
 .emergency-header {
@@ -616,6 +643,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--safety-spacing-xl);
+    overflow: visible;
 }
 
 .tip-card {
@@ -675,6 +703,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: var(--safety-spacing-xl);
+    overflow: visible;
 }
 
 .alert-source {
@@ -1081,6 +1110,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--safety-spacing-xl);
+    overflow: visible;
 }
 
 .maintenance-item {
@@ -1395,11 +1425,10 @@
     border: 1px solid var(--gray-600);
 }
 
-/* === FIXED: Responsive Design === */
+/* === RESPONSIVE DESIGN === */
 @media (max-width: 768px) {
-    /* FIXED: Hero section mobile layout */
     .safety-hero {
-        min-height: 400px; /* FIXED: Reduced for mobile */
+        min-height: 350px;
         padding: var(--safety-spacing-xl) var(--safety-spacing-md);
     }
     
@@ -1407,22 +1436,20 @@
         flex-direction: column;
         text-align: center;
         gap: var(--safety-spacing-xl);
-        min-height: auto !important; /* FIXED: Remove height constraints */
-        overflow: visible !important;
+        padding: 1rem;
     }
     
-    /* FIXED: Hero text mobile sizing */
     .hero-title {
-        font-size: clamp(1.8rem, 6vw, 2.5rem); /* FIXED: Better mobile scaling */
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
         line-height: 1.2;
         margin-bottom: var(--safety-spacing-md);
     }
     
     .hero-subtitle {
-        font-size: clamp(1rem, 4vw, 1.3rem); /* FIXED: Better mobile scaling */
+        font-size: clamp(1rem, 4vw, 1.3rem);
         line-height: 1.4;
         margin-bottom: var(--safety-spacing-lg);
-        padding: 0 var(--safety-spacing-sm); /* FIXED: Add side padding */
+        padding: 0 var(--safety-spacing-sm);
     }
     
     .hero-actions {
@@ -1436,14 +1463,16 @@
         max-width: 300px;
     }
     
-    /* FIXED: Alert levels mobile layout */
     .alert-levels {
         grid-template-columns: 1fr;
         gap: var(--safety-spacing-md);
         margin-top: var(--safety-spacing-lg);
     }
     
-    .actions-grid {
+    .actions-grid,
+    .tips-grid,
+    .alert-sources,
+    .maintenance-grid {
         grid-template-columns: 1fr;
     }
     
@@ -1467,14 +1496,6 @@
         grid-template-columns: 1fr;
     }
     
-    .tips-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .alert-sources {
-        grid-template-columns: 1fr;
-    }
-    
     .priority-items {
         grid-template-columns: 1fr;
     }
@@ -1490,25 +1511,24 @@
 }
 
 @media (max-width: 480px) {
-    /* FIXED: Very small screen adjustments */
     .content-section {
         padding: var(--safety-spacing-xl) var(--safety-spacing-md);
     }
     
     .safety-hero {
-        min-height: 350px; /* FIXED: Further reduced for small screens */
+        min-height: 320px;
         padding: var(--safety-spacing-lg) var(--safety-spacing-sm);
     }
     
     .hero-title {
-        font-size: clamp(1.5rem, 7vw, 2rem); /* FIXED: Even smaller for tiny screens */
+        font-size: clamp(1.5rem, 7vw, 2rem);
         line-height: 1.3;
     }
     
     .hero-subtitle {
-        font-size: clamp(0.95rem, 5vw, 1.2rem); /* FIXED: Smaller subtitle */
+        font-size: clamp(0.95rem, 5vw, 1.2rem);
         line-height: 1.5;
-        padding: 0; /* FIXED: Remove padding on very small screens */
+        padding: 0;
     }
     
     .alert-levels {
@@ -1535,34 +1555,29 @@
     }
 }
 
-/* === FIXED: Override any conflicting styles from main CSS === */
-.safety-hero .hero-content,
-.safety-hero .hero-text,
-.safety-hero .hero-title,
-.safety-hero .hero-subtitle {
-    overflow: visible !important;
+/* === FINAL OVERRIDES FOR TEXT CLIPPING === */
+.safety-page .hero-title,
+.safety-page .hero-subtitle,
+.safety-page .level-text,
+.safety-page .level-description,
+.safety-page .section-description {
     text-overflow: clip !important;
+    overflow: visible !important;
     white-space: normal !important;
-    height: auto !important;
-    max-height: none !important;
-}
-
-/* === FIXED: Ensure text is never clipped === */
-.hero-title,
-.hero-subtitle,
-.section-description,
-.alert-level .level-description {
+    word-break: normal !important;
     overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
-    hyphens: auto;
-    overflow: visible !important;
-    text-overflow: clip !important;
+    hyphens: auto !important;
 }
 
-/* === FIXED: Container overflow fixes === */
-.page-container,
-.safety-hero,
-.hero-content,
-.hero-text {
+.safety-page .hero-content,
+.safety-page .hero-text {
     overflow: visible !important;
+}
+
+.safety-page h1,
+.safety-page h2,
+.safety-page h3 {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
 }
