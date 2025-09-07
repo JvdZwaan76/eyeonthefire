@@ -971,10 +971,12 @@ body.safety-page .social-link:focus {
 
 /* === RESPONSIVE DESIGN === */
 
+/* === RESPONSIVE DESIGN - ENTERPRISE GRADE === */
+
 /* Mobile Portrait (up to 480px) */
 @media (max-width: 480px) {
     body.safety-page .page-container {
-        padding-bottom: 200px; /* Extra space for mobile readability */
+        padding-bottom: 180px; /* Space for mobile footer + ad */
     }
     
     body.safety-page .content-section {
@@ -1045,31 +1047,31 @@ body.safety-page .social-link:focus {
         gap: var(--safety-spacing-md);
     }
     
-    /* Mobile footer - compact but readable */
+    /* Mobile Footer - Compact and Professional */
     body.safety-page .footer {
         height: 100px;
-        padding: 1rem 0 0.5rem 0;
+        padding: 0;
     }
     
     body.safety-page .footer-content {
-        padding: 0 1rem;
+        padding: 1rem;
+        justify-content: center;
     }
     
     body.safety-page .footer-main {
         display: block;
         text-align: center;
-        gap: 0;
         margin-bottom: 0.75rem;
     }
     
     body.safety-page .footer-section {
-        display: none; /* Hide secondary sections on mobile for space */
+        display: none; /* Hide all sections */
     }
     
     body.safety-page .footer-section:first-child {
         display: block;
-        margin-bottom: 0.75rem;
         text-align: center;
+        padding-right: 0;
     }
     
     body.safety-page .footer-brand {
@@ -1077,12 +1079,9 @@ body.safety-page .social-link:focus {
         margin-bottom: 0.5rem;
     }
     
-    body.safety-page .footer-description {
-        display: none; /* Hide on mobile for space */
-    }
-    
+    body.safety-page .footer-description,
     body.safety-page .footer-certifications {
-        justify-content: center;
+        display: none; /* Hide for space */
     }
     
     body.safety-page .footer-bottom {
@@ -1096,9 +1095,6 @@ body.safety-page .social-link:focus {
     body.safety-page .footer-info {
         text-align: center;
         font-size: 0.6rem;
-    }
-    
-    body.safety-page .footer-copyright {
         margin-bottom: 0;
     }
     
@@ -1116,46 +1112,67 @@ body.safety-page .social-link:focus {
     body.safety-page .ad-banner {
         bottom: 100px;
         padding: 0.75rem;
-        min-height: 100px;
+        min-height: 80px;
     }
 }
 
 /* Mobile Landscape / Small Tablet (481px - 767px) */
 @media (min-width: 481px) and (max-width: 767px) {
     body.safety-page .page-container {
-        padding-bottom: 180px;
+        padding-bottom: 200px;
     }
     
+    /* Enhanced Tablet Footer */
     body.safety-page .footer {
-        height: 110px;
-        padding: 1.25rem 0 0.75rem 0;
+        height: 120px;
     }
     
     body.safety-page .footer-content {
-        padding: 0 1.5rem;
+        padding: 1.25rem 1.5rem 1rem 1.5rem;
     }
     
     body.safety-page .footer-main {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
         gap: 1.5rem;
+        align-items: start;
         text-align: left;
     }
     
     body.safety-page .footer-section {
         display: block;
-        flex: 1;
-        min-width: 150px;
     }
     
     body.safety-page .footer-section:nth-child(n+4) {
         display: none; /* Show only first 3 sections */
     }
     
+    body.safety-page .footer-section:first-child {
+        padding-right: 1rem;
+    }
+    
+    body.safety-page .footer-description {
+        display: block;
+        max-width: 250px;
+    }
+    
+    body.safety-page .footer-certifications {
+        display: flex;
+    }
+    
     body.safety-page .footer-bottom {
         flex-direction: row;
         align-items: center;
         gap: 1rem;
+        text-align: left;
+    }
+    
+    body.safety-page .footer-info {
+        text-align: left;
+    }
+    
+    body.safety-page .footer-data {
+        display: block;
     }
     
     body.safety-page .footer-badges {
@@ -1165,41 +1182,44 @@ body.safety-page .social-link:focus {
     }
     
     body.safety-page .ad-banner {
-        bottom: 110px;
+        bottom: 120px;
     }
 }
 
-/* Tablet and Desktop (768px+) */
-@media (min-width: 768px) {
+/* Desktop (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
     body.safety-page .page-container {
-        padding-bottom: 180px; /* Desktop spacing for both ad and footer */
+        padding-bottom: 200px;
     }
     
     body.safety-page .footer {
-        height: 120px;
-        padding: 1.5rem 0 1rem 0;
+        height: 140px;
     }
     
     body.safety-page .footer-content {
-        padding: 0 2.5rem;
+        padding: 1.5rem 2rem 1rem 2rem;
     }
     
     body.safety-page .footer-main {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
-        gap: 2.5rem;
-        margin-bottom: 1rem;
-        align-items: start;
-        text-align: left;
+        grid-template-columns: 2.2fr 1fr 1fr 1fr 1.3fr;
+        gap: 2rem;
     }
     
     body.safety-page .footer-section {
         display: block;
-        margin-bottom: 0;
+    }
+    
+    body.safety-page .footer-section:first-child {
+        padding-right: 1rem;
     }
     
     body.safety-page .footer-description {
         display: block;
+        max-width: 280px;
+    }
+    
+    body.safety-page .footer-certifications {
+        display: flex;
     }
     
     body.safety-page .footer-data,
@@ -1208,17 +1228,53 @@ body.safety-page .social-link:focus {
     }
     
     body.safety-page .ad-banner {
-        bottom: 120px;
+        bottom: 140px;
     }
 }
 
 /* Large Desktop (1024px+) */
 @media (min-width: 1024px) {
+    body.safety-page .page-container {
+        padding-bottom: 220px; /* Extra space for large screens */
+    }
+    
+    body.safety-page .footer {
+        height: 140px;
+    }
+    
     body.safety-page .footer-content {
-        padding: 0 3rem;
+        padding: 1.5rem 3rem 1rem 3rem;
+        max-width: 1400px; /* Wider on large screens */
     }
     
     body.safety-page .footer-main {
+        grid-template-columns: 2.5fr 1fr 1fr 1fr 1.5fr;
         gap: 3rem;
+    }
+    
+    body.safety-page .footer-section:first-child {
+        padding-right: 2rem;
+    }
+    
+    body.safety-page .footer-description {
+        max-width: 320px;
+        font-size: 0.75rem;
+    }
+    
+    body.safety-page .footer-section-title {
+        font-size: 0.8rem;
+    }
+    
+    body.safety-page .footer-link {
+        font-size: 0.8rem;
+    }
+    
+    body.safety-page .footer-bottom {
+        gap: 3rem;
+    }
+    
+    body.safety-page .ad-banner {
+        bottom: 140px;
+        padding: 1.25rem;
     }
 }
