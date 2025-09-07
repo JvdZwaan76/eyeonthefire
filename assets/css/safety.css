@@ -1047,41 +1047,72 @@ body.safety-page .social-link:focus {
         gap: var(--safety-spacing-md);
     }
     
-    /* Mobile Footer - Compact and Professional */
+    /* Mobile Footer - Include Essential Navigation */
     body.safety-page .footer {
-        height: 100px;
+        height: 140px; /* Increased height for navigation */
         padding: 0;
     }
     
     body.safety-page .footer-content {
         padding: 1rem;
-        justify-content: center;
+        justify-content: space-between;
     }
     
     body.safety-page .footer-main {
-        display: block;
-        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: start;
+        text-align: left;
         margin-bottom: 0.75rem;
     }
     
     body.safety-page .footer-section {
-        display: none; /* Hide all sections */
+        display: none; /* Hide most sections */
+    }
+    
+    /* Show brand section */
+    body.safety-page .footer-section:first-child {
+        display: block;
+    }
+    
+    /* Show platform section (2nd section) */
+    body.safety-page .footer-section:nth-child(2) {
+        display: block;
+    }
+    
+    /* Show emergency resources (5th section) */
+    body.safety-page .footer-section:nth-child(5) {
+        display: block;
+        grid-column: 1 / -1; /* Span full width */
+        margin-top: 0.5rem;
+        text-align: center;
     }
     
     body.safety-page .footer-section:first-child {
-        display: block;
-        text-align: center;
         padding-right: 0;
+        text-align: left;
     }
     
     body.safety-page .footer-brand {
-        justify-content: center;
+        justify-content: flex-start;
         margin-bottom: 0.5rem;
     }
     
     body.safety-page .footer-description,
     body.safety-page .footer-certifications {
-        display: none; /* Hide for space */
+        display: none; /* Hide for space on mobile */
+    }
+    
+    body.safety-page .footer-section-title {
+        font-size: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    body.safety-page .footer-link {
+        font-size: 0.7rem;
+        line-height: 1.3;
+        padding: 0.05rem 0;
     }
     
     body.safety-page .footer-bottom {
@@ -1090,12 +1121,14 @@ body.safety-page .social-link:focus {
         gap: 0.5rem;
         text-align: center;
         padding-top: 0.5rem;
+        border-top: 1px solid #374151;
     }
     
     body.safety-page .footer-info {
         text-align: center;
         font-size: 0.6rem;
         margin-bottom: 0;
+        order: 2;
     }
     
     body.safety-page .footer-data,
@@ -1104,13 +1137,34 @@ body.safety-page .social-link:focus {
     }
     
     body.safety-page .footer-badges {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.3rem;
+        order: 1;
+    }
+    
+    body.safety-page .data-sources {
+        gap: 0.3rem;
+    }
+    
+    body.safety-page .source-badge {
+        font-size: 0.55rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
+    body.safety-page .social-links {
+        gap: 0.3rem;
+    }
+    
+    body.safety-page .social-link {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
     }
     
     body.safety-page .ad-banner {
-        bottom: 100px;
+        bottom: 140px;
         padding: 0.75rem;
         min-height: 80px;
     }
