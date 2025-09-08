@@ -152,7 +152,7 @@
             top: 60px; 
             left: 0; 
             right: 0; 
-            bottom: 240px;
+            bottom: 280px; /* Updated for larger footer */
         }
         
         .fire-map { 
@@ -162,10 +162,10 @@
         
         .ad-banner {
             position: fixed;
-            bottom: 80px;
+            bottom: 180px; /* Updated for larger footer */
             left: 0;
             right: 0;
-            min-height: 120px;
+            min-height: 80px;
             background: white;
             border-top: 2px solid var(--hd-orange);
             z-index: 5;
@@ -176,8 +176,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 80px;
-            background: var(--gray-900);
+            height: 180px; /* Updated for larger footer */
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-top: 3px solid #dc2626;
             z-index: 4;
         }
         
@@ -197,6 +198,43 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Responsive footer adjustments for map interface */
+        @media (max-width: 1024px) {
+            .footer {
+                height: 160px;
+            }
+            .ad-banner {
+                bottom: 160px;
+            }
+            .map-container {
+                bottom: 260px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer {
+                height: 120px;
+            }
+            .ad-banner {
+                bottom: 120px;
+            }
+            .map-container {
+                bottom: 200px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer {
+                height: 100px;
+            }
+            .ad-banner {
+                bottom: 100px;
+            }
+            .map-container {
+                bottom: 180px;
             }
         }
     </style>
@@ -493,28 +531,96 @@
         </div>
     </aside>
 
-    <!-- Footer -->
+    <!-- Unified Footer (Same as Safety Page) -->
     <footer class="footer" role="contentinfo">
         <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-brand">
-                    <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
-                    <span class="footer-title">Eye on the Fire</span>
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/eyeonthefire-logo.png" alt="Eye on the Fire" class="footer-logo">
+                        <div class="brand-info">
+                            <span class="footer-title">Eye on the Fire</span>
+                            <p class="footer-tagline">Professional wildfire intelligence platform</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">Real-time wildfire tracking and emergency preparedness resources powered by NASA satellite data. Protecting communities through advanced fire intelligence and safety education.</p>
+                    
+                    <div class="footer-certifications">
+                        <span class="cert-badge">🛡️ Security Verified</span>
+                        <span class="cert-badge">♿ Accessibility Compliant</span>
+                        <span class="cert-badge">🌐 Global Coverage</span>
+                    </div>
                 </div>
-                <p class="footer-tagline">Real-time wildfire intelligence</p>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/" class="footer-link">Live Fire Map</a></li>
+                        <li><a href="safety.html" class="footer-link">Safety Center</a></li>
+                        <li><a href="prevention.html" class="footer-link">Fire Prevention</a></li>
+                        <li><a href="alerts.html" class="footer-link">Alert Setup</a></li>
+                        <li><a href="data-sources.html" class="footer-link">Data Sources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="support.html" class="footer-link">Emergency Contacts</a></li>
+                        <li><a href="blog.html" class="footer-link">Fire Safety Blog</a></li>
+                        <li><a href="api.html" class="footer-link">Developer API</a></li>
+                        <li><a href="research.html" class="footer-link">Research & Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="footer-link">Disclaimer</a></li>
+                        <li><a href="accessibility.html" class="footer-link">Accessibility Statement</a></li>
+                        <li><a href="cookies.html" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Emergency Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:911" class="footer-link emergency">🚨 Call 911</a></li>
+                        <li><a href="https://www.ready.gov/wildfires" class="footer-link" target="_blank" rel="noopener">Ready.gov Wildfire Guide</a></li>
+                        <li><a href="https://www.redcross.org/" class="footer-link" target="_blank" rel="noopener">American Red Cross</a></li>
+                        <li><a href="https://www.fema.gov/" class="footer-link" target="_blank" rel="noopener">FEMA Resources</a></li>
+                        <li><a href="evacuation-routes.html" class="footer-link">Local Evacuation Routes</a></li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="footer-links">
-                <a href="privacy.html" class="footer-link">Privacy Policy</a>
-                <a href="terms.html" class="footer-link">Terms of Service</a>
-                <a href="accessibility.html" class="footer-link">Accessibility</a>
-                <a href="contact.html" class="footer-link">Contact</a>
-                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
-            </div>
-            
-            <div class="footer-info">
-                <p class="footer-copyright">© 2025 Eye on the Fire. All rights reserved.</p>
-                <p class="footer-data">Data provided by NASA FIRMS</p>
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p class="footer-copyright">© 2025 Eye on the Fire, LLC. All rights reserved.</p>
+                    <p class="footer-data">Fire detection data provided by NASA FIRMS (Fire Information for Resource Management System)</p>
+                    <p class="footer-disclaimer">This platform provides fire detection information for situational awareness. Always follow official evacuation orders and emergency instructions from local authorities.</p>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="data-sources">
+                        <span class="source-badge">NASA FIRMS</span>
+                        <span class="source-badge">NOAA</span>
+                        <span class="source-badge">USGS</span>
+                        <span class="source-badge">CAL FIRE</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://twitter.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Twitter">📱</a>
+                        <a href="https://facebook.com/eyeonthefire" class="social-link" target="_blank" rel="noopener" aria-label="Follow on Facebook">📘</a>
+                        <a href="mailto:contact@eyeonthefire.com" class="social-link" aria-label="Send email">📧</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
