@@ -1,22 +1,750 @@
-/* === CORRECTED FOOTER CSS === */
-/* This replaces the footer section in your safety.css */
+/* Safety Page Specific Styles - UNIFIED WITH PREVENTION DESIGN SYSTEM */
+/* Emergency-focused design with prevention page consistency */
 
-/* === Page Layout with Fixed Footer === */
+/* === Root Variables for Safety (Unified with Prevention) === */
+:root {
+    /* Core color system (inherited from prevention) */
+    --primary: #16a34a;
+    --secondary: #15803d;
+    --success: #22c55e;
+    --info: #2563eb;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    
+    /* Emergency-specific colors (safety context) */
+    --emergency-critical: #dc2626;
+    --emergency-urgent: #ea580c;
+    --emergency-warning: #f59e0b;
+    --emergency-info: #2563eb;
+    --emergency-success: #16a34a;
+    
+    /* Alert levels */
+    --alert-extreme: #7f1d1d;
+    --alert-high: #dc2626;
+    --alert-moderate: #f59e0b;
+    --alert-low: #16a34a;
+    
+    /* Neutral Grays (consistent with prevention) */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    
+    /* Unified spacing system */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+/* === Page Layout (Consistent with Prevention) === */
 .page-container {
     padding-top: 60px; /* Account for fixed navigation */
-    padding-bottom: 140px; /* Account for fixed footer height */
+    padding-bottom: 160px; /* Account for fixed footer */
     min-height: 100vh;
     background: linear-gradient(to bottom, var(--gray-50) 0%, white 100%);
 }
 
-/* === Fixed Footer === */
+/* === Safety Hero Section (Adapted from Prevention Pattern) === */
+.safety-hero {
+    background: linear-gradient(135deg, 
+        rgba(220, 38, 38, 0.95) 0%,
+        rgba(185, 28, 28, 0.9) 50%,
+        rgba(153, 27, 27, 0.85) 100%
+    ),
+    radial-gradient(ellipse at center, 
+        rgba(220, 38, 38, 0.3) 0%,
+        rgba(153, 27, 27, 0.1) 70%,
+        transparent 100%
+    );
+    color: white;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.safety-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+    position: relative;
+    z-index: 2;
+}
+
+.hero-text {
+    text-align: center;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: var(--spacing-lg);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    line-height: 1.4;
+    margin-bottom: var(--spacing-xl);
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    text-align: center;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-btn.primary {
+    background: white;
+    color: var(--emergency-critical);
+    border-color: white;
+}
+
+.hero-btn.primary:hover,
+.hero-btn.primary:focus {
+    background: var(--emergency-critical);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn.emergency {
+    background: var(--emergency-critical);
+    color: white;
+    border-color: var(--emergency-critical);
+    animation: pulse-emergency 2s infinite;
+}
+
+.hero-btn.emergency:hover,
+.hero-btn.emergency:focus {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    transform: translateY(-2px);
+    animation: none;
+}
+
+@keyframes pulse-emergency {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.4);
+    }
+}
+
+/* === Alert Levels (Following Prevention Stats Pattern) === */
+.alert-levels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.alert-level {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.alert-level:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.alert-level.extreme {
+    border-color: var(--alert-extreme);
+    box-shadow: 0 0 20px rgba(127, 29, 29, 0.3);
+}
+
+.alert-level.high {
+    border-color: var(--alert-high);
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+}
+
+.alert-level.moderate {
+    border-color: var(--alert-moderate);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.level-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--spacing-sm);
+}
+
+.level-text {
+    font-weight: 700;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: white;
+}
+
+.level-description {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 500;
+    color: white;
+}
+
+/* === Emergency Actions (Following Prevention Overview Pattern) === */
+.emergency-actions {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    background: var(--gray-50);
+}
+
+.actions-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.action-card {
+    background: white;
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+    text-align: center;
+    border-top: 4px solid var(--emergency-info);
+}
+
+.action-card.critical {
+    border-top-color: var(--emergency-critical);
+}
+
+.action-card.warning {
+    border-top-color: var(--emergency-warning);
+}
+
+.action-card.info {
+    border-top-color: var(--emergency-info);
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.action-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.9;
+}
+
+.action-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: var(--gray-900);
+}
+
+.action-card p {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+}
+
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-width: 120px;
+    text-align: center;
+    border: 2px solid transparent;
+    font-size: 0.9rem;
+}
+
+.action-btn.primary {
+    background: var(--emergency-critical);
+    color: white;
+    border-color: var(--emergency-critical);
+}
+
+.action-btn.primary:hover,
+.action-btn.primary:focus {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.action-btn.secondary {
+    background: transparent;
+    color: var(--gray-700);
+    border-color: var(--gray-300);
+}
+
+.action-btn.secondary:hover,
+.action-btn.secondary:focus {
+    background: var(--gray-50);
+    border-color: var(--gray-400);
+    color: var(--gray-900);
+}
+
+/* === Content Sections (Consistent with Prevention) === */
+.content-section {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+.content-section.alt-bg {
+    background: var(--gray-50);
+}
+
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.section-header h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--gray-600);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.emergency-header {
+    background: linear-gradient(135deg, var(--emergency-critical), #b91c1c);
+    color: white;
+    padding: var(--spacing-xl);
+    border-radius: 16px;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.emergency-header h2 {
+    color: white;
+    margin-bottom: var(--spacing-md);
+}
+
+.emergency-warning {
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === Evacuation Timeline (Following Zone Card Pattern) === */
+.evacuation-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.timeline-phase {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.timeline-phase:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.phase-header {
+    padding: var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    color: white;
+}
+
+.timeline-phase.immediate .phase-header {
+    background: linear-gradient(135deg, var(--emergency-critical), #b91c1c);
+}
+
+.timeline-phase.urgent .phase-header {
+    background: linear-gradient(135deg, var(--emergency-warning), #d97706);
+}
+
+.timeline-phase.safety .phase-header {
+    background: linear-gradient(135deg, var(--emergency-success), #15803d);
+}
+
+.phase-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.phase-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex: 1;
+}
+
+.phase-urgency {
+    background: rgba(255, 255, 255, 0.2);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.phase-content {
+    padding: var(--spacing-xl);
+}
+
+.evacuation-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.evacuation-step {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--gray-50);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.evacuation-step:hover {
+    background: var(--gray-100);
+    transform: translateX(5px);
+}
+
+.evacuation-step:last-child {
+    margin-bottom: 0;
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--emergency-critical);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.timeline-phase.urgent .step-icon {
+    background: var(--emergency-warning);
+}
+
+.timeline-phase.safety .step-icon {
+    background: var(--emergency-success);
+}
+
+.step-content h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-sm);
+}
+
+.step-content p {
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* === Universal Content Components (Following Prevention Patterns) === */
+.survival-scenarios,
+.alert-systems,
+.go-bag-checklist,
+.vehicle-checklist,
+.alert-category,
+.communication-tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.survival-scenario,
+.alert-source,
+.priority-level,
+.vehicle-maintenance,
+.vehicle-emergency-kit,
+.evacuation-routes,
+.local-system,
+.comm-tip,
+.tip-card,
+.maintenance-item,
+.kit-category,
+.go-bag-item,
+.route-tip {
+    background: white;
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.survival-scenario:hover,
+.alert-source:hover,
+.priority-level:hover,
+.kit-category:hover,
+.go-bag-item:hover,
+.tip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Content Headers */
+.survival-scenario h3,
+.alert-category h3,
+.priority-level h3,
+.kit-category h4,
+.tip-card h4,
+.maintenance-item h4,
+.go-bag-item h4,
+.comm-tip h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Emergency Specific Styling */
+.priority-level.critical {
+    border-top: 4px solid var(--emergency-critical);
+}
+
+.priority-level.important {
+    border-top: 4px solid var(--emergency-warning);
+}
+
+.priority-level.comfort {
+    border-top: 4px solid var(--emergency-success);
+}
+
+.kit-category {
+    border-top: 4px solid var(--emergency-info);
+}
+
+/* Lists and Items */
+.scenario-steps,
+.item-list,
+.kit-items,
+.maintenance-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.survival-step,
+.item-list li,
+.kit-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--gray-600);
+}
+
+.survival-step:hover,
+.item-list li:hover,
+.kit-items li:hover {
+    background: var(--gray-50);
+}
+
+.survival-step.critical {
+    background: rgba(220, 38, 38, 0.1);
+    border-left: 4px solid var(--emergency-critical);
+    font-weight: 600;
+}
+
+.item-list input[type="checkbox"],
+.kit-items input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: var(--emergency-success);
+    transform: scale(1.2);
+}
+
+.item-list label,
+.kit-items label {
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Badges and Buttons */
+.source-badge,
+.sign-up-btn {
+    background: var(--emergency-info);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.source-badge.official {
+    background: var(--emergency-success);
+}
+
+.source-badge:hover,
+.sign-up-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* Tips and Features */
+.tips-grid,
+.benefits-grid,
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.survival-tips {
+    background: var(--gray-50);
+    padding: var(--spacing-xl);
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    margin-top: var(--spacing-xl);
+}
+
+.survival-tips h3 {
+    color: var(--gray-900);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* === Emergency Button Enhancement === */
+.emergency-btn {
+    background: var(--emergency-critical) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-xs) !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
+    border: 2px solid var(--emergency-critical) !important;
+    transition: all 0.2s ease !important;
+}
+
+.emergency-btn:hover,
+.emergency-btn:focus {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* === FIXED FOOTER SYSTEM === */
 .footer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 140px; /* Fixed height */
+    height: 160px;
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     color: white;
     z-index: 999;
@@ -32,7 +760,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1rem 1.5rem 0.75rem;
+    padding: 1.25rem 1.5rem 1rem;
     box-sizing: border-box;
 }
 
@@ -40,20 +768,20 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
     gap: 1.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     align-items: start;
-    height: auto;
 }
 
 .footer-section {
     display: block;
+    text-align: center; /* Center all footer sections */
 }
 
 .footer-section-title {
     color: white;
     font-weight: 700;
     font-size: 0.8rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-bottom: 2px solid #dc2626;
@@ -67,7 +795,8 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.3rem;
+    align-items: center; /* Center footer links */
 }
 
 .footer-links li {
@@ -78,16 +807,17 @@
     color: #d1d5db;
     text-decoration: none;
     font-size: 0.7rem;
-    line-height: 1.3;
+    line-height: 1.4;
     transition: all 0.2s ease;
     font-weight: 500;
     display: block;
+    text-align: center;
 }
 
 .footer-link:hover,
 .footer-link:focus {
     color: white;
-    transform: translateX(3px);
+    transform: translateY(-1px);
 }
 
 .footer-link.emergency {
@@ -99,15 +829,20 @@
 .footer-link.emergency:hover,
 .footer-link.emergency:focus {
     color: #f87171;
-    transform: translateX(5px);
+    transform: translateY(-1px);
 }
 
-/* Brand Section */
+/* Brand Section - Left aligned as is */
+.footer-section:first-child {
+    text-align: left; /* Keep brand section left aligned */
+}
+
 .footer-brand {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    justify-content: flex-start; /* Keep brand left aligned */
 }
 
 .footer-logo {
@@ -141,15 +876,17 @@
 .footer-description {
     color: #9ca3af;
     line-height: 1.4;
-    margin: 0.25rem 0 0.5rem 0;
+    margin: 0.5rem 0 0.75rem 0;
     font-size: 0.65rem;
     max-width: 260px;
+    text-align: left; /* Keep description left aligned */
 }
 
 .footer-certifications {
     display: flex;
     gap: 0.25rem;
     flex-wrap: wrap;
+    justify-content: flex-start; /* Keep certifications left aligned */
 }
 
 .cert-badge {
@@ -168,9 +905,8 @@
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #374151;
-    padding-top: 0.5rem;
+    padding-top: 0.75rem;
     gap: 1rem;
-    height: auto;
     margin-top: auto;
 }
 
@@ -179,12 +915,13 @@
     color: #9ca3af;
     line-height: 1.3;
     flex: 1;
+    text-align: left;
 }
 
 .footer-copyright,
 .footer-data,
 .footer-disclaimer {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.25rem;
     display: block;
 }
 
@@ -240,14 +977,14 @@
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
-/* === RESPONSIVE FOOTER === */
+/* === RESPONSIVE DESIGN === */
 @media (max-width: 1024px) {
     .footer {
-        height: 160px;
+        height: 180px;
     }
     
     .page-container {
-        padding-bottom: 160px;
+        padding-bottom: 180px;
     }
     
     .footer-main {
@@ -262,21 +999,58 @@
 }
 
 @media (max-width: 768px) {
-    .footer {
-        height: 180px;
+    .page-container {
+        padding-bottom: 200px;
     }
     
-    .page-container {
-        padding-bottom: 180px;
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .alert-levels {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-grid,
+    .survival-scenarios,
+    .alert-systems,
+    .go-bag-checklist,
+    .vehicle-checklist {
+        grid-template-columns: 1fr;
+    }
+    
+    .phase-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .evacuation-step {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer {
+        height: 200px;
     }
     
     .footer-content {
-        padding: 1rem 1rem 0.75rem;
+        padding: 1rem;
     }
     
     .footer-main {
         display: block;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
     }
     
     /* Show only brand section on mobile */
@@ -286,13 +1060,13 @@
     
     .footer-section:first-child {
         display: block;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
+        text-align: center; /* Center brand on mobile */
     }
     
-    /* Compact brand section for mobile */
     .footer-section:first-child .footer-brand {
-        justify-content: flex-start;
-        margin-bottom: 0.4rem;
+        justify-content: center; /* Center brand on mobile */
+        margin-bottom: 0.5rem;
     }
     
     .footer-section:first-child .footer-description {
@@ -306,8 +1080,8 @@
     .footer-bottom {
         flex-direction: column;
         text-align: center;
-        gap: 0.5rem;
-        padding-top: 0.5rem;
+        gap: 0.75rem;
+        padding-top: 0.75rem;
     }
     
     .footer-info {
@@ -328,12 +1102,28 @@
 }
 
 @media (max-width: 480px) {
+    .content-section {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    
     .footer {
-        height: 140px;
+        height: 160px;
     }
     
     .page-container {
-        padding-bottom: 140px;
+        padding-bottom: 160px;
     }
     
     .footer-content {
@@ -341,7 +1131,7 @@
     }
     
     .footer-bottom {
-        gap: 0.4rem;
+        gap: 0.5rem;
     }
     
     .footer-badges {
@@ -361,5 +1151,31 @@
         width: 28px;
         height: 28px;
         font-size: 0.8rem;
+    }
+}
+
+/* === Print Styles === */
+@media print {
+    .footer {
+        display: none !important;
+    }
+    
+    .page-container {
+        padding-bottom: 0;
+    }
+    
+    .safety-hero {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .hero-title,
+    .phase-header h3 {
+        color: black !important;
+    }
+    
+    .action-card,
+    .timeline-phase {
+        break-inside: avoid;
     }
 }
