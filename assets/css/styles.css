@@ -2297,60 +2297,48 @@ textarea:focus {
 .leaflet-marker-icon {
   transform-origin: center;
 }
-/* Balanced Footer Padding - More Top Space, Adjusted Height */
+/* Final Footer Height Adjustment - Prevent Content Cutoff */
 .footer {
-    height: 200px !important; /* Increase from 180px to accommodate extra padding */
-}
-
-.footer-content {
-    padding: 3rem 1.5rem 1.5rem !important; /* 3rem top, reduced bottom from 2.5rem to 1.5rem */
+    height: 220px !important; /* Increase from 200px */
 }
 
 @media (max-width: 768px) {
     .footer {
-        height: 140px !important; /* Increase mobile height */
-    }
-    
-    .footer-content {
-        padding: 2.5rem 1rem 1rem !important; /* 2.5rem top, reduced bottom */
+        height: 160px !important; /* Increase from 140px */
     }
 }
 
 @media (max-width: 480px) {
     .footer {
-        height: 120px !important;
-    }
-    
-    .footer-content {
-        padding: 2rem 0.75rem 1rem !important; /* 2rem top, reduced bottom */
+        height: 140px !important; /* Increase from 120px */
     }
 }
 
-/* Also need to adjust the layout positioning */
+/* Update the layout positioning to match */
 .map-container {
-    bottom: 300px !important; /* Adjust for taller footer */
+    bottom: 320px !important; /* Adjust for taller footer */
 }
 
 .ad-banner {
-    bottom: 200px !important; /* Adjust for taller footer */
+    bottom: 220px !important; /* Adjust for taller footer */
 }
 
 @media (max-width: 768px) {
+    .map-container {
+        bottom: 240px !important;
+    }
+    
+    .ad-banner {
+        bottom: 160px !important;
+    }
+}
+
+@media (max-width: 480px) {
     .map-container {
         bottom: 220px !important;
     }
     
     .ad-banner {
         bottom: 140px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .map-container {
-        bottom: 200px !important;
-    }
-    
-    .ad-banner {
-        bottom: 120px !important;
     }
 }
