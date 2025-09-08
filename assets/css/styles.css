@@ -2297,3 +2297,19 @@ textarea:focus {
 .leaflet-marker-icon {
   transform-origin: center;
 }
+/* Increase Footer Top Padding for Better Visual Breathing Room */
+.footer-content {
+    padding-top: 3rem !important; /* 48px instead of 32px */
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        padding-top: 2.5rem !important; /* 40px instead of 24px */
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding-top: 2rem !important; /* 32px instead of 20px */
+    }
+}
