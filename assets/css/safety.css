@@ -1,5 +1,5 @@
 /* Safety Page Specific Styles - UNIFIED WITH PREVENTION DESIGN SYSTEM */
-/* Emergency-focused design with prevention page consistency */
+/* Emergency-focused design with prevention page consistency - PRODUCTION READY */
 
 /* === Root Variables for Safety (Unified with Prevention) === */
 :root {
@@ -48,7 +48,7 @@
 /* === Page Layout (Consistent with Prevention) === */
 .page-container {
     padding-top: 60px; /* Account for fixed navigation */
-    padding-bottom: 160px; /* Account for fixed footer */
+    padding-bottom: 280px; /* Account for ad banner + footer */
     min-height: 100vh;
     background: linear-gradient(to bottom, var(--gray-50) 0%, white 100%);
 }
@@ -737,6 +737,92 @@
     box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
 }
 
+/* === AD BANNER SYSTEM === */
+.ad-banner {
+    position: fixed;
+    bottom: 180px; /* Position above footer */
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 3px solid #F96302;
+    padding: 1rem 1.5rem;
+    z-index: 1000;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 80px;
+}
+
+.ad-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: var(--spacing-lg);
+}
+
+.ad-header {
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-xs);
+}
+
+.ad-logo {
+    flex-shrink: 0;
+}
+
+.hd-logo-placeholder {
+    width: 48px;
+    height: 48px;
+    background: #F96302;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.ad-text {
+    flex: 1;
+    text-align: left;
+}
+
+.ad-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-xs);
+}
+
+.ad-description {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.4;
+}
+
+.ad-cta {
+    background: #F96302;
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    white-space: nowrap;
+}
+
+.ad-cta:hover {
+    background: #ea580c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(249, 99, 2, 0.3);
+}
+
 /* === FIXED FOOTER SYSTEM === */
 .footer {
     position: fixed;
@@ -744,7 +830,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 160px;
+    height: 180px;
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     color: white;
     z-index: 999;
@@ -760,7 +846,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.25rem 1.5rem 1rem;
+    padding: 1.5rem 1.5rem 1.25rem;
     box-sizing: border-box;
 }
 
@@ -768,13 +854,13 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
     gap: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     align-items: start;
 }
 
 .footer-section {
     display: block;
-    text-align: center; /* Center all footer sections */
+    text-align: center; /* Center all footer sections except brand */
 }
 
 .footer-section-title {
@@ -832,7 +918,7 @@
     transform: translateY(-1px);
 }
 
-/* Brand Section - Left aligned as is */
+/* Brand Section - Left aligned, NO RED BORDER */
 .footer-section:first-child {
     text-align: left; /* Keep brand section left aligned */
 }
@@ -850,7 +936,7 @@
     height: 28px;
     border-radius: 4px;
     flex-shrink: 0;
-    border: 2px solid #dc2626;
+    /* NO BORDER - removed red border */
 }
 
 .brand-info {
@@ -899,13 +985,13 @@
     border: 1px solid #4b5563;
 }
 
-/* Footer Bottom */
+/* Footer Bottom with Extra Padding */
 .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #374151;
-    padding-top: 0.75rem;
+    padding-top: 1rem; /* Increased padding */
     gap: 1rem;
     margin-top: auto;
 }
@@ -979,12 +1065,16 @@
 
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 1024px) {
-    .footer {
-        height: 180px;
+    .page-container {
+        padding-bottom: 260px;
     }
     
-    .page-container {
-        padding-bottom: 180px;
+    .ad-banner {
+        bottom: 160px;
+    }
+    
+    .footer {
+        height: 160px;
     }
     
     .footer-main {
@@ -1000,7 +1090,7 @@
 
 @media (max-width: 768px) {
     .page-container {
-        padding-bottom: 200px;
+        padding-bottom: 220px;
     }
     
     .hero-content {
@@ -1040,53 +1130,79 @@
         text-align: center;
     }
     
+    .ad-banner {
+        bottom: 120px;
+        padding: 0.75rem 1rem;
+        min-height: 70px;
+    }
+    
+    .ad-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .ad-text {
+        text-align: center;
+    }
+    
+    .ad-title {
+        font-size: 1rem;
+    }
+    
+    .ad-description {
+        font-size: 0.85rem;
+    }
+    
+    /* CONDENSED MOBILE FOOTER */
     .footer {
-        height: 200px;
+        height: 120px;
     }
     
     .footer-content {
-        padding: 1rem;
+        padding: 1rem 1rem 0.75rem;
     }
     
     .footer-main {
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
     
-    /* Show only brand section on mobile */
+    /* Show only brand section on mobile - CONDENSED */
     .footer-section {
         display: none;
     }
     
     .footer-section:first-child {
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         text-align: center; /* Center brand on mobile */
     }
     
     .footer-section:first-child .footer-brand {
         justify-content: center; /* Center brand on mobile */
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
     
     .footer-section:first-child .footer-description {
-        display: none;
+        display: none; /* Hide description on mobile */
     }
     
     .footer-section:first-child .footer-certifications {
-        display: none;
+        display: none; /* Hide certifications on mobile */
     }
     
     .footer-bottom {
         flex-direction: column;
         text-align: center;
-        gap: 0.75rem;
-        padding-top: 0.75rem;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
     }
     
     .footer-info {
         text-align: center;
         order: 2;
+        font-size: 0.55rem;
     }
     
     /* Show only copyright on mobile */
@@ -1098,6 +1214,26 @@
     .footer-badges {
         order: 1;
         justify-content: center;
+        gap: 0.75rem;
+    }
+    
+    .data-sources {
+        gap: 0.2rem;
+    }
+    
+    .source-badge {
+        font-size: 0.5rem;
+        padding: 0.15rem 0.3rem;
+    }
+    
+    .social-links {
+        gap: 0.2rem;
+    }
+    
+    .social-link {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
     }
 }
 
@@ -1118,45 +1254,77 @@
         font-size: 1.5rem;
     }
     
-    .footer {
-        height: 160px;
-    }
-    
     .page-container {
-        padding-bottom: 160px;
+        padding-bottom: 200px;
     }
     
-    .footer-content {
-        padding: 0.75rem;
+    .ad-banner {
+        bottom: 100px;
+        padding: 0.5rem 0.75rem;
+        min-height: 60px;
     }
     
-    .footer-bottom {
+    .ad-content {
         gap: 0.5rem;
     }
     
-    .footer-badges {
-        gap: 0.75rem;
+    .ad-title {
+        font-size: 0.9rem;
     }
     
-    .data-sources {
-        gap: 0.2rem;
-    }
-    
-    .source-badge {
-        font-size: 0.5rem;
-        padding: 0.15rem 0.3rem;
-    }
-    
-    .social-link {
-        width: 28px;
-        height: 28px;
+    .ad-description {
         font-size: 0.8rem;
+    }
+    
+    .ad-cta {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    /* ULTRA-CONDENSED MOBILE FOOTER */
+    .footer {
+        height: 100px;
+    }
+    
+    .footer-content {
+        padding: 0.75rem 0.75rem 0.5rem;
+    }
+    
+    .footer-bottom {
+        gap: 0.25rem;
+        padding-top: 0.25rem;
+    }
+    
+    .footer-info {
+        font-size: 0.5rem;
+    }
+    
+    .footer-badges {
+        gap: 0.5rem;
+    }
+    
+    .footer-brand {
+        margin-bottom: 0.5rem;
+    }
+    
+    .footer-logo {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .footer-title {
+        font-size: 0.8rem;
+    }
+    
+    .footer-tagline {
+        font-size: 0.6rem;
     }
 }
 
 /* === Print Styles === */
 @media print {
-    .footer {
+    .footer,
+    .ad-banner {
         display: none !important;
     }
     
