@@ -1,5 +1,5 @@
 /* Safety Page Specific Styles - UNIFIED WITH PREVENTION DESIGN SYSTEM */
-/* Emergency-focused design with prevention page consistency - PRODUCTION READY */
+/* Emergency-focused design with prevention page consistency - FINAL PRODUCTION VERSION */
 
 /* === Root Variables for Safety (Unified with Prevention) === */
 :root {
@@ -846,7 +846,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.5rem 1.5rem 1.25rem;
+    padding: 1.5rem 1.5rem 1.75rem; /* FIXED: Increased bottom padding */
     box-sizing: border-box;
 }
 
@@ -1077,6 +1077,10 @@
         height: 160px;
     }
     
+    .footer-content {
+        padding: 1.25rem 1.25rem 1.5rem; /* FIXED: Increased bottom padding */
+    }
+    
     .footer-main {
         grid-template-columns: 2fr 1fr 1fr 1fr;
         gap: 1rem;
@@ -1160,7 +1164,7 @@
     }
     
     .footer-content {
-        padding: 1rem 1rem 0.75rem;
+        padding: 1rem 1rem 1.25rem; /* FIXED: Increased bottom padding */
     }
     
     .footer-main {
@@ -1287,7 +1291,7 @@
     }
     
     .footer-content {
-        padding: 0.75rem 0.75rem 0.5rem;
+        padding: 0.75rem 0.75rem 1rem; /* FIXED: Increased bottom padding */
     }
     
     .footer-bottom {
