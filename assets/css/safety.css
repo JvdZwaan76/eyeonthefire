@@ -846,7 +846,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.5rem 1.5rem 1.75rem; /* FIXED: Increased bottom padding */
+    padding: 1.5rem 1.5rem 2.5rem; /* FIXED: Significantly increased bottom padding */
     box-sizing: border-box;
 }
 
@@ -991,7 +991,7 @@
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #374151;
-    padding-top: 1rem; /* Increased padding */
+    padding-top: 1.25rem; /* FIXED: Increased padding significantly */
     gap: 1rem;
     margin-top: auto;
 }
@@ -1078,7 +1078,7 @@
     }
     
     .footer-content {
-        padding: 1.25rem 1.25rem 1.5rem; /* FIXED: Increased bottom padding */
+        padding: 1.25rem 1.25rem 2.25rem; /* FIXED: Increased bottom padding significantly */
     }
     
     .footer-main {
@@ -1164,7 +1164,7 @@
     }
     
     .footer-content {
-        padding: 1rem 1rem 1.25rem; /* FIXED: Increased bottom padding */
+        padding: 1rem 1rem 2rem; /* FIXED: Increased bottom padding significantly */
     }
     
     .footer-main {
@@ -1200,7 +1200,7 @@
         flex-direction: column;
         text-align: center;
         gap: 0.5rem;
-        padding-top: 0.5rem;
+        padding-top: 0.75rem; /* FIXED: Increased padding */
     }
     
     .footer-info {
@@ -1291,12 +1291,12 @@
     }
     
     .footer-content {
-        padding: 0.75rem 0.75rem 1rem; /* FIXED: Increased bottom padding */
+        padding: 0.75rem 0.75rem 1.75rem; /* FIXED: Increased bottom padding significantly */
     }
     
     .footer-bottom {
         gap: 0.25rem;
-        padding-top: 0.25rem;
+        padding-top: 0.5rem; /* FIXED: Increased padding */
     }
     
     .footer-info {
