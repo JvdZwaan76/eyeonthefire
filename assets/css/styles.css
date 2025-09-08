@@ -1016,7 +1016,7 @@ textarea:focus {
     top: 60px;
     left: 0;
     right: 0;
-    bottom: 280px; /* Updated for unified footer */
+    bottom: 360px; /* Updated for final footer height */
     z-index: var(--z-base);
 }
 
@@ -1269,7 +1269,7 @@ textarea:focus {
 /* === Home Depot Ad Banner === */
 .ad-banner {
     position: fixed;
-    bottom: 180px; /* Updated for unified footer */
+    bottom: 260px; /* Updated for final footer height */
     left: 0;
     right: 0;
     background: white;
@@ -1382,7 +1382,7 @@ textarea:focus {
     left: 0;
     right: 0;
     width: 100%;
-    height: 180px;
+    height: 260px; /* Updated final height */
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     color: white;
     z-index: var(--z-footer);
@@ -1398,7 +1398,7 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2rem 1.5rem 2.5rem;
+    padding: 3rem 1.5rem 1.5rem; /* Enhanced top padding, reduced bottom */
     box-sizing: border-box;
 }
 
@@ -1730,11 +1730,11 @@ textarea:focus {
     
     /* Footer responsive for desktop */
     .footer {
-        height: 160px;
+        height: 240px;
     }
     
     .footer-content {
-        padding: 1.75rem 1.25rem 2.25rem;
+        padding: 2.5rem 1.25rem 1.5rem;
     }
     
     .footer-main {
@@ -1747,11 +1747,11 @@ textarea:focus {
     }
     
     .map-container {
-        bottom: 260px;
+        bottom: 340px;
     }
     
     .ad-banner {
-        bottom: 160px;
+        bottom: 240px;
     }
 }
 
@@ -1765,11 +1765,11 @@ textarea:focus {
 /* Mobile Footer Responsive */
 @media (max-width: 768px) {
     .footer {
-        height: 120px;
+        height: 180px !important;
     }
     
     .footer-content {
-        padding: 1.5rem 1rem 2rem;
+        padding: 2.5rem 1rem 1rem !important;
     }
     
     .footer-main {
@@ -1825,21 +1825,21 @@ textarea:focus {
     }
     
     .map-container {
-        bottom: 200px;
+        bottom: 260px !important;
     }
     
     .ad-banner {
-        bottom: 120px;
+        bottom: 180px !important;
     }
 }
 
 @media (max-width: 480px) {
     .footer {
-        height: 100px;
+        height: 160px !important;
     }
     
     .footer-content {
-        padding: 1.25rem 0.75rem 1.75rem;
+        padding: 2rem 0.75rem 1rem !important;
     }
     
     .footer-bottom {
@@ -1875,11 +1875,11 @@ textarea:focus {
     }
     
     .map-container {
-        bottom: 180px;
+        bottom: 240px !important;
     }
     
     .ad-banner {
-        bottom: 100px;
+        bottom: 160px !important;
     }
 }
 
@@ -2296,49 +2296,4 @@ textarea:focus {
 /* === Performance Optimizations === */
 .leaflet-marker-icon {
   transform-origin: center;
-}
-/* Final Footer Height Adjustment - Prevent Content Cutoff */
-.footer {
-    height: 220px !important; /* Increase from 200px */
-}
-
-@media (max-width: 768px) {
-    .footer {
-        height: 160px !important; /* Increase from 140px */
-    }
-}
-
-@media (max-width: 480px) {
-    .footer {
-        height: 140px !important; /* Increase from 120px */
-    }
-}
-
-/* Update the layout positioning to match */
-.map-container {
-    bottom: 320px !important; /* Adjust for taller footer */
-}
-
-.ad-banner {
-    bottom: 220px !important; /* Adjust for taller footer */
-}
-
-@media (max-width: 768px) {
-    .map-container {
-        bottom: 240px !important;
-    }
-    
-    .ad-banner {
-        bottom: 160px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .map-container {
-        bottom: 220px !important;
-    }
-    
-    .ad-banner {
-        bottom: 140px !important;
-    }
 }
