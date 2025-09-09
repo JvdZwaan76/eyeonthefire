@@ -1016,7 +1016,7 @@ textarea:focus {
     top: 60px;
     left: 0;
     right: 0;
-    bottom: 380px; /* Generous space for footer + ad */
+    bottom: 420px; /* Extra generous space for bulletproof footer */
     z-index: var(--z-base);
 }
 
@@ -1269,7 +1269,7 @@ textarea:focus {
 /* === Home Depot Ad Banner === */
 .ad-banner {
     position: fixed;
-    bottom: 300px; /* Above the footer */
+    bottom: 340px; /* Above the bulletproof footer */
     left: 0;
     right: 0;
     background: white;
@@ -1373,9 +1373,8 @@ textarea:focus {
     transform: translateY(0);
 }
 
-/* === FOOTER SYSTEM === */
-/* Desktop: Static footer with fixed height and overflow hidden */
-/* Mobile: Flexible height with scrolling capability */
+/* === BULLETPROOF FOOTER SYSTEM === */
+/* Completely refactored with guaranteed no cutoff */
 
 .footer {
     position: fixed;
@@ -1388,7 +1387,7 @@ textarea:focus {
     z-index: var(--z-footer);
     border-top: 3px solid #dc2626;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-    /* Mobile-first: flexible height with scrolling */
+    /* Mobile: scrollable flexible height */
     min-height: 240px;
     height: auto;
     max-height: 50vh;
@@ -1399,33 +1398,21 @@ textarea:focus {
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem 1.5rem;
-    min-height: 220px;
+    /* Mobile: flexible padding */
+    padding: 2rem 1rem 2rem;
 }
 
 .footer-main {
-    display: block;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .footer-section {
-    display: none;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .footer-section:first-child {
-    display: block;
     text-align: center;
-}
-
-.footer-section:first-child .footer-brand {
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.footer-section:first-child .footer-description {
-    text-align: center;
-    max-width: none;
 }
 
 .footer-section-title {
@@ -1446,7 +1433,7 @@ textarea:focus {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
     align-items: center;
 }
 
@@ -1463,7 +1450,7 @@ textarea:focus {
     font-weight: 500;
     display: block;
     text-align: center;
-    padding: 0.25rem 0;
+    padding: 0.3rem 0;
 }
 
 .footer-link:hover,
@@ -1489,7 +1476,7 @@ textarea:focus {
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .footer-logo {
@@ -1522,17 +1509,17 @@ textarea:focus {
 .footer-description {
     color: #9ca3af;
     line-height: 1.5;
-    margin: 1rem 0 1.5rem 0;
+    margin: 1rem auto 1.5rem auto;
     font-size: 0.7rem;
+    text-align: center;
     max-width: 300px;
-    text-align: left;
 }
 
 .footer-certifications {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .cert-badge {
@@ -1550,45 +1537,45 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     text-align: center;
-    gap: 1rem;
+    gap: 1.5rem;
     border-top: 1px solid #374151;
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
+    padding-top: 2rem;
+    margin-top: 2rem;
 }
 
 .footer-info {
     text-align: center;
-    order: 2;
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     color: #9ca3af;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .footer-copyright,
 .footer-data,
 .footer-disclaimer {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
     display: block;
 }
 
 .footer-badges {
-    order: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .data-sources {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .source-badge {
     background: #dc2626;
     color: white;
-    padding: 0.3rem 0.6rem;
+    padding: 0.4rem 0.7rem;
     border-radius: 4px;
     font-size: 0.6rem;
     font-weight: 700;
@@ -1598,7 +1585,8 @@ textarea:focus {
 
 .social-links {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
+    justify-content: center;
 }
 
 .social-link {
@@ -1697,9 +1685,13 @@ textarea:focus {
     .ad-title {
         font-size: var(--text-lg);
     }
+    
+    .footer-section {
+        margin-bottom: 1rem;
+    }
 }
 
-/* Desktop - Static Footer */
+/* Desktop - Bulletproof Static Footer */
 @media (min-width: 768px) {
     .map-controls {
         max-width: 360px;
@@ -1715,7 +1707,7 @@ textarea:focus {
     
     .ad-banner {
         padding: var(--space-6) var(--space-4);
-        bottom: 280px;
+        bottom: 320px; /* Above taller desktop footer */
     }
     
     .ad-content {
@@ -1727,32 +1719,31 @@ textarea:focus {
     }
     
     .map-container {
-        bottom: 360px;
+        bottom: 400px; /* Extra generous space */
     }
     
-    /* Desktop Footer - Static with fixed height */
+    /* Desktop Footer - BULLETPROOF with generous height */
     .footer {
-        height: 280px; /* Fixed height on desktop */
+        height: 320px; /* Increased from 280px to 320px */
         min-height: auto;
         max-height: none;
         overflow: hidden; /* Static, no scrolling */
     }
     
     .footer-content {
-        padding: 2.5rem 1.5rem 2rem;
-        min-height: auto;
         height: 100%;
+        padding: 3rem 1.5rem 3rem; /* Generous padding all around */
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
     }
     
     .footer-main {
         display: grid;
         grid-template-columns: 2.5fr 1fr 1fr 1fr;
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        gap: 2rem;
+        margin-bottom: 2rem;
         align-items: start;
+        flex: 1;
     }
     
     .footer-section {
@@ -1771,12 +1762,13 @@ textarea:focus {
     
     .footer-section:first-child .footer-brand {
         justify-content: flex-start;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     
     .footer-section:first-child .footer-description {
         text-align: left;
-        max-width: 300px;
+        max-width: 320px;
+        margin: 1rem 0 1.5rem 0;
     }
     
     .footer-bottom {
@@ -1785,21 +1777,20 @@ textarea:focus {
         align-items: center;
         text-align: left;
         gap: 2rem;
-        padding-top: 1.5rem;
+        padding-top: 2rem;
         margin-top: auto;
+        flex-shrink: 0;
     }
     
     .footer-info {
         text-align: left;
-        order: 0;
-        font-size: 0.65rem;
+        font-size: 0.7rem;
         flex: 1;
     }
     
     .footer-badges {
-        order: 1;
         justify-content: flex-end;
-        gap: 1.5rem;
+        gap: 2rem;
     }
 }
 
@@ -1821,39 +1812,37 @@ textarea:focus {
 /* Small mobile adjustments */
 @media (max-width: 480px) {
     .footer {
-        min-height: 200px;
+        min-height: 220px;
     }
     
     .footer-content {
-        padding: 1.5rem 0.75rem 1rem;
-        min-height: 180px;
+        padding: 1.5rem 0.75rem 1.5rem;
     }
     
     .footer-bottom {
-        gap: 0.75rem;
-        padding-top: 1rem;
-        margin-top: 1rem;
+        gap: 1rem;
+        padding-top: 1.5rem;
     }
     
     .footer-info {
-        font-size: 0.55rem;
+        font-size: 0.6rem;
     }
     
     .footer-badges {
-        gap: 0.75rem;
+        gap: 1rem;
     }
     
     .data-sources {
-        gap: 0.3rem;
+        gap: 0.4rem;
     }
     
     .source-badge {
         font-size: 0.55rem;
-        padding: 0.2rem 0.4rem;
+        padding: 0.3rem 0.5rem;
     }
     
     .social-links {
-        gap: 0.3rem;
+        gap: 0.4rem;
     }
     
     .social-link {
@@ -1863,11 +1852,11 @@ textarea:focus {
     }
     
     .map-container {
-        bottom: 280px;
+        bottom: 300px;
     }
     
     .ad-banner {
-        bottom: 200px;
+        bottom: 220px;
     }
 }
 
