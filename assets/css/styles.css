@@ -1016,7 +1016,7 @@ textarea:focus {
     top: 60px;
     left: 0;
     right: 0;
-    bottom: 400px; /* Generous space for footer + ad */
+    bottom: 380px; /* Generous space for footer + ad */
     z-index: var(--z-base);
 }
 
@@ -1269,7 +1269,7 @@ textarea:focus {
 /* === Home Depot Ad Banner === */
 .ad-banner {
     position: fixed;
-    bottom: 320px; /* Above the taller footer */
+    bottom: 300px; /* Above the footer */
     left: 0;
     right: 0;
     background: white;
@@ -1373,8 +1373,9 @@ textarea:focus {
     transform: translateY(0);
 }
 
-/* === COMPLETELY REFACTORED FOOTER === */
-/* Reliable, generous heights with guaranteed content visibility */
+/* === FOOTER SYSTEM === */
+/* Desktop: Static footer with fixed height and overflow hidden */
+/* Mobile: Flexible height with scrolling capability */
 
 .footer {
     position: fixed;
@@ -1382,40 +1383,49 @@ textarea:focus {
     left: 0;
     right: 0;
     width: 100%;
-    min-height: 320px; /* Generous minimum height */
-    height: auto; /* Allow content to determine height */
-    max-height: 50vh; /* Don't take up more than half the screen */
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     color: white;
     z-index: var(--z-footer);
     border-top: 3px solid #dc2626;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-    overflow-y: auto; /* Allow scrolling if content is too tall */
+    /* Mobile-first: flexible height with scrolling */
+    min-height: 240px;
+    height: auto;
+    max-height: 50vh;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 2rem; /* Generous padding */
-    min-height: 300px; /* Ensure minimum content space */
+    padding: 2rem 1rem 1.5rem;
+    min-height: 220px;
 }
 
 .footer-main {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    align-items: start;
+    display: block;
+    margin-bottom: 1.5rem;
 }
 
 .footer-section {
+    display: none;
+    margin-bottom: 1rem;
+}
+
+.footer-section:first-child {
     display: block;
     text-align: center;
 }
 
-.footer-section:first-child {
-    text-align: left;
+.footer-section:first-child .footer-brand {
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.footer-section:first-child .footer-description {
+    text-align: center;
+    max-width: none;
 }
 
 .footer-section-title {
@@ -1473,7 +1483,7 @@ textarea:focus {
     color: #f87171;
 }
 
-/* Brand Section - More generous spacing */
+/* Brand Section */
 .footer-brand {
     display: flex;
     align-items: center;
@@ -1535,23 +1545,23 @@ textarea:focus {
     border: 1px solid #4b5563;
 }
 
-/* Footer Bottom - More generous spacing */
+/* Footer Bottom */
 .footer-bottom {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
     border-top: 1px solid #374151;
-    padding-top: 2rem;
-    gap: 2rem;
-    margin-top: 2rem;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .footer-info {
-    font-size: 0.65rem;
+    text-align: center;
+    order: 2;
+    font-size: 0.6rem;
     color: #9ca3af;
     line-height: 1.4;
-    flex: 1;
-    text-align: left;
 }
 
 .footer-copyright,
@@ -1562,9 +1572,11 @@ textarea:focus {
 }
 
 .footer-badges {
+    order: 1;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .data-sources {
@@ -1658,7 +1670,7 @@ textarea:focus {
     color: white;
 }
 
-/* === RESPONSIVE DESIGN WITH SIMPLIFIED BREAKPOINTS === */
+/* === RESPONSIVE DESIGN === */
 
 /* Small tablets and large phones */
 @media (min-width: 480px) {
@@ -1687,7 +1699,7 @@ textarea:focus {
     }
 }
 
-/* Tablets and Desktop - Simplified responsive footer */
+/* Desktop - Static Footer */
 @media (min-width: 768px) {
     .map-controls {
         max-width: 360px;
@@ -1703,7 +1715,7 @@ textarea:focus {
     
     .ad-banner {
         padding: var(--space-6) var(--space-4);
-        bottom: 280px; /* Adjust for slightly smaller desktop footer */
+        bottom: 280px;
     }
     
     .ad-content {
@@ -1714,30 +1726,84 @@ textarea:focus {
         max-width: 360px;
     }
     
+    .map-container {
+        bottom: 360px;
+    }
+    
+    /* Desktop Footer - Static with fixed height */
     .footer {
-        min-height: 280px; /* Slightly smaller on desktop */
+        height: 280px; /* Fixed height on desktop */
+        min-height: auto;
+        max-height: none;
+        overflow: hidden; /* Static, no scrolling */
     }
     
     .footer-content {
         padding: 2.5rem 1.5rem 2rem;
-        min-height: 260px;
+        min-height: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     
     .footer-main {
-        grid-template-columns: 2.5fr 1fr 1fr 1fr; /* Hide last column on desktop */
+        display: grid;
+        grid-template-columns: 2.5fr 1fr 1fr 1fr;
         gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        align-items: start;
+    }
+    
+    .footer-section {
+        display: block;
+        text-align: center;
+        margin-bottom: 0;
+    }
+    
+    .footer-section:first-child {
+        text-align: left;
     }
     
     .footer-section:last-child {
-        display: none;
+        display: none; /* Hide last column on desktop */
     }
     
-    .map-container {
-        bottom: 360px; /* Adjust for desktop footer */
+    .footer-section:first-child .footer-brand {
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+    }
+    
+    .footer-section:first-child .footer-description {
+        text-align: left;
+        max-width: 300px;
+    }
+    
+    .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        gap: 2rem;
+        padding-top: 1.5rem;
+        margin-top: auto;
+    }
+    
+    .footer-info {
+        text-align: left;
+        order: 0;
+        font-size: 0.65rem;
+        flex: 1;
+    }
+    
+    .footer-badges {
+        order: 1;
+        justify-content: flex-end;
+        gap: 1.5rem;
     }
 }
 
-/* Desktop optimizations */
+/* Large Desktop */
 @media (min-width: 1024px) {
     .ad-content {
         padding: 0 var(--space-4);
@@ -1752,72 +1818,7 @@ textarea:focus {
     }
 }
 
-/* Mobile Footer - Dramatically simplified */
-@media (max-width: 767px) {
-    .footer {
-        min-height: 240px; /* Smaller on mobile but still generous */
-    }
-    
-    .footer-content {
-        padding: 2rem 1rem 1.5rem;
-        min-height: 220px;
-    }
-    
-    .footer-main {
-        display: block; /* Stack everything vertically */
-        margin-bottom: 1.5rem;
-    }
-    
-    .footer-section {
-        display: none; /* Hide all sections except first */
-        margin-bottom: 1rem;
-    }
-    
-    .footer-section:first-child {
-        display: block;
-        text-align: center;
-    }
-    
-    .footer-section:first-child .footer-brand {
-        justify-content: center;
-        margin-bottom: 1rem;
-    }
-    
-    .footer-section:first-child .footer-description {
-        text-align: center;
-        max-width: none;
-    }
-    
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-        padding-top: 1.5rem;
-        margin-top: 1.5rem;
-    }
-    
-    .footer-info {
-        text-align: center;
-        order: 2;
-        font-size: 0.6rem;
-    }
-    
-    .footer-badges {
-        order: 1;
-        justify-content: center;
-        gap: 1rem;
-    }
-    
-    .map-container {
-        bottom: 320px;
-    }
-    
-    .ad-banner {
-        bottom: 240px;
-    }
-}
-
-/* Very small mobile */
+/* Small mobile adjustments */
 @media (max-width: 480px) {
     .footer {
         min-height: 200px;
