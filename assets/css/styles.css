@@ -1016,7 +1016,7 @@ textarea:focus {
     top: 60px;
     left: 0;
     right: 0;
-    bottom: 360px; /* Updated for final footer height */
+    bottom: 400px; /* Generous space for footer + ad */
     z-index: var(--z-base);
 }
 
@@ -1269,7 +1269,7 @@ textarea:focus {
 /* === Home Depot Ad Banner === */
 .ad-banner {
     position: fixed;
-    bottom: 260px; /* Updated for final footer height */
+    bottom: 320px; /* Above the taller footer */
     left: 0;
     right: 0;
     background: white;
@@ -1373,8 +1373,8 @@ textarea:focus {
     transform: translateY(0);
 }
 
-/* === UNIFIED FOOTER SYSTEM === */
-/* Comprehensive footer styles to match safety page design */
+/* === COMPLETELY REFACTORED FOOTER === */
+/* Reliable, generous heights with guaranteed content visibility */
 
 .footer {
     position: fixed;
@@ -1382,31 +1382,30 @@ textarea:focus {
     left: 0;
     right: 0;
     width: 100%;
-    height: 260px; /* Updated final height */
+    min-height: 320px; /* Generous minimum height */
+    height: auto; /* Allow content to determine height */
+    max-height: 50vh; /* Don't take up more than half the screen */
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     color: white;
     z-index: var(--z-footer);
     border-top: 3px solid #dc2626;
-    overflow: hidden;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    overflow-y: auto; /* Allow scrolling if content is too tall */
+    overflow-x: hidden;
 }
 
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 3rem 1.5rem 1.5rem; /* Enhanced top padding, reduced bottom */
-    box-sizing: border-box;
+    padding: 3rem 1.5rem 2rem; /* Generous padding */
+    min-height: 300px; /* Ensure minimum content space */
 }
 
 .footer-main {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
-    gap: 1.5rem;
-    margin-bottom: 1.25rem;
+    gap: 2rem;
+    margin-bottom: 2rem;
     align-items: start;
 }
 
@@ -1422,12 +1421,12 @@ textarea:focus {
 .footer-section-title {
     color: white;
     font-weight: 700;
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-bottom: 2px solid #dc2626;
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
     display: inline-block;
 }
 
@@ -1437,7 +1436,7 @@ textarea:focus {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.5rem;
     align-items: center;
 }
 
@@ -1448,12 +1447,13 @@ textarea:focus {
 .footer-link {
     color: #d1d5db;
     text-decoration: none;
-    font-size: 0.7rem;
-    line-height: 1.4;
+    font-size: 0.75rem;
+    line-height: 1.5;
     transition: all 0.2s ease;
     font-weight: 500;
     display: block;
     text-align: center;
+    padding: 0.25rem 0;
 }
 
 .footer-link:hover,
@@ -1465,7 +1465,7 @@ textarea:focus {
 .footer-link.emergency {
     color: #dc2626;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
 }
 
 .footer-link.emergency:hover,
@@ -1473,19 +1473,19 @@ textarea:focus {
     color: #f87171;
 }
 
-/* Brand Section */
+/* Brand Section - More generous spacing */
 .footer-brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
     justify-content: flex-start;
 }
 
 .footer-logo {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     flex-shrink: 0;
 }
 
@@ -1496,31 +1496,31 @@ textarea:focus {
 
 .footer-title {
     font-weight: 800;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: white;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
 .footer-tagline {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: #9ca3af;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.4;
 }
 
 .footer-description {
     color: #9ca3af;
-    line-height: 1.4;
-    margin: 0.5rem 0 0.75rem 0;
-    font-size: 0.65rem;
-    max-width: 260px;
+    line-height: 1.5;
+    margin: 1rem 0 1.5rem 0;
+    font-size: 0.7rem;
+    max-width: 300px;
     text-align: left;
 }
 
 .footer-certifications {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: flex-start;
 }
@@ -1528,28 +1528,28 @@ textarea:focus {
 .cert-badge {
     background: #374151;
     color: #e5e7eb;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-size: 0.55rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
     font-weight: 600;
     border: 1px solid #4b5563;
 }
 
-/* Footer Bottom */
+/* Footer Bottom - More generous spacing */
 .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #374151;
-    padding-top: 1.25rem;
-    gap: 1rem;
-    margin-top: auto;
+    padding-top: 2rem;
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .footer-info {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     color: #9ca3af;
-    line-height: 1.3;
+    line-height: 1.4;
     flex: 1;
     text-align: left;
 }
@@ -1557,28 +1557,28 @@ textarea:focus {
 .footer-copyright,
 .footer-data,
 .footer-disclaimer {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     display: block;
 }
 
 .footer-badges {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .data-sources {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
 .source-badge {
     background: #dc2626;
     color: white;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-size: 0.55rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -1586,20 +1586,20 @@ textarea:focus {
 
 .social-links {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.5rem;
 }
 
 .social-link {
     color: #9ca3af;
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 6px;
     background: rgba(75, 85, 99, 0.3);
     border: 1px solid #4b5563;
 }
@@ -1658,7 +1658,7 @@ textarea:focus {
     color: white;
 }
 
-/* === Responsive Design === */
+/* === RESPONSIVE DESIGN WITH SIMPLIFIED BREAKPOINTS === */
 
 /* Small tablets and large phones */
 @media (min-width: 480px) {
@@ -1687,7 +1687,7 @@ textarea:focus {
     }
 }
 
-/* Tablets */
+/* Tablets and Desktop - Simplified responsive footer */
 @media (min-width: 768px) {
     .map-controls {
         max-width: 360px;
@@ -1703,6 +1703,7 @@ textarea:focus {
     
     .ad-banner {
         padding: var(--space-6) var(--space-4);
+        bottom: 280px; /* Adjust for slightly smaller desktop footer */
     }
     
     .ad-content {
@@ -1712,9 +1713,31 @@ textarea:focus {
     .nav-menu-content {
         max-width: 360px;
     }
+    
+    .footer {
+        min-height: 280px; /* Slightly smaller on desktop */
+    }
+    
+    .footer-content {
+        padding: 2.5rem 1.5rem 2rem;
+        min-height: 260px;
+    }
+    
+    .footer-main {
+        grid-template-columns: 2.5fr 1fr 1fr 1fr; /* Hide last column on desktop */
+        gap: 1.5rem;
+    }
+    
+    .footer-section:last-child {
+        display: none;
+    }
+    
+    .map-container {
+        bottom: 360px; /* Adjust for desktop footer */
+    }
 }
 
-/* Desktop */
+/* Desktop optimizations */
 @media (min-width: 1024px) {
     .ad-content {
         padding: 0 var(--space-4);
@@ -1727,27 +1750,66 @@ textarea:focus {
     .nearby-panel {
         right: var(--space-8);
     }
-    
-    /* Footer responsive for desktop */
+}
+
+/* Mobile Footer - Dramatically simplified */
+@media (max-width: 767px) {
     .footer {
-        height: 240px;
+        min-height: 240px; /* Smaller on mobile but still generous */
     }
     
     .footer-content {
-        padding: 2.5rem 1.25rem 1.5rem;
+        padding: 2rem 1rem 1.5rem;
+        min-height: 220px;
     }
     
     .footer-main {
-        grid-template-columns: 2fr 1fr 1fr 1fr;
+        display: block; /* Stack everything vertically */
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer-section {
+        display: none; /* Hide all sections except first */
+        margin-bottom: 1rem;
+    }
+    
+    .footer-section:first-child {
+        display: block;
+        text-align: center;
+    }
+    
+    .footer-section:first-child .footer-brand {
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    
+    .footer-section:first-child .footer-description {
+        text-align: center;
+        max-width: none;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .footer-info {
+        text-align: center;
+        order: 2;
+        font-size: 0.6rem;
+    }
+    
+    .footer-badges {
+        order: 1;
+        justify-content: center;
         gap: 1rem;
     }
     
-    .footer-section:last-child {
-        display: none;
-    }
-    
     .map-container {
-        bottom: 340px;
+        bottom: 320px;
     }
     
     .ad-banner {
@@ -1755,131 +1817,56 @@ textarea:focus {
     }
 }
 
-/* Large Desktop */
-@media (min-width: 1280px) {
-    .footer-content {
-        padding: 0 var(--space-6);
-    }
-}
-
-/* Mobile Footer Responsive */
-@media (max-width: 768px) {
+/* Very small mobile */
+@media (max-width: 480px) {
     .footer {
-        height: 180px !important;
+        min-height: 200px;
     }
     
     .footer-content {
-        padding: 2.5rem 1rem 1rem !important;
-    }
-    
-    .footer-main {
-        display: block;
-        margin-bottom: 0.75rem;
-    }
-    
-    .footer-section {
-        display: none;
-    }
-    
-    .footer-section:first-child {
-        display: block;
-        margin-bottom: 0.75rem;
-        text-align: center;
-    }
-    
-    .footer-section:first-child .footer-brand {
-        justify-content: center;
-        margin-bottom: 0.25rem;
-    }
-    
-    .footer-section:first-child .footer-description {
-        display: none;
-    }
-    
-    .footer-section:first-child .footer-certifications {
-        display: none;
+        padding: 1.5rem 0.75rem 1rem;
+        min-height: 180px;
     }
     
     .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
-        padding-top: 0.75rem;
+        gap: 0.75rem;
+        padding-top: 1rem;
+        margin-top: 1rem;
     }
     
     .footer-info {
-        text-align: center;
-        order: 2;
         font-size: 0.55rem;
     }
     
-    .footer-data,
-    .footer-disclaimer {
-        display: none;
-    }
-    
     .footer-badges {
-        order: 1;
-        justify-content: center;
         gap: 0.75rem;
     }
     
-    .map-container {
-        bottom: 260px !important;
-    }
-    
-    .ad-banner {
-        bottom: 180px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer {
-        height: 160px !important;
-    }
-    
-    .footer-content {
-        padding: 2rem 0.75rem 1rem !important;
-    }
-    
-    .footer-bottom {
-        gap: 0.25rem;
-        padding-top: 0.5rem;
-    }
-    
-    .footer-info {
-        font-size: 0.5rem;
-    }
-    
-    .footer-badges {
-        gap: 0.5rem;
-    }
-    
     .data-sources {
-        gap: 0.2rem;
+        gap: 0.3rem;
     }
     
     .source-badge {
-        font-size: 0.5rem;
-        padding: 0.15rem 0.3rem;
+        font-size: 0.55rem;
+        padding: 0.2rem 0.4rem;
     }
     
     .social-links {
-        gap: 0.2rem;
+        gap: 0.3rem;
     }
     
     .social-link {
-        width: 28px;
-        height: 28px;
-        font-size: 0.8rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
     }
     
     .map-container {
-        bottom: 240px !important;
+        bottom: 280px;
     }
     
     .ad-banner {
-        bottom: 160px !important;
+        bottom: 200px;
     }
 }
 
